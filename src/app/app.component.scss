@@ -1,0 +1,15 @@
+.c-app-header__toolbar {
+  background-color: #fafafa;
+  transition: all 250ms ease-in;
+
+  > .mat-toolbar-row {
+    height: 72px;
+  }
+}
+
+.c-body {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  flex: 1;
+}

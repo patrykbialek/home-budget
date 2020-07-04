@@ -1,0 +1,13 @@
+::ng-deep .mat-menu-panel {
+  max-width: none !important;
+}
+
+.c-app-header {
+  box-shadow: 0 0.75vw 1.5vw 0 rgba(6, 0, 35, 0.05) !important;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+}
