@@ -1,0 +1,14 @@
+/* ==========================================================================
+   #DISABLE
+   ========================================================================== */
+
+/**
+ * Make the element disabled for click.
+ */
+
+.u-is-disabled,
+.u-disabled {
+  pointer-events: none !important;
+  background-color: none !important;
+  cursor: default !important;
+}

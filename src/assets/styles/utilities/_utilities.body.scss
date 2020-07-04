@@ -1,0 +1,33 @@
+/* ==========================================================================
+   #BODY
+   ========================================================================== */
+
+/**
+ * Utility classes to put specific color onto elements text.
+ *
+ *   .u-body1 {}
+ *   .u-body2 {}
+ *   .u-body3 {}
+ *   .u-body4 {}
+ */
+
+$inuit-font-size-body1:  18px !default;
+$inuit-font-size-body2:  16px !default;
+$inuit-font-size-body3:  14px !default;
+$inuit-font-size-body4:  12px !default;
+
+.u-body1 {
+  @include inuit-font-size($inuit-font-size-body1);
+}
+
+.u-body2 {
+  @include inuit-font-size($inuit-font-size-body2);
+}
+
+.u-body3 {
+  @include inuit-font-size($inuit-font-size-body3);
+}
+
+.u-body4 {
+  @include inuit-font-size($inuit-font-size-body4);
+}

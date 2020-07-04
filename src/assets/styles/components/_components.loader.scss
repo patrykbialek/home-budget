@@ -1,0 +1,54 @@
+/* ==========================================================================
+   #LOADER
+   ========================================================================== */
+
+
+/**
+ * This is an example component. Extend inuitcss by building your own components
+ * that make up your UI. Component classes are prefixed with a `c-loader`.
+ *
+ *  Examples:
+
+      <span class="c-loader" *ngIf="loading"></span>  
+
+ */
+
+ // MOVED TO loader component
+
+//  .c-loader {
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+
+//   position: fixed;
+//   left: 0;
+//   right: 0;
+//   margin-left: auto;
+//   margin-right: auto;
+//   top: 50%;
+//   transform: translateY(-50%);
+//   background-color:#fafafa;
+//   width: 100%;
+//   height: 100%;
+//   z-index: 10000;
+
+//   &:after {
+//     content: ' ';
+//     display: block;
+//     width: 68px;
+//     height: 68px;
+//     border-radius: 50%;
+//     border: 4px solid #fff;
+//     border-color: #0091ea transparent #0091ea transparent;
+//     animation: loader 1250ms linear infinite;
+//   }
+// }
+
+// @keyframes loader {
+//   0% {
+//     transform: rotate(0deg);
+//   }
+//   100% {
+//     transform: rotate(360deg);
+//   }
+// }

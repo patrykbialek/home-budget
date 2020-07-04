@@ -1,0 +1,144 @@
+/* ==========================================================================
+   #TEXT
+   ========================================================================== */
+
+/**
+ * Utility classes to put specific color onto elements text.
+ *
+ *   .u-text-info     {}
+ *   .u-text-success  {}
+ *   .u-text-gray-200 {}
+ */
+
+.u-text-color,
+.u-text {
+  &-info      { color: $blue-500!important;        }
+  &-success   { color: $green-500!important;       }
+  &-warn      { color: $orange-500!important;      }
+  &-error     { color: $red-500!important;         }
+  &-primary   { color: $blue-800!important;        }
+  &-secondary { color: $deep-purple-700!important; }
+  &-accent    { color: $red-A400!important;        }
+}
+
+.u-text-color,
+.u-text-gray {
+  &-50  { color: $grey-50!important;  }
+  &-100 { color: $grey-100!important; }
+  &-200 { color: $grey-200!important; }
+  &-300 { color: $grey-300!important; }
+  &-500 { color: $grey-500!important; }
+  &-700 { color: $grey-700!important; }
+  &-800 { color: $grey-800!important; }
+  &-900 { color: $grey-900!important; }
+}
+
+.u-text-color,
+.u-text-blue {
+  &-500 { color: $blue-500!important; }
+  &-800 { color: $blue-800!important; }
+}
+
+
+
+
+
+/**
+ * Utility classes to put specific tranform onto elements text.
+ *
+ *   .u-text-capitalize {}
+ *   .u-text-lowercase  {}
+ */
+
+.u-text-transform,
+.u-text {
+  &-capitalize { text-transform: capitalize!important; }
+  &-lowercase  { text-transform: lowercase!important;  }
+}
+
+
+
+
+
+/**
+ * Utility classes to put specific font-size onto elements text.
+ *
+ *   .u-text-huge  {}
+ *   .u-text-large {}
+ */
+
+.u-text-size,
+.u-text {
+  &-huge   { font-size: 2.0rem!important; }
+  &-large  { font-size: 1.8rem!important; }
+  &-normal { font-size: 1.6rem!important; }
+  &-small  { font-size: 1.4rem!important; }
+  &-tiny   { font-size: 1.2rem!important; }
+}
+
+
+/**
+ * Utility classes to put specific tranform onto elements text.
+ *
+ *   .u-text-decoration-underline {}
+ */
+
+ .u-t-d,
+ .u-text-decoration {
+   &-u         { text-decoration: underline!important; }
+   &-underline { text-decoration: underline!important; }
+ }
+
+ .u-f-s,
+ .u-font-style {
+   &-n      { font-style: normal!important; }
+   &-normal { font-style: normal!important; }
+ }
+
+ 
+/**
+* Utility classes to put specific tranform onto elements text.
+*
+*   .u-break-word {}
+*   .u-text-overflow-ellipsis {}
+*   .u-line-clamp-2 {}
+*/
+
+.u-break-word {
+  word-break: break-word;
+  word-wrap: break-word;
+}
+
+.u-text-overflow-ellipsis {
+  text-overflow: ellipsis!important;
+  overflow: hidden!important;
+}
+
+
+@mixin line-clamp {
+  display: -webkit-box!important;
+  -webkit-box-orient: vertical!important;
+  overflow: hidden!important;
+}
+.u-line-clamp {
+  &-2 {
+    @include line-clamp;
+    -webkit-line-clamp: 2!important;
+  }
+  &-3 {
+    @include line-clamp;
+    -webkit-line-clamp: 3!important;
+  }
+  &-4 {
+    @include line-clamp;
+    -webkit-line-clamp: 4!important;
+  }
+  &-5 {
+    @include line-clamp;
+    -webkit-line-clamp: 5!important;
+  }
+}
+
+
+.u-font-weight-medium { font-weight: 500; }
+.u-font-weight-bold   { font-weight: 600; }

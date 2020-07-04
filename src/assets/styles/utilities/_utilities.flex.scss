@@ -1,0 +1,58 @@
+/* ==========================================================================
+   #FLEX
+   ========================================================================== */
+
+/* Flex variants
+   ========================================================================== */
+
+/**
+ * Utility classes to put specific spacing values onto elements. The below loop
+ * will generate us a suite of classes like:
+ *
+ *   .u-flex-1 {}
+ *   .u-flex-2 {}
+ *   .u-flex-3 {}
+ *   .u-flex-4 {}
+ */
+
+/* stylelint-disable string-quotes */
+
+$inuit-flex-grow: (
+  null: null,
+  '1': '-1',
+  '2': '-2',
+  '3': '-3',
+  '4': '-4',
+) !default;
+
+$inuit-flex-properties: (
+  'flex': 'flex',
+) !default;
+
+
+@each $property, $property-namespace in $inuit-flex-properties {
+
+  @each $grow, $grow-namespace in $inuit-flex-grow {
+
+    .u-#{$property-namespace}#{$grow-namespace} {
+      flex: #{$grow};
+    }
+
+  }
+
+}
+
+.u-flex-1 {
+  min-height: 80vh;
+}
+
+.u-flex {
+  &-direction {
+    &-row {
+      flex-direction: row;
+    }
+    &-column {
+      flex-direction: column;
+    }
+  }
+}

@@ -1,0 +1,15 @@
+/* ==========================================================================
+   #JUSTIFY-CONTENTS
+   ========================================================================== */
+
+/**
+ * Utility classes to put specific justify-content onto elements.
+ *
+ *   .u-text-huge  {}
+ *   .u-text-large {}
+ */
+
+.u-justify-content {
+  &-center { justify-content: center;   }
+  &-right  { justify-content: flex-end; }
+}
