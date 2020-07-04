@@ -11,14 +11,14 @@
           <mat-icon class="u-margin-right-tiny">dashboard</mat-icon>Dashboard</button>
         <button class="u-margin-left-tiny" mat-button [routerLink]="['transactions']" routerLinkActive="u-router-link-active">
           <mat-icon class="u-margin-right-tiny">list_alt</mat-icon>Transakcje</button>
-        <button class="u-margin-left-tiny" mat-button [routerLink]="['tasks']" routerLinkActive="u-router-link-active">
+        <button class="u-margin-left-tiny" mat-button [routerLink]="['settings']" routerLinkActive="u-router-link-active">
           <mat-icon class="u-margin-right-tiny">tune</mat-icon>Ustawienia</button>
         <div class="u-border-left u-margin-left-tiny" style="width:1px">&nbsp;</div>
         <button class="u-margin-left-tiny" mat-button color="primary" [matMenuTriggerFor]="userMenu" >
           <mat-icon style="margin-right: 16px;" >account_circle</mat-icon>
         </button>
         <mat-menu #userMenu="matMenu">
-          <button mat-menu-item>
+          <button mat-menu-item [routerLink]="['/']">
             <mat-icon>lock</mat-icon>
             <span>Wyloguj</span>
           </button>
