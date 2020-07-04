@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { CommonWithAnimationComponent } from '../shared/components/common-with-animation.component';
+import { CommonWithAnimationComponent } from '@shared/components/common-with-animation.component';
 
 @Component({
   selector: 'app-dashboard',

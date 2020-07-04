@@ -2,7 +2,14 @@
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "outDir": "./out-tsc/app",
-    "types": []
+    "types": [],
+    "paths": {
+      "@authentication/*": ["src/app/authentication/*"],
+      "@dashboard/*": ["src/app/dashboard/*"],
+      "@shared/*": ["src/app/shared/*"],
+      "@settings/*": ["src/app/settings/*"],
+      "@transactions/*": ["src/app/transactions/*"]
+    }
   },
   "files": [
     "src/main.ts",
