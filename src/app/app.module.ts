@@ -9,6 +9,9 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { reducers } from '@shared/store';
 import { SharedModule } from '@shared/shared.module';
 
 export function createTranslateLoader(http: HttpClient) {
@@ -32,6 +35,16 @@ export function createTranslateLoader(http: HttpClient) {
         deps: [HttpClient]
       }
     }),
+
+    StoreModule.forRoot(reducers, {
+      runtimeChecks: {
+        strictStateImmutability: false,
+        strictActionImmutability: false,
+        // disabled until https://github.com/ngrx/platform/issues/2109 is resolved
+        /* strictActionImmutability: true, */
+      },
+    }),
+    EffectsModule.forRoot([]),
 
     SharedModule,
   ],
