@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonWithAnimationComponent } from '@shared/components';
 
-import * as fromServices from '../../services';
+import * as fromStore from '../../store';
 
 @Component({
   selector: 'hb-transaction-list',
@@ -9,14 +9,17 @@ import * as fromServices from '../../services';
   styleUrls: ['./transaction-list.component.scss']
 })
 export class TransactionListComponent extends CommonWithAnimationComponent implements OnInit {
+
+  transactions$ = this.transactionsService.transactions$;
+
   constructor(
-    private transactionsService: fromServices.TransactionsHttpService,
+    private transactionsService: fromStore.TransactionsFacadeService
   ) {
     super();
   }
 
   ngOnInit() {
-    this.transactionsService.readTransactions().subscribe(console.log);
+    this.transactionsService.readTransactions();
   }
 
 }

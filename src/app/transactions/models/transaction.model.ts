@@ -8,7 +8,7 @@ export interface Transaction {
   inBugdet: boolean;
   key: string;
   recipient: string;
+  type: TransactionType;
   
   notes?: string;
-  type: TransactionType;
 }

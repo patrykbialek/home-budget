@@ -6,6 +6,10 @@ import { RouterModule } from '@angular/router';
 import { SharedModule } from '@shared/shared.module';
 import { TransactionsRoutingModule } from '@transactions/transactions-routing.module';
 
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { reducers, effects } from './store';
+
 import * as fromComponents from './components';
 import * as fromContainers from './containers';
 
@@ -21,6 +25,9 @@ import * as fromContainers from './containers';
 
     SharedModule,
     TransactionsRoutingModule,
+
+    StoreModule.forFeature('transactions', reducers),
+    EffectsModule.forFeature(effects),
   ],
   exports: [
     ...fromComponents.components,
