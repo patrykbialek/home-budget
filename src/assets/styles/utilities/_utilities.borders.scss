@@ -1,0 +1,71 @@
+/* ==========================================================================
+   #BORDERS
+   ========================================================================== */
+
+/**
+ * Utility classes to put specific spacing values onto elements. The below loop
+ * will generate us a suite of classes like:
+ *
+ *   .u-border {}
+ *   .u-border-top {}
+ *   .u-border-right {}
+ *   .u-border-bottom {}
+ *   .u-border-left {}
+ */
+
+
+// Make better ui experience
+[class*="u-border-"] {
+  // border: solid 1px transparent;
+}
+
+
+$inuit-border-directions: (
+  null: null,
+  '-top': '-top',
+  '-right': '-right',
+  '-bottom': '-bottom',
+  '-left': '-left',
+) !default;
+
+$inuit-border-properties: (
+  'border': 'border',
+) !default;
+
+$inuit-border-color: $grey-300;
+
+@each $property, $property-namespace in $inuit-border-properties {
+
+  @each $direction, $direction-namespace in $inuit-border-directions {
+
+    .u-#{$property-namespace}#{$direction-namespace} {
+      #{$property}#{$direction}: solid 1px $inuit-border-color;
+    }
+
+  }
+
+}
+
+
+
+
+
+/**
+ * Utility classes to remove border from selected edge.
+ *
+ *   .u-border-top-none     {}
+ *   .u-border-bottom-none  {}
+ */
+
+.u-border {
+  &-top-none,
+  &-top-no     { border-top: none!important;    }
+  &-right-none,
+  &-right-no   { border-right: none!important;  }
+  &-bottom-none,
+  &-bottom-no  { border-bottom: none!important; }
+  &-left-none,
+  &-left-no    { border-left: none!important;   }
+  &-none,
+  &-no         { border: none!important;        }
+}

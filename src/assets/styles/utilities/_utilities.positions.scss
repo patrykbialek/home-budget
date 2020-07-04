@@ -1,0 +1,16 @@
+/* ==========================================================================
+   #POSITIONS
+   ========================================================================== */
+
+/**
+ * Utility classes to put specific position onto elements.
+ *
+ *   .u-position-absolute {}
+ *   .u-position-fixed    {}
+ */
+
+.u-position {
+  &-absolute { position: absolute !important; }
+  &-fixed    { position: fixed !important;    }
+  &-relative { position: relative !important; }
+}

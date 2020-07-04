@@ -1,0 +1,151 @@
+///* ========================================================================
+//   #GLOBAL
+//   ======================================================================== */
+
+// The global settings file contains any project-wide variables; things that
+// need to be made available to the entire codebase.
+
+// Standardise some UI treatments.
+
+html,
+body {
+  font-family: "Baloo 2", cursive;
+  background-color: $grey_50;
+  color: $grey_700;
+  -webkit-font-smoothing: antialiased;
+  -moz-font-smoothing: antialiased;
+}
+
+html {
+  overflow-y: unset !important;
+}
+
+$global-radius: 0.3rem !default;
+$global-transition: (1/3) + s !default;
+$btn-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+$btn-box-shadow-active: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
+
+// Angular Material
+
+@import "~@angular/material/theming";
+
+$custom-typography: mat-typography-config(
+  $font-family: '"Baloo 2", sans-serif;',
+);
+// Override typography CSS classes (e.g., mat-h1, mat-display-1, mat-typography, etc.).
+@include mat-base-typography($custom-typography);
+
+// Override typography for a specific Angular Material components.
+@include mat-checkbox-typography($custom-typography);
+
+// Override typography for all Angular Material, including mat-base-typography and all components.
+@include angular-material-typography($custom-typography);
+
+@include mat-core($custom-typography);
+
+$candy-app-primary: mat-palette($mat-indigo);
+$candy-app-accent: mat-palette($mat-purple, 300, 200, 400);
+$candy-app-warn: mat-palette($mat-red);
+
+$candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-app-warn);
+
+@include angular-material-theme($candy-app-theme);
+
+//
+
+// Colors settings
+
+$inuit-global-color: $grey_800;
+$inuit-global-background-color: $grey_50;
+
+$color--primary: $light_blue_A700;
+$color--secondary: $deep_purple_700;
+$color--accent: $red_A400;
+
+$background-color--primary: $color--primary;
+$background-color-active--primary: darken($color--primary, 5%);
+
+$background-color--secondary: $color--secondary;
+$background-color-active--secondary: darken($color--secondary, 5%);
+
+$background-color--accent: $color--accent;
+$background-color-active--accent: darken($color--accent, 5%);
+
+*::selection {
+  background-color: $background-color--primary;
+  color: $grey-50;
+}
+
+// Responsive breakpoints
+
+$mq-breakpoints: (
+  mobile: 360px,
+  tablet: 1024px,
+  desktop: 1280px,
+  wide: 1440px,
+  // Tweakpoints
+  desktopAd: 810px,
+  mobileLandscape: 600px,
+);
+
+.c-main-section__title {
+  position: relative;
+
+  opacity: 0;
+
+  animation-name: fadein;
+  animation-duration: 350ms;
+  animation-delay: 0ms;
+  animation-iteration-count: 1;
+  animation-fill-mode: both;
+}
+
+.o-grid__cell-middle {
+  display: flex;
+  justify-content: center;
+}
+
+.u-app-header-elevation {
+  box-shadow: 0 0.75vw 1.5vw 0 rgba(6, 0, 35, 0.05) !important;
+  background-color: #fff !important;
+}
+
+.u-router-link-active {
+  color: #ab47bc;
+}
+
+.c-main {
+  opacity: 0;
+  transition: opacity 250ms ease-in-out 0s;
+}
+
+.c-section-header {
+  position: fixed;
+  top: 72px;
+  left: 0;
+  width: 100%;
+  background-color: #fafafa;
+  z-index: 10;
+
+  &__title {
+    display: flex;
+    align-items: center;
+    height: 96px;
+    width: 100%;
+  }
+  &__caption {
+    color: #424242;
+  }
+
+  &__actions-right {
+    flex-grow: 1;
+  }
+}
+
+.c-section-content {
+  position: relative;
+  top: auto;
+  left: auto;
+  width: 100%;
+  padding-top: 144px;
+}
