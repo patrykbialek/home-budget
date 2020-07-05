@@ -10,6 +10,10 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { reducers, effects } from './store';
 
+import { registerLocaleData } from '@angular/common';
+import localePl from '@angular/common/locales/pl';
+registerLocaleData(localePl, 'pl');
+
 import * as fromComponents from './components';
 import * as fromContainers from './containers';
 

@@ -149,3 +149,20 @@ $mq-breakpoints: (
   width: 100%;
   padding-top: 144px;
 }
+
+@import './settings.colors';
+
+.mat-stroked-button.mat-green {
+  color: $green_600;
+}
+.mat-stroked-button.mat-red {
+  color: $red_600;
+}
+.mat-raised-button.mat-green {
+  background-color: $green_500;
+  color: $grey_50;
+}
+.mat-raised-button.mat-red {
+  background-color: $red_500;
+  color: $grey_50;
+}
