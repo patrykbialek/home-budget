@@ -13,3 +13,18 @@ export const getTransactions = createSelector(
   fromTransactions.getTransactions,
 );
 
+export const getTotal = createSelector(
+  getTransactionsState,
+  state => {
+    let total = 0;
+    const transactions = state.entities;
+    if (transactions) {
+      transactions.forEach(transaction => {
+        total = transaction.type === 'income' ? total += transaction.amount : total -= transaction.amount;
+      });
+    }
+
+    return total;
+  },
+);
+

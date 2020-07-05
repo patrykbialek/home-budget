@@ -10,6 +10,7 @@ import * as fromStore from '../../store';
 })
 export class TransactionListComponent extends CommonWithAnimationComponent implements OnInit {
 
+  total$ = this.transactionsService.total$;
   transactions$ = this.transactionsService.transactions$;
 
   constructor(
