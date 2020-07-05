@@ -15,11 +15,13 @@ export class TransactionsFacadeService {
   isFailed$: Observable<boolean>;
   isLoading$: Observable<boolean>;
   isSuccess$: Observable<boolean>;
+  total$: Observable<number>;
 
   constructor(
     private store: Store<fromReducers.MainState>,
   ) {
     this.transactions$ = this.store.pipe(select(fromSelectors.getTransactions));
+    this.total$ = this.store.pipe(select(fromSelectors.getTotal));
     // this.isFailed$ = this.store.pipe(select(fromSelectors.));
     // this.isLoading$ = this.store.pipe(select(fromSelectors.));
     // this.isSuccess$ = this.store.pipe(select(fromSelectors.));
