@@ -7,7 +7,7 @@ export interface TransactionsState {
 }
 
 export const initialState: TransactionsState = {
-  entities: null,
+  entities: [],
   isFailed: false,
   isLoading: false,
 };
@@ -22,18 +22,18 @@ export function reducer(
     case fromTransactions.READ_TRANSACTIONS: {
       return {
         ...state,
-        entities: null,
+        entities: [],
         isFailed: false,
         isLoading: true,
       };
     }
 
     case fromTransactions.READ_TRANSACTIONS_SUCCESS: {
-      const process = action.payload;
+      const transactions = action.payload;
 
       return {
         ...state,
-        entities: process,
+        entities: transactions,
         isFailed: false,
         isLoading: false,
       };
@@ -42,7 +42,7 @@ export function reducer(
     case fromTransactions.READ_TRANSACTIONS_FAILURE: {
       return {
         ...state,
-        entities: null,
+        entities: [],
         isFailed: true,
         isLoading: false,
       };

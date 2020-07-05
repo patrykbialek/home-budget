@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonWithAnimationComponent } from '@shared/components';
 
 import * as fromStore from '../../store';
-import { tap } from 'rxjs/operators';
+import { tap, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'hb-transaction-list',

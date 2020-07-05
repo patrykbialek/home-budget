@@ -12,6 +12,6 @@ export class DataComponent {
 
   displayedColumns: string[] = ['date', 'category', 'recipient', 'notes', 'amount', 'actions'];
 
-  @Input() transactions: fromModels.Transaction[];
+  @Input() transactions: fromModels.Transaction[] = [];
 
 }

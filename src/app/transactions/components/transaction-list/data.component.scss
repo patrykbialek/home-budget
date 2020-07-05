@@ -31,3 +31,16 @@
 tr.mat-row, tr.mat-footer-row {
   height: 54px;
 }
+
+.c-nodata {
+  height: 128px;
+  width: 100%;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  i {
+    height: 36px;
+  }
+}
