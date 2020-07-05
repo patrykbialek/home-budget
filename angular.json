@@ -17,6 +17,14 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "angularfire2/auth",
+              "firebase/app",
+              "@firebase/app",
+              "@firebase/database",
+              "moment/locale/pl",
+              "@angular/common/locales/pl"
+           ],
             "outputPath": "dist/home-budget",
             "index": "src/index.html",
             "main": "src/main.ts",
