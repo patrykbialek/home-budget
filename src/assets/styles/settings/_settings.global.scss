@@ -152,9 +152,11 @@ $mq-breakpoints: (
 
 @import './settings.colors';
 
+.mat-button.mat-green,
 .mat-stroked-button.mat-green {
   color: $green_600;
 }
+.mat-button.mat-red,
 .mat-stroked-button.mat-red {
   color: $red_600;
 }
@@ -165,4 +167,12 @@ $mq-breakpoints: (
 .mat-raised-button.mat-red {
   background-color: $red_500;
   color: $grey_50;
+}
+
+.u-expense {
+  color: $red_600;
+}
+
+.u-income {
+  color: $green_600;
 }

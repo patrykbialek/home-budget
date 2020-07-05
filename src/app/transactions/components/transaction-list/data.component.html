@@ -28,7 +28,25 @@
   
     <ng-container matColumnDef="amount">
       <th mat-header-cell *matHeaderCellDef class="cell-align-right"> Kwota </th>
-      <td mat-cell *matCellDef="let element" class="cell-align-right"> {{ element.amount | currency:'PLN ':'symbol':'1.2-2':'pl' }} </td>
+      <td mat-cell *matCellDef="let element" class="cell-align-right"
+        [ngClass]="{ 'u-expense': element.type === 'expense',
+        'u-income': element.type === 'income' }">
+        <span>{{ element.type === 'expense' ? '-&nbsp;' : '' }}</span>
+        {{ element.amount | currency:'PLN ':'symbol':'1.2-2':'pl' }}
+      </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef class="cell-align-right"> &nbsp; </th>
+      <td mat-cell *matCellDef="let element" class="cell-align-right"> 
+        <button mat-icon-button color="primary" [matMenuTriggerFor]="actionsMenu" >
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #actionsMenu="matMenu">
+          <button mat-menu-item><mat-icon class="u-margin-right-tiny">edit</mat-icon>Edytuj</button>
+          <button mat-menu-item><mat-icon class="u-margin-right-tiny">delete</mat-icon> Usuń</button>
+        </mat-menu>
+      </td>
     </ng-container>
   
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
