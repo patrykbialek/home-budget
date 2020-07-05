@@ -62,7 +62,7 @@ export class TransactionsHttpService {
         }),
       );
     } else {
-      return of(null);
+      return of([]);
     }
   }
 

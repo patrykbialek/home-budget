@@ -29,6 +29,12 @@
         <mat-form-field appearance="outline" style="width: 100%;">
           <mat-label>Kategoria</mat-label>
           <mat-select formControlName="category" [attr.data-name]="'category'" tabindex="-1">
+            <mat-select-trigger>
+              <div class="c-select-trigger">
+                <bh-category-icon class="c-category__icon" [category]="categoryControl.value.name"></bh-category-icon>
+                {{ 'BUDGET_CATEGORY.' + categoryControl.value.name | translate }}
+              </div>
+            </mat-select-trigger>
             <mat-option *ngFor="let category of categories" [value]="category">
               <div class="c-category">
                 <bh-category-icon class="c-category__icon" [category]="category.name"></bh-category-icon>
