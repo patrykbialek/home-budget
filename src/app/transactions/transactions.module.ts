@@ -16,6 +16,7 @@ registerLocaleData(localePl, 'pl');
 
 import * as fromComponents from './components';
 import * as fromContainers from './containers';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import * as fromContainers from './containers';
   imports: [
     CommonModule,
     RouterModule,
+    ReactiveFormsModule,
 
     SharedModule,
     TransactionsRoutingModule,

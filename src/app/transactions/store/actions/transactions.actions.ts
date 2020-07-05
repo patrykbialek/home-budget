@@ -7,6 +7,7 @@ export const READ_TRANSACTIONS_FAILURE  = '[Main] Read transactions failure';
 
 export class ReadTransactions implements Action {
   readonly type = READ_TRANSACTIONS;
+  constructor(public payload?: any, ) { }
 }
 
 export class ReadTransactionsSuccess implements Action {
