@@ -6,11 +6,12 @@
         <h4 class="u-margin-right-small">Transakcje</h4>
 
         <div class="c-section-header__actions-right o-block o-block--right">
-          <a mat-raised-button color="green" [routerLink]="['../']">
+          <a mat-button color="green" [routerLink]="['../']">
             <mat-icon class="u-margin-right-tiny">add_circle_outline</mat-icon>
             Dodaj przychód
           </a>
-          <a mat-raised-button color="red" [routerLink]="['../']" class="u-margin-left-small">
+          <span class="u-border-left u-margin-left-tiny u-margin-right-tiny"></span>
+          <a mat-button color="red" [routerLink]="['../']" class="">
             <mat-icon class="u-margin-right-tiny">remove_circle_outline</mat-icon>
             Dodaj wydatek
           </a>
@@ -19,7 +20,7 @@
     </div>
   </div>
 
-  <div class="c-section-content" style="padding-top: 96px;">
+  <div class="c-section-content" class="u-padding-bottom-huge" style="padding-top: 96px;">
     <hb-filters></hb-filters>
     <hb-data [transactions]="transactions$ | async"></hb-data>
   </div>

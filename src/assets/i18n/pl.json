@@ -9,6 +9,8 @@
     "vehicle": "Samochód i transport",
     "entertainment": "Rozrywka i podróże",
     "education": "Edukacja",
-    "other": "Pozostałe"
+    "other": "Pozostałe",
+    "income": "Przychód",
+    "cash": "Gotówka"
   }
 }

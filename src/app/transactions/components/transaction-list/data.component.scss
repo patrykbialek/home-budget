@@ -2,6 +2,14 @@
   text-align: right;
 }
 
+.mat-column-date {
+  width: 128px;
+}
+
+.mat-column-category {
+  width: 256px;
+}
+
 .mat-column-category div {
   display: flex;
   align-items: center;

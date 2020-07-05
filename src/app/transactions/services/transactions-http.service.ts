@@ -31,8 +31,8 @@ export class TransactionsHttpService {
   }
 
   private compare(first, second) {
-    const orderFirst = first.order;
-    const orderSecond = second.order;
+    const orderFirst = first.date;
+    const orderSecond = second.date;
 
     let comparison = 0;
     if (orderFirst > orderSecond) {

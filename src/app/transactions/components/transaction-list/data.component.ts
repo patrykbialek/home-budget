@@ -10,7 +10,7 @@ import * as fromModels from '../../models';
 })
 export class DataComponent {
 
-  displayedColumns: string[] = ['date', 'category', 'recipient', 'notes', 'amount'];
+  displayedColumns: string[] = ['date', 'category', 'recipient', 'notes', 'amount', 'actions'];
 
   @Input() transactions: fromModels.Transaction[];
 
