@@ -1,4 +1,38 @@
-<p>data works!</p>
+<section *ngIf="transactions">
+  <table mat-table [dataSource]="transactions">
+  
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef> Data </th>
+      <td mat-cell *matCellDef="let element"> {{ element.date | date:'dd/MM/yyyy' }} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="category">
+      <th mat-header-cell *matHeaderCellDef> Kategoria </th>
+      <td mat-cell *matCellDef="let element">
+        <div>
+          <bh-category-icon class="mat-column-category-icon" [category]="element.category"></bh-category-icon>
+          <div class="mat-column-category-text" >{{ 'BUDGET_CATEGORY.' + element.category | translate }}</div>
+        </div>
+      </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="recipient">
+      <th mat-header-cell *matHeaderCellDef> Odbiorca </th>
+      <td mat-cell *matCellDef="let element"> {{ element.recipient }} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="notes">
+      <th mat-header-cell *matHeaderCellDef> Notatki </th>
+      <td mat-cell *matCellDef="let element"> {{ element.notes || '--' }} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="amount">
+      <th mat-header-cell *matHeaderCellDef class="cell-align-right"> Kwota </th>
+      <td mat-cell *matCellDef="let element" class="cell-align-right"> {{ element.amount | currency:'PLN ':'symbol':'1.2-2':'pl' }} </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</section>
 
-
-<pre>{{ transactions | json }}</pre>

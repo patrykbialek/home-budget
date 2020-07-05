@@ -4,6 +4,17 @@
     <div class="o-wrapper">
       <header class="c-section-header__title">
         <h4 class="u-margin-right-small">Transakcje</h4>
+
+        <div class="c-section-header__actions-right o-block o-block--right">
+          <a mat-raised-button color="green" [routerLink]="['../']">
+            <mat-icon class="u-margin-right-tiny">add_circle_outline</mat-icon>
+            Dodaj przychód
+          </a>
+          <a mat-raised-button color="red" [routerLink]="['../']" class="u-margin-left-small">
+            <mat-icon class="u-margin-right-tiny">remove_circle_outline</mat-icon>
+            Dodaj wydatek
+          </a>
+        </div>
       </header>
     </div>
   </div>

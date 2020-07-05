@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 import * as fromModels from '../../models';
 
@@ -8,13 +8,10 @@ import * as fromModels from '../../models';
   styleUrls: ['./data.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DataComponent implements OnInit {
+export class DataComponent {
+
+  displayedColumns: string[] = ['date', 'category', 'recipient', 'notes', 'amount'];
 
   @Input() transactions: fromModels.Transaction[];
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
 
 }

@@ -1,0 +1,21 @@
+.cell-align-right {
+  text-align: right;
+}
+
+.mat-column-category div {
+  display: flex;
+  align-items: center;
+}
+.mat-column-category-icon {
+  margin-right: 16px;
+  display: flex;
+
+  > svg {
+    // height: 20px;
+    // width: 20px;
+  }
+}
+.mat-column-category-text {
+  line-height: 24px;
+  display: flex;
+}

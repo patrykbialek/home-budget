@@ -1,3 +1,14 @@
 {
-  "Welcome": "Witamy w aplikacji home_budget"
+  "Welcome": "Witamy w aplikacji home_budget",
+  "BUDGET_CATEGORY": {
+    "finance": "Finanse",
+    "shopping": "Wydatki podstawowe",
+    "bills": "Dom i rachunki",
+    "health": "Zdrowie i uroda",
+    "clothing": "Odzież i obuwie",
+    "vehicle": "Samochód i transport",
+    "entertainment": "Rozrywka i podróże",
+    "education": "Edukacja",
+    "other": "Pozostałe"
+  }
 }
