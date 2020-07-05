@@ -31,8 +31,8 @@ export class TransactionsFacadeService {
   //   this.store.dispatch(action);
   // }
 
-  readTransactions() {
-    this.store.dispatch(new fromActions.ReadTransactions());
+  readTransactions(query?: any) {
+    this.store.dispatch(new fromActions.ReadTransactions(query));
   }
 
 }

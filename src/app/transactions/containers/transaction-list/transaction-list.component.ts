@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonWithAnimationComponent } from '@shared/components';
 
 import * as fromStore from '../../store';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'hb-transaction-list',
@@ -13,6 +14,8 @@ export class TransactionListComponent extends CommonWithAnimationComponent imple
   total$ = this.transactionsService.total$;
   transactions$ = this.transactionsService.transactions$;
 
+  initQuery = {};
+
   constructor(
     private transactionsService: fromStore.TransactionsFacadeService
   ) {
@@ -20,7 +23,11 @@ export class TransactionListComponent extends CommonWithAnimationComponent imple
   }
 
   ngOnInit() {
-    this.transactionsService.readTransactions();
+    this.transactionsService.readTransactions(this.initQuery);
+  }
+
+  readTransactions(query: any) {
+    this.transactionsService.readTransactions(query);
   }
 
 }

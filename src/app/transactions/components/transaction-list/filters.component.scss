@@ -1,0 +1,14 @@
+.c-category {
+  display: flex;
+  align-items: center;
+
+  &__icon {
+    margin-right: 20px;
+    display: flex;
+
+  }
+  &__text {
+    line-height: 24px;
+    display: flex;
+  }
+}

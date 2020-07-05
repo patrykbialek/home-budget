@@ -11,6 +11,16 @@
     "education": "Edukacja",
     "other": "Pozostałe",
     "income": "Przychód",
-    "cash": "Gotówka"
+    "cash": "Gotówka",
+    "all": "Wszystkie"
+  },
+  "QUERY": {
+    "Periods": {
+      "CurrentMonth": "Bieżący miesiąc",
+      "PreviousMonth": "Poprzedni miesiąc",
+      "Last3Months": "Ostatnie 3 miesiące",
+      "Last6Months": "Ostatnie 6 miesiący",
+      "CurrentYear": "Ten rok"
+    }
   }
 }

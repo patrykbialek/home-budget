@@ -17,9 +17,10 @@ export class TransactionsEffects {
 
   @Effect()
   readTransactions$ = this.actions$.pipe(ofType(fromActions.READ_TRANSACTIONS),
-    mergeMap(() => {
+    map((action: fromActions.ReadTransactions) => action.payload),
+    mergeMap((query: any) => {
       return this.transactionsService
-        .readTransactions()
+        .readTransactions(query)
         .pipe(
           map((response: any) => {
             return new fromActions.ReadTransactionsSuccess(response);
