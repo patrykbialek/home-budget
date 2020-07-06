@@ -6,12 +6,12 @@
         <h4 class="u-margin-right-small">Transakcje</h4>
 
         <div class="c-section-header__actions-right o-block o-block--right">
-          <a mat-button color="green" [routerLink]="['../']">
+          <a mat-button color="green" [routerLink]="['./create']" [queryParams]="{ type: 'income' }">
             <mat-icon class="u-margin-right-tiny">add_circle_outline</mat-icon>
             Dodaj przychód
           </a>
           <span class="u-border-left u-margin-left-tiny u-margin-right-tiny"></span>
-          <a mat-button color="red" [routerLink]="['../']" class="">
+          <a mat-button color="red" [routerLink]="['./create']" [queryParams]="{ type: 'expense' }">
             <mat-icon class="u-margin-right-tiny">remove_circle_outline</mat-icon>
             Dodaj wydatek
           </a>

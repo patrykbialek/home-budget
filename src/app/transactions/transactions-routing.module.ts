@@ -14,7 +14,11 @@ const routes: Routes = [
       {
         path: '',
         component: fromContainers.TransactionListComponent,
-      }
+      },
+      {
+        path: ':key',
+        component: fromContainers.TransactionDetailComponent,
+      },
     ]
   },
 ];

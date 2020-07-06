@@ -32,7 +32,7 @@
             <mat-select-trigger>
               <div class="c-select-trigger">
                 <bh-category-icon class="c-category__icon" [category]="categoryControl.value.name"></bh-category-icon>
-                {{ 'BUDGET_CATEGORY.' + categoryControl.value.name | translate }}
+                <span class="c-category__text">{{ 'BUDGET_CATEGORY.' + categoryControl.value.name | translate }}</span>
               </div>
             </mat-select-trigger>
             <mat-option *ngFor="let category of categories" [value]="category">
@@ -48,9 +48,14 @@
         <mat-form-field appearance="outline" style="width: 100%;">
           <mat-label>Okres</mat-label>
           <mat-select formControlName="period" [attr.data-name]="'period'" tabindex="-1">
+            <mat-select-trigger>
+              <div class="c-select-trigger">
+                {{ 'QUERY.Periods.' + periodControl.value.name | translate }}
+              </div>
+            </mat-select-trigger>
             <mat-option *ngFor="let period of periods" [value]="period">
-              <div class="c-category">
-                <span class="c-category__text">{{ 'QUERY.Periods.' + period.name | translate }}</span>
+              <div class="c-period">
+                <span class="c-period__text">{{ 'QUERY.Periods.' + period.name | translate }}</span>
                 <span *ngIf="period.id === 'currentMonth'">&nbsp;({{ currentMonth }})</span>
                 <span *ngIf="period.id === 'previousMonth'">&nbsp;({{ previousMonth }})</span>
                 <span *ngIf="period.id === 'currentYear'">&nbsp;({{ currentYear }})</span>
