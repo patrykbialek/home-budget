@@ -1,14 +1,24 @@
 .c-category {
   display: flex;
   align-items: center;
+  position: relative;
 
   &__icon {
     margin-right: 20px;
     display: flex;
-
+    position: absolute;
   }
   &__text {
-    line-height: 24px;
+    display: flex;
+    padding-left: 40px;
+  }
+}
+
+.c-period {
+  display: flex;
+  align-items: center;
+
+  &__text {
     display: flex;
   }
 }
