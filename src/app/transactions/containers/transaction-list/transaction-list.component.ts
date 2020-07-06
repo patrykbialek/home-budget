@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { CommonWithAnimationComponent } from '@shared/components';
 
 import * as fromStore from '../../store';
-import { tap, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'hb-transaction-list',
@@ -27,7 +26,7 @@ export class TransactionListComponent extends CommonWithAnimationComponent imple
   }
 
   deleteTransaction(key: string) {
-    const payload = { key };
+    const payload = { key, value: null };
     this.transactionsService.deleteTransaction(payload);
   }
 

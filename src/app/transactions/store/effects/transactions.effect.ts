@@ -4,9 +4,10 @@ import { Effect, Actions, ofType } from '@ngrx/effects';
 import { of, } from 'rxjs';
 import { map, catchError, mergeMap, } from 'rxjs/operators';
 
-import * as fromActions from '../actions/transactions.actions';
-import * as fromServices from '../../services';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import * as fromActions from '../actions/transactions.actions';
+import * as fromModels from '@transactions/models';
+import * as fromServices from '../../services';
 
 @Injectable()
 export class TransactionsEffects {
@@ -20,7 +21,7 @@ export class TransactionsEffects {
   @Effect()
   createTransaction$ = this.actions$.pipe(ofType(fromActions.CREATE_TRANSACTION),
     map((action: fromActions.CreateTransaction) => action.payload),
-    mergeMap((payload: any) => {
+    mergeMap((payload: fromModels.TransactionPayload) => {
       return this.transactionsService
         .createTransaction(payload)
         .pipe(
@@ -38,7 +39,7 @@ export class TransactionsEffects {
   @Effect()
   deleteTransaction$ = this.actions$.pipe(ofType(fromActions.DELETE_TRANSACTION),
     map((action: fromActions.DeleteTransaction) => action.payload),
-    mergeMap((payload: any) => {
+    mergeMap((payload: fromModels.TransactionPayload) => {
       return this.transactionsService
         .deleteTransaction(payload)
         .pipe(
@@ -65,6 +66,24 @@ export class TransactionsEffects {
           }),
           catchError((error) => {
             return of(new fromActions.ReadTransactionsFailure(error));
+          })
+        );
+    })
+  );
+
+  @Effect()
+  updateTransaction$ = this.actions$.pipe(ofType(fromActions.UPDATE_TRANSACTION),
+    map((action: fromActions.UpdateTransaction) => action.payload),
+    mergeMap((payload: fromModels.TransactionPayload) => {
+      return this.transactionsService
+        .updateTransaction(payload)
+        .pipe(
+          map((response: any) => {
+            this.openSnackBar('Dane zapisane.');
+            return new fromActions.UpdateTransactionSuccess(response);
+          }),
+          catchError((error) => {
+            return of(new fromActions.UpdateTransactionFailure(error));
           })
         );
     })

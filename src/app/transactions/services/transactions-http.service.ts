@@ -21,27 +21,19 @@ export class TransactionsHttpService {
   ) { }
 
   // Create
-  
-  createTransaction(payload: any) {
+
+  createTransaction(payload: fromModels.TransactionPayload) {
     const db: AngularFireList<any> = this.db.list(`/transactions`);
-    const category = payload.category.name;
-    const date = moment(payload.date).format('YYYY-MM-DD');
-    
-    payload = {
-      ...payload,
-      category,
-      category_date: `${category}_${date}`,
-      date,
-    };
-    return of(db.push(payload));
+    const value = this.prepareTransactionPayload(payload.value);
+    return of(db.push(value));
   }
 
   // Delete
-  
-  deleteTransaction(payload: any) {
-    const db: AngularFireList<any> = this.db.list(`/transactions`);
 
-    return of(db.remove(payload.key));
+  deleteTransaction(payload: fromModels.TransactionPayload) {
+    const db: AngularFireList<any> = this.db.list(`/transactions`);
+    const key = payload.key;
+    return of(db.remove(key));
   }
 
   // Read
@@ -92,6 +84,15 @@ export class TransactionsHttpService {
     }
   }
 
+  // Update
+
+  updateTransaction(payload: fromModels.TransactionPayload) {
+    const db: AngularFireList<any> = this.db.list(`/transactions`);
+    const key = payload.key;
+    const value = this.prepareTransactionPayload(payload.value);
+    return of(db.update(key, value));
+  }
+
   private compare(first, second) {
     const orderFirst = first.date;
     const orderSecond = second.date;
@@ -103,6 +104,19 @@ export class TransactionsHttpService {
       comparison = -1;
     }
     return comparison;
+  }
+
+  private prepareTransactionPayload(data: any) {
+    const category = data.category.name;
+    const date = moment(data.date).format('YYYY-MM-DD');
+
+    data = {
+      ...data,
+      category,
+      category_date: `${category}_${date}`,
+      date,
+    };
+    return data;
   }
 
 }
