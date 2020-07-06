@@ -50,7 +50,8 @@ export function reducer(
       };
     }
 
-    case fromTransactions.CREATE_TRANSACTION_SUCCESS: {
+    case fromTransactions.CREATE_TRANSACTION_SUCCESS:
+    case fromTransactions.DELETE_TRANSACTION_SUCCESS: {
       return {
         ...state,
         isFailed: false,
@@ -59,6 +60,7 @@ export function reducer(
       };
     }
 
+    case fromTransactions.DELETE_TRANSACTION_FAILURE: 
     case fromTransactions.CREATE_TRANSACTION_FAILURE: {
       return {
         ...state,

@@ -36,6 +36,14 @@ export class TransactionsHttpService {
     return of(db.push(payload));
   }
 
+  // Delete
+  
+  deleteTransaction(payload: any) {
+    const db: AngularFireList<any> = this.db.list(`/transactions`);
+
+    return of(db.remove(payload.key));
+  }
+
   // Read
 
   readTransactions(query: fromModels.Query) {
@@ -89,9 +97,9 @@ export class TransactionsHttpService {
     const orderSecond = second.date;
 
     let comparison = 0;
-    if (orderFirst > orderSecond) {
+    if (orderFirst < orderSecond) {
       comparison = 1;
-    } else if (orderFirst < orderSecond) {
+    } else if (orderFirst > orderSecond) {
       comparison = -1;
     }
     return comparison;

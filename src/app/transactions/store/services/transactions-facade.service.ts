@@ -31,6 +31,10 @@ export class TransactionsFacadeService {
     this.store.dispatch(new fromActions.CreateTransaction(payload));
   }
 
+  deleteTransaction(payload?: any) {
+    this.store.dispatch(new fromActions.DeleteTransaction(payload));
+  }
+
   readTransactions(query?: any) {
     this.store.dispatch(new fromActions.ReadTransactions(query));
   }

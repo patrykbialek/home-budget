@@ -26,6 +26,11 @@ export class TransactionListComponent extends CommonWithAnimationComponent imple
     this.transactionsService.readTransactions(this.initQuery);
   }
 
+  deleteTransaction(key: string) {
+    const payload = { key };
+    this.transactionsService.deleteTransaction(payload);
+  }
+
   readTransactions(query: any) {
     this.transactionsService.readTransactions(query);
   }

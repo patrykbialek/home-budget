@@ -18,18 +18,36 @@ export class TransactionsEffects {
   ) { }
 
   @Effect()
-  createTransactions$ = this.actions$.pipe(ofType(fromActions.CREATE_TRANSACTION),
+  createTransaction$ = this.actions$.pipe(ofType(fromActions.CREATE_TRANSACTION),
     map((action: fromActions.CreateTransaction) => action.payload),
     mergeMap((payload: any) => {
       return this.transactionsService
         .createTransaction(payload)
         .pipe(
           map((response: any) => {
-            this.openSnackBar();
+            this.openSnackBar('Dane zapisane.');
             return new fromActions.CreateTransactionSuccess(response);
           }),
           catchError((error) => {
             return of(new fromActions.CreateTransactionFailure(error));
+          })
+        );
+    })
+  );
+
+  @Effect()
+  deleteTransaction$ = this.actions$.pipe(ofType(fromActions.DELETE_TRANSACTION),
+    map((action: fromActions.DeleteTransaction) => action.payload),
+    mergeMap((payload: any) => {
+      return this.transactionsService
+        .deleteTransaction(payload)
+        .pipe(
+          map((response: any) => {
+            this.openSnackBar('Transakcja usunięta.');
+            return new fromActions.DeleteTransactionSuccess(response);
+          }),
+          catchError((error) => {
+            return of(new fromActions.DeleteTransactionFailure(error));
           })
         );
     })
@@ -52,8 +70,8 @@ export class TransactionsEffects {
     })
   );
 
-  openSnackBar() {
-    this.snackBar.open('Dane zapisane.', 'Zamknij', {
+  openSnackBar(message: string) {
+    this.snackBar.open(message, 'Zamknij', {
       duration: 5000,
     });
   }
