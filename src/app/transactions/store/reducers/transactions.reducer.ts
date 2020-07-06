@@ -4,12 +4,14 @@ export interface TransactionsState {
   entities: any[];
   isFailed: boolean;
   isLoading: boolean;
+  isSuccess: boolean;
 }
 
 export const initialState: TransactionsState = {
   entities: [],
   isFailed: false,
   isLoading: false,
+  isSuccess: false,
 };
 
 export function reducer(
@@ -48,6 +50,25 @@ export function reducer(
       };
     }
 
+    case fromTransactions.CREATE_TRANSACTION_SUCCESS: {
+      return {
+        ...state,
+        isFailed: false,
+        isLoading: false,
+        isSuccess: true,
+      };
+    }
+
+    case fromTransactions.CREATE_TRANSACTION_FAILURE: {
+      return {
+        ...state,
+        entities: [],
+        isFailed: true,
+        isLoading: false,
+        isSuccess: false,
+      };
+    }
+
   }
 
   return state;
@@ -55,4 +76,5 @@ export function reducer(
 
 export const getIsFailed = (state: TransactionsState) => state.isFailed;
 export const getIsLoading = (state: TransactionsState) => state.isLoading;
+export const getIsSuccess = (state: TransactionsState) => state.isSuccess;
 export const getTransactions = (state: TransactionsState) => state.entities;
