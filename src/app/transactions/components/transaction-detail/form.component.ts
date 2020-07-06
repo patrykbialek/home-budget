@@ -13,7 +13,9 @@ import * as moment from 'moment';
 export class FormComponent implements OnInit {
 
   @Input() categories$: Observable<any[]>;
+  @Input() mode: string;
   @Input() transactionForm: FormGroup;
+  @Output() deleteItem = new EventEmitter();
   @Output() saveData = new EventEmitter();
 
   @ViewChild('amountHTML') amountHTML: ElementRef;
@@ -39,6 +41,10 @@ export class FormComponent implements OnInit {
       || this.recipientControl.hasError('required')) {
       return 'Pole wymagane.';
     }
+  }
+
+  onDelete() {
+    this.deleteItem.emit();
   }
 
   onSave() {

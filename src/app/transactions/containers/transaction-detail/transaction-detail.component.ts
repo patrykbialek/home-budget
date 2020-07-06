@@ -90,6 +90,24 @@ export class TransactionDetailComponent extends CommonWithAnimationComponent imp
     });
   }
 
+  deleteItem() {
+    const payload: fromModels.TransactionPayload = {
+      key: this.transactionKey,
+      value: null
+    };
+    this.transactionsService.deleteTransaction(payload);
+
+    this.transactionsService.isSuccess$
+      .pipe(
+        take(1),
+        tap(response => {
+          if (response) {
+            this.router.navigate(['./transactions']);
+          }
+        }),
+      ).subscribe();
+  }
+
   saveData(event: FormGroup) {
     const payload: fromModels.TransactionPayload = {
       key: this.transactionKey,
