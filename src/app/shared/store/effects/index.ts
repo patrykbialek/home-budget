@@ -1,6 +1,5 @@
-import { TransactionsEffects } from './transactions.effect';
+import { RouterEffects } from './router.effect';
 
-export const effects: any[] = [ TransactionsEffects, ];
+export const effects: any[] = [RouterEffects];
 
-export * from './transactions.effect';
-
+export * from './router.effect';

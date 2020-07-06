@@ -21,9 +21,18 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
-import { StoreModule } from '@ngrx/store';
+import {
+  StoreRouterConnectingModule,
+  RouterStateSerializer,
+} from '@ngrx/router-store';
+import { StoreModule, MetaReducer } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { reducers } from '@shared/store';
+
+import { reducers, effects, CustomSerializer } from '@shared/store';
+
+// not used in production
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+
 import { SharedModule } from '@shared/shared.module';
 import { environment } from 'src/environments/environment';
 
@@ -73,7 +82,9 @@ export const MY_FORMATS = {
         /* strictActionImmutability: true, */
       },
     }),
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot(effects),
+    StoreRouterConnectingModule.forRoot(),
+    environment.production ? [] : StoreDevtoolsModule.instrument(),
 
     SharedModule,
   ],
@@ -81,6 +92,7 @@ export const MY_FORMATS = {
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
     { provide: LOCALE_ID, useValue: 'pl' },
+    { provide: RouterStateSerializer, useClass: CustomSerializer }
   ],
   bootstrap: [AppComponent]
 })
