@@ -1,0 +1,40 @@
+.c-category {
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  &__icon {
+    margin-right: 20px;
+    display: flex;
+    position: absolute;
+  }
+  &__text {
+    display: flex;
+    padding-left: 40px;
+  }
+}
+
+.c-select-trigger .c-category__icon {
+  top: -2px;
+}
+
+.u-text-right-align {
+  text-align: right;
+}
+
+input.u-type-number::-webkit-outer-spin-button,
+input.u-type-number::-webkit-inner-spin-button {
+  display: none;
+}
+
+input.u-type-number {
+  -moz-appearance: textfield;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-prefix,
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-suffix {
+  top: 0 !important;
+}
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-suffix {
+  margin-left: 8px;
+}

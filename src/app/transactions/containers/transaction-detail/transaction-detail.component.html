@@ -3,7 +3,7 @@
   <div class="c-section-header">
     <div class="o-wrapper">
       <header class="c-section-header__title">
-        <h4 class="u-margin-right-small">Transakcja</h4>
+        <h4 class="u-margin-right-small">{{ sectionTitle }}</h4>
 
         <div class="c-section-header__actions-right o-block o-block--right">
           <div class="c-section-header__actions-right o-block o-block--right">
@@ -18,7 +18,14 @@
   </div>
 
   <div class="c-section-content" class="u-padding-bottom-huge" style="padding-top: 96px;">
-
+    <div class="o-grid">
+      <div class="o-grid__cell">
+        <hb-form
+          (saveData)="saveData($event)"
+          [categories$]="categories$"
+          [transactionForm]="transactionForm"></hb-form>
+      </div>
+    </div>
   </div>
 
 </app-main-component>
