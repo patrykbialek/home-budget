@@ -1,6 +1,8 @@
-import { Component, OnInit, EventEmitter, Output, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input, ChangeDetectionStrategy, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
+
+import * as moment from 'moment';
 
 @Component({
   selector: 'hb-form',
@@ -14,6 +16,8 @@ export class FormComponent implements OnInit {
   @Input() transactionForm: FormGroup;
   @Output() saveData = new EventEmitter();
 
+  @ViewChild('amountHTML') amountHTML: ElementRef;
+
   constructor() { }
 
   get amountControl() { return this.transactionForm.get('amount'); }
@@ -23,6 +27,10 @@ export class FormComponent implements OnInit {
   get typeControl() { return this.transactionForm.get('type'); }
 
   ngOnInit(): void {
+    setTimeout(() => {
+      this.amountHTML.nativeElement.focus();
+    });
+    this.dateControl.setValue(new Date());
   }
 
   getErrorMessage() {
