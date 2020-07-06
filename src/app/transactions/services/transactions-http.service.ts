@@ -6,6 +6,8 @@ import {
 } from '@angular/fire/database';
 import { map, delay, tap, switchMap, mergeMap } from 'rxjs/operators';
 
+import * as moment from 'moment';
+
 import * as fromModels from '../models';
 import { of } from 'rxjs';
 
@@ -17,6 +19,22 @@ export class TransactionsHttpService {
   constructor(
     private db: AngularFireDatabase,
   ) { }
+
+  // Create
+  
+  createTransaction(payload: any) {
+    const db: AngularFireList<any> = this.db.list(`/transactions`);
+    const category = payload.category.name;
+    const date = moment(payload.date).format('YYYY-MM-DD');
+    
+    payload = {
+      ...payload,
+      category,
+      category_date: `${category}_${date}`,
+      date,
+    };
+    return of(db.push(payload));
+  }
 
   // Read
 

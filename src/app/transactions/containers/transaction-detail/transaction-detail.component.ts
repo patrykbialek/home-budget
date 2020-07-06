@@ -1,17 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonWithAnimationComponent } from '@shared/components';
-import { combineLatest, of } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
-import { tap } from 'rxjs/operators';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { budgetCategories } from '@transactions/models/budget-categories.data';
+import { TransactionsFacadeService } from '@transactions/store';
+import { combineLatest, of, Subscription } from 'rxjs';
+import { tap, take } from 'rxjs/operators';
 
 @Component({
   selector: 'hb-transaction-detail',
   templateUrl: './transaction-detail.component.html',
   styleUrls: ['./transaction-detail.component.scss']
 })
-export class TransactionDetailComponent extends CommonWithAnimationComponent implements OnInit {
+export class TransactionDetailComponent extends CommonWithAnimationComponent implements OnDestroy, OnInit {
 
   mode: 'create' | 'update';
   sectionTitle: string;
@@ -20,15 +21,23 @@ export class TransactionDetailComponent extends CommonWithAnimationComponent imp
   transactionForm: FormGroup;
 
   categories$ = of(budgetCategories);
-  
+
+  private subscription$ = new Subscription();
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
+    private router: Router,
+    private transactionsService: TransactionsFacadeService,
   ) {
     super();
   }
 
   get typeControl() { return this.transactionForm.get('type'); }
+
+  ngOnDestroy() {
+    this.subscription$.unsubscribe();
+  }
 
   ngOnInit() {
     this.createForm();
@@ -61,6 +70,16 @@ export class TransactionDetailComponent extends CommonWithAnimationComponent imp
   }
 
   saveData(event: FormGroup) {
-    console.log(event.value);
+    this.transactionsService.createTransaction(event.value);
+
+    this.transactionsService.isSuccess$
+      .pipe(
+        take(1),
+        tap(response => {
+          if (response) {
+            this.router.navigate(['./transactions']);
+          }
+        }),
+      ).subscribe();
   }
 }

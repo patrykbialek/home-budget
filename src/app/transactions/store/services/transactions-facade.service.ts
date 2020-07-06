@@ -24,12 +24,12 @@ export class TransactionsFacadeService {
     this.total$ = this.store.pipe(select(fromSelectors.getTotal));
     // this.isFailed$ = this.store.pipe(select(fromSelectors.));
     // this.isLoading$ = this.store.pipe(select(fromSelectors.));
-    // this.isSuccess$ = this.store.pipe(select(fromSelectors.));
+    this.isSuccess$ = this.store.pipe(select(fromSelectors.getIsSuccess));
   }
 
-  // dispatch(action: Action) {
-  //   this.store.dispatch(action);
-  // }
+  createTransaction(payload?: any) {
+    this.store.dispatch(new fromActions.CreateTransaction(payload));
+  }
 
   readTransactions(query?: any) {
     this.store.dispatch(new fromActions.ReadTransactions(query));
