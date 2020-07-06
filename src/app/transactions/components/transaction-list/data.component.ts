@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
 
 import * as fromModels from '../../models';
 
@@ -13,5 +13,9 @@ export class DataComponent {
   displayedColumns: string[] = ['date', 'category', 'recipient', 'notes', 'amount', 'actions'];
 
   @Input() transactions: fromModels.Transaction[] = [];
+  @Output() deleteTransaction = new EventEmitter();
 
+  onDelete(item: fromModels.Transaction) {
+    this.deleteTransaction.emit(item.key);
+  }
 }

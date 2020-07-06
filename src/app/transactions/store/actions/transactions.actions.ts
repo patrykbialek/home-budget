@@ -40,6 +40,26 @@ export class CreateTransactionFailure implements Action {
   constructor(public payload: any, ) { }
 }
 
+// Delete
+export const DELETE_TRANSACTION          = '[Main] Delete transaction';
+export const DELETE_TRANSACTION_SUCCESS  = '[Main] Delete transaction success';
+export const DELETE_TRANSACTION_FAILURE  = '[Main] Delete transaction failure';
+
+export class DeleteTransaction implements Action {
+  readonly type = DELETE_TRANSACTION;
+  constructor(public payload?: any, ) { }
+}
+
+export class DeleteTransactionSuccess implements Action {
+  readonly type = DELETE_TRANSACTION_SUCCESS;
+  constructor(public payload: any, ) { }
+}
+
+export class DeleteTransactionFailure implements Action {
+  readonly type = DELETE_TRANSACTION_FAILURE;
+  constructor(public payload: any, ) { }
+}
+
 export type TransactionsAction =
   | ReadTransactions
   | ReadTransactionsSuccess
@@ -47,5 +67,8 @@ export type TransactionsAction =
   | CreateTransaction
   | CreateTransactionSuccess
   | CreateTransactionFailure
+  | DeleteTransaction
+  | DeleteTransactionSuccess
+  | DeleteTransactionFailure
 
   ;

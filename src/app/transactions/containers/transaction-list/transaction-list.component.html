@@ -36,7 +36,7 @@
         </div>
       </div>
     </div>
-    <hb-data [transactions]="transactions$ | async"></hb-data>
+    <hb-data [transactions]="transactions$ | async" (deleteTransaction)="deleteTransaction($event)"></hb-data>
   </div>
 
 
