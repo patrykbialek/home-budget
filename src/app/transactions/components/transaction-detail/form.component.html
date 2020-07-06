@@ -1,69 +1,74 @@
 <form [formGroup]="transactionForm" class="u-text-normal" (ngSubmit)="onSave()">
   <div class="o-grid">
+    <div class="o-grid__cell u-1/2">
+
+      <div class="o-grid">
     
-    <div class="o-grid__cell u-1/2">
-      <mat-form-field appearance="outline" style="width: 100%;">
-        <mat-label>Kwota</mat-label>
-        <input formControlName="amount" matInput type="number" class="u-type-number u-text-right-align">
-        <span matSuffix>PLN</span>
-        <mat-error *ngIf="amountControl.invalid">{{ getErrorMessage() }}</mat-error>
-      </mat-form-field>
-    </div>
-
-    <div class="o-grid__cell u-1/2">
-      <mat-form-field appearance="outline" style="width: 100%;">
-        <mat-label>Data</mat-label>
-        <input matInput [matDatepicker]="picker2" formControlName="date" tabindex="-1">
-        <mat-datepicker-toggle matSuffix [for]="picker2" tabindex="-1"></mat-datepicker-toggle>
-        <mat-datepicker #picker2></mat-datepicker>
-        <mat-error *ngIf="dateControl.invalid">{{ getErrorMessage() }}</mat-error>
-      </mat-form-field>
-    </div>
-
-    <div class="o-grid__cell u-1/2">
-      <mat-form-field appearance="outline" style="width: 100%;">
-        <mat-label>Odbiorca</mat-label>
-        <input formControlName="recipient" matInput>
-        <mat-error *ngIf="recipientControl.invalid">{{ getErrorMessage() }}</mat-error>
-      </mat-form-field>
-    </div>
-
-    <div class="o-grid__cell u-1/2" *ngIf="categories$ | async as categories">
-      <mat-form-field appearance="outline" style="width: 100%;">
-        <mat-label>Kategoria</mat-label>
-        <mat-select formControlName="category" [attr.data-name]="'category'" tabindex="-1"
-          placeholder="Wybierz kategorię">
-          <mat-select-trigger>
-            <div class="c-select-trigger" *ngIf="categoryControl.value?.name">
-              <bh-category-icon class="c-category__icon" [category]="categoryControl.value.name"></bh-category-icon>
-              <span class="c-category__text">{{ 'BUDGET_CATEGORY.' + categoryControl.value.name | translate }}</span>
-            </div>
-          </mat-select-trigger>
-          <mat-option *ngFor="let category of categories" [value]="category">
-            <div class="c-category">
-              <bh-category-icon class="c-category__icon" [category]="category.name"></bh-category-icon>
-              <span class="c-category__text">{{ 'BUDGET_CATEGORY.' + category.name | translate }}</span>
-            </div>
-          </mat-option>
-        </mat-select>
-        <mat-error *ngIf="categoryControl.invalid">{{ getErrorMessage() }}</mat-error>
-      </mat-form-field>
-    </div>
-
-    <div class="o-grid__cell u-1/1">
-      <mat-form-field appearance="outline" style="width: 100%;">
-        <mat-label>Notatki</mat-label>
-        <textarea matInput formControlName="notes" rows="5" tabindex="-1"></textarea>
-      </mat-form-field>
-    </div>
-
-    <div class="o-grid__cell u-1/1">
-      <div class="o-block o-block--right">
-        <a role="button" mat-button [routerLink]="['../']">Anuluj</a>
-        <button type="submit" mat-raised-button color="primary" class="u-margin-left-small">Zapisz</button>
+        <div class="o-grid__cell u-1/1">
+          <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-label>Kwota</mat-label>
+            <input formControlName="amount" matInput type="number" class="u-type-number u-text-right-align" autofocus>
+            <span matSuffix>PLN</span>
+            <mat-error *ngIf="amountControl.invalid">{{ getErrorMessage() }}</mat-error>
+          </mat-form-field>
+        </div>
+    
+        <div class="o-grid__cell u-1/1">
+          <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-label>Data</mat-label>
+            <input matInput [matDatepicker]="picker2" formControlName="date">
+            <mat-datepicker-toggle matSuffix [for]="picker2" tabindex="-1"></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+            <mat-error *ngIf="dateControl.invalid">{{ getErrorMessage() }}</mat-error>
+          </mat-form-field>
+        </div>
+    
+        <div class="o-grid__cell u-1/1" *ngIf="categories$ | async as categories">
+          <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-label>Kategoria</mat-label>
+            <mat-select formControlName="category" [attr.data-name]="'category'"
+              placeholder="Wybierz kategorię">
+              <mat-select-trigger>
+                <div class="c-select-trigger" *ngIf="categoryControl.value?.name">
+                  <bh-category-icon class="c-category__icon" [category]="categoryControl.value.name"></bh-category-icon>
+                  <span class="c-category__text">{{ 'BUDGET_CATEGORY.' + categoryControl.value.name | translate }}</span>
+                </div>
+              </mat-select-trigger>
+              <mat-option *ngFor="let category of categories" [value]="category">
+                <div class="c-category">
+                  <bh-category-icon class="c-category__icon" [category]="category.name"></bh-category-icon>
+                  <span class="c-category__text">{{ 'BUDGET_CATEGORY.' + category.name | translate }}</span>
+                </div>
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="categoryControl.invalid">{{ getErrorMessage() }}</mat-error>
+          </mat-form-field>
+        </div>
+    
+        <div class="o-grid__cell u-1/1">
+          <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-label>Odbiorca</mat-label>
+            <input formControlName="recipient" matInput>
+            <mat-error *ngIf="recipientControl.invalid">{{ getErrorMessage() }}</mat-error>
+          </mat-form-field>
+        </div>
+    
+        <div class="o-grid__cell u-1/1">
+          <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-label>Notatki</mat-label>
+            <textarea matInput formControlName="notes" rows="2"></textarea>
+          </mat-form-field>
+        </div>
+    
+        <div class="o-grid__cell u-1/1">
+          <div class="o-block o-block--right">
+            <a role="button" mat-button [routerLink]="['../']">Anuluj</a>
+            <button type="submit" mat-raised-button color="primary" class="u-margin-left-small">Zapisz</button>
+          </div>
+        </div>
+    
       </div>
+    
     </div>
-
   </div>
-
 </form>
