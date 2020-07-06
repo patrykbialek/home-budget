@@ -1,11 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonWithAnimationComponent } from '@shared/components';
 import { budgetCategories } from '@transactions/models/budget-categories.data';
 import { TransactionsFacadeService } from '@transactions/store';
 import { combineLatest, of, Subscription } from 'rxjs';
 import { tap, take } from 'rxjs/operators';
+import * as fromModels from '../../models';
 
 @Component({
   selector: 'hb-transaction-detail',
@@ -16,6 +17,7 @@ export class TransactionDetailComponent extends CommonWithAnimationComponent imp
 
   mode: 'create' | 'update';
   sectionTitle: string;
+  transactionKey: string;
   type: string;
 
   transactionForm: FormGroup;
@@ -33,6 +35,11 @@ export class TransactionDetailComponent extends CommonWithAnimationComponent imp
     super();
   }
 
+  get amountControl() { return this.transactionForm.get('amount'); }
+  get categoryControl() { return this.transactionForm.get('category'); }
+  get dateControl() { return this.transactionForm.get('date'); }
+  get notesControl() { return this.transactionForm.get('notes'); }
+  get recipientControl() { return this.transactionForm.get('recipient'); }
   get typeControl() { return this.transactionForm.get('type'); }
 
   ngOnDestroy() {
@@ -49,11 +56,25 @@ export class TransactionDetailComponent extends CommonWithAnimationComponent imp
       .pipe(
         tap(([params, queryParams]) => {
           this.mode = params.key === 'create' ? 'create' : 'update';
+          let type;
 
-          const type = queryParams.type === 'expense' ? 'wydatek' : 'przychód';
-          this.sectionTitle = this.mode === 'create' ? `Nowy ${type}` : `Edytuj wydatek`;
+          if (this.mode === 'create') {
+            this.typeControl.setValue(queryParams.type);
+            type = queryParams.type === 'expense' ? 'wydatek' : 'przychód';
+            this.dateControl.setValue(new Date());
+          } else {
+            this.transactionsService.transaction$
+              .pipe(
+                tap(response => {
+                  this.fillFormData(response);
+                  type = response.type === 'expense' ? 'wydatek' : 'przychód';
+                  this.transactionKey = params.key;
+                }),
+                take(1),
+              ).subscribe();
+          }
 
-          this.typeControl.setValue(queryParams.type);
+          this.sectionTitle = this.mode === 'create' ? `Nowy ${type}` : `Edytuj ${type}`;
         })
       ).subscribe();
   }
@@ -65,12 +86,19 @@ export class TransactionDetailComponent extends CommonWithAnimationComponent imp
       date: [null, [Validators.required]],
       recipient: [null, [Validators.required]],
       type: [null, [Validators.required]],
-      notes: [null],
+      notes: [''],
     });
   }
 
   saveData(event: FormGroup) {
-    this.transactionsService.createTransaction(event.value);
+    const payload: fromModels.TransactionPayload = {
+      key: this.transactionKey,
+      value: event.value
+    };
+
+    this.mode === 'create'
+      ? this.transactionsService.createTransaction(payload)
+      : this.transactionsService.updateTransaction(payload);
 
     this.transactionsService.isSuccess$
       .pipe(
@@ -81,5 +109,37 @@ export class TransactionDetailComponent extends CommonWithAnimationComponent imp
           }
         }),
       ).subscribe();
+  }
+
+  fillFormData(transaction: fromModels.Transaction) {
+    this.amountControl.setValue(transaction.amount);
+    this.dateControl.setValue(new Date(transaction.date));
+    this.recipientControl.setValue(transaction.recipient);
+    this.notesControl.setValue(transaction.notes);
+    this.typeControl.setValue(transaction.type);
+
+    this.categories$ = this.categories$
+      .pipe(
+        tap(categories => {
+          const category = categories.find(cat => cat.name === transaction.category);
+          this.categoryControl.setValue(category);
+        }),
+      );
+
+    // Object.keys(response).forEach((item) => {
+    //   const abstractControl = this.transactionForm.controls[item];
+
+    //   if (abstractControl && !(abstractControl instanceof FormArray)) {
+    //     if (abstractControl instanceof FormGroup) {
+    //       if (response[item] instanceof Object) {
+    //         Object.keys(response[item]).forEach((child) => {
+    //           this.transactionForm.get(`${item}.${child}`).setValue(response[item][child]);
+    //         });
+    //       }
+    //     } else {
+    //       this.transactionForm.get(item).setValue(response[item]);
+    //     }
+    //   }
+    // });
   }
 }

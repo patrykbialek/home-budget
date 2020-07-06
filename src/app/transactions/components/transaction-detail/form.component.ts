@@ -30,7 +30,6 @@ export class FormComponent implements OnInit {
     setTimeout(() => {
       this.amountHTML.nativeElement.focus();
     });
-    this.dateControl.setValue(new Date());
   }
 
   getErrorMessage() {

@@ -1,5 +1,7 @@
 import { createSelector } from '@ngrx/store';
 
+import * as fromRoot from '@shared/store';
+import * as fromModels from '../../models';
 import * as fromFeature from '../reducers';
 import * as fromTransactions from '../reducers/transactions.reducer';
 
@@ -11,6 +13,15 @@ export const getTransactionsState = createSelector(
 export const getIsSuccess = createSelector(
   getTransactionsState,
   fromTransactions.getIsSuccess,
+);
+
+export const getSelectedTransaction = createSelector(
+  getTransactionsState,
+  fromRoot.getRouterState,
+  (state, router): fromModels.Transaction => {
+    const transaction = state.entities.find(entity => entity.key === router.state.params.key)
+    return router.state && transaction;
+  }
 );
 
 export const getTransactions = createSelector(

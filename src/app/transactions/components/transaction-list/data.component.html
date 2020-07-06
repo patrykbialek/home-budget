@@ -43,7 +43,7 @@
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #actionsMenu="matMenu">
-          <button mat-menu-item><mat-icon class="u-margin-right-tiny">edit</mat-icon>Edytuj</button>
+          <button mat-menu-item [routerLink]="['./', element.key]"><mat-icon class="u-margin-right-tiny">edit</mat-icon>Edytuj</button>
           <button mat-menu-item (click)="onDelete(element)"><mat-icon class="u-margin-right-tiny">delete</mat-icon> Usuń</button>
         </mat-menu>
       </td>
