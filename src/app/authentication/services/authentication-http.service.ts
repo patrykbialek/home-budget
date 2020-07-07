@@ -23,6 +23,7 @@ export class AuthenticationHttpService {
   // Register
 
   registerUser(payload: fromModels.UserPayload) {
+    console.log(payload)
     const db: AngularFireList<any> = this.db.list(`/users`);
     const value = payload.value;
     return of(db.push(value));
