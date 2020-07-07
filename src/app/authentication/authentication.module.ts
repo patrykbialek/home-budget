@@ -5,13 +5,32 @@ import { RouterModule } from '@angular/router';
 import { SharedModule } from '@shared/shared.module';
 import { AuthenticationRoutingModule } from './authentication-routing.module';
 
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { reducers, effects } from './store';
+
+import * as fromContainers from './containers';
+import { FormComponent } from './components/register-user/form.component';
+import { ReactiveFormsModule } from '@angular/forms';
+
 @NgModule({
-  declarations: [AuthenticationComponent],
+  declarations: [
+    AuthenticationComponent,
+    ...fromContainers.components,
+    FormComponent,
+  ],
   imports: [
     CommonModule,
     RouterModule,
+    ReactiveFormsModule,
     SharedModule,
     AuthenticationRoutingModule,
+
+    StoreModule.forFeature('authentication', reducers),
+    EffectsModule.forFeature(effects),
+  ],
+  exports: [
+    ...fromContainers.components,
   ]
 })
 export class AuthenticationModule { }

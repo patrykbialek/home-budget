@@ -1,0 +1,45 @@
+<form [formGroup]="registerForm" class="u-text-normal" (ngSubmit)="onRegister()">
+  <div class="o-grid o-grid--center">
+    <div class="o-grid__cell u-1/3">
+
+      <div class="o-grid">
+    
+        <div class="o-grid__cell u-1/1 u-margin-bottom-small">
+          <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-label>Imię</mat-label>
+            <input formControlName="name" matInput type="text" class="u-type-number u-text-right-align" #nameHTML>
+            <mat-error *ngIf="nameControl.invalid && nameControl.touched">{{ getErrorMessage() }}</mat-error>
+          </mat-form-field>
+        </div>
+    
+        <div class="o-grid__cell u-1/1 u-margin-bottom-small">
+          <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-label>E-mail</mat-label>
+            <input formControlName="email" matInput type="email" class="u-type-number u-text-right-align">
+            <mat-error *ngIf="emailControl.invalid && emailControl.touched">{{ getErrorMessage() }}</mat-error>
+          </mat-form-field>
+        </div>
+    
+        <div class="o-grid__cell u-1/1 u-margin-bottom-small">
+          <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-label>Hasło</mat-label>
+            <input formControlName="password" matInput type="password" class="u-type-number u-text-right-align">
+            <mat-error *ngIf="passwordControl.invalid && passwordControl.touched">{{ getErrorMessage() }}</mat-error>
+          </mat-form-field>
+        </div>
+    
+        <div class="o-grid__cell u-1/4">
+
+        </div>
+        <div class="o-grid__cell u-3/4">
+          <div class="o-block o-block--right">
+            <a role="button" mat-button [routerLink]="['../']">Wróć do logowania</a>
+            <button type="submit" mat-raised-button color="primary" class="u-margin-left-small">Zarejestruj</button>
+          </div>
+        </div>
+    
+      </div>
+    
+    </div>
+  </div>
+</form>

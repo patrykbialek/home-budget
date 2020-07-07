@@ -27,6 +27,7 @@ export function reducer(
         entity: null,
         isFailed: false,
         isLoading: true,
+        isSuccess: false,
       };
     }
 
@@ -38,6 +39,7 @@ export function reducer(
         entity: user,
         isFailed: false,
         isLoading: false,
+        isSuccess: true,
       };
     }
 
@@ -47,6 +49,7 @@ export function reducer(
         entity: null,
         isFailed: true,
         isLoading: false,
+        isSuccess: false,
       };
     }
 
