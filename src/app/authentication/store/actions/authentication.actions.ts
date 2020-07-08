@@ -22,6 +22,26 @@ export class LoginUserFailure implements Action {
   constructor(public payload: any, ) { }
 }
 
+// Logout
+export const LOGOUT_USER          = '[Main] Logout user';
+export const LOGOUT_USER_SUCCESS  = '[Main] Logout user success';
+export const LOGOUT_USER_FAILURE  = '[Main] Logout user failure';
+
+export class LogoutUser implements Action {
+  readonly type = LOGOUT_USER;
+  constructor(public payload?: any, ) { }
+}
+
+export class LogoutUserSuccess implements Action {
+  readonly type = LOGOUT_USER_SUCCESS;
+  constructor(public payload: any, ) { }
+}
+
+export class LogoutUserFailure implements Action {
+  readonly type = LOGOUT_USER_FAILURE;
+  constructor(public payload: any, ) { }
+}
+
 // Register
 export const REGISTER_USER          = '[Main] Register user';
 export const REGISTER_USER_SUCCESS  = '[Main] Register user success';
@@ -43,6 +63,12 @@ export class RegisterUserFailure implements Action {
 }
 
 export type AuthenticationAction =
+  | LoginUser
+  | LoginUserSuccess
+  | LoginUserFailure
+  | LogoutUser
+  | LogoutUserSuccess
+  | LogoutUserFailure
   | LoginUser
   | LoginUserSuccess
   | LoginUserFailure

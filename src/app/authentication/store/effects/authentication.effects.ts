@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Effect, Actions, ofType } from '@ngrx/effects';
-import { of, } from 'rxjs';
+import { of, EMPTY, } from 'rxjs';
 import { map, catchError, mergeMap, } from 'rxjs/operators';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -35,6 +35,23 @@ export class AuthenticationEffects {
         );
     })
   );
+
+  @Effect()
+  logoutUser$ = this.actions$.pipe(ofType(fromActions.LOGOUT_USER),
+    mergeMap(() => {
+      return this.authenticationService
+        .logoutUser()
+        .pipe(
+          map((response: any) => {
+            return new fromActions.LogoutUserSuccess(response);
+          }),
+          catchError((error) => {
+            return of(new fromActions.LogoutUserFailure(error));
+          })
+        );
+    })
+  );
+
 
   @Effect()
   registerUser$ = this.actions$.pipe(ofType(fromActions.REGISTER_USER),

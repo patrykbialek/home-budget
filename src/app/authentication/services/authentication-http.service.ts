@@ -10,7 +10,7 @@ import { map, delay, tap, switchMap, mergeMap, startWith } from 'rxjs/operators'
 import * as moment from 'moment';
 
 import * as fromModels from '../models';
-import { of, from } from 'rxjs';
+import { of, from, Observable } from 'rxjs';
 import { AngularFireAuth } from 'angularfire2/auth';
 
 export interface Credentials {
@@ -22,10 +22,24 @@ export interface Credentials {
 })
 export class AuthenticationHttpService {
 
+  readonly authState$: Observable<any | null> = this.fireAuth.authState;
+  user$: Observable<firebase.User>;
+
   constructor(
     private db: AngularFireDatabase,
     private fireAuth: AngularFireAuth,
-  ) { }
+  ) {
+    this.user$ = fireAuth.authState
+      .pipe(
+        tap(response => {
+          if (response) {
+            // this.userId = response.uid;
+            // this.saveLogger('login', response.uid);
+            // this.getuserData();
+          }
+        }),
+      );
+  }
 
 
   // Login
@@ -33,7 +47,28 @@ export class AuthenticationHttpService {
   loginUser({ email, password }: Credentials) {
     const callback = this.fireAuth.auth
       .signInWithEmailAndPassword(email, password)
-      .then(response => { });
+      .then(response => {
+        const value = {
+          email: response.user.email,
+          name: '',
+          uid: response.user.uid,
+        };
+        return value;
+      });
+
+    return from(callback);
+  }
+
+  // Logout 
+
+  logoutUser() {
+    const callback = this.fireAuth.auth
+      .signOut()
+      .then(response => {
+
+        return null;
+      });
+
     return from(callback);
   }
 
