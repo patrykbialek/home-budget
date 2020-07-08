@@ -26,7 +26,7 @@ export class AppComponent {
     this.fireAuth
       .authState
       .pipe(
-        filter(response => Boolean(response.uid)),
+        filter(response => Boolean(response)),
         // tap(response => console.log('uid', response.uid)),
         tap(response => this.authenticationFacadeService.getUser(response.uid)),
         take(1),

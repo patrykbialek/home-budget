@@ -63,10 +63,6 @@ export class AuthenticationHttpService {
   logoutUser() {
     const callback = this.fireAuth.auth
       .signOut()
-      .then(response => {
-
-        return null;
-      });
 
     return from(callback);
   }
@@ -86,8 +82,7 @@ export class AuthenticationHttpService {
         };
         db.set(value);
         return value;
-      })
-      .catch(error => console.log(error));
+      });
 
     return from(callback);
   }

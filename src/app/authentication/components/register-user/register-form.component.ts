@@ -8,6 +8,7 @@ import { FormGroup } from '@angular/forms';
 })
 export class RegisterFormComponent implements OnInit {
 
+  @Input() errorMessage: string;
   @Input() registerForm: FormGroup;
   @Output() registerUser = new EventEmitter();
 
