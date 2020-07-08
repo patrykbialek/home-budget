@@ -15,11 +15,13 @@ export class AuthenticationFacadeService {
   isFailed$: Observable<boolean>;
   isLoading$: Observable<boolean>;
   isSuccess$: Observable<boolean>;
+  user$: Observable<any>;
 
   constructor(
     private store: Store<fromReducers.MainState>,
   ) {
     this.isSuccess$ = this.store.pipe(select(fromSelectors.getIsSuccess));
+    this.user$ = this.store.pipe(select(fromSelectors.getUser));
   }
 
   registerUser(payload?: fromModels.UserPayload) {

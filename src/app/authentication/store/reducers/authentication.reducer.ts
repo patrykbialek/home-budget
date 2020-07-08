@@ -8,7 +8,7 @@ export interface AuthenticationState {
 }
 
 export const initialState: AuthenticationState = {
-  entity: null,
+  entity: {},
   isFailed: false,
   isLoading: false,
   isSuccess: false,
@@ -24,7 +24,6 @@ export function reducer(
     case fromAuthentication.REGISTER_USER: {
       return {
         ...state,
-        entity: null,
         isFailed: false,
         isLoading: true,
         isSuccess: false,
@@ -46,7 +45,7 @@ export function reducer(
     case fromAuthentication.REGISTER_USER_FAILURE: {
       return {
         ...state,
-        entity: null,
+        entity: {},
         isFailed: true,
         isLoading: false,
         isSuccess: false,
@@ -61,3 +60,4 @@ export function reducer(
 export const getIsFailed = (state: AuthenticationState) => state.isFailed;
 export const getIsLoading = (state: AuthenticationState) => state.isLoading;
 export const getIsSuccess = (state: AuthenticationState) => state.isSuccess;
+export const getUser = (state: AuthenticationState) => state.entity;

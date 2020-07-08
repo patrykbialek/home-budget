@@ -8,7 +8,7 @@
           <mat-form-field appearance="outline" style="width: 100%;">
             <mat-label>Imię</mat-label>
             <input formControlName="name" matInput type="text" class="u-type-number u-text-right-align" #nameHTML>
-            <mat-error *ngIf="nameControl.invalid && nameControl.touched">{{ getErrorMessage() }}</mat-error>
+            <mat-error *ngIf="nameControl.invalid && nameControl.touched">{{ getErrorMessageForName() }}</mat-error>
           </mat-form-field>
         </div>
     
@@ -16,7 +16,7 @@
           <mat-form-field appearance="outline" style="width: 100%;">
             <mat-label>E-mail</mat-label>
             <input formControlName="email" matInput type="email" class="u-type-number u-text-right-align">
-            <mat-error *ngIf="emailControl.invalid && emailControl.touched">{{ getErrorMessage() }}</mat-error>
+            <mat-error *ngIf="emailControl.invalid && emailControl.touched">{{ getErrorMessageForEmail() }}</mat-error>
           </mat-form-field>
         </div>
     
@@ -24,7 +24,7 @@
           <mat-form-field appearance="outline" style="width: 100%;">
             <mat-label>Hasło</mat-label>
             <input formControlName="password" matInput type="password" class="u-type-number u-text-right-align">
-            <mat-error *ngIf="passwordControl.invalid && passwordControl.touched">{{ getErrorMessage() }}</mat-error>
+            <mat-error *ngIf="passwordControl.invalid && passwordControl.touched">{{ getErrorMessageForPassword() }}</mat-error>
           </mat-form-field>
         </div>
     
