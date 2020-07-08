@@ -38,8 +38,12 @@ export class TransactionsFacadeService {
     this.store.dispatch(new fromActions.DeleteTransaction(payload));
   }
 
-  readTransactions(query?: any) {
-    this.store.dispatch(new fromActions.ReadTransactions(query));
+  readTransactions(uid: string, query?: any) {
+    const payload = {
+      uid,
+      query,
+    };
+    this.store.dispatch(new fromActions.ReadTransactions(payload));
   }
 
   updateTransaction(payload?: fromModels.TransactionPayload) {

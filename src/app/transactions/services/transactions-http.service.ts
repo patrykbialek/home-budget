@@ -9,21 +9,24 @@ import { map, delay, tap, switchMap, mergeMap } from 'rxjs/operators';
 import * as moment from 'moment';
 
 import * as fromModels from '../models';
-import { of } from 'rxjs';
+import { of, forkJoin, combineLatest } from 'rxjs';
+import { AuthenticationHttpService } from '@authentication/services';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TransactionsHttpService {
+  user$ = this.authenticationService.authState$;
 
   constructor(
     private db: AngularFireDatabase,
+    private authenticationService: AuthenticationHttpService,
   ) { }
 
   // Create
 
   createTransaction(payload: fromModels.TransactionPayload) {
-    const db: AngularFireList<any> = this.db.list(`/transactions`);
+    const db: AngularFireList<any> = this.db.list(`/workspaces/${payload.uid}/transactions`);
     const value = this.prepareTransactionPayload(payload.value);
     return of(db.push(value));
   }
@@ -31,18 +34,20 @@ export class TransactionsHttpService {
   // Delete
 
   deleteTransaction(payload: fromModels.TransactionPayload) {
-    const db: AngularFireList<any> = this.db.list(`/transactions`);
+    const db: AngularFireList<any> = this.db.list(`/workspaces/${payload.uid}/transactions`);
     const key = payload.key;
     return of(db.remove(key));
   }
 
   // Read
 
-  readTransactions(query: fromModels.Query) {
+  readTransactions(payload: any) {
     let db: AngularFireList<any>;
+    const query = payload.query;
+    const uid = payload.uid;
 
     if (query.category && query.periodFrom) {
-      db = this.db.list(`/transactions`, ref =>
+      db = this.db.list(`/workspaces/${uid}/transactions`, ref =>
         (query.category && query.periodFrom)
           ? ref.orderByChild('category_date')
             .startAt(`${query.category}_${query.periodFrom}`)
@@ -52,7 +57,7 @@ export class TransactionsHttpService {
     }
 
     if (!query.category && query.periodFrom) {
-      db = this.db.list(`/transactions`, ref =>
+      db = this.db.list(`/workspaces/${uid}/transactions`, ref =>
         (query.periodFrom)
           ? ref.orderByChild('date')
             .startAt(`${query.periodFrom}`)
@@ -62,7 +67,7 @@ export class TransactionsHttpService {
     }
 
     if (query.category && !query.periodFrom) {
-      db = this.db.list(`/transactions`, ref =>
+      db = this.db.list(`/workspaces/${uid}/transactions`, ref =>
         (query.category && !query.periodFrom)
           ? ref.orderByChild('category')
             .equalTo(`${query.category}`)
@@ -87,7 +92,7 @@ export class TransactionsHttpService {
   // Update
 
   updateTransaction(payload: fromModels.TransactionPayload) {
-    const db: AngularFireList<any> = this.db.list(`/transactions`);
+    const db: AngularFireList<any> = this.db.list(`/workspaces/${payload.uid}/transactions`);
     const key = payload.key;
     const value = this.prepareTransactionPayload(payload.value);
     return of(db.update(key, value));

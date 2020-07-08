@@ -11,7 +11,6 @@ import * as fromServices from '../../services';
 
 @Injectable()
 export class TransactionsEffects {
-
   constructor(
     private actions$: Actions,
     private snackBar: MatSnackBar,
@@ -55,7 +54,8 @@ export class TransactionsEffects {
   );
 
   @Effect()
-  readTransactions$ = this.actions$.pipe(ofType(fromActions.READ_TRANSACTIONS),
+  readTransactions$ = this.actions$.pipe(
+    ofType(fromActions.READ_TRANSACTIONS),
     map((action: fromActions.ReadTransactions) => action.payload),
     mergeMap((query: any) => {
       return this.transactionsService

@@ -17,6 +17,7 @@ import * as fromComponents from './components';
 import * as fromContainers from './containers';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TransactionsStoreModule } from './store/transactions-store.module';
+import { AuthenticationStoreModule } from '@authentication/store/authentication-store.module';
 
 export const MY_FORMATS = {
   parse: {
@@ -44,6 +45,7 @@ export const MY_FORMATS = {
     SharedModule,
     TransactionsRoutingModule,
     TransactionsStoreModule,
+    AuthenticationStoreModule,
   ],
   exports: [
     ...fromComponents.components,

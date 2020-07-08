@@ -1,11 +1,12 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthenticationHttpService } from '@authentication/services';
 import { CommonWithAnimationComponent } from '@shared/components';
 import { budgetCategories } from '@transactions/models/budget-categories.data';
 import { TransactionsFacadeService } from '@transactions/store';
 import { combineLatest, of, Subscription } from 'rxjs';
-import { tap, take } from 'rxjs/operators';
+import { take, tap } from 'rxjs/operators';
 import * as fromModels from '../../models';
 
 @Component({
@@ -19,6 +20,7 @@ export class TransactionDetailComponent extends CommonWithAnimationComponent imp
   sectionTitle: string;
   transactionKey: string;
   type: string;
+  uid: string;
 
   transactionForm: FormGroup;
 
@@ -28,6 +30,7 @@ export class TransactionDetailComponent extends CommonWithAnimationComponent imp
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private authenticationService: AuthenticationHttpService,
     private formBuilder: FormBuilder,
     private router: Router,
     private transactionsService: TransactionsFacadeService,
@@ -51,12 +54,15 @@ export class TransactionDetailComponent extends CommonWithAnimationComponent imp
 
     const params$ = this.activatedRoute.params;
     const queryParams$ = this.activatedRoute.queryParams;
+    const authState$ = this.authenticationService.authState$;
 
-    combineLatest([params$, queryParams$])
+    combineLatest([params$, queryParams$, authState$])
       .pipe(
-        tap(([params, queryParams]) => {
+        tap(([params, queryParams, authState]) => {
           this.mode = params.key === 'create' ? 'create' : 'update';
           let type;
+
+          this.uid = authState.uid;
 
           if (this.mode === 'create') {
             this.typeControl.setValue(queryParams.type);
@@ -93,7 +99,8 @@ export class TransactionDetailComponent extends CommonWithAnimationComponent imp
   deleteItem() {
     const payload: fromModels.TransactionPayload = {
       key: this.transactionKey,
-      value: null
+      value: null,
+      uid: this.uid,
     };
     this.transactionsService.deleteTransaction(payload);
 
@@ -111,7 +118,8 @@ export class TransactionDetailComponent extends CommonWithAnimationComponent imp
   saveData(event: FormGroup) {
     const payload: fromModels.TransactionPayload = {
       key: this.transactionKey,
-      value: event.value
+      value: event.value,
+      uid: this.uid,
     };
 
     this.mode === 'create'
