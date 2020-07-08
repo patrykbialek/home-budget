@@ -1,7 +1,10 @@
-import { FormComponent } from './register-user/form.component'
+import { LoginFormComponent } from './login-user/login-form.component'
+import { RegisterFormComponent } from './register-user/register-form.component'
 
 export const components = [
-  FormComponent,
+  RegisterFormComponent,
+  LoginFormComponent,
 ];
 
-export { FormComponent };
+export { RegisterFormComponent };
+export { LoginFormComponent };

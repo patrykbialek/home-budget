@@ -3,10 +3,10 @@ import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'hb-register-form',
-  templateUrl: './form.component.html',
-  styleUrls: ['./form.component.scss']
+  templateUrl: './register-form.component.html',
+  styleUrls: ['./register-form.component.scss']
 })
-export class FormComponent implements OnInit {
+export class RegisterFormComponent implements OnInit {
 
   @Input() registerForm: FormGroup;
   @Output() registerUser = new EventEmitter();

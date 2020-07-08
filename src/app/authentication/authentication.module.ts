@@ -10,14 +10,14 @@ import { EffectsModule } from '@ngrx/effects';
 import { reducers, effects } from './store';
 
 import * as fromContainers from './containers';
-import { FormComponent } from './components/register-user/form.component';
+import * as fromComponents from './components';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AuthenticationComponent,
     ...fromContainers.components,
-    FormComponent,
+    ...fromComponents.components,
   ],
   imports: [
     CommonModule,
@@ -31,6 +31,7 @@ import { ReactiveFormsModule } from '@angular/forms';
   ],
   exports: [
     ...fromContainers.components,
+    ...fromComponents.components,
   ]
 })
 export class AuthenticationModule { }
