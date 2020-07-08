@@ -11,17 +11,12 @@ export class LoginFormComponent implements OnInit {
   @Input() loginForm: FormGroup;
   @Output() loginUser = new EventEmitter();
 
-  @ViewChild('nameHTML') nameHTML: ElementRef;
-
   constructor() { }
 
   get emailControl() { return this.loginForm.get('email'); }
   get passwordControl() { return this.loginForm.get('password'); }
 
   ngOnInit(): void {
-    setTimeout(() => {
-      this.nameHTML.nativeElement.focus();
-    });
   }
 
   getErrorMessageForEmail() {
@@ -40,7 +35,7 @@ export class LoginFormComponent implements OnInit {
     }
   }
 
-  onRegister() {
+  onLogin() {
     if (this.loginForm.valid) {
       this.loginUser.emit(this.loginForm)
     } else {
