@@ -12,3 +12,8 @@ export const getIsSuccess = createSelector(
   getAuthenticationState,
   fromAuthentication.getIsSuccess,
 );
+
+export const getUser = createSelector(
+  getAuthenticationState,
+  fromAuthentication.getUser,
+);

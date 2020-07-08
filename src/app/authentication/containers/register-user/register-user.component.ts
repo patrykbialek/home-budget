@@ -46,7 +46,7 @@ export class RegisterUserComponent extends CommonWithAnimationComponent implemen
 
     this.authenticationService.isSuccess$
       .pipe(
-        take(1),
+        // take(1),
         tap(response => {
           if (response) {
             this.router.navigate(['./dashboard']);
