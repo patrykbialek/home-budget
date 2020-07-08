@@ -14,6 +14,10 @@ const routes: Routes = [
         path: 'register',
         component: fromContainers.RegisterUserComponent,
       },
+      {
+        path: 'login',
+        component: fromContainers.LoginUserComponent,
+      },
     ]
   },
 ];
