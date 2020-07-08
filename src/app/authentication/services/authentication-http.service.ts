@@ -23,24 +23,23 @@ export interface Credentials {
 export class AuthenticationHttpService {
 
   readonly authState$: Observable<any | null> = this.fireAuth.authState;
-  user$: Observable<firebase.User>;
 
   constructor(
     private db: AngularFireDatabase,
     private fireAuth: AngularFireAuth,
-  ) {
-    this.user$ = fireAuth.authState
+  ) { }
+
+
+  // Get
+
+  getUser(uid: string) {
+    const db: AngularFireObject<any> = this.db.object(`/workspaces/${uid}/user`);
+
+    return db.snapshotChanges()
       .pipe(
-        tap(response => {
-          if (response) {
-            // this.userId = response.uid;
-            // this.saveLogger('login', response.uid);
-            // this.getuserData();
-          }
-        }),
+        map((change) => ({ key: change.payload.key, ...change.payload.val() })),
       );
   }
-
 
   // Login
 

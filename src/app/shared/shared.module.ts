@@ -6,6 +6,7 @@ import {TranslateModule} from '@ngx-translate/core';
 
 import * as fromComponents from './components';
 import { RouterModule } from '@angular/router';
+import { AuthenticationStoreModule } from '@authentication/store/authentication-store.module';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { RouterModule } from '@angular/router';
     AngularMaterialModule,
 
     TranslateModule,
+    AuthenticationStoreModule,
   ],
   exports: [
     AngularMaterialModule,

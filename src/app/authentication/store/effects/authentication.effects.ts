@@ -20,6 +20,23 @@ export class AuthenticationEffects {
   ) { }
 
   @Effect()
+  getUser$ = this.actions$.pipe(ofType(fromActions.GET_USER),
+    map((action: fromActions.GetUser) => action.payload),
+    mergeMap((payload: any) => {
+      return this.authenticationService
+        .getUser(payload)
+        .pipe(
+          map((response: any) => {
+            return new fromActions.GetUserSuccess(response);
+          }),
+          catchError((error) => {
+            return of(new fromActions.GetUserFailure(error));
+          })
+        );
+    })
+  );
+
+  @Effect()
   loginUser$ = this.actions$.pipe(ofType(fromActions.LOGIN_USER),
     map((action: fromActions.LoginUser) => action.payload),
     mergeMap((payload: any) => {
