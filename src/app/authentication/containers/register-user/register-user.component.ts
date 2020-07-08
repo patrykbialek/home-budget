@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 })
 export class RegisterUserComponent extends CommonWithAnimationComponent implements OnInit {
 
+  errorMessage: string;
   registerForm: FormGroup;
 
   constructor(
