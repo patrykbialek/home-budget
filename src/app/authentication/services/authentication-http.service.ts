@@ -13,6 +13,10 @@ import * as fromModels from '../models';
 import { of, from } from 'rxjs';
 import { AngularFireAuth } from 'angularfire2/auth';
 
+export interface Credentials {
+  email: string;
+  password: string;
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -21,13 +25,23 @@ export class AuthenticationHttpService {
   constructor(
     private db: AngularFireDatabase,
     private fireAuth: AngularFireAuth,
-  ) {}
+  ) { }
+
+
+  // Login
+
+  loginUser({ email, password }: Credentials) {
+    const callback = this.fireAuth.auth
+      .signInWithEmailAndPassword(email, password)
+      .then(response => { });
+    return from(callback);
+  }
 
   // Register
 
   registerUser(payload: fromModels.UserPayload) {
-    const callback = this.fireAuth
-      .auth.createUserWithEmailAndPassword(payload.value.email, payload.value.password)
+    const callback = this.fireAuth.auth
+      .createUserWithEmailAndPassword(payload.value.email, payload.value.password)
       .then(response => {
         const uid = response.user.uid;
         const db: AngularFireObject<any> = this.db.object(`/workspaces/${uid}/user`);
@@ -43,5 +57,4 @@ export class AuthenticationHttpService {
 
     return from(callback);
   }
-
 }

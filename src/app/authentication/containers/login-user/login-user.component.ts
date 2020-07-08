@@ -41,7 +41,7 @@ export class LoginUserComponent extends CommonWithAnimationComponent implements 
       value: event.value
     };
 
-    this.authenticationService.registerUser(payload);
+    this.authenticationService.loginUser(payload.value);
 
     this.authenticationService.isSuccess$
       .pipe(
