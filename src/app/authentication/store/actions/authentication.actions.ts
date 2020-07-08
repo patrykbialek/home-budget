@@ -2,6 +2,26 @@ import { Action } from '@ngrx/store';
 
 import * as fromModels from '../../models';
 
+// Get
+export const GET_USER          = '[Main] Get user';
+export const GET_USER_SUCCESS  = '[Main] Get user success';
+export const GET_USER_FAILURE  = '[Main] Get user failure';
+
+export class GetUser implements Action {
+  readonly type = GET_USER;
+  constructor(public payload?: any, ) { }
+}
+
+export class GetUserSuccess implements Action {
+  readonly type = GET_USER_SUCCESS;
+  constructor(public payload: any, ) { }
+}
+
+export class GetUserFailure implements Action {
+  readonly type = GET_USER_FAILURE;
+  constructor(public payload: any, ) { }
+}
+
 // Login
 export const LOGIN_USER          = '[Main] Login user';
 export const LOGIN_USER_SUCCESS  = '[Main] Login user success';
@@ -63,6 +83,9 @@ export class RegisterUserFailure implements Action {
 }
 
 export type AuthenticationAction =
+  | GetUser
+  | GetUserSuccess
+  | GetUserFailure
   | LoginUser
   | LoginUserSuccess
   | LoginUserFailure

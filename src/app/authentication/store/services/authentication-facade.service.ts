@@ -24,6 +24,10 @@ export class AuthenticationFacadeService {
     this.user$ = this.store.pipe(select(fromSelectors.getUser));
   }
 
+  getUser(payload?: any) {
+    this.store.dispatch(new fromActions.GetUser(payload));
+  }
+
   loginUser(payload?: any) {
     this.store.dispatch(new fromActions.LoginUser(payload));
   }

@@ -21,6 +21,28 @@ export function reducer(
 
   switch (action.type) {
 
+    case fromAuthentication.GET_USER: {
+
+      return {
+        ...state,
+        isFailed: false,
+        isLoading: true,
+        isSuccess: false,
+      };
+    }
+
+    case fromAuthentication.GET_USER_SUCCESS: {
+      const user = action.payload;
+
+      return {
+        ...state,
+        entity: user,
+        isFailed: false,
+        isLoading: true,
+        isSuccess: false,
+      };
+    }
+
     case fromAuthentication.LOGIN_USER:
     case fromAuthentication.LOGOUT_USER:
     case fromAuthentication.REGISTER_USER: {

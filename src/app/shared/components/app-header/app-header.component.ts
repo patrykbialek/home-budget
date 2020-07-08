@@ -1,5 +1,4 @@
 import { Component, } from '@angular/core';
-import { AuthenticationHttpService } from '@authentication/services';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
 import { AuthenticationFacadeService } from '@authentication/store';
@@ -10,11 +9,9 @@ import { AuthenticationFacadeService } from '@authentication/store';
   styleUrls: ['./app-header.component.scss'],
 })
 export class AppHeaderComponent {
-  user$ = this.authenticationHttpService.user$;
-  // user_$ = this.authService.user$.pipe(tap(console.log)).subscribe();
+  user$ = this.authService.user$;
 
   constructor(
-    private authenticationHttpService: AuthenticationHttpService,
     private authService: AuthenticationFacadeService,
     private router: Router,
   ) { }
