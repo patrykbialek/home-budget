@@ -28,6 +28,10 @@ export class AuthenticationFacadeService {
     this.store.dispatch(new fromActions.LoginUser(payload));
   }
 
+  logoutUser() {
+    this.store.dispatch(new fromActions.LogoutUser());
+  }
+
   registerUser(payload?: fromModels.UserPayload) {
     this.store.dispatch(new fromActions.RegisterUser(payload));
   }

@@ -8,7 +8,7 @@ export interface AuthenticationState {
 }
 
 export const initialState: AuthenticationState = {
-  entity: {},
+  entity: null,
   isFailed: false,
   isLoading: false,
   isSuccess: false,
@@ -22,9 +22,11 @@ export function reducer(
   switch (action.type) {
 
     case fromAuthentication.LOGIN_USER:
+    case fromAuthentication.LOGOUT_USER:
     case fromAuthentication.REGISTER_USER: {
       return {
         ...state,
+        entity: null,
         isFailed: false,
         isLoading: true,
         isSuccess: false,
@@ -32,6 +34,7 @@ export function reducer(
     }
 
     case fromAuthentication.LOGIN_USER_SUCCESS:
+    case fromAuthentication.LOGOUT_USER_SUCCESS:
     case fromAuthentication.REGISTER_USER_SUCCESS: {
       const user = action.payload;
 
@@ -45,10 +48,11 @@ export function reducer(
     }
 
     case fromAuthentication.LOGIN_USER_FAILURE:
+    case fromAuthentication.LOGOUT_USER_FAILURE:
     case fromAuthentication.REGISTER_USER_FAILURE: {
       return {
         ...state,
-        entity: {},
+        entity: null,
         isFailed: true,
         isLoading: false,
         isSuccess: false,
