@@ -9,10 +9,6 @@ import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { SharedModule } from '@shared/shared.module';
 import { TransactionsRoutingModule } from '@transactions/transactions-routing.module';
 
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
-import { reducers, effects } from './store';
-
 import { registerLocaleData } from '@angular/common';
 import localePl from '@angular/common/locales/pl';
 registerLocaleData(localePl, 'pl');
@@ -20,6 +16,7 @@ registerLocaleData(localePl, 'pl');
 import * as fromComponents from './components';
 import * as fromContainers from './containers';
 import { ReactiveFormsModule } from '@angular/forms';
+import { TransactionsStoreModule } from './store/transactions-store.module';
 
 export const MY_FORMATS = {
   parse: {
@@ -46,9 +43,7 @@ export const MY_FORMATS = {
 
     SharedModule,
     TransactionsRoutingModule,
-
-    StoreModule.forFeature('transactions', reducers),
-    EffectsModule.forFeature(effects),
+    TransactionsStoreModule,
   ],
   exports: [
     ...fromComponents.components,
