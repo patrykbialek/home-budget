@@ -14,8 +14,18 @@
   }
 }
 
-.c-select-trigger .c-category__icon {
-  top: -2px;
+.c-period {
+  display: flex;
+  align-items: center;
+
+  &__text {
+    display: flex;
+  }
+}
+
+.c-select-trigger {
+  display: flex;
+  align-items: center;
 }
 
 .u-text-right-align {
