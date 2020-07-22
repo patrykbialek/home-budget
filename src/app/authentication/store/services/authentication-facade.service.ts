@@ -40,4 +40,12 @@ export class AuthenticationFacadeService {
     this.store.dispatch(new fromActions.RegisterUser(payload));
   }
 
+  resetPassword(payload?: fromModels.UserPayload) {
+    this.store.dispatch(new fromActions.ResetPassword(payload));
+  }
+
+  setPassword(payload?: fromModels.UserPayload) {
+    this.store.dispatch(new fromActions.SetPassword(payload));
+  }
+
 }

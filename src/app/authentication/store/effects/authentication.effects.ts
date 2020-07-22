@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 
 import { Effect, Actions, ofType } from '@ngrx/effects';
-import { of, EMPTY, from, Observable, } from 'rxjs';
-import { map, catchError, mergeMap, tap, switchMap, exhaustMap, } from 'rxjs/operators';
+import { of, } from 'rxjs';
+import { map, catchError, mergeMap, } from 'rxjs/operators';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -10,12 +10,6 @@ import * as fromActions from '../actions';
 import * as fromModels from '../../models';
 import * as fromServices from '../../services';
 
-const messages = {
-  'auth/wrong-password': 'E-mail i/lub hasło nieprawidłowe.',
-  'auth/user-not-found': 'E-mail i/lub hasło nieprawidłowe.',
-  'auth/email-already-in-use': 'Adres e-mail jest już zajęty.',
-  'auth/weak-password': 'Hasło musi się składać z co najmniej 6 znaków.',
-};
 @Injectable()
 export class AuthenticationEffects {
 
@@ -53,7 +47,8 @@ export class AuthenticationEffects {
             return new fromActions.LoginUserSuccess(response);
           }),
           catchError((error) => {
-            this.openSnackBar(messages[error.code], 10000);
+            const errorMessage = fromModels.ApiErrors.Parse(error.code);
+            this.openSnackBar(errorMessage, 7000);
             return of(new fromActions.LoginUserFailure(error));
           })
         );
@@ -88,9 +83,52 @@ export class AuthenticationEffects {
             return new fromActions.RegisterUserSuccess(response);
           }),
           catchError((error) => {
-            this.openSnackBar(messages[error.code], 10000);
+            const errorMessage = fromModels.ApiErrors.Parse(error.code);
+            this.openSnackBar(errorMessage, 10000);
             console.log(error)
             return of(new fromActions.RegisterUserFailure(error));
+          })
+        );
+    })
+  );
+
+  @Effect()
+  resetPasssword$ = this.actions$.pipe(ofType(fromActions.RESET_PASSWORD),
+    map((action: fromActions.ResetPassword) => action.payload),
+    mergeMap((payload: fromModels.UserPayload) => {
+      return this.authenticationService
+        .resetPassword(payload)
+        .pipe(
+          map((response: any) => {
+            this.openSnackBar('Prośba o reset wysłana. Odbierz e-mail.', 10000);
+            return new fromActions.ResetPasswordSuccess(response);
+          }),
+          catchError((error) => {
+            const errorMessage = fromModels.ApiErrors.Parse(error.code);
+            this.openSnackBar(errorMessage, 10000);
+            console.log(error)
+            return of(new fromActions.ResetPasswordFailure(error));
+          })
+        );
+    })
+  );
+
+  @Effect()
+  setPassword$ = this.actions$.pipe(ofType(fromActions.SET_PASSWORD),
+    map((action: fromActions.SetPassword) => action.payload),
+    mergeMap((payload: fromModels.UserPayload) => {
+      return this.authenticationService
+        .setPassword(payload)
+        .pipe(
+          map((response: any) => {
+            this.openSnackBar('Hasło ustawione poprawnie.', 7000);
+            return new fromActions.SetPasswordSuccess(response);
+          }),
+          catchError((error) => {
+            const errorMessage = fromModels.ApiErrors.Parse(error.code);
+            this.openSnackBar(errorMessage, 10000);
+            console.log(error)
+            return of(new fromActions.SetPasswordFailure(error));
           })
         );
     })
