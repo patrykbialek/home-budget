@@ -28,7 +28,7 @@ export class ResetFormComponent implements OnInit {
       return 'Pole wymagane.';
     }
 
-    if (this.emailControl.hasError('pattern')) {
+    if (this.emailControl.hasError('email')) {
       return 'Nieprawidłowy format adresu e-mail.';
     }
   }

@@ -32,7 +32,7 @@ export class RegisterUserComponent extends CommonWithAnimationComponent implemen
   createForm() {
     this.registerForm = this.formBuilder.group({
       name: [null, [Validators.required]],
-      email: [null, [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")]],
+      email: [null, [Validators.required, Validators.email]],
       password: [null, [Validators.required]],
     });
   }
