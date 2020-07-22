@@ -37,7 +37,7 @@ export class LoginUserComponent extends CommonWithAnimationComponent implements 
 
   createForm() {
     this.loginForm = this.formBuilder.group({
-      email: [null, [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")]],
+      email: [null, [Validators.required, Validators.email]],
       password: [null, [Validators.required]],
     });
   }
