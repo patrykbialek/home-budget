@@ -58,7 +58,7 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-
 $inuit-global-color: $grey_800;
 $inuit-global-background-color: $grey_50;
 
-$color--primary: $light_blue_A700;
+$color--primary: $blue_600;
 $color--secondary: $deep_purple_700;
 $color--accent: $red_A400;
 
@@ -111,7 +111,7 @@ $mq-breakpoints: (
 }
 
 .u-router-link-active {
-  color: #ab47bc;
+  color: #2196F3;
 }
 
 .c-main {
@@ -152,6 +152,13 @@ $mq-breakpoints: (
 
 @import './settings.colors';
 
+.mat-raised-button.mat-primary {
+  background-color: $color--primary;
+}
+.mat-button.mat-primary,
+.mat-stroked-button.mat-primary {
+  color: $color--primary;
+}
 .mat-button.mat-green,
 .mat-stroked-button.mat-green {
   color: $green_600;
@@ -175,4 +182,11 @@ $mq-breakpoints: (
 
 .u-income {
   color: $green_600;
+}
+
+.c-auth-image {
+  flex-grow: 2;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
 }
