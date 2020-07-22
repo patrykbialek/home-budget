@@ -1,0 +1,30 @@
+<form [formGroup]="resetForm" class="c-reset u-text-normal" (ngSubmit)="onReset()">
+  <div class="o-grid o-grid--center">
+    <div class="o-grid__cell u-1/3">
+
+      <div class="o-grid">
+
+        <div class="o-grid__cell u-1/1 u-margin-bottom-small">
+          <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-label>E-mail</mat-label>
+            <input formControlName="email" matInput type="email" #emailHTML>
+            <mat-error *ngIf="emailControl.invalid && emailControl.touched">{{ getErrorMessageForEmail() }}</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="o-grid__cell u-1/1 u-margin-bottom">
+          <button type="submit" mat-raised-button color="primary" class="c-reset-password-button">RESETUJ HASŁO</button>
+        </div>
+        <div class="o-grid__cell u-1/1">
+          <div class="o-block o-block--right">
+            <a role="button" mat-button [routerLink]="['../login']" class="c-login-button">
+              WRÓĆ DO STRONY LOGOWANIA
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</form>
