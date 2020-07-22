@@ -1,6 +1,13 @@
-.c-login-button, 
+.c-login-button,
 .c-register-button {
-  width: 100%!important;
-  min-width: unset!important;
+  width: 100% !important;
+  min-width: unset !important;
   line-height: 48px;
+}
+
+.c-forgot-password-button {
+  color: #ba68c8;
+  font-size: 1.4rem;
+  text-decoration: none;
+  outline: none;
 }
