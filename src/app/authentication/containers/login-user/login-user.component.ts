@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { take, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 import { CommonWithAnimationComponent } from '@shared/components';
 import * as fromModels from '../../models';
@@ -12,9 +13,11 @@ import * as fromServices from '../../store/services';
   templateUrl: './login-user.component.html',
   styleUrls: ['./login-user.component.scss']
 })
-export class LoginUserComponent extends CommonWithAnimationComponent implements OnInit {
+export class LoginUserComponent extends CommonWithAnimationComponent implements OnDestroy, OnInit {
 
   loginForm: FormGroup;
+
+  private subscription$ = new Subscription();
 
   constructor(
     private authenticationService: fromServices.AuthenticationFacadeService,
@@ -22,6 +25,10 @@ export class LoginUserComponent extends CommonWithAnimationComponent implements 
     private router: Router,
   ) {
     super();
+  }
+
+  ngOnDestroy() {
+    this.subscription$.unsubscribe();
   }
 
   ngOnInit(): void {
@@ -42,16 +49,15 @@ export class LoginUserComponent extends CommonWithAnimationComponent implements 
     };
 
     this.authenticationService.loginUser(payload.value);
-
-    this.authenticationService.isSuccess$
+    this.subscription$.add(this.authenticationService.isSuccess$
       .pipe(
-        take(1),
         tap(response => {
           if (response) {
             this.router.navigate(['./dashboard']);
           }
         }),
-      ).subscribe();
+      ).subscribe()
+    );
   }
 
 }
