@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonWithAnimationComponent } from '@shared/components';
+import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { take, tap } from 'rxjs/operators';
 
+import { CommonWithAnimationComponent } from '@shared/components';
 import * as fromModels from '../../models';
 import * as fromServices from '../../store/services';
-import { take, tap } from 'rxjs/operators';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'hb-login-user',
@@ -45,7 +45,7 @@ export class LoginUserComponent extends CommonWithAnimationComponent implements 
 
     this.authenticationService.isSuccess$
       .pipe(
-        // take(1),
+        take(1),
         tap(response => {
           if (response) {
             this.router.navigate(['./dashboard']);
