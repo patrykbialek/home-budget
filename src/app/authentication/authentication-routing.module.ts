@@ -18,6 +18,14 @@ const routes: Routes = [
         path: 'login',
         component: fromContainers.LoginUserComponent,
       },
+      {
+        path: 'reset-password',
+        component: fromContainers.ResetPasswordComponent,
+      },
+      {
+        path: 'set-password',
+        component: fromContainers.SetPasswordComponent,
+      },
     ]
   },
 ];
