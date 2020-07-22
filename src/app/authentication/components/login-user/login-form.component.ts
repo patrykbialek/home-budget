@@ -8,6 +8,8 @@ import { FormGroup } from '@angular/forms';
 })
 export class LoginFormComponent implements OnInit {
 
+  hide = true;
+
   @Input() loginForm: FormGroup;
   @Output() loginUser = new EventEmitter();
 
