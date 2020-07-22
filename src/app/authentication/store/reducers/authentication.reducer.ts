@@ -45,7 +45,9 @@ export function reducer(
 
     case fromAuthentication.LOGIN_USER:
     case fromAuthentication.LOGOUT_USER:
-    case fromAuthentication.REGISTER_USER: {
+    case fromAuthentication.REGISTER_USER:
+    case fromAuthentication.RESET_PASSWORD:
+    case fromAuthentication.SET_PASSWORD: {
       return {
         ...state,
         entity: null,
@@ -57,7 +59,9 @@ export function reducer(
 
     case fromAuthentication.LOGIN_USER_SUCCESS:
     case fromAuthentication.LOGOUT_USER_SUCCESS:
-    case fromAuthentication.REGISTER_USER_SUCCESS: {
+    case fromAuthentication.REGISTER_USER_SUCCESS:
+    case fromAuthentication.RESET_PASSWORD_SUCCESS:
+    case fromAuthentication.SET_PASSWORD_SUCCESS: {
       const user = action.payload;
 
       return {
@@ -71,7 +75,9 @@ export function reducer(
 
     case fromAuthentication.LOGIN_USER_FAILURE:
     case fromAuthentication.LOGOUT_USER_FAILURE:
-    case fromAuthentication.REGISTER_USER_FAILURE: {
+    case fromAuthentication.REGISTER_USER_FAILURE:
+    case fromAuthentication.RESET_PASSWORD_FAILURE:
+    case fromAuthentication.SET_PASSWORD_FAILURE: {
       return {
         ...state,
         entity: null,

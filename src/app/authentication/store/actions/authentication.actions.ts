@@ -82,6 +82,46 @@ export class RegisterUserFailure implements Action {
   constructor(public payload: any, ) { }
 }
 
+// Reset
+export const RESET_PASSWORD          = '[Main] Reset password';
+export const RESET_PASSWORD_SUCCESS  = '[Main] Reset password success';
+export const RESET_PASSWORD_FAILURE  = '[Main] Reset password failure';
+
+export class ResetPassword implements Action {
+  readonly type = RESET_PASSWORD;
+  constructor(public payload?: fromModels.UserPayload, ) { }
+}
+
+export class ResetPasswordSuccess implements Action {
+  readonly type = RESET_PASSWORD_SUCCESS;
+  constructor(public payload: any, ) { }
+}
+
+export class ResetPasswordFailure implements Action {
+  readonly type = RESET_PASSWORD_FAILURE;
+  constructor(public payload: any, ) { }
+}
+
+// Set
+export const SET_PASSWORD          = '[Main] Set password';
+export const SET_PASSWORD_SUCCESS  = '[Main] Set password success';
+export const SET_PASSWORD_FAILURE  = '[Main] Set password failure';
+
+export class SetPassword implements Action {
+  readonly type = SET_PASSWORD;
+  constructor(public payload?: fromModels.UserPayload, ) { }
+}
+
+export class SetPasswordSuccess implements Action {
+  readonly type = SET_PASSWORD_SUCCESS;
+  constructor(public payload: any, ) { }
+}
+
+export class SetPasswordFailure implements Action {
+  readonly type = SET_PASSWORD_FAILURE;
+  constructor(public payload: any, ) { }
+}
+
 export type AuthenticationAction =
   | GetUser
   | GetUserSuccess
@@ -98,5 +138,11 @@ export type AuthenticationAction =
   | RegisterUser
   | RegisterUserSuccess
   | RegisterUserFailure
+  | ResetPassword
+  | ResetPasswordSuccess
+  | ResetPasswordFailure
+  | SetPassword
+  | SetPasswordSuccess
+  | SetPasswordFailure
 
   ;

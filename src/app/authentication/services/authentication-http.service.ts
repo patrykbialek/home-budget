@@ -7,11 +7,11 @@ import {
 } from '@angular/fire/database';
 import { map, delay, tap, switchMap, mergeMap, startWith } from 'rxjs/operators';
 
+import { AngularFireAuth } from 'angularfire2/auth';
 import * as moment from 'moment';
 
 import * as fromModels from '../models';
 import { of, from, Observable } from 'rxjs';
-import { AngularFireAuth } from 'angularfire2/auth';
 
 export interface Credentials {
   email: string;
@@ -85,5 +85,33 @@ export class AuthenticationHttpService {
       });
 
     return from(callback);
+  }
+
+  // Reset
+
+  resetPassword(payload: fromModels.UserPayload) {
+    const callback = this.fireAuth.auth
+      .sendPasswordResetEmail(
+        payload.value.email,
+      );
+
+    return from(callback);
+
+  }
+
+  // Set
+
+  setPassword(payload: fromModels.UserPayload) {
+    const callback = this.fireAuth.auth
+      .confirmPasswordReset(
+        payload.value.code,
+        payload.value.password,
+      )
+      .then(response => {
+        return response;
+      });
+
+    return from(callback);
+
   }
 }
