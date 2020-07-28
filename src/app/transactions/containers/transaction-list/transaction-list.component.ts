@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonWithAnimationComponent } from '@shared/components';
 
 import * as fromStore from '../../store';
 import { AuthenticationHttpService } from '@authentication/services';
-import { tap } from 'rxjs/operators';
+import { tap, filter } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'hb-transaction-list',
   templateUrl: './transaction-list.component.html',
   styleUrls: ['./transaction-list.component.scss']
 })
-export class TransactionListComponent extends CommonWithAnimationComponent implements OnInit {
+export class TransactionListComponent extends CommonWithAnimationComponent implements OnDestroy, OnInit {
 
   uid: string;
 
@@ -20,6 +21,8 @@ export class TransactionListComponent extends CommonWithAnimationComponent imple
 
   initQuery = {};
 
+  private subscription$ = new Subscription();
+
   constructor(
     private authenticationService: AuthenticationHttpService,
     private transactionsService: fromStore.TransactionsFacadeService
@@ -27,7 +30,11 @@ export class TransactionListComponent extends CommonWithAnimationComponent imple
     super();
   }
 
-  ngOnInit() {}
+  ngOnDestroy() {
+    this.subscription$.unsubscribe();
+  }
+
+  ngOnInit() { }
 
   deleteTransaction(key: string) {
     const payload = { key, value: null, uid: this.uid };
@@ -35,12 +42,15 @@ export class TransactionListComponent extends CommonWithAnimationComponent imple
   }
 
   readTransactions(query: any) {
-    this.user$.pipe(
-      tap((response) => {
-        this.transactionsService.readTransactions(response.uid, query);
-        this.uid = response.uid;
-      })
-    ).subscribe();
+    this.subscription$.add(
+      this.user$.pipe(
+        filter(response => Boolean(response)),
+        tap((response) => {
+          this.transactionsService.readTransactions(response.uid, query);
+          this.uid = response.uid;
+        })
+      ).subscribe()
+    );
   }
 
 }
