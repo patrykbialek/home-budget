@@ -9,14 +9,21 @@ import { combineLatest, of, Subscription } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
 import * as fromModels from '../../models';
 
+export enum Mode {
+  Create = 'create',
+  Update = 'update',
+}
+
 @Component({
   selector: 'hb-transaction-detail',
   templateUrl: './transaction-detail.component.html',
   styleUrls: ['./transaction-detail.component.scss']
 })
-export class TransactionDetailComponent extends CommonWithAnimationComponent implements OnDestroy, OnInit {
+export class TransactionDetailComponent
+  extends CommonWithAnimationComponent
+  implements OnDestroy, OnInit {
 
-  mode: 'create' | 'update';
+  mode: Mode;
   sectionTitle: string;
   transactionKey: string;
   type: string;
@@ -59,28 +66,14 @@ export class TransactionDetailComponent extends CommonWithAnimationComponent imp
     combineLatest([params$, queryParams$, authState$])
       .pipe(
         tap(([params, queryParams, authState]) => {
-          this.mode = params.key === 'create' ? 'create' : 'update';
-          let type;
-
           this.uid = authState.uid;
+          this.mode = params.key === Mode.Create
+            ? Mode.Create
+            : Mode.Update;
+          this.mode === Mode.Create
+            ? this.prepareDataOnCreate(queryParams)
+            : this.prepareDataOnUpdate(params);
 
-          if (this.mode === 'create') {
-            this.typeControl.setValue(queryParams.type);
-            type = queryParams.type === 'expense' ? 'wydatek' : 'przychód';
-            this.dateControl.setValue(new Date());
-          } else {
-            this.transactionsService.transaction$
-              .pipe(
-                tap(response => {
-                  this.fillFormData(response);
-                  type = response.type === 'expense' ? 'wydatek' : 'przychód';
-                  this.transactionKey = params.key;
-                }),
-                take(1),
-              ).subscribe();
-          }
-
-          this.sectionTitle = this.mode === 'create' ? `Nowy ${type}` : `Edytuj ${type}`;
         })
       ).subscribe();
   }
@@ -107,7 +100,7 @@ export class TransactionDetailComponent extends CommonWithAnimationComponent imp
     this.transactionsService.isSuccess$
       .pipe(
         take(1),
-        tap(response => {
+        tap((response: boolean) => {
           if (response) {
             this.router.navigate(['./transactions']);
           }
@@ -129,7 +122,7 @@ export class TransactionDetailComponent extends CommonWithAnimationComponent imp
     this.transactionsService.isSuccess$
       .pipe(
         take(1),
-        tap(response => {
+        tap((response: boolean) => {
           if (response) {
             this.router.navigate(['./transactions']);
           }
@@ -137,7 +130,7 @@ export class TransactionDetailComponent extends CommonWithAnimationComponent imp
       ).subscribe();
   }
 
-  fillFormData(transaction: fromModels.Transaction) {
+  private fillFormData(transaction: fromModels.Transaction) {
     this.amountControl.setValue(transaction.amount);
     this.dateControl.setValue(new Date(transaction.date));
     this.recipientControl.setValue(transaction.recipient);
@@ -167,5 +160,41 @@ export class TransactionDetailComponent extends CommonWithAnimationComponent imp
     //     }
     //   }
     // });
+  }
+
+  private getTransactionTypeLabel(type: fromModels.TransactionType): string {
+    return type === fromModels.TransactionType.Expense
+      ? 'wydatek'
+      : 'przychód';
+  }
+
+  private prepareDataOnCreate(queryParams: any): void {
+    const transactionType = this.getTransactionTypeLabel(queryParams.type);
+    this.setSectionTitle(transactionType);
+    this.typeControl.setValue(queryParams.type);
+    this.dateControl.setValue(new Date());
+  }
+
+  private prepareDataOnUpdate(params: any): void {
+    this.transactionsService.transaction$
+      .pipe(
+        tap((response: fromModels.Transaction) => {
+          if (response) {
+            const transactionType = this.getTransactionTypeLabel(response.type);
+            this.setSectionTitle(transactionType);
+            this.fillFormData(response);
+            this.transactionKey = params.key;
+          } else {
+            this.router.navigate(['./transactions']);
+          }
+        }),
+        take(1),
+      ).subscribe();
+  }
+
+  private setSectionTitle(type: string): void {
+    this.sectionTitle = this.mode === Mode.Create
+      ? `Nowy ${type}`
+      : `Edytuj ${type}`;
   }
 }
