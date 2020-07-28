@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { tap, take } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
 import { CommonWithAnimationComponent } from '@shared/components';
 import * as fromModels from '../../models';
@@ -50,7 +50,6 @@ export class SetPasswordComponent extends CommonWithAnimationComponent implement
     this.authenticationService.setPassword(payload)
     this.authenticationService.isSuccess$
       .pipe(
-        take(1),
         tap(response => {
           if (response) {
             this.router.navigate(['../login']);
