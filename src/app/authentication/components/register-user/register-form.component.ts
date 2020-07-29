@@ -11,7 +11,6 @@ export class RegisterFormComponent implements OnInit {
 
   hide = true;
 
-  @Input() errorMessage: string;
   @Input() registerForm: FormGroup;
   @Output() registerUser = new EventEmitter();
 
