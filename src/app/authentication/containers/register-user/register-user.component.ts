@@ -38,7 +38,10 @@ export class RegisterUserComponent extends CommonWithAnimationComponent implemen
         Validators.email,
         Validators.pattern(this.authenticationUtilsService.emailPattern)
       ]],
-      password: [null, [Validators.required]],
+      password: [null, [
+        Validators.required,
+        Validators.minLength(6),
+      ]],
     });
   }
 
