@@ -22,17 +22,17 @@ export class LoginFormComponent implements OnInit {
   }
 
   getErrorMessageForEmail() {
-    if (this.passwordControl.hasError('required')) {
+    if (this.emailControl.hasError('required')) {
       return 'Pole wymagane.';
     }
 
-    if (this.emailControl.hasError('email')) {
+    if (this.emailControl.hasError('email') || this.emailControl.hasError('pattern')) {
       return 'Nieprawidłowy format adresu e-mail.';
     }
   }
 
   getErrorMessageForPassword() {
-    if (this.emailControl.hasError('required')) {
+    if (this.passwordControl.hasError('required')) {
       return 'Pole wymagane.';
     }
   }

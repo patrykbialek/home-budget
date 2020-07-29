@@ -1,12 +1,13 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { tap } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
-
+import { Router } from '@angular/router';
 import { CommonWithAnimationComponent } from '@shared/components';
+import { Subscription } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import * as fromModels from '../../models';
-import * as fromServices from '../../store/services';
+import * as fromServices from '../../services';
+import * as fromStoreServices from '../../store/services';
+
 
 @Component({
   selector: 'hb-login-user',
@@ -20,7 +21,8 @@ export class LoginUserComponent extends CommonWithAnimationComponent implements 
   private subscription$ = new Subscription();
 
   constructor(
-    private authenticationService: fromServices.AuthenticationFacadeService,
+    private authenticationService: fromStoreServices.AuthenticationFacadeService,
+    private authenticationUtilsService: fromServices.AuthenticationUtilsService,
     private formBuilder: FormBuilder,
     private router: Router,
   ) {
@@ -37,7 +39,11 @@ export class LoginUserComponent extends CommonWithAnimationComponent implements 
 
   createForm() {
     this.loginForm = this.formBuilder.group({
-      email: [null, [Validators.required, Validators.email]],
+      email: ['', [
+        Validators.required,
+        Validators.email,
+        Validators.pattern(this.authenticationUtilsService.emailPattern)]
+      ],
       password: [null, [Validators.required]],
     });
   }
