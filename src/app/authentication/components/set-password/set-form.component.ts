@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
+import * as fromServices from '../../services';
 
 @Component({
   selector: 'hb-set-form',
@@ -14,9 +15,12 @@ export class SetFormComponent implements OnInit {
 
   @ViewChild('passwordHTML') passwordHTML: ElementRef;
 
-  constructor() { }
+  constructor(
+    private authenticationUtilsService: fromServices.AuthenticationUtilsService,
+  ) { }
 
-  get passwordControl() { return this.setForm.get('password'); }
+  get passwordControl(): FormControl { return this.setForm.get('password') as FormControl; }
+
 
   ngOnInit(): void {
     setTimeout(() => {
@@ -25,17 +29,13 @@ export class SetFormComponent implements OnInit {
   }
 
   getErrorMessageForPassword() {
-    if (this.passwordControl.hasError('required')) {
-      return 'Pole wymagane.';
-    }
+    return this.authenticationUtilsService.getErrorMessageForPassword(this.passwordControl);
   }
 
   onSet() {
-    if (this.setForm.valid) {
-      this.setPassword.emit(this.setForm)
-    } else {
-      this.setForm.markAllAsTouched();
-    }
+    this.setForm.valid
+      ? this.setPassword.emit(this.setForm)
+      : this.setForm.markAllAsTouched();
   }
 
 }
