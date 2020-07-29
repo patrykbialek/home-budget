@@ -40,7 +40,7 @@ export class RegisterFormComponent implements OnInit {
   }
 
   getErrorMessageForPassword() {
-    return this.authenticationUtilsService.getErrorMessageForEmail(this.passwordControl);
+    return this.authenticationUtilsService.getErrorMessageForPassword(this.passwordControl);
   }
 
   onRegister() {
