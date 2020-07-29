@@ -1,65 +1,76 @@
-<section *ngIf="transactions.length; else nodata">
-  <table mat-table [dataSource]="transactions">
-  
-    <ng-container matColumnDef="date">
-      <th mat-header-cell *matHeaderCellDef> Data </th>
-      <td mat-cell *matCellDef="let element"> {{ element.date | date:'dd/MM/yyyy' }} </td>
-    </ng-container>
-  
-    <ng-container matColumnDef="category">
-      <th mat-header-cell *matHeaderCellDef> Kategoria </th>
-      <td mat-cell *matCellDef="let element">
-        <div>
-          <bh-category-icon class="mat-column-category-icon" [category]="element.category"></bh-category-icon>
-          <div class="mat-column-category-text" >{{ 'BUDGET_CATEGORY.' + element.category | translate }}</div>
-        </div>
-      </td>
-    </ng-container>
-  
-    <ng-container matColumnDef="recipient">
-      <th mat-header-cell *matHeaderCellDef> Odbiorca </th>
-      <td mat-cell *matCellDef="let element"> {{ element.recipient }} </td>
-    </ng-container>
-  
-    <ng-container matColumnDef="notes">
-      <th mat-header-cell *matHeaderCellDef> Notatki </th>
-      <td mat-cell *matCellDef="let element"> {{ element.notes || '--' }} </td>
-    </ng-container>
-  
-    <ng-container matColumnDef="amount">
-      <th mat-header-cell *matHeaderCellDef class="cell-align-right"> Kwota </th>
-      <td mat-cell *matCellDef="let element" class="cell-align-right"
-        [ngClass]="{ 'u-expense': element.type === 'expense',
-        'u-income': element.type === 'income' }">
-        <span>{{ element.type === 'expense' ? '-' : '' }}</span>
-        {{ element.amount | currency:'PLN ':'symbol':'1.2-2':'pl' }}
-      </td>
-    </ng-container>
-  
-    <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef class="cell-align-right"> &nbsp; </th>
-      <td mat-cell *matCellDef="let element" class="cell-align-right"> 
-        <button mat-icon-button color="primary" [matMenuTriggerFor]="actionsMenu" >
-          <mat-icon>more_vert</mat-icon>
-        </button>
-        <mat-menu #actionsMenu="matMenu">
-          <button mat-menu-item [routerLink]="['./', element.key]">
-            <mat-icon>edit</mat-icon>Edytuj</button>
-          <button mat-menu-item (click)="onDelete(element)">
-            <mat-icon>delete</mat-icon> Usuń</button>
-        </mat-menu>
-      </td>
-    </ng-container>
-  
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
-</section>
+<ng-container *ngIf="isLoading === false; else spinner">
+  <section *ngIf="transactions.length; else nodata">
+    <table mat-table [dataSource]="transactions">
+
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef> Data </th>
+        <td mat-cell *matCellDef="let element"> {{ element.date | date:'dd/MM/yyyy' }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="category">
+        <th mat-header-cell *matHeaderCellDef> Kategoria </th>
+        <td mat-cell *matCellDef="let element">
+          <div>
+            <bh-category-icon class="mat-column-category-icon" [category]="element.category"></bh-category-icon>
+            <div class="mat-column-category-text">{{ 'BUDGET_CATEGORY.' + element.category | translate }}</div>
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="recipient">
+        <th mat-header-cell *matHeaderCellDef> Odbiorca </th>
+        <td mat-cell *matCellDef="let element"> {{ element.recipient }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="notes">
+        <th mat-header-cell *matHeaderCellDef> Notatki </th>
+        <td mat-cell *matCellDef="let element"> {{ element.notes || '--' }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="amount">
+        <th mat-header-cell *matHeaderCellDef class="cell-align-right"> Kwota </th>
+        <td mat-cell *matCellDef="let element" class="cell-align-right" [ngClass]="{ 'u-expense': element.type === 'expense',
+          'u-income': element.type === 'income' }">
+          <span>{{ element.type === 'expense' ? '-' : '' }}</span>
+          {{ element.amount | currency:'PLN ':'symbol':'1.2-2':'pl' }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef class="cell-align-right"> &nbsp; </th>
+        <td mat-cell *matCellDef="let element" class="cell-align-right">
+          <button mat-icon-button color="primary" [matMenuTriggerFor]="actionsMenu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #actionsMenu="matMenu">
+            <button mat-menu-item [routerLink]="['./', element.key]">
+              <mat-icon>edit</mat-icon>Edytuj
+            </button>
+            <button mat-menu-item (click)="onDelete(element)">
+              <mat-icon>delete</mat-icon> Usuń
+            </button>
+          </mat-menu>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </section>
+</ng-container>
+
 <ng-template #nodata>
   <div class="c-nodata u-text-large">
     <i class="u-margin-right-small">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="36px" height="36px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/></svg>    </i>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="36px" height="36px">
+        <path d="M0 0h24v24H0V0z" fill="none" />
+        <path
+          d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z" />
+        </svg> </i>
     Brak danych.
   </div>
 </ng-template>
 
+<ng-template #spinner>
+  <hb-app-spinner></hb-app-spinner>
+</ng-template>

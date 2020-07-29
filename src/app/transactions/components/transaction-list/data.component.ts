@@ -12,6 +12,7 @@ export class DataComponent {
 
   displayedColumns: string[] = ['date', 'category', 'recipient', 'notes', 'amount', 'actions'];
 
+  @Input() isLoading: boolean;
   @Input() transactions: fromModels.Transaction[] = [];
   @Output() deleteTransaction = new EventEmitter();
 

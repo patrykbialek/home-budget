@@ -26,7 +26,7 @@ export class TransactionsFacadeService {
     this.transactions$ = this.store.pipe(select(fromSelectors.getTransactions));
     this.total$ = this.store.pipe(select(fromSelectors.getTotal));
     // this.isFailed$ = this.store.pipe(select(fromSelectors.));
-    // this.isLoading$ = this.store.pipe(select(fromSelectors.));
+    this.isLoading$ = this.store.pipe(select(fromSelectors.getIsLoading));
     this.isSuccess$ = this.store.pipe(select(fromSelectors.getIsSuccess));
   }
 
