@@ -1,26 +1,29 @@
-import { Component, OnInit, ElementRef, ViewChild, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import * as fromServices from '../../services';
 
 @Component({
   selector: 'hb-register-form',
   templateUrl: './register-form.component.html',
-  styleUrls: ['./register-form.component.scss']
+  styleUrls: ['./register-form.component.scss'],
 })
 export class RegisterFormComponent implements OnInit {
 
   hide = true;
-  
+
   @Input() errorMessage: string;
   @Input() registerForm: FormGroup;
   @Output() registerUser = new EventEmitter();
 
   @ViewChild('nameHTML') nameHTML: ElementRef;
 
-  constructor() { }
+  constructor(
+    private authenticationUtilsService: fromServices.AuthenticationUtilsService,
+  ) { }
 
-  get nameControl() { return this.registerForm.get('name'); }
-  get emailControl() { return this.registerForm.get('email'); }
-  get passwordControl() { return this.registerForm.get('password'); }
+  get nameControl(): FormControl { return this.registerForm.get('name') as FormControl; }
+  get emailControl(): FormControl { return this.registerForm.get('email') as FormControl; }
+  get passwordControl(): FormControl { return this.registerForm.get('password') as FormControl; }
 
   ngOnInit(): void {
     setTimeout(() => {
@@ -29,33 +32,21 @@ export class RegisterFormComponent implements OnInit {
   }
 
   getErrorMessageForName() {
-    if (this.nameControl.hasError('required')) {
-      return 'Pole wymagane.';
-    }
+    return this.authenticationUtilsService.getErrorMessageForName(this.nameControl);
   }
 
   getErrorMessageForEmail() {
-    if (this.passwordControl.hasError('required')) {
-      return 'Pole wymagane.';
-    }
-
-    if (this.emailControl.hasError('email')) {
-      return 'Nieprawidłowy format adresu e-mail.';
-    }
+    return this.authenticationUtilsService.getErrorMessageForEmail(this.emailControl);
   }
 
   getErrorMessageForPassword() {
-    if (this.emailControl.hasError('required')) {
-      return 'Pole wymagane.';
-    }
+    return this.authenticationUtilsService.getErrorMessageForEmail(this.passwordControl);
   }
 
   onRegister() {
-    if (this.registerForm.valid) {
-      this.registerUser.emit(this.registerForm)
-    } else {
-      this.registerForm.markAllAsTouched();
-    }
+    this.registerForm.valid
+      ? this.registerUser.emit(this.registerForm)
+      : this.registerForm.markAllAsTouched();
   }
 
 }

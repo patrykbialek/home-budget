@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonWithAnimationComponent } from '@shared/components';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
-import * as fromModels from '../../models';
-import * as fromServices from '../../store/services';
-import { take, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { CommonWithAnimationComponent } from '@shared/components';
+import { tap } from 'rxjs/operators';
+import * as fromModels from '../../models';
+import * as fromServices from '../../services';
+import * as fromStoreServices from '../../store/services';
 
 @Component({
   selector: 'hb-register-user',
@@ -18,7 +18,8 @@ export class RegisterUserComponent extends CommonWithAnimationComponent implemen
   registerForm: FormGroup;
 
   constructor(
-    private authenticationService: fromServices.AuthenticationFacadeService,
+    private authenticationService: fromStoreServices.AuthenticationFacadeService,
+    private authenticationUtilsService: fromServices.AuthenticationUtilsService,
     private formBuilder: FormBuilder,
     private router: Router,
   ) {
@@ -32,7 +33,11 @@ export class RegisterUserComponent extends CommonWithAnimationComponent implemen
   createForm() {
     this.registerForm = this.formBuilder.group({
       name: [null, [Validators.required]],
-      email: [null, [Validators.required, Validators.email]],
+      email: ['', [
+        Validators.required,
+        Validators.email,
+        Validators.pattern(this.authenticationUtilsService.emailPattern)
+      ]],
       password: [null, [Validators.required]],
     });
   }
@@ -47,7 +52,6 @@ export class RegisterUserComponent extends CommonWithAnimationComponent implemen
 
     this.authenticationService.isSuccess$
       .pipe(
-        // take(1),
         tap(response => {
           if (response) {
             this.router.navigate(['./dashboard']);
