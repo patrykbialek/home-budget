@@ -34,6 +34,10 @@ export class AuthenticationUtilsService {
     if (formControl.hasError('required')) {
       return 'Pole wymagane.';
     }
+
+    if (formControl.hasError('minlength')) {
+      return 'Hasło musi się składać z co najmniej 6 znaków.';
+    }
   }
 
 }

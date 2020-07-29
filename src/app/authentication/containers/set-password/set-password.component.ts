@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
-import { tap } from 'rxjs/operators';
-
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonWithAnimationComponent } from '@shared/components';
+import { tap } from 'rxjs/operators';
 import * as fromModels from '../../models';
 import * as fromServices from '../../store/services';
 
@@ -36,7 +35,10 @@ export class SetPasswordComponent extends CommonWithAnimationComponent implement
 
   createForm() {
     this.setForm = this.formBuilder.group({
-      password: [null, [Validators.required]],
+      password: [null, [
+        Validators.required,
+        Validators.minLength(6),
+      ]],
     });
   }
 
