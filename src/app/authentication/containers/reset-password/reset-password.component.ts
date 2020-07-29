@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { tap, take } from 'rxjs/operators';
-
 import { CommonWithAnimationComponent } from '@shared/components';
+import { take, tap } from 'rxjs/operators';
 import * as fromModels from '../../models';
-import * as fromServices from '../../store/services';
+import * as fromServices from '../../services';
+import * as fromStoreServices from '../../store/services';
 
 @Component({
   selector: 'hb-reset-password',
@@ -17,9 +16,9 @@ export class ResetPasswordComponent extends CommonWithAnimationComponent impleme
   resetForm: FormGroup;
 
   constructor(
-    private authenticationService: fromServices.AuthenticationFacadeService,
+    private authenticationService: fromStoreServices.AuthenticationFacadeService,
+    private authenticationUtilsService: fromServices.AuthenticationUtilsService,
     private formBuilder: FormBuilder,
-    private router: Router,
   ) {
     super();
   }
@@ -32,7 +31,11 @@ export class ResetPasswordComponent extends CommonWithAnimationComponent impleme
 
   createForm() {
     this.resetForm = this.formBuilder.group({
-      email: [null, [Validators.required, Validators.email]],
+      email: ['', [
+        Validators.required,
+        Validators.email,
+        Validators.pattern(this.authenticationUtilsService.emailPattern)
+      ]],
     });
   }
 
