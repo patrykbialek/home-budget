@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
+import * as fromServices from '../../services';
 
 @Component({
   selector: 'hb-reset-form',
@@ -13,9 +14,11 @@ export class ResetFormComponent implements OnInit {
 
   @ViewChild('emailHTML') emailHTML: ElementRef;
 
-  constructor() { }
+  constructor(
+    private authenticationUtilsService: fromServices.AuthenticationUtilsService,
+  ) { }
 
-  get emailControl() { return this.resetForm.get('email'); }
+  get emailControl(): FormControl { return this.resetForm.get('email') as FormControl; }
 
   ngOnInit(): void {
     setTimeout(() => {
@@ -24,21 +27,13 @@ export class ResetFormComponent implements OnInit {
   }
 
   getErrorMessageForEmail() {
-    if (this.emailControl.hasError('required')) {
-      return 'Pole wymagane.';
-    }
-
-    if (this.emailControl.hasError('email')) {
-      return 'Nieprawidłowy format adresu e-mail.';
-    }
+    return this.authenticationUtilsService.getErrorMessageForEmail(this.emailControl);
   }
 
   onReset() {
-    if (this.resetForm.valid) {
-      this.resetPassword.emit(this.resetForm)
-    } else {
-      this.resetForm.markAllAsTouched();
-    }
+    this.resetForm.valid
+      ? this.resetPassword.emit(this.resetForm)
+      : this.resetForm.markAllAsTouched();
   }
 
 }
