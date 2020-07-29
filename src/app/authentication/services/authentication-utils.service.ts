@@ -1,4 +1,5 @@
-import { Injectable } from "@angular/core";
+import { Injectable, Inject } from "@angular/core";
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,28 @@ export class AuthenticationUtilsService {
 
   get emailPattern() {
     return this.validators.email;
+  }
+
+  getErrorMessageForName(formControl: FormControl): string {
+    if (formControl.hasError('required')) {
+      return 'Pole wymagane.';
+    }
+  }
+
+  getErrorMessageForEmail(formControl: FormControl): string {
+    if (formControl.hasError('required')) {
+      return 'Pole wymagane.';
+    }
+
+    if (formControl.hasError('email') || formControl.hasError('pattern')) {
+      return 'Nieprawidłowy format adresu e-mail.';
+    }
+  }
+
+  getErrorMessageForPassword(formControl: FormControl): string {
+    if (formControl.hasError('required')) {
+      return 'Pole wymagane.';
+    }
   }
 
 }
