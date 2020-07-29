@@ -50,7 +50,8 @@
           <mat-select formControlName="period" [attr.data-name]="'period'" tabindex="-1">
             <mat-select-trigger>
               <div class="c-select-trigger">
-                {{ 'QUERY.Periods.' + periodControl.value.name | translate }}
+                <span class="c-period__text">{{ 'QUERY.Periods.' + periodControl.value.name | translate }}</span>
+                <span *ngIf="periodValueSuffix">&nbsp;({{ periodValueSuffix }})</span>
               </div>
             </mat-select-trigger>
             <mat-option *ngFor="let period of periods" [value]="period">
