@@ -1,15 +1,14 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import * as moment from 'moment';
+import 'moment/locale/pl';
 import { of } from 'rxjs';
-import { FormGroup, FormBuilder } from '@angular/forms';
 import { tap } from 'rxjs/operators';
-
-import * as moment from 'moment'
-import 'moment/locale/pl'  // without this line it didn't work
-moment.locale('pl')
-
 import * as fromModels from '../../models';
 import { budgetCategories } from '../../models/budget-categories.data';
 import { queryPeriods } from '../../models/query-periods.data';
+
+moment.locale('pl')
 
 @Component({
   selector: 'hb-filters',
@@ -22,16 +21,17 @@ export class FiltersComponent implements OnInit {
   previousMonth = moment().subtract(1, 'months').format('MMMM');
   currentYear = moment().format('YYYY')
 
-  categories$ = of(budgetCategories);
-  periods$ = of(queryPeriods);
-
   filterForm: FormGroup;
 
+  periodValueSuffix: string;
   query: fromModels.Query = {
     category: null,
     periodFrom: null,
     periodTo: null,
   };
+
+  categories$ = of(budgetCategories);
+  periods$ = of(queryPeriods);
 
   @Output() readTransactions = new EventEmitter();
 
@@ -65,53 +65,63 @@ export class FiltersComponent implements OnInit {
         this.periodControl.setValue(periods[0]);
       }),
     );
-
   }
 
   private setListenerOnCategoryChange() {
     this.categoryControl
       .valueChanges
-      .subscribe((value: any) => {
-        if (value.name !== 'all') {
-          this.query.category = value.name;
-        } else {
-          delete this.query.category;
-        }
-        this.readTransactions.emit(this.query);
+      .subscribe((value: { name: string }) => {
+        this.setQueryCategoryAndReadTransactions(value);
       });
+  }
+
+  private setQueryCategoryAndReadTransactions(value: { name: string }) {
+    value.name !== 'all'
+      ? this.query.category = value.name
+      : delete this.query.category;
+
+    this.readTransactions.emit(this.query);
   }
 
   private setListenerOnPeriodChange() {
     this.periodControl
       .valueChanges
-      .subscribe((value: any) => {
-
-        if (value.id === 'currentMonth') {
-          this.query.periodFrom = moment().startOf('month').format('YYYY-MM-DD');
-          this.query.periodTo = moment().endOf('month').format('YYYY-MM-DD');
-        }
-
-        if (value.id === 'previousMonth') {
-          this.query.periodFrom = moment().subtract(1, 'months').startOf('month').format('YYYY-MM-DD');
-          this.query.periodTo = moment().subtract(1, 'months').endOf('month').format('YYYY-MM-DD');
-        }
-
-        if (value.id === 'last3Months') {
-          this.query.periodFrom = moment().subtract(3, 'months').startOf('month').format('YYYY-MM-DD');
-          this.query.periodTo = moment().subtract(1, 'months').endOf('month').format('YYYY-MM-DD');
-        }
-
-        if (value.id === 'last6Months') {
-          this.query.periodFrom = moment().subtract(6, 'months').startOf('month').format('YYYY-MM-DD');
-          this.query.periodTo = moment().subtract(1, 'months').endOf('month').format('YYYY-MM-DD');
-        }
-
-        if (value.id === 'currentYear') {
-          this.query.periodFrom = moment().startOf('year').format('YYYY-MM-DD');
-          this.query.periodTo = moment().format('YYYY-MM-DD');
-        }
-
-        this.readTransactions.emit(this.query);
+      .subscribe((value: { id: string, name: string }) => {
+        this.setPeriodValueSuffix(value);
+        this.setQueryPeriodAndReadTransactions(value);
       });
+  }
+
+  private setQueryPeriodAndReadTransactions(value: { id: string, name: string }) {
+    if (value.id === 'currentMonth') {
+      this.query.periodFrom = moment().startOf('month').format('YYYY-MM-DD');
+      this.query.periodTo = moment().endOf('month').format('YYYY-MM-DD');
+    }
+
+    if (value.id === 'previousMonth') {
+      this.query.periodFrom = moment().subtract(1, 'months').startOf('month').format('YYYY-MM-DD');
+      this.query.periodTo = moment().subtract(1, 'months').endOf('month').format('YYYY-MM-DD');
+    }
+
+    if (value.id === 'last3Months') {
+      this.query.periodFrom = moment().subtract(3, 'months').startOf('month').format('YYYY-MM-DD');
+      this.query.periodTo = moment().subtract(1, 'months').endOf('month').format('YYYY-MM-DD');
+    }
+
+    if (value.id === 'last6Months') {
+      this.query.periodFrom = moment().subtract(6, 'months').startOf('month').format('YYYY-MM-DD');
+      this.query.periodTo = moment().subtract(1, 'months').endOf('month').format('YYYY-MM-DD');
+    }
+
+    if (value.id === 'currentYear') {
+      this.query.periodFrom = moment().startOf('year').format('YYYY-MM-DD');
+      this.query.periodTo = moment().format('YYYY-MM-DD');
+    }
+
+    this.readTransactions.emit(this.query);
+  }
+
+  private setPeriodValueSuffix(value: { id: string, name: string }) {
+    this.periodValueSuffix = this[value.id];
   }
 }
