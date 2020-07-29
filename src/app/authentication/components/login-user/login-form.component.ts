@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
+import * as fromServices from '../../services';
 
 @Component({
   selector: 'hb-login-form',
@@ -13,36 +14,28 @@ export class LoginFormComponent implements OnInit {
   @Input() loginForm: FormGroup;
   @Output() loginUser = new EventEmitter();
 
-  constructor() { }
+  constructor(
+    private authenticationUtilsService: fromServices.AuthenticationUtilsService,
+  ) { }
 
-  get emailControl() { return this.loginForm.get('email'); }
-  get passwordControl() { return this.loginForm.get('password'); }
+  get emailControl(): FormControl { return this.loginForm.get('email') as FormControl; }
+  get passwordControl(): FormControl { return this.loginForm.get('password') as FormControl; }
 
   ngOnInit(): void {
   }
 
   getErrorMessageForEmail() {
-    if (this.emailControl.hasError('required')) {
-      return 'Pole wymagane.';
-    }
-
-    if (this.emailControl.hasError('email') || this.emailControl.hasError('pattern')) {
-      return 'Nieprawidłowy format adresu e-mail.';
-    }
+    return this.authenticationUtilsService.getErrorMessageForEmail(this.emailControl)
   }
 
   getErrorMessageForPassword() {
-    if (this.passwordControl.hasError('required')) {
-      return 'Pole wymagane.';
-    }
+    return this.authenticationUtilsService.getErrorMessageForPassword(this.passwordControl)
   }
 
   onLogin() {
-    if (this.loginForm.valid) {
-      this.loginUser.emit(this.loginForm)
-    } else {
-      this.loginForm.markAllAsTouched();
-    }
+    this.loginForm.valid
+      ? this.loginUser.emit(this.loginForm)
+      : this.loginForm.markAllAsTouched();
   }
 
 }
