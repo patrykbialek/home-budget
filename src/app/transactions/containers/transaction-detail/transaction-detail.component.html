@@ -3,13 +3,13 @@
   <div class="c-section-header">
     <div class="o-wrapper">
       <header class="c-section-header__title">
-        <h4 class="u-margin-right-small">{{ sectionTitle }}</h4>
+        <h4 class="u-margin-right-small">{{ 'TRANSACTION.' + sectionTitle | translate }}</h4>
 
         <div class="c-section-header__actions-right o-block o-block--right">
           <div class="c-section-header__actions-right o-block o-block--right">
             <a mat-button [routerLink]="['../']">
               <mat-icon class="u-margin-right-tiny">arrow_back</mat-icon>
-              Wróć do listy
+              {{ 'TRANSACTION.BackToList' | translate }}
             </a>
           </div>
         </div>

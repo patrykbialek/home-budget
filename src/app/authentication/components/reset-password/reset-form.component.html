@@ -6,19 +6,21 @@
 
         <div class="o-grid__cell u-1/1 u-margin-bottom-small">
           <mat-form-field appearance="outline" style="width: 100%;">
-            <mat-label>E-mail</mat-label>
+            <mat-label>{{ 'AUTHENTICATION.Form.Email' |  translate }}</mat-label>
             <input formControlName="email" matInput type="email" #emailHTML>
-            <mat-error *ngIf="emailControl.invalid && emailControl.touched">{{ getErrorMessageForEmail() }}</mat-error>
+            <mat-error *ngIf="emailControl.invalid && emailControl.touched">{{ getErrorMessageForEmail() | translate }}</mat-error>
           </mat-form-field>
         </div>
 
         <div class="o-grid__cell u-1/1 u-margin-bottom">
-          <button type="submit" mat-raised-button color="primary" class="c-reset-password-button">RESETUJ HASŁO</button>
+          <button type="submit" mat-raised-button color="primary" class="c-reset-password-button">
+            <mat-label>{{ 'AUTHENTICATION.Actions.ResetPassword' |  translate }}</mat-label>
+          </button>
         </div>
         <div class="o-grid__cell u-1/1">
           <div class="o-block o-block--right">
             <a role="button" mat-button [routerLink]="['../login']" class="c-login-button">
-              WRÓĆ DO STRONY LOGOWANIA
+              <mat-label>{{ 'AUTHENTICATION.Actions.BackToLogin' |  translate }}</mat-label>
             </a>
           </div>
         </div>

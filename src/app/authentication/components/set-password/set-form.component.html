@@ -6,7 +6,7 @@
 
         <div class="o-grid__cell u-1/1 u-margin-bottom-small">
           <mat-form-field appearance="outline" style="width: 100%;">
-            <mat-label>Hasło</mat-label>
+            <mat-label>{{ 'AUTHENTICATION.Form.Password' |  translate }}</mat-label>
             <input
               formControlName="password"
               matInput [type]="hide ? 'password' : 'text'"
@@ -22,17 +22,19 @@
             >
               <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
             </button>
-            <mat-error *ngIf="passwordControl.invalid && passwordControl.touched">{{ getErrorMessageForPassword() }}</mat-error>
+            <mat-error *ngIf="passwordControl.invalid && passwordControl.touched">{{ getErrorMessageForPassword() | translate }}</mat-error>
           </mat-form-field>
         </div>
 
         <div class="o-grid__cell u-1/1 u-margin-bottom">
-          <button type="submit" mat-raised-button color="primary" class="c-set-password-button">USTAW HASŁO</button>
+          <button type="submit" mat-raised-button color="primary" class="c-set-password-button">
+            <mat-label>{{ 'AUTHENTICATION.Actions.SetPassword' |  translate }}</mat-label>
+          </button>
         </div>
         <div class="o-grid__cell u-1/1">
           <div class="o-block o-block--right">
             <a role="button" mat-button [routerLink]="['../reset-password']" class="c-reset-password-button">
-              RESETUJ PONOWNIE
+              <mat-label>{{ 'AUTHENTICATION.Actions.ResetAgain' |  translate }}</mat-label>
             </a>
           </div>
         </div>

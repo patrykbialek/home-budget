@@ -41,8 +41,7 @@ input.u-type-number {
   -moz-appearance: textfield;
 }
 
-::ng-deep .mat-form-field-appearance-outline .mat-form-field-prefix,
-::ng-deep .mat-form-field-appearance-outline .mat-form-field-suffix {
+::ng-deep .mat-form-field.c-custom-suffix .mat-form-field-suffix {
   top: 0 !important;
 }
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-suffix {

@@ -39,7 +39,7 @@ export class FormComponent implements OnInit {
       || this.categoryControl.hasError('required')
       || this.dateControl.hasError('required')
       || this.recipientControl.hasError('required')) {
-      return 'Pole wymagane.';
+      return 'TRANSACTION.ValidationMessages.Required';
     }
   }
 

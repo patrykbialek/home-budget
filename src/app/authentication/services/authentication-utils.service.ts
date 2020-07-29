@@ -16,27 +16,27 @@ export class AuthenticationUtilsService {
 
   getErrorMessageForName(formControl: FormControl): string {
     if (formControl.hasError('required')) {
-      return 'Pole wymagane.';
+      return 'AUTHENTICATION.ValidationMessages.Required';
     }
   }
 
   getErrorMessageForEmail(formControl: FormControl): string {
     if (formControl.hasError('required')) {
-      return 'Pole wymagane.';
+      return 'AUTHENTICATION.ValidationMessages.Required';
     }
 
     if (formControl.hasError('email') || formControl.hasError('pattern')) {
-      return 'Nieprawidłowy format adresu e-mail.';
+      return 'AUTHENTICATION.ValidationMessages.Email';
     }
   }
 
   getErrorMessageForPassword(formControl: FormControl): string {
     if (formControl.hasError('required')) {
-      return 'Pole wymagane.';
+      return 'AUTHENTICATION.ValidationMessages.Required';
     }
 
     if (formControl.hasError('minlength')) {
-      return 'Hasło musi się składać z co najmniej 6 znaków.';
+      return 'AUTHENTICATION.ValidationMessages.Minlength';
     }
   }
 

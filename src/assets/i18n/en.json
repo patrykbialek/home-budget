@@ -1,3 +1,102 @@
 {
+  "AUTHENTICATION": {
+    "Actions": {
+      "BackToLogin": "BACK TO LOGIN",
+      "GoToLogin": "HAVE ACCOUNT? GO TO LOGIN",
+      "GoToRegister": "NO ACCOUNT? GO TO REGISTER",
+      "Login": "LOGIN",
+      "Register": "REGISTER",
+      "ResetAgain": "RESET PASSWORD AGAIN",
+      "ResetPassword": "RESET PASSWORD",
+      "SetPassword": "SET PASSWORD"
+    },
+    "Form": {
+      "Email": "E-mail",
+      "Name": "Name",
+      "Password": "Password"
+    },
+    "Titles": {
+      "Login": "Login",
+      "Register": "Register",
+      "ResetPassword": "Reset password",
+      "SetPassword": "Set password"
+    },
+    "ValidationMessages": {
+      "Email": "Incorrect e-mail format.",
+      "Minlength": "Password must contains at least 6 characters.",
+      "Required": "Field required."
+    }
+  },
+  "BUDGET_CATEGORY": {
+    "all": "All",
+    "bills": "House and utilities",
+    "cash": "Cash",
+    "clothing": "Clothing and footwear",
+    "education": "Education",
+    "entertainment": "Entertainment and travel",
+    "finance": "Finance",
+    "health": "Health and beauty",
+    "income": "Income",
+    "other": "Other",
+    "shopping": "Shopping",
+    "vehicle": "Vehicle and transport"
+  },
+  "DATA": {
+    "Amount": "Amount",
+    "Category": "Category",
+    "Date": "Date",
+    "Notes": "Notes",
+    "Recipient": "Recipient"
+  },
+  "HEADER": {
+    "Dashboard": "Dashboard",
+    "Logout": "Logout",
+    "Settings": "Settings",
+    "Transactions": "Transactions"
+  },
+  "QUERY": {
+    "Labels": {
+      "Category": "Category",
+      "Period": "Period"
+    },
+    "Periods": {
+      "CurrentMonth": "Current month",
+      "CurrentYear": "Current year",
+      "Last3Months": "Last 3 months",
+      "Last6Months": "Last 6 months",
+      "PreviousMonth": "Previous month"
+    }
+  },
+  "SETTINGS": {
+    "Title": "Settings"
+  },
+  "TRANSACTION": {
+    "Amount": "Amount",
+    "BackToList": "Back to list",
+    "Cancel": "CANCEL",
+    "Category": "Category",
+    "Date": "Date",
+    "Delete": "DELETE",
+    "EditExpense": "Edit expense",
+    "EditIncome": "Edit income",
+    "NewExpense": "New expense",
+    "NewIncome": "New income",
+    "Notes": "Notes",
+    "Recipient": "Recipient",
+    "Save": "SAVE",
+    "ValidationMessages": {
+      "Required": "Field required."
+    }
+  },
+  "TRANSACTIONS": {
+    "Actions": {
+      "AddExpense": "Add expense",
+      "AddIncome": "Add income",
+      "Delete": "Delete",
+      "Edit": "Edit"
+    },
+    "Title": "Transactions",
+    "Total": "Total"
+  },
   "Welcome": "Welcome to home_budget app"
 }
