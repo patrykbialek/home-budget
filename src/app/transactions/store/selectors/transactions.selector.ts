@@ -10,6 +10,11 @@ export const getTransactionsState = createSelector(
   (state: fromFeature.MainState) => state.transactions
 );
 
+export const getIsLoading = createSelector(
+  getTransactionsState,
+  fromTransactions.getIsLoading,
+);
+
 export const getIsSuccess = createSelector(
   getTransactionsState,
   fromTransactions.getIsSuccess,

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { of, } from 'rxjs';
-import { map, catchError, mergeMap, } from 'rxjs/operators';
+import { map, catchError, mergeMap, delay, } from 'rxjs/operators';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
 import * as fromActions from '../actions/transactions.actions';
@@ -61,6 +61,8 @@ export class TransactionsEffects {
       return this.transactionsService
         .readTransactions(query)
         .pipe(
+          // NOTE: Give some time to see spinner
+          delay(300),
           map((response: any) => {
             return new fromActions.ReadTransactionsSuccess(response);
           }),
