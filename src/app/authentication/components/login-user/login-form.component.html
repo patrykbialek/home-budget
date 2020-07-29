@@ -6,20 +6,20 @@
 
         <div class="o-grid__cell u-1/1 u-margin-bottom-small">
           <mat-form-field appearance="outline" style="width: 100%;">
-            <mat-label>E-mail</mat-label>
+            <mat-label>{{ 'AUTHENTICATION.Form.Email' |  translate }}</mat-label>
             <input formControlName="email" matInput type="email" class="u-type-number">
-            <mat-error *ngIf="emailControl.invalid && emailControl.touched">{{ getErrorMessageForEmail() }}</mat-error>
+            <mat-error *ngIf="emailControl.invalid && emailControl.touched">{{ getErrorMessageForEmail() | translate }}</mat-error>
           </mat-form-field>
         </div>
 
         <div class="o-grid__cell u-1/1 o-block o-block--right" style="margin-top: -8px;">
           <a tabindex="-1" class="c-forgot-password-button" href="/reset-password">
-            Resetuj hasło</a>
+            {{ 'AUTHENTICATION.Actions.ResetPassword' |  translate }}</a>
         </div>
 
         <div class="o-grid__cell u-1/1 u-margin-bottom-small">
           <mat-form-field appearance="outline" style="width: 100%;">
-            <mat-label>Hasło</mat-label>
+            <mat-label>{{ 'AUTHENTICATION.Form.Password' |  translate }}</mat-label>
             <input
               formControlName="password"
               matInput [type]="hide ? 'password' : 'text'"
@@ -35,17 +35,18 @@
             >
               <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
             </button>
-            <mat-error *ngIf="passwordControl.invalid && passwordControl.touched">{{ getErrorMessageForPassword() }}</mat-error>
+            <mat-error *ngIf="passwordControl.invalid && passwordControl.touched">{{ getErrorMessageForPassword() | translate }}</mat-error>
           </mat-form-field>
         </div>
 
         <div class="o-grid__cell u-1/1 u-margin-bottom">
-          <button type="submit" mat-raised-button color="primary" class="c-login-button">ZALOGUJ</button>
+          <button type="submit" mat-raised-button color="primary" class="c-login-button">{{ 'AUTHENTICATION.Actions.Login' |  translate }}</button>
         </div>
         <div class="o-grid__cell u-1/1">
           <div class="o-block o-block--right">
-            <a role="button" mat-button [routerLink]="['../register']" class="c-register-button">NIE MASZ KONTA? IDŹ DO
-              REJESTRACJI</a>
+            <a role="button" mat-button [routerLink]="['../register']" class="c-register-button">
+              {{ 'AUTHENTICATION.Actions.GoToRegister' | translate }}
+            </a>
           </div>
         </div>
 

@@ -63,19 +63,21 @@ export class TransactionDetailComponent
     const queryParams$ = this.activatedRoute.queryParams;
     const authState$ = this.authenticationService.authState$;
 
-    combineLatest([params$, queryParams$, authState$])
-      .pipe(
-        tap(([params, queryParams, authState]) => {
-          this.uid = authState.uid;
-          this.mode = params.key === Mode.Create
-            ? Mode.Create
-            : Mode.Update;
-          this.mode === Mode.Create
-            ? this.prepareDataOnCreate(queryParams)
-            : this.prepareDataOnUpdate(params);
+    this.subscription$.add(
+      combineLatest([params$, queryParams$, authState$])
+        .pipe(
+          tap(([params, queryParams, authState]) => {
+            this.uid = authState.uid;
+            this.mode = params.key === Mode.Create
+              ? Mode.Create
+              : Mode.Update;
+            this.mode === Mode.Create
+              ? this.prepareDataOnCreate(queryParams)
+              : this.prepareDataOnUpdate(params);
 
-        })
-      ).subscribe();
+          })
+        ).subscribe()
+    );
   }
 
   createForm() {
@@ -164,8 +166,8 @@ export class TransactionDetailComponent
 
   private getTransactionTypeLabel(type: fromModels.TransactionType): string {
     return type === fromModels.TransactionType.Expense
-      ? 'wydatek'
-      : 'przychód';
+      ? 'Expense'
+      : 'Income';
   }
 
   private prepareDataOnCreate(queryParams: any): void {
@@ -194,7 +196,7 @@ export class TransactionDetailComponent
 
   private setSectionTitle(type: string): void {
     this.sectionTitle = this.mode === Mode.Create
-      ? `Nowy ${type}`
-      : `Edytuj ${type}`;
+      ? `New${type}`
+      : `Edit${type}`;
   }
 }

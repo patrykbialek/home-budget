@@ -8,11 +8,15 @@
           </a>
           <span style="flex-grow: 1;"></span>
           <button class="u-margin-left-tiny" mat-button [routerLink]="['dashboard']" routerLinkActive="u-router-link-active">
-            <mat-icon class="u-margin-right-tiny">dashboard</mat-icon>Dashboard</button>
+            <mat-icon class="u-margin-right-tiny">dashboard</mat-icon>{{ 'HEADER.Dashboard' | translate }}</button>
           <button class="u-margin-left-tiny" mat-button [routerLink]="['transactions']" routerLinkActive="u-router-link-active">
-            <mat-icon class="u-margin-right-tiny">list_alt</mat-icon>Transakcje</button>
+            <mat-icon class="u-margin-right-tiny">list_alt</mat-icon>{{ 'HEADER.Transactions' | translate }}</button>
           <button class="u-margin-left-tiny" mat-button [routerLink]="['settings']" routerLinkActive="u-router-link-active">
-            <mat-icon class="u-margin-right-tiny">tune</mat-icon>Ustawienia</button>
+            <mat-icon class="u-margin-right-tiny">tune</mat-icon>{{ 'HEADER.Settings' | translate }}</button>
+          <div class="u-border-left u-margin-left-tiny" style="width:1px">&nbsp;</div>
+          <button class="u-margin-left-tiny" mat-icon-button color="accent" (click)="onChangeLanguage()">
+            {{ currentLang }}
+          </button>
           <div class="u-border-left u-margin-left-tiny" style="width:1px">&nbsp;</div>
           <button class="u-margin-left-tiny" mat-button color="primary" [matMenuTriggerFor]="userMenu" >
             <mat-icon style="margin-right: 16px;" >account_circle</mat-icon>
@@ -26,7 +30,7 @@
             <mat-divider></mat-divider> -->
             <button mat-menu-item (click)="onLogout()">
               <mat-icon>lock</mat-icon>
-              <span>Wyloguj</span>
+              <span>{{ 'HEADER.Logout' | translate }}</span>
             </button>
           </mat-menu>
         </mat-toolbar-row>

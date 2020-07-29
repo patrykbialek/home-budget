@@ -1,26 +1,102 @@
 {
-  "Welcome": "Witamy w aplikacji home_budget",
+  "AUTHENTICATION": {
+    "Actions": {
+      "BackToLogin": "WRÓĆ DO LOGOWANIA",
+      "GoToLogin": "MASZ KONTO? IDŹ DO LOGOWANIA",
+      "GoToRegister": "NIE MASZ KONTA? IDŹ DO REJESTRACJI",
+      "Login": "ZALOGUJ",
+      "Register": "REJESTRUJ",
+      "ResetAgain": "RESETUJ HASŁO PONOWNIE",
+      "ResetPassword": "RESETUJ HASŁO",
+      "SetPassword": "USTAW HASŁO"
+    },
+    "Form": {
+      "Email": "E-mail",
+      "Name": "Imię",
+      "Password": "Hasło"
+    },
+    "Titles": {
+      "Login": "Zaloguj",
+      "Register": "Rejestruj",
+      "ResetPassword": "Resetuj hasło",
+      "SetPassword": "Ustaw hasło"
+    },
+    "ValidationMessages": {
+      "Email": "Nieprawidłowy format e-mail.",
+      "Minlength": "Hasło musi się składać z co najmniej 6 znaków.",
+      "Required": "Pole wymagane."
+    }
+  },
   "BUDGET_CATEGORY": {
-    "finance": "Finanse",
-    "shopping": "Wydatki podstawowe",
+    "all": "Wszystkie",
     "bills": "Dom i rachunki",
-    "health": "Zdrowie i uroda",
-    "clothing": "Odzież i obuwie",
-    "vehicle": "Samochód i transport",
-    "entertainment": "Rozrywka i podróże",
-    "education": "Edukacja",
-    "other": "Pozostałe",
-    "income": "Przychód",
     "cash": "Gotówka",
-    "all": "Wszystkie"
+    "clothing": "Odzież i obuwie",
+    "education": "Edukacja",
+    "entertainment": "Rozrywka i podróże",
+    "finance": "Finanse",
+    "health": "Zdrowie i uroda",
+    "income": "Przychód",
+    "other": "Pozostałe",
+    "shopping": "Wydatki podstawowe",
+    "vehicle": "Samochód i transport"
+  },
+  "DATA": {
+    "Amount": "Kwota",
+    "Category": "Kategoria",
+    "Date": "Data",
+    "Notes": "Notatki",
+    "Recipient": "Odbiorca"
+  },
+  "HEADER": {
+    "Dashboard": "Dashboard",
+    "Logout": "Wyloguj",
+    "Settings": "Ustawienia",
+    "Transactions": "Transakcje"
   },
   "QUERY": {
+    "Labels": {
+      "Category": "Kategria",
+      "Period": "Okres"
+    },
     "Periods": {
       "CurrentMonth": "Bieżący miesiąc",
-      "PreviousMonth": "Poprzedni miesiąc",
+      "CurrentYear": "Ten rok",
       "Last3Months": "Ostatnie 3 miesiące",
       "Last6Months": "Ostatnie 6 miesiący",
-      "CurrentYear": "Ten rok"
+      "PreviousMonth": "Poprzedni miesiąc"
     }
-  }
+  },
+  "SETTINGS": {
+    "Title": "Ustawienia"
+  },
+  "TRANSACTION": {
+    "Amount": "Kwota",
+    "BackToList": "Wróć do listy",
+    "Cancel": "ANULUJ",
+    "Category": "Kategoria",
+    "Date": "Data",
+    "Delete": "USUŃ",
+    "EditExpense": "Edytuj wydatek",
+    "EditIncome": "Edytuj przychód",
+    "NewExpense": "Nowy wydatek",
+    "NewIncome": "Nowy przychód",
+    "Notes": "Notatki",
+    "Recipient": "Odbiorca",
+    "Save": "ZAPISZ",
+    "ValidationMessages": {
+      "Required": "Pole wymagane."
+    }
+  },
+  "TRANSACTIONS": {
+    "Actions": {
+      "AddExpense": "Dodaj wydatek",
+      "AddIncome": "Dodaj przychód",
+      "Delete": "Usuń",
+      "Edit": "Edytuj"
+    },
+    "Title": "Transakcje",
+    "Total": "Razem"
+  },
+  "Welcome": "Witamy w aplikacji home_budget"
 }

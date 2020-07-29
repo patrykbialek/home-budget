@@ -1,8 +1,9 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import 'moment/locale/pl';
-import { of } from 'rxjs';
+import { of, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import * as fromModels from '../../models';
 import { budgetCategories } from '../../models/budget-categories.data';
@@ -15,11 +16,11 @@ moment.locale('pl')
   templateUrl: './filters.component.html',
   styleUrls: ['./filters.component.scss']
 })
-export class FiltersComponent implements OnInit {
+export class FiltersComponent implements OnDestroy, OnInit {
 
-  currentMonth = moment().format('MMMM');
-  previousMonth = moment().subtract(1, 'months').format('MMMM');
-  currentYear = moment().format('YYYY')
+  currentMonth: string;
+  previousMonth: string;
+  currentYear: string;
 
   filterForm: FormGroup;
 
@@ -33,24 +34,44 @@ export class FiltersComponent implements OnInit {
   categories$ = of(budgetCategories);
   periods$ = of(queryPeriods);
 
+  private subscription$ = new Subscription();
+
   @Output() readTransactions = new EventEmitter();
 
   constructor(
     private formBuilder: FormBuilder,
-  ) { }
+    private translationService: TranslateService,
+  ) {
+    this.subscription$.add(
+      translationService
+        .onLangChange
+        .subscribe(value => {
+          this.setQueryPeriodLabels(value.lang);
+          this.setPeriodValueSuffix(this.periodControl.value);
+        })
+    );
+  }
 
   get categoryControl() { return this.filterForm.get('category'); }
   get periodControl() { return this.filterForm.get('period'); }
 
+  ngOnDestroy() {
+    this.subscription$.unsubscribe();
+  }
+
   ngOnInit(): void {
+    this.createForm();
+    this.setDefaultQueryValues();
+    this.setListenerOnCategoryChange();
+    this.setListenerOnPeriodChange();
+    this.setQueryPeriodLabels(this.translationService.currentLang);
+  }
+
+  private createForm() {
     this.filterForm = this.formBuilder.group({
       category: [null],
       period: [null],
     });
-
-    this.setDefaultQueryValues();
-    this.setListenerOnCategoryChange();
-    this.setListenerOnPeriodChange();
   }
 
   private setDefaultQueryValues() {
@@ -75,14 +96,6 @@ export class FiltersComponent implements OnInit {
       });
   }
 
-  private setQueryCategoryAndReadTransactions(value: { name: string }) {
-    value.name !== 'all'
-      ? this.query.category = value.name
-      : delete this.query.category;
-
-    this.readTransactions.emit(this.query);
-  }
-
   private setListenerOnPeriodChange() {
     this.periodControl
       .valueChanges
@@ -90,6 +103,20 @@ export class FiltersComponent implements OnInit {
         this.setPeriodValueSuffix(value);
         this.setQueryPeriodAndReadTransactions(value);
       });
+  }
+
+  private setQueryPeriodLabels(currentLang: string) {
+    this.currentMonth = moment().locale(currentLang).format('MMMM');
+    this.previousMonth = moment().locale(currentLang).subtract(1, 'months').format('MMMM');
+    this.currentYear = moment().locale(currentLang).format('YYYY')
+  }
+
+  private setQueryCategoryAndReadTransactions(value: { name: string }) {
+    value.name !== 'all'
+      ? this.query.category = value.name
+      : delete this.query.category;
+
+    this.readTransactions.emit(this.query);
   }
 
   private setQueryPeriodAndReadTransactions(value: { id: string, name: string }) {

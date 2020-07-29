@@ -3,12 +3,12 @@
     <table mat-table [dataSource]="transactions">
 
       <ng-container matColumnDef="date">
-        <th mat-header-cell *matHeaderCellDef> Data </th>
+        <th mat-header-cell *matHeaderCellDef>{{ 'DATA.Date' | translate }}</th>
         <td mat-cell *matCellDef="let element"> {{ element.date | date:'dd/MM/yyyy' }} </td>
       </ng-container>
 
       <ng-container matColumnDef="category">
-        <th mat-header-cell *matHeaderCellDef> Kategoria </th>
+        <th mat-header-cell *matHeaderCellDef>{{ 'DATA.Category' | translate }}</th>
         <td mat-cell *matCellDef="let element">
           <div>
             <bh-category-icon class="mat-column-category-icon" [category]="element.category"></bh-category-icon>
@@ -18,17 +18,17 @@
       </ng-container>
 
       <ng-container matColumnDef="recipient">
-        <th mat-header-cell *matHeaderCellDef> Odbiorca </th>
+        <th mat-header-cell *matHeaderCellDef>{{ 'DATA.Recipient' | translate }}</th>
         <td mat-cell *matCellDef="let element"> {{ element.recipient }} </td>
       </ng-container>
 
       <ng-container matColumnDef="notes">
-        <th mat-header-cell *matHeaderCellDef> Notatki </th>
+        <th mat-header-cell *matHeaderCellDef>{{ 'DATA.Notes' | translate }}</th>
         <td mat-cell *matCellDef="let element"> {{ element.notes || '--' }} </td>
       </ng-container>
 
       <ng-container matColumnDef="amount">
-        <th mat-header-cell *matHeaderCellDef class="cell-align-right"> Kwota </th>
+        <th mat-header-cell *matHeaderCellDef class="cell-align-right">{{ 'DATA.Amount' | translate }}</th>
         <td mat-cell *matCellDef="let element" class="cell-align-right" [ngClass]="{ 'u-expense': element.type === 'expense',
           'u-income': element.type === 'income' }">
           <span>{{ element.type === 'expense' ? '-' : '' }}</span>
@@ -44,10 +44,10 @@
           </button>
           <mat-menu #actionsMenu="matMenu">
             <button mat-menu-item [routerLink]="['./', element.key]">
-              <mat-icon>edit</mat-icon>Edytuj
+              <mat-icon>edit</mat-icon>{{ 'TRANSACTIONS.Actions.Edit' | translate }}
             </button>
             <button mat-menu-item (click)="onDelete(element)">
-              <mat-icon>delete</mat-icon> Usuń
+              <mat-icon>delete</mat-icon>{{ 'TRANSACTIONS.Actions.Delete' | translate }}
             </button>
           </mat-menu>
         </td>
