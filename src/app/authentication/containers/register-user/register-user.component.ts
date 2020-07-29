@@ -14,7 +14,6 @@ import * as fromStoreServices from '../../store/services';
 })
 export class RegisterUserComponent extends CommonWithAnimationComponent implements OnInit {
 
-  errorMessage: string;
   registerForm: FormGroup;
 
   constructor(
