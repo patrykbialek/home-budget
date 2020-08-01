@@ -96,7 +96,9 @@
       "Edit": "Edytuj"
     },
     "Title": "Transakcje",
-    "Total": "Razem"
+    "Total": "Razem",
+    "IncomeTotal": "Przychody",
+    "ExpenseTotal": "Wydatki"
   },
   "Welcome": "Witamy w aplikacji home_budget"
 }
