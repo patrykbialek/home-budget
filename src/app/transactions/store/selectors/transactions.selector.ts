@@ -31,21 +31,53 @@ export const getSelectedTransaction = createSelector(
 
 export const getTransactions = createSelector(
   getTransactionsState,
-  fromTransactions.getTransactions,
+  state => {
+    const transactions = state.entities.map(transaction => {
+      transaction = {
+        ...transaction,
+        amount: transaction.type === 'expense'
+          ? transaction.amount = -transaction.amount
+          : transaction.amount = transaction.amount
+      }
+
+      return transaction;
+    });
+
+    return transactions;
+  }
 );
 
 export const getTotal = createSelector(
   getTransactionsState,
   state => {
-    let total = 0;
+    let total = {
+      all: 0.001,
+      expense: -0.001,
+      income: 0.001,
+    };
     const transactions = state.entities;
-    if (transactions) {
-      transactions.forEach(transaction => {
-        total = transaction.type === 'income' ? total += transaction.amount : total -= transaction.amount;
+
+    // All
+    transactions.forEach(transaction => {
+      total.all = transaction.type === 'income'
+        ? total.all += transaction.amount
+        : total.all -= transaction.amount;
+    });
+
+    // Expense
+    transactions
+      .filter(transaction => transaction.type === 'expense')
+      .forEach(transaction => {
+        total.expense -= transaction.amount;
       });
-    }
+
+    // Income
+    transactions
+      .filter(transaction => transaction.type === 'income')
+      .forEach(transaction => {
+        total.income += transaction.amount;
+      });
 
     return total;
   },
 );
-

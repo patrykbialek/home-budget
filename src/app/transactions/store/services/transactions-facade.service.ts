@@ -17,7 +17,7 @@ export class TransactionsFacadeService {
   isFailed$: Observable<boolean>;
   isLoading$: Observable<boolean>;
   isSuccess$: Observable<boolean>;
-  total$: Observable<number>;
+  total$: Observable<any>;
 
   constructor(
     private store: Store<fromReducers.MainState>,
