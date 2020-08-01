@@ -1,7 +1,7 @@
 import * as fromTransactions from '../actions/transactions.actions';
-
+import * as fromModels from '../../models';
 export interface TransactionsState {
-  entities: any[];
+  entities: fromModels.Transaction[];
   isFailed: boolean;
   isLoading: boolean;
   isSuccess: boolean;
@@ -51,7 +51,7 @@ export function reducer(
     }
 
     case fromTransactions.CREATE_TRANSACTION_SUCCESS:
-    case fromTransactions.UPDATE_TRANSACTION_SUCCESS: 
+    case fromTransactions.UPDATE_TRANSACTION_SUCCESS:
     case fromTransactions.DELETE_TRANSACTION_SUCCESS: {
       return {
         ...state,
@@ -61,8 +61,8 @@ export function reducer(
       };
     }
 
-    case fromTransactions.CREATE_TRANSACTION_FAILURE: 
-    case fromTransactions.DELETE_TRANSACTION_FAILURE: 
+    case fromTransactions.CREATE_TRANSACTION_FAILURE:
+    case fromTransactions.DELETE_TRANSACTION_FAILURE:
     case fromTransactions.UPDATE_TRANSACTION_FAILURE: {
       return {
         ...state,
