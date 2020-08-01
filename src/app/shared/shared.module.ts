@@ -17,7 +17,7 @@ import { AuthenticationStoreModule } from '@authentication/store/authentication-
     RouterModule,
     AngularMaterialModule,
 
-    TranslateModule,
+    TranslateModule.forChild(),
     AuthenticationStoreModule,
   ],
   exports: [

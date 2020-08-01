@@ -5,7 +5,14 @@
     "types": [
       "jasmine",
       "node"
-    ]
+    ],
+    "paths": {
+      "@authentication/*": ["src/app/authentication/*"],
+      "@dashboard/*": ["src/app/dashboard/*"],
+      "@shared/*": ["src/app/shared/*"],
+      "@settings/*": ["src/app/settings/*"],
+      "@transactions/*": ["src/app/transactions/*"]
+    }
   },
   "files": [
     "src/test.ts",
