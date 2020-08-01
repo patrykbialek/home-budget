@@ -14,6 +14,7 @@ import * as fromStoreServices from '../../store/services';
 })
 export class RegisterUserComponent extends CommonWithAnimationComponent implements OnInit {
 
+  afterSuccessRouteUrl = './dashboard';
   registerForm: FormGroup;
 
   constructor(
@@ -51,12 +52,11 @@ export class RegisterUserComponent extends CommonWithAnimationComponent implemen
     };
 
     this.authenticationService.registerUser(payload);
-
     this.authenticationService.isSuccess$
       .pipe(
         tap(response => {
           if (response) {
-            this.router.navigate(['./dashboard']);
+            this.router.navigate([this.afterSuccessRouteUrl]);
           }
         }),
       ).subscribe();
