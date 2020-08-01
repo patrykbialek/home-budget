@@ -31,7 +31,9 @@
         <div class="c-total u-text-large">
           <ng-container *ngIf="total$ | async as total">
             <div class="u-margin-bottom-small">
-              <span class="u-margin-right-tiny u-text-small">Przychód / wydatki:</span>
+              <span class="u-margin-right-tiny u-text-small">
+                {{ 'TRANSACTIONS.IncomeTotal' | translate }} / {{ 'TRANSACTIONS.ExpenseTotal' | translate }}:
+              </span>
               <span [ngClass]="{ 'u-expense1': total.income < 0,'u-income1': total.income > 0.001 }">
                 <span class="u-font-weight-bold">{{ total.income | currency:'&nbsp;':'symbol':'1.2-2':'pl' }}</span>
                 <span class="u-text-small">&nbsp;/&nbsp;</span>
