@@ -13,6 +13,7 @@ import * as fromServices from '../../store/services';
 })
 export class SetPasswordComponent extends CommonWithAnimationComponent implements OnInit {
 
+  loginRouteUrl = '../login';
   code: string;
   setForm: FormGroup;
 
@@ -27,10 +28,7 @@ export class SetPasswordComponent extends CommonWithAnimationComponent implement
 
   ngOnInit(): void {
     this.createForm();
-    this.code = this.activatedRoute.snapshot.queryParams['oobCode'];
-    if (!this.code) {
-      this.router.navigate(['../login']);
-    }
+    this.redirectToLoginIfNoCodeParam();
   }
 
   createForm() {
@@ -40,6 +38,14 @@ export class SetPasswordComponent extends CommonWithAnimationComponent implement
         Validators.minLength(6),
       ]],
     });
+  }
+
+  redirectToLoginIfNoCodeParam() {
+    this.code = this.activatedRoute.snapshot.queryParams['oobCode'];
+    console.log('code', this.activatedRoute.snapshot.queryParams)
+    if (!this.code) {
+      this.router.navigate([this.loginRouteUrl]);
+    }
   }
 
   setPassword(event: FormGroup) {
@@ -54,7 +60,7 @@ export class SetPasswordComponent extends CommonWithAnimationComponent implement
       .pipe(
         tap(response => {
           if (response) {
-            this.router.navigate(['../login']);
+            this.router.navigate([this.loginRouteUrl]);
           }
         }),
       ).subscribe();
