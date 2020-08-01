@@ -16,6 +16,7 @@ import * as fromStoreServices from '../../store/services';
 })
 export class LoginUserComponent extends CommonWithAnimationComponent implements OnDestroy, OnInit {
 
+  afterSuccessRouteUrl = './dashboard';
   loginForm: FormGroup;
 
   private subscription$ = new Subscription();
@@ -55,14 +56,15 @@ export class LoginUserComponent extends CommonWithAnimationComponent implements 
     };
 
     this.authenticationService.loginUser(payload.value);
-    this.subscription$.add(this.authenticationService.isSuccess$
-      .pipe(
-        tap(response => {
-          if (response) {
-            this.router.navigate(['./dashboard']);
-          }
-        }),
-      ).subscribe()
+    this.subscription$.add(
+      this.authenticationService.isSuccess$
+        .pipe(
+          tap(response => {
+            if (response) {
+              this.router.navigate([this.afterSuccessRouteUrl]);
+            }
+          }),
+        ).subscribe()
     );
   }
 
