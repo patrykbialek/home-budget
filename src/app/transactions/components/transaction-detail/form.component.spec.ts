@@ -13,8 +13,6 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AuthenticationStoreModule } from '@authentication/store/authentication-store.module';
-import { DebugElement } from '@angular/core';
-import { By } from '@angular/platform-browser';
 
 fdescribe('FormComponent', () => {
   let component: FormComponent;

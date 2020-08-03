@@ -31,8 +31,8 @@
           <mat-select formControlName="category" [attr.data-name]="'category'" tabindex="-1">
             <mat-select-trigger>
               <div class="c-select-trigger">
-                <bh-category-icon class="c-category__icon" [category]="categoryControl.value.name"></bh-category-icon>
-                <span class="c-category__text">{{ 'BUDGET_CATEGORY.' + categoryControl.value.name | translate }}</span>
+                <bh-category-icon class="c-category__icon" [category]="categoryControl.value?.name"></bh-category-icon>
+                <span class="c-category__text">{{ 'BUDGET_CATEGORY.' + categoryControl.value?.name | translate }}</span>
               </div>
             </mat-select-trigger>
             <mat-option *ngFor="let category of categories" [value]="category">
@@ -50,7 +50,7 @@
           <mat-select formControlName="period" [attr.data-name]="'period'" tabindex="-1">
             <mat-select-trigger>
               <div class="c-select-trigger">
-                <span class="c-period__text">{{ 'QUERY.Periods.' + periodControl.value.name | translate }}</span>
+                <span class="c-period__text">{{ 'QUERY.Periods.' + periodControl.value?.name | translate }}</span>
                 <span *ngIf="periodValueSuffix">&nbsp;({{ periodValueSuffix }})</span>
               </div>
             </mat-select-trigger>

@@ -105,10 +105,10 @@ export class FiltersComponent implements OnDestroy, OnInit {
       });
   }
 
-  private setQueryPeriodLabels(currentLang: string) {
+  private setQueryPeriodLabels(currentLang = 'pl') {
     this.currentMonth = moment().locale(currentLang).format('MMMM');
     this.previousMonth = moment().locale(currentLang).subtract(1, 'months').format('MMMM');
-    this.currentYear = moment().locale(currentLang).format('YYYY')
+    this.currentYear = moment().locale(currentLang).format('YYYY');
   }
 
   private setQueryCategoryAndReadTransactions(value: { name: string }) {
@@ -120,29 +120,30 @@ export class FiltersComponent implements OnDestroy, OnInit {
   }
 
   private setQueryPeriodAndReadTransactions(value: { id: string, name: string }) {
+    const dateFormat = 'YYYY-MM-DD';
     if (value.id === 'currentMonth') {
-      this.query.periodFrom = moment().startOf('month').format('YYYY-MM-DD');
-      this.query.periodTo = moment().endOf('month').format('YYYY-MM-DD');
+      this.query.periodFrom = moment().startOf('month').format(dateFormat);
+      this.query.periodTo = moment().endOf('month').format(dateFormat);
     }
 
     if (value.id === 'previousMonth') {
-      this.query.periodFrom = moment().subtract(1, 'months').startOf('month').format('YYYY-MM-DD');
-      this.query.periodTo = moment().subtract(1, 'months').endOf('month').format('YYYY-MM-DD');
+      this.query.periodFrom = moment().subtract(1, 'months').startOf('month').format(dateFormat);
+      this.query.periodTo = moment().subtract(1, 'months').endOf('month').format(dateFormat);
     }
 
     if (value.id === 'last3Months') {
-      this.query.periodFrom = moment().subtract(3, 'months').startOf('month').format('YYYY-MM-DD');
-      this.query.periodTo = moment().subtract(0, 'months').endOf('month').format('YYYY-MM-DD');
+      this.query.periodFrom = moment().subtract(3, 'months').startOf('month').format(dateFormat);
+      this.query.periodTo = moment().subtract(0, 'months').endOf('month').format(dateFormat);
     }
 
     if (value.id === 'last6Months') {
-      this.query.periodFrom = moment().subtract(6, 'months').startOf('month').format('YYYY-MM-DD');
-      this.query.periodTo = moment().subtract(0, 'months').endOf('month').format('YYYY-MM-DD');
+      this.query.periodFrom = moment().subtract(6, 'months').startOf('month').format(dateFormat);
+      this.query.periodTo = moment().subtract(0, 'months').endOf('month').format(dateFormat);
     }
 
     if (value.id === 'currentYear') {
-      this.query.periodFrom = moment().startOf('year').format('YYYY-MM-DD');
-      this.query.periodTo = moment().format('YYYY-MM-DD');
+      this.query.periodFrom = moment().startOf('year').format(dateFormat);
+      this.query.periodTo = moment().format(dateFormat);
     }
 
     this.readTransactions.emit(this.query);
