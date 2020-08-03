@@ -167,7 +167,6 @@ fdescribe('Transactions Selectors', () => {
         .subscribe(value => (result = value));
 
       store.dispatch(new fromActions.ReadTransactionsSuccess([]));
-      console.log('result', result)
       expect(result.length).toEqual(0);
     });
   });
