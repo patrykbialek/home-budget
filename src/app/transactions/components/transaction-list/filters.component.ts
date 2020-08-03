@@ -132,12 +132,12 @@ export class FiltersComponent implements OnDestroy, OnInit {
 
     if (value.id === 'last3Months') {
       this.query.periodFrom = moment().subtract(3, 'months').startOf('month').format('YYYY-MM-DD');
-      this.query.periodTo = moment().subtract(1, 'months').endOf('month').format('YYYY-MM-DD');
+      this.query.periodTo = moment().subtract(0, 'months').endOf('month').format('YYYY-MM-DD');
     }
 
     if (value.id === 'last6Months') {
       this.query.periodFrom = moment().subtract(6, 'months').startOf('month').format('YYYY-MM-DD');
-      this.query.periodTo = moment().subtract(1, 'months').endOf('month').format('YYYY-MM-DD');
+      this.query.periodTo = moment().subtract(0, 'months').endOf('month').format('YYYY-MM-DD');
     }
 
     if (value.id === 'currentYear') {

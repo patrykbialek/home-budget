@@ -1,7 +1,7 @@
 import * as fromTransactions from '../actions/transactions.actions';
-
+import * as fromModels from '../../models';
 export interface TransactionsState {
-  entities: any[];
+  entities: fromModels.Transaction[];
   isFailed: boolean;
   isLoading: boolean;
   isSuccess: boolean;

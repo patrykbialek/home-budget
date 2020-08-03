@@ -22,17 +22,40 @@
 
   <div class="c-section-content" class="u-padding-bottom-huge" style="padding-top: 96px;">
     <div class="o-grid">
-      <div class="o-grid__cell u-2/3 o-block">
+      <div class="o-grid__cell u-1/1 o-block">
         <div class="c-filters">
           <hb-filters (readTransactions)="readTransactions($event)" style="width: 100%"></hb-filters>
         </div>
       </div>
-      <div class="o-grid__cell u-1/3">
-        <div class="c-total u-text-large u-font-weight-bold" *ngIf="total$ | async as total">
-          <span class="u-margin-right-tiny u-text-small">{{ 'TRANSACTIONS.Total' | translate }}:</span>
-          <span [ngClass]="{ 'u-expense': total < 0,'u-income': total > 0 }">{{ total | currency:'&nbsp;':'symbol':'1.2-2':'pl' }}
-            <span class="u-text-small">&nbsp;PLN</span>
-          </span>
+      <div class="o-grid__cell u-1/1">
+        <div class="c-total u-text-large u-padding-small">
+          <ng-container *ngIf="total$ | async as total">
+            <div class="u-margin-left">
+              <span class="u-margin-right-tiny u-text-small">
+                {{ 'TRANSACTIONS.IncomeTotal' | translate }}:
+              </span>
+              <span [ngClass]="{ 'u-expense1': total.income < 0,'u-income1': total.income > 0.001 }">
+                <span class="u-font-weight-bold">{{ total.income | currency:'&nbsp;':'symbol':'1.2-2':'pl' }}</span>
+                <span class="u-text-small">&nbsp;PLN</span>
+              </span>
+            </div>
+            <div class="u-margin-left">
+              <span class="u-margin-right-tiny u-text-small">
+                {{ 'TRANSACTIONS.ExpenseTotal' | translate }}:
+              </span>
+              <span [ngClass]="{ 'u-expense1': total.expense < -0.001,'u-income1': total.expense > 0 }">
+                <span class="u-font-weight-bold">{{ total.expense | currency:'&nbsp;':'symbol':'1.2-2':'pl' }}</span>
+                <span class="u-text-small">&nbsp;PLN</span>
+              </span>
+            </div>
+            <div class="u-margin-left">
+              <span class="u-margin-right-tiny u-text-small">{{ 'TRANSACTIONS.Total' | translate }}:</span>
+              <span [ngClass]="{ 'u-expense': total.all < 0.001,'u-income': total.all > 0.001 }">
+                <span class="u-font-weight-bold">{{ total.all | currency:'&nbsp;':'symbol':'1.2-2':'pl' }}</span>
+                <span class="u-text-small">&nbsp;PLN</span>
+              </span>
+            </div>
+          </ng-container>
         </div>
       </div>
     </div>
