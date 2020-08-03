@@ -42,7 +42,6 @@ export class SetPasswordComponent extends CommonWithAnimationComponent implement
 
   redirectToLoginIfNoCodeParam() {
     this.code = this.activatedRoute.snapshot.queryParams['oobCode'];
-    console.log('code', this.activatedRoute.snapshot.queryParams)
     if (!this.code) {
       this.router.navigate([this.loginRouteUrl]);
     }
