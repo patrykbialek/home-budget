@@ -38,8 +38,8 @@ export function reducer(
         ...state,
         entity: user,
         isFailed: false,
-        isLoading: true,
-        isSuccess: false,
+        isLoading: false,
+        isSuccess: true,
       };
     }
 

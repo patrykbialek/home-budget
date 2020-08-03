@@ -85,7 +85,6 @@ export class AuthenticationEffects {
           catchError((error) => {
             const errorMessage = fromModels.ApiErrors.Parse(error.code);
             this.openSnackBar(errorMessage, 10000);
-            console.log(error)
             return of(new fromActions.RegisterUserFailure(error));
           })
         );
@@ -93,7 +92,7 @@ export class AuthenticationEffects {
   );
 
   @Effect()
-  resetPasssword$ = this.actions$.pipe(ofType(fromActions.RESET_PASSWORD),
+  resetPassword$ = this.actions$.pipe(ofType(fromActions.RESET_PASSWORD),
     map((action: fromActions.ResetPassword) => action.payload),
     mergeMap((payload: fromModels.UserPayload) => {
       return this.authenticationService
@@ -106,7 +105,6 @@ export class AuthenticationEffects {
           catchError((error) => {
             const errorMessage = fromModels.ApiErrors.Parse(error.code);
             this.openSnackBar(errorMessage, 10000);
-            console.log(error)
             return of(new fromActions.ResetPasswordFailure(error));
           })
         );
@@ -127,7 +125,6 @@ export class AuthenticationEffects {
           catchError((error) => {
             const errorMessage = fromModels.ApiErrors.Parse(error.code);
             this.openSnackBar(errorMessage, 10000);
-            console.log(error)
             return of(new fromActions.SetPasswordFailure(error));
           })
         );
