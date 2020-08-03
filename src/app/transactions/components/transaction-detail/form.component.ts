@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output, Input, ChangeDetectionStrategy, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input, ChangeDetectionStrategy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 
@@ -10,7 +10,7 @@ import * as moment from 'moment';
   styleUrls: ['./form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormComponent implements OnInit {
+export class FormComponent implements AfterViewInit {
 
   @Input() categories$: Observable<any[]>;
   @Input() mode: string;
@@ -28,7 +28,7 @@ export class FormComponent implements OnInit {
   get recipientControl() { return this.transactionForm.get('recipient'); }
   get typeControl() { return this.transactionForm.get('type'); }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     setTimeout(() => {
       this.amountHTML.nativeElement.focus();
     });
