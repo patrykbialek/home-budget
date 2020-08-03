@@ -27,6 +27,7 @@ export function reducer(
         entities: [],
         isFailed: false,
         isLoading: true,
+        isSuccess: false,
       };
     }
 
@@ -38,6 +39,7 @@ export function reducer(
         entities: transactions,
         isFailed: false,
         isLoading: false,
+        isSuccess: true,
       };
     }
 
