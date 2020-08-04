@@ -1,15 +1,29 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { DashboardComponent } from './dashboard.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TranslateFakeLoader, TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CommonWithAnimationComponent } from '@shared/components/common-with-animation.component';
+import { SharedModule } from '@shared/shared.module';
+import { DashboardComponent } from './dashboard.component';
 
-describe('DashboardComponent', () => {
+fdescribe('DashboardComponent', () => {
   let component: DashboardComponent;
   let fixture: ComponentFixture<DashboardComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DashboardComponent, CommonWithAnimationComponent ]
+      declarations: [ DashboardComponent, CommonWithAnimationComponent ],
+      imports: [
+        BrowserAnimationsModule,
+        TranslateModule.forRoot({
+          loader: {
+            provide: TranslateLoader,
+            useClass: TranslateFakeLoader
+          }
+        }),
+      ],
+      providers: [
+        TranslateService,
+      ],
     })
     .compileComponents();
   }));
