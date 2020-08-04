@@ -171,9 +171,10 @@ export class TransactionDetailComponent
   }
 
   private prepareDataOnCreate(queryParams: any): void {
-    const transactionType = this.getTransactionTypeLabel(queryParams.type);
-    this.setSectionTitle(transactionType);
-    this.typeControl.setValue(queryParams.type);
+    const transactionType = queryParams ? queryParams.type : null;
+    const transactionTypeLabel = this.getTransactionTypeLabel(transactionType);
+    this.setSectionTitle(transactionTypeLabel);
+    this.typeControl.setValue(transactionType);
     this.dateControl.setValue(new Date());
   }
 
@@ -182,8 +183,10 @@ export class TransactionDetailComponent
       .pipe(
         tap((response: fromModels.Transaction) => {
           if (response) {
-            const transactionType = this.getTransactionTypeLabel(response.type);
-            this.setSectionTitle(transactionType);
+            const transactionTypeLabel = response
+              ? this.getTransactionTypeLabel(response.type)
+              : null;
+            this.setSectionTitle(transactionTypeLabel);
             this.fillFormData(response);
             this.transactionKey = params.key;
           } else {
