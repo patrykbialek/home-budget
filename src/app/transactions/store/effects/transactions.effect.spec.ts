@@ -14,7 +14,7 @@ import { TransactionPayload } from '@transactions/models';
 const mockTransaction: TransactionPayload = {
   key: 'string',
   value: null,
-}
+};
 
 fdescribe('Transactions Effects', () => {
   let scheduler: TestScheduler;

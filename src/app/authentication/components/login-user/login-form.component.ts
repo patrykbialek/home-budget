@@ -11,6 +11,6 @@ export class LoginFormComponent extends AuthenticationFormComponent {
 
   constructor(
     authenticationUtilsService: fromServices.AuthenticationUtilsService,
-  ) { super(authenticationUtilsService) }
+  ) { super(authenticationUtilsService); }
 
 }

@@ -25,8 +25,8 @@ fdescribe('FiltersComponent', () => {
   class TranslateServiceStub {
     setDefaultLang(lang: string) { }
     use(lang: string) { }
-    get currentLang() { return of({ lang: 'pl'})}
-    get onLangChange() { return of({ lang: 'pl' }) }
+    get currentLang() { return of({ lang: 'pl'});}
+    get onLangChange() { return of({ lang: 'pl' }); }
   }
 
   beforeEach(async(() => {
@@ -136,6 +136,6 @@ fdescribe('FiltersComponent', () => {
       expect(component.previousMonth).not.toBe(null);
       expect(component.currentYear).not.toBe(null);
     });
-  })
+  });
 
 });

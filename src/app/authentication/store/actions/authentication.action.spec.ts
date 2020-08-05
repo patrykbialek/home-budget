@@ -128,7 +128,7 @@ fdescribe('Authentication Actions', () => {
             password: 'string',
             code: 'any',
           }
-        }
+        };
         const action = new fromAuthentication.RegisterUser(payload);
 
         expect({ ...action }).toEqual({
@@ -174,7 +174,7 @@ fdescribe('Authentication Actions', () => {
             password: 'string',
             code: 'any',
           }
-        }
+        };
         const action = new fromAuthentication.ResetPassword(payload);
 
         expect({ ...action }).toEqual({
@@ -220,7 +220,7 @@ fdescribe('Authentication Actions', () => {
             password: 'string',
             code: 'any',
           }
-        }
+        };
         const action = new fromAuthentication.SetPassword(payload);
 
         expect({ ...action }).toEqual({

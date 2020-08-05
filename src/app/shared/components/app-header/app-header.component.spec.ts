@@ -15,9 +15,9 @@ import { environment } from 'src/environments/environment';
 import { AppHeaderComponent } from '..';
 import { Observable, of } from 'rxjs';
 
-let mockRouter = {
+const mockRouter = {
   navigate: jasmine.createSpy('navigate'),
-}
+};
 
 export class AuthenticationFacadeServiceStub {
   isSuccess$: Observable<boolean>;

@@ -79,7 +79,7 @@ export class TransactionsFacadeServiceStub {
   }
 }
 
-let mockRouter = {
+const mockRouter = {
   navigate: jasmine.createSpy('navigate'),
 };
 
@@ -121,7 +121,7 @@ const providers = [
   // { provide: TransactionsFacadeService, useClass: TransactionsFacadeServiceStub },
   { provide: ActivatedRoute, useValue: activatedRouteStub },
   { provide: TransactionsFacadeService, useValue: transactionsFacadeServiceStub },
-]
+];
 
 function createForm(): FormGroup {
   return formBuilder.group({
@@ -154,8 +154,8 @@ function whenNgOnInitWithUpdateMode() {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: declarations,
-      imports: imports,
+      declarations,
+      imports,
       providers: [
         ...providers,
         { provide: ActivatedRoute, useValue: activatedRouteStub },
@@ -213,8 +213,8 @@ function whenNgOnInitWithUpdateModeAndNoParamKey() {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: declarations,
-      imports: imports,
+      declarations,
+      imports,
       providers: [
         ...providers,
         { provide: ActivatedRoute, useValue: activatedRouteStub },
@@ -253,8 +253,8 @@ function whenNgOnInitWithCreateMode() {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: declarations,
-      imports: imports,
+      declarations,
+      imports,
       providers: [
         ...providers,
         { provide: ActivatedRoute, useValue: activatedRouteStub },
@@ -291,8 +291,8 @@ function whenDeleteTransaction() {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: declarations,
-      imports: imports,
+      declarations,
+      imports,
       providers: [
         ...providers,
         { provide: ActivatedRoute, useValue: activatedRouteStub },
@@ -329,8 +329,8 @@ function whenSaveDataWithUpdateMode() {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: declarations,
-      imports: imports,
+      declarations,
+      imports,
       providers: [
         ...providers,
         { provide: ActivatedRoute, useValue: activatedRouteStub },
@@ -366,8 +366,8 @@ function whenSaveDataWithCreateMode() {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: declarations,
-      imports: imports,
+      declarations,
+      imports,
       providers: [
         ...providers,
         { provide: ActivatedRoute, useValue: activatedRouteStub },

@@ -13,7 +13,7 @@ export class ResetFormComponent extends AuthenticationFormComponent implements O
 
   constructor(
     authenticationUtilsService: fromServices.AuthenticationUtilsService,
-  ) { super(authenticationUtilsService) }
+  ) { super(authenticationUtilsService); }
 
   ngOnInit(): void {
     setTimeout(() => {

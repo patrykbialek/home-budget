@@ -45,7 +45,7 @@ export class ResetPasswordComponent extends CommonWithAnimationComponent impleme
       value: event.value
     };
 
-    this.authenticationService.resetPassword(payload)
+    this.authenticationService.resetPassword(payload);
     this.authenticationService.isSuccess$
       .pipe(
         take(1),

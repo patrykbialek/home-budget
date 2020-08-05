@@ -39,9 +39,9 @@ export class AuthenticationFacadeServiceStub {
   }
 }
 
-let mockRouter = {
+const mockRouter = {
   navigate: jasmine.createSpy('navigate'),
-}
+};
 
 fdescribe('RegisterUserComponent', () => {
   let component: RegisterUserComponent;
