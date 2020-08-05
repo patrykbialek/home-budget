@@ -25,7 +25,7 @@
   <form [formGroup]="filterForm" class="u-text-normal">
     <div class="o-grid">
 
-      <div class="o-grid__cell u-1/2" *ngIf="categories$ | async as categories">
+      <div class="o-grid__cell u-1/1@mobile u-1/2@tablet" *ngIf="categories$ | async as categories">
         <mat-form-field appearance="outline" style="width: 100%;">
           <mat-label>{{ 'QUERY.Labels.Category' | translate }}</mat-label>
           <mat-select formControlName="category" [attr.data-name]="'category'" tabindex="-1">
@@ -44,7 +44,7 @@
           </mat-select>
         </mat-form-field>
       </div>
-      <div class="o-grid__cell u-1/2" *ngIf="periods$ | async as periods">
+      <div class="o-grid__cell u-1/1@mobile u-1/2@tablet" *ngIf="periods$ | async as periods">
         <mat-form-field appearance="outline" style="width: 100%;">
           <mat-label>{{ 'QUERY.Labels.Period' | translate }}</mat-label>
           <mat-select formControlName="period" [attr.data-name]="'period'" tabindex="-1">

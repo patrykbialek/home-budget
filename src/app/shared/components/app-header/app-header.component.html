@@ -1,33 +1,76 @@
 <ng-container *ngIf="user$ | async as user">
   <nav class="c-app-header">
-    <ng-container>
+    <ng-container *ngIf="windowSize$ | async as windowSize">
       <mat-toolbar color="default" class="c-app-header__toolbar">
         <mat-toolbar-row>
           <a class="u-margin-right-huge" [routerLink]="['/dashboard']">
             <img src="../assets/images/home-budget-horizontal.svg" alt="logo" style="height: 36px;">
           </a>
           <span style="flex-grow: 1;"></span>
-          <button class="u-margin-left-tiny" mat-button [routerLink]="['dashboard']" routerLinkActive="u-router-link-active">
-            <mat-icon class="u-margin-right-tiny">dashboard</mat-icon>{{ 'HEADER.Dashboard' | translate }}</button>
-          <button class="u-margin-left-tiny" mat-button [routerLink]="['transactions']" routerLinkActive="u-router-link-active">
-            <mat-icon class="u-margin-right-tiny">list_alt</mat-icon>{{ 'HEADER.Transactions' | translate }}</button>
-          <button class="u-margin-left-tiny" mat-button [routerLink]="['settings']" routerLinkActive="u-router-link-active">
-            <mat-icon class="u-margin-right-tiny">tune</mat-icon>{{ 'HEADER.Settings' | translate }}</button>
-          <div class="u-border-left u-margin-left-tiny" style="width:1px">&nbsp;</div>
+          <ng-container *ngIf="windowSize === 'desktop'">
+            <button class="u-margin-left-tiny"
+              mat-button
+              [routerLink]="['dashboard']"
+              routerLinkActive="u-router-link-active">
+              <mat-icon class="u-margin-right-tiny">dashboard</mat-icon>
+              {{ 'HEADER.Dashboard' | translate }}
+            </button>
+            <button class="u-margin-left-tiny"
+              mat-button
+              [routerLink]="['transactions']"
+              routerLinkActive="u-router-link-active">
+              <mat-icon class="u-margin-right-tiny">list_alt</mat-icon>
+              {{ 'HEADER.Transactions' | translate }}
+            </button>
+            <button class="u-margin-left-tiny"
+              mat-button
+              [routerLink]="['settings']"
+              routerLinkActive="u-router-link-active">
+              <mat-icon class="u-margin-right-tiny">tune</mat-icon>
+              {{ 'HEADER.Settings' | translate }}
+            </button>
+            <div class="u-border-left u-margin-left-tiny" style="width:1px">&nbsp;</div>
+          </ng-container>
           <button class="u-margin-left-tiny" mat-icon-button color="accent" (click)="onChangeLanguage()">
             {{ currentLang }}
           </button>
           <div class="u-border-left u-margin-left-tiny" style="width:1px">&nbsp;</div>
-          <button class="u-margin-left-tiny" mat-button color="primary" [matMenuTriggerFor]="userMenu" >
-            <mat-icon style="margin-right: 16px;" >account_circle</mat-icon>
-            {{ user.email }}
-          </button>
-          <mat-menu #userMenu="matMenu">
-            <!-- <button mat-menu-item>
-              <mat-icon>tune</mat-icon>
-              <span>Ustawienia profilu</span>
+          <ng-container *ngIf="windowSize === 'mobile'; else noMobile">
+            <button class="u-margin-left-tiny" mat-icon-button color="primary" [matMenuTriggerFor]="userMenu" >
+              <mat-icon>menu</mat-icon>
             </button>
-            <mat-divider></mat-divider> -->
+          </ng-container>
+          <ng-template #noMobile>
+            <button class="u-margin-left-tiny" mat-button color="primary" [matMenuTriggerFor]="userMenu" >
+              <mat-icon style="margin-right: 16px;" >account_circle</mat-icon>
+              {{ user.email }}
+            </button>
+          </ng-template>
+          <mat-menu #userMenu="matMenu">
+            <ng-container *ngIf="windowSize === 'mobile'">
+              <button
+                mat-menu-item
+                [routerLink]="['dashboard']"
+                routerLinkActive="u-router-link-active">
+                <mat-icon>dashboard</mat-icon>
+                {{ 'HEADER.Dashboard' | translate }}
+              </button>
+              <button
+                mat-menu-item
+                [routerLink]="['transactions']"
+                routerLinkActive="u-router-link-active">
+                <mat-icon >list_alt</mat-icon>
+                {{ 'HEADER.Transactions' | translate }}
+              </button>
+              <button
+                mat-menu-item
+                [routerLink]="['settings']"
+                routerLinkActive="u-router-link-active">
+                <mat-icon>tune</mat-icon>
+                {{ 'HEADER.Settings' | translate }}
+              </button>
+              <mat-divider></mat-divider>
+            </ng-container>
             <button mat-menu-item (click)="onLogout()">
               <mat-icon>lock</mat-icon>
               <span>{{ 'HEADER.Logout' | translate }}</span>
