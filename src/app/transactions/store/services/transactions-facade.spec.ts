@@ -18,8 +18,8 @@ fdescribe('TransactionsFacadeService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: imports,
-      providers: providers,
+      imports,
+      providers,
     });
     service = TestBed.inject(TransactionsFacadeService);
   });

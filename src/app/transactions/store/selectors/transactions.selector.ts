@@ -24,7 +24,7 @@ export const getSelectedTransaction = createSelector(
   getTransactionsState,
   fromRoot.getRouterState,
   (state, router): fromModels.Transaction => {
-    const transaction = state.entities.find(entity => entity.key === router.state.params.key)
+    const transaction = state.entities.find(entity => entity.key === router.state.params.key);
     return router.state && transaction;
   }
 );
@@ -38,7 +38,7 @@ export const getTransactions = createSelector(
         amount: transaction.type === 'expense'
           ? transaction.amount = -transaction.amount
           : transaction.amount = transaction.amount
-      }
+      };
 
       return transaction;
     });
@@ -50,7 +50,7 @@ export const getTransactions = createSelector(
 export const getTotal = createSelector(
   getTransactionsState,
   state => {
-    let total = {
+    const total = {
       all: 0.001,
       expense: -0.001,
       income: 0.001,

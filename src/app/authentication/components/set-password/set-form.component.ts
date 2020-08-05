@@ -13,7 +13,7 @@ export class SetFormComponent extends AuthenticationFormComponent implements OnI
 
   constructor(
     authenticationUtilsService: fromServices.AuthenticationUtilsService,
-  ) { super(authenticationUtilsService) }
+  ) { super(authenticationUtilsService); }
 
   ngOnInit(): void {
     setTimeout(() => {

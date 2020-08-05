@@ -1,4 +1,4 @@
-import { ApiErrors } from "./api-errors.data";
+import { ApiErrors } from './api-errors.data';
 
 fdescribe('ApiErrors', () => {
   const errorClass = ApiErrors;
@@ -71,6 +71,6 @@ fdescribe('ApiErrors', () => {
       expect(errorClass.Parse(message.code))
         .toBe(message.message);
     });
-  })
+  });
 
 });

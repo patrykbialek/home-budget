@@ -111,7 +111,7 @@ fdescribe('Transactions Actions', () => {
             notes: 'string',
           },
           uid: 'string',
-        }
+        };
         const action = new fromTransactions.CreateTransaction(payload);
 
         expect({ ...action }).toEqual({

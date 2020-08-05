@@ -133,7 +133,7 @@ describe('AuthenticationReducer Selectors', () => {
         email: 'dd',
         name: 'dd',
         password: 'dd',
-      }
+      };
       const { initialState } = fromAuthentication;
       const previousState = { ...initialState, entity };
       const slice = fromAuthentication.getUser(previousState);

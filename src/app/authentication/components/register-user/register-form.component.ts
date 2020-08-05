@@ -13,7 +13,7 @@ export class RegisterFormComponent extends AuthenticationFormComponent implement
 
   constructor(
     authenticationUtilsService: fromServices.AuthenticationUtilsService,
-  ) { super(authenticationUtilsService) }
+  ) { super(authenticationUtilsService); }
 
   ngOnInit(): void {
     setTimeout(() => {

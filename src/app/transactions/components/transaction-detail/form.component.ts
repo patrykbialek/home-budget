@@ -49,7 +49,7 @@ export class FormComponent implements AfterViewInit {
 
   onSave() {
     if (this.transactionForm.valid) {
-      this.saveData.emit(this.transactionForm)
+      this.saveData.emit(this.transactionForm);
     } else {
       this.transactionForm.markAllAsTouched();
     }

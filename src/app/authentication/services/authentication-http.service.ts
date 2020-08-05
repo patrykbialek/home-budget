@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 
 import {
   AngularFireDatabase,
@@ -58,11 +58,11 @@ export class AuthenticationHttpService {
     return from(callback);
   }
 
-  // Logout 
+  // Logout
 
   logoutUser() {
     const callback = this.fireAuth.auth
-      .signOut()
+      .signOut();
 
     return from(callback);
   }

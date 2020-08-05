@@ -81,7 +81,7 @@ fdescribe('FormComponent', () => {
     fixture.detectChanges();
 
     expect(component.amountHTML.nativeElement.focus).toHaveBeenCalled();
-  }))
+  }));
 
   it(`should return 'TRANSACTION.ValidationMessages.Required' message when form controls have 'required' error`, () => {
     component.amountControl.setErrors({ required: true });

@@ -9,7 +9,7 @@ import * as fromModels from '../../models';
 import { budgetCategories } from '../../models/budget-categories.data';
 import { queryPeriods } from '../../models/query-periods.data';
 
-moment.locale('pl')
+moment.locale('pl');
 
 @Component({
   selector: 'hb-filters',

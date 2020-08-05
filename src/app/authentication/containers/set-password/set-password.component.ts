@@ -41,7 +41,7 @@ export class SetPasswordComponent extends CommonWithAnimationComponent implement
   }
 
   redirectToLoginIfNoCodeParam() {
-    this.code = this.activatedRoute.snapshot.queryParams['oobCode'];
+    this.code = this.activatedRoute.snapshot.queryParams.oobCode;
     if (!this.code) {
       this.router.navigate([this.loginRouteUrl]);
     }
@@ -54,7 +54,7 @@ export class SetPasswordComponent extends CommonWithAnimationComponent implement
     };
     payload.value.code = this.code;
 
-    this.authenticationService.setPassword(payload)
+    this.authenticationService.setPassword(payload);
     this.authenticationService.isSuccess$
       .pipe(
         tap(response => {

@@ -15,7 +15,7 @@ export class TransactionListComponent extends CommonWithAnimationComponent imple
 
   uid: string;
 
-  isLoading$ = this.transactionsService.isLoading$
+  isLoading$ = this.transactionsService.isLoading$;
   total$ = this.transactionsService.total$;
   transactions$ = this.transactionsService.transactions$;
   user$ = this.authenticationService.authState$;
