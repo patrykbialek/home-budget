@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationHttpService } from '@authentication/services';
 import { CommonWithAnimationComponent } from '@shared/components';
+import { SharedUtilsService } from '@shared/services/shared-utils.service';
 import { budgetCategories } from '@transactions/models/budget-categories.data';
 import { TransactionsFacadeService } from '@transactions/store';
 import { combineLatest, of, Subscription } from 'rxjs';
@@ -32,6 +33,7 @@ export class TransactionDetailComponent
   transactionForm: FormGroup;
 
   categories$ = of(budgetCategories);
+  windowSize$ = this.sharedUtilsService.windowSize$;
 
   private subscription$ = new Subscription();
 
@@ -40,6 +42,7 @@ export class TransactionDetailComponent
     private authenticationService: AuthenticationHttpService,
     private formBuilder: FormBuilder,
     private router: Router,
+    private sharedUtilsService: SharedUtilsService,
     private transactionsService: TransactionsFacadeService,
   ) {
     super();

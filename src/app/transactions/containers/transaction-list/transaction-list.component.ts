@@ -1,10 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CommonWithAnimationComponent } from '@shared/components';
-
-import * as fromStore from '../../store';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthenticationHttpService } from '@authentication/services';
-import { tap, filter } from 'rxjs/operators';
+import { CommonWithAnimationComponent } from '@shared/components';
+import { SharedUtilsService } from '@shared/services/shared-utils.service';
 import { Subscription } from 'rxjs';
+import { filter, tap } from 'rxjs/operators';
+import * as fromStore from '../../store';
 
 @Component({
   selector: 'hb-transaction-list',
@@ -19,6 +19,7 @@ export class TransactionListComponent extends CommonWithAnimationComponent imple
   total$ = this.transactionsService.total$;
   transactions$ = this.transactionsService.transactions$;
   user$ = this.authenticationService.authState$;
+  windowSize$ = this.sharedUtilsService.windowSize$;
 
   initQuery = {};
 
@@ -26,6 +27,7 @@ export class TransactionListComponent extends CommonWithAnimationComponent imple
 
   constructor(
     private authenticationService: AuthenticationHttpService,
+    private sharedUtilsService: SharedUtilsService,
     private transactionsService: fromStore.TransactionsFacadeService
   ) {
     super();

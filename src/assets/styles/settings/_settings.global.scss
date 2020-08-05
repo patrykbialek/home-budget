@@ -156,14 +156,17 @@ $mq-breakpoints: (
   background-color: $color--primary;
 }
 .mat-button.mat-primary,
+.mat-icon-button.mat-primary,
 .mat-stroked-button.mat-primary {
   color: $color--primary;
 }
 .mat-button.mat-green,
+.mat-icon-button.mat-green,
 .mat-stroked-button.mat-green {
   color: $green_600;
 }
 .mat-button.mat-red,
+.mat-icon-button.mat-red,
 .mat-stroked-button.mat-red {
   color: $red_600;
 }

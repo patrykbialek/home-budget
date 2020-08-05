@@ -6,11 +6,19 @@
         <h4 class="u-margin-right-small">{{ 'TRANSACTION.' + sectionTitle | translate }}</h4>
 
         <div class="c-section-header__actions-right o-block o-block--right">
-          <div class="c-section-header__actions-right o-block o-block--right">
-            <a mat-button [routerLink]="['../']">
-              <mat-icon class="u-margin-right-tiny">arrow_back</mat-icon>
-              {{ 'TRANSACTION.BackToList' | translate }}
+          <div class="c-section-header__actions-right o-block o-block--right"
+            *ngIf="windowSize$ | async as windowSize">
+            <ng-container *ngIf="windowSize === 'desktop'; else mobileSize">
+              <a mat-button [routerLink]="['../']">
+                <mat-icon class="u-margin-right-tiny">arrow_back</mat-icon>
+                {{ 'TRANSACTION.BackToList' | translate }}
+              </a>
+          </ng-container>
+          <ng-template #mobileSize>
+            <a mat-icon-button [routerLink]="['../']">
+              <mat-icon>arrow_back</mat-icon>
             </a>
+          </ng-template>
           </div>
         </div>
       </header>
