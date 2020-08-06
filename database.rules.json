@@ -1,6 +1,13 @@
 {
   "rules": {
-    ".read": false,
-    ".write": false
+    "workspaces": {
+      "$uid": {
+        ".read": "$uid === auth.uid",
+        ".write": "$uid === auth.uid",
+        "transactions": {
+          ".indexOn": ["date", "category_date"]
+        }
+      }
+    }
   }
 }
