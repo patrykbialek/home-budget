@@ -181,16 +181,17 @@ fdescribe('Transactions Selectors', () => {
 
       store.dispatch(new fromActions.ReadTransactionsSuccess([]));
 
-      expect(result.all.toString().substring(0, 5))
-        .toEqual((0.001).toString().substring(0, 5));
+      expect(result.all)
+        .toEqual(0);
 
       store
         .select(fromSelectors.getTotal)
         .subscribe(value => (result = value));
 
-      store.dispatch(new fromActions.ReadTransactionsSuccess(transactions.filter(transaction => transaction.type === TransactionType.Income)));
+      store.dispatch(new fromActions.ReadTransactionsSuccess(
+        transactions.filter(transaction => transaction.type === TransactionType.Income)));
 
-      expect(result.all).toEqual(200.001);
+      expect(result.all).toEqual(200);
 
       store
         .select(fromSelectors.getTotal)
@@ -198,8 +199,8 @@ fdescribe('Transactions Selectors', () => {
 
       store.dispatch(new fromActions.ReadTransactionsSuccess(transactions));
 
-      expect(result.all.toString().substring(0, 5))
-        .toEqual((0.001).toString().substring(0, 5));
+      expect(result.all)
+        .toEqual(400);
     });
   });
 
