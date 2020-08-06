@@ -54,6 +54,12 @@
     "Settings": "Ustawienia",
     "Transactions": "Transakcje"
   },
+  "PAGE_NOT_FOUND": {
+    "Actions": {
+      "GoToMainPage": "IDŹ DO STRONY GŁÓWNEJ"
+    },
+    "Title": "Strona nie znaleziona (404)"
+  },
   "QUERY": {
     "Labels": {
       "Category": "Kategria",
@@ -95,10 +101,10 @@
       "Delete": "Usuń",
       "Edit": "Edytuj"
     },
-    "Title": "Transakcje",
-    "Total": "Razem",
+    "ExpenseTotal": "Wydatki",
     "IncomeTotal": "Przychody",
-    "ExpenseTotal": "Wydatki"
+    "Title": "Transakcje",
+    "Total": "Razem"
   },
   "Welcome": "Witamy w aplikacji home_budget"
 }

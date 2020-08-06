@@ -54,6 +54,12 @@
     "Settings": "Settings",
     "Transactions": "Transactions"
   },
+  "PAGE_NOT_FOUND": {
+    "Actions": {
+      "GoToMainPage": "GO TO MAIN PAGE"
+    },
+    "Title": "Page not found (404)"
+  },
   "QUERY": {
     "Labels": {
       "Category": "Category",
@@ -95,10 +101,10 @@
       "Delete": "Delete",
       "Edit": "Edit"
     },
-    "Title": "Transactions",
-    "Total": "Total",
+    "ExpenseTotal": "Expenses",
     "IncomeTotal": "Incomes",
-    "ExpenseTotal": "Expenses"
+    "Title": "Transactions",
+    "Total": "Total"
   },
   "Welcome": "Welcome to home_budget app"
 }
