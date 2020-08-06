@@ -7,6 +7,11 @@ import { PageNotFoundComponent } from '@shared/components';
 const routes: Routes = [
   {
     path: '',
+    redirectTo: 'dashboard',
+    pathMatch: 'full'
+  },
+  {
+    path: '',
     loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule)
   },
   {
