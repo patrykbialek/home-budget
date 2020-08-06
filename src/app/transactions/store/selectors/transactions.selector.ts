@@ -58,18 +58,22 @@ export const getTotal = createSelector(
     const transactions = state.entities;
 
     // All
+    let totalExpense = 0;
+    let totalIncome = 0;
     transactions.forEach(transaction => {
-      total.all = transaction.type === 'income'
-        ? total.all += transaction.amount
-        : total.all -= transaction.amount;
+      transaction.type === 'income'
+        ? totalIncome += transaction.amount
+        : totalExpense += transaction.amount;
     });
+    total.all = totalIncome + totalExpense;
 
     // Expense
     transactions
       .filter(transaction => transaction.type === 'expense')
       .forEach(transaction => {
-        total.expense -= transaction.amount;
+        total.expense += transaction.amount;
       });
+    total.expense = -Math.abs(total.expense);
 
     // Income
     transactions
