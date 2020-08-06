@@ -37,6 +37,8 @@ export class AuthenticationFacadeServiceStub {
   registerUser(payload?: any) {
     //
   }
+
+  logoutUser() { }
 }
 
 const mockRouter = {
@@ -98,9 +100,11 @@ fdescribe('RegisterUserComponent', () => {
 
   it(`should call 'createForm' method on init`, () => {
     const createFormSpy = spyOn(component, 'createForm');
+    const logoutSpy = spyOn(authenticationServiceStub, 'logoutUser');
 
     component.ngOnInit();
     expect(createFormSpy).toHaveBeenCalledTimes(1);
+    expect(logoutSpy).toHaveBeenCalledTimes(1);
   });
 
   it(`it should create registerForm while calling 'createForm' method`, () => {

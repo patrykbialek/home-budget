@@ -37,6 +37,9 @@ export class AuthenticationFacadeServiceStub {
   setPassword(payload?: any) {
     //
   }
+
+  logoutUser() { }
+
 }
 
 const mockRouter = {
@@ -110,9 +113,11 @@ fdescribe('SetPasswordComponent', () => {
   it(`should call 'createForm' method on init`, () => {
     const redirectToLoginIfNoCodeParamSpy = spyOn(component, 'redirectToLoginIfNoCodeParam');
     const createFormSpy = spyOn(component, 'createForm');
+    const logoutSpy = spyOn(authenticationServiceStub, 'logoutUser');
 
     component.ngOnInit();
     expect(createFormSpy).toHaveBeenCalledTimes(1);
+    expect(logoutSpy).toHaveBeenCalledTimes(1);
   });
 
   it(`it should create setForm while calling 'createForm' method`, () => {
