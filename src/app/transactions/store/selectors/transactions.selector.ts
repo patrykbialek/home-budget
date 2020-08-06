@@ -71,9 +71,9 @@ export const getTotal = createSelector(
     transactions
       .filter(transaction => transaction.type === 'expense')
       .forEach(transaction => {
-        total.expense -= transaction.amount;
+        total.expense += transaction.amount;
       });
-    total.expense = -total.expense;
+    total.expense = -Math.abs(total.expense);
 
     // Income
     transactions

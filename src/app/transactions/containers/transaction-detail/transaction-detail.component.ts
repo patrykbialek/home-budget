@@ -136,7 +136,7 @@ export class TransactionDetailComponent
   }
 
   private fillFormData(transaction: fromModels.Transaction) {
-    this.amountControl.setValue(transaction.amount);
+    this.amountControl.setValue(Math.abs(transaction.amount));
     this.dateControl.setValue(new Date(transaction.date));
     this.recipientControl.setValue(transaction.recipient);
     this.notesControl.setValue(transaction.notes);
@@ -149,22 +149,6 @@ export class TransactionDetailComponent
           this.categoryControl.setValue(category);
         }),
       );
-
-    // Object.keys(response).forEach((item) => {
-    //   const abstractControl = this.transactionForm.controls[item];
-
-    //   if (abstractControl && !(abstractControl instanceof FormArray)) {
-    //     if (abstractControl instanceof FormGroup) {
-    //       if (response[item] instanceof Object) {
-    //         Object.keys(response[item]).forEach((child) => {
-    //           this.transactionForm.get(`${item}.${child}`).setValue(response[item][child]);
-    //         });
-    //       }
-    //     } else {
-    //       this.transactionForm.get(item).setValue(response[item]);
-    //     }
-    //   }
-    // });
   }
 
   private getTransactionTypeLabel(type: fromModels.TransactionType): string {
