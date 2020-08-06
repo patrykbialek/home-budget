@@ -27,6 +27,7 @@ export class RegisterUserComponent extends CommonWithAnimationComponent implemen
   }
 
   ngOnInit(): void {
+    this.authenticationService.logoutUser();
     this.createForm();
   }
 

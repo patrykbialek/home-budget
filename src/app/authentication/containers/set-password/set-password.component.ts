@@ -27,6 +27,7 @@ export class SetPasswordComponent extends CommonWithAnimationComponent implement
   }
 
   ngOnInit(): void {
+    this.authenticationService.logoutUser();
     this.createForm();
     this.redirectToLoginIfNoCodeParam();
   }

@@ -35,6 +35,7 @@ export class LoginUserComponent extends CommonWithAnimationComponent implements 
   }
 
   ngOnInit(): void {
+    this.authenticationService.logoutUser();
     this.createForm();
   }
 

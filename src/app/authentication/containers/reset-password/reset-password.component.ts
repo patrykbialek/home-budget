@@ -26,6 +26,7 @@ export class ResetPasswordComponent extends CommonWithAnimationComponent impleme
   get emailControl() { return this.resetForm.get('email'); }
 
   ngOnInit(): void {
+    this.authenticationService.logoutUser();
     this.createForm();
   }
 
