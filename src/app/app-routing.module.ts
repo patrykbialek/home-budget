@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { AuthGuardService } from './shared/services/auth-guard.service';
+import { PageNotFoundComponent } from '@shared/components';
 
 const routes: Routes = [
   {
@@ -28,6 +29,7 @@ const routes: Routes = [
     loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule),
     canActivate: [AuthGuardService],
   },
+  { path: '**', component: PageNotFoundComponent }
 ];
 
 
