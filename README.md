@@ -29,6 +29,8 @@ Main features of application:
   - delete transacion
 - Settings (under design)
 
+[Go top](#Home-budget)
+
 ## Project structure
 
 The app project has been designed with by-feature pattern.
@@ -252,6 +254,8 @@ The app project has been designed with by-feature pattern.
                 |-- transactions-facade.spec.ts
 ```
 
+[Go top](#Home-budget)
+
 ## Technology stack
 
 - Backend and hosting
@@ -268,6 +272,7 @@ The app project has been designed with by-feature pattern.
     - Angular material
     - Custom styles built with support of `inuit-flexgrid` and `inuitcss`
 
+[Go top](#Home-budget)
 
 ## Serve, build and deploy
 
@@ -288,6 +293,8 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 Run `firebase deploy` to deploy application to firebase hosting.\
 Of course before do this step you must be authorized to firebase service.
 
+[Go top](#Home-budget)
+
 ## Unit tests
 
 ### Running unit tests
@@ -302,6 +309,8 @@ Functions    : 81.62% ( 222/272 )
 Lines        : 85.46% ( 623/729 )
 ===================================
 ```
+
+[Go top](#Home-budget)
 
 ## To-do list
 
@@ -318,3 +327,5 @@ Lines        : 85.46% ( 623/729 )
 - write test for `router.effect.ts`
 - write test for `transactions-http.service.ts`
 - finish test for `transactions.selector.ts`
+
+[Go top](#Home-budget)
