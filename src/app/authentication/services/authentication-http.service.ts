@@ -1,17 +1,12 @@
 import { Injectable } from '@angular/core';
-
 import {
   AngularFireDatabase,
-  AngularFireList,
-  AngularFireObject,
+  AngularFireObject
 } from '@angular/fire/database';
-import { map, delay, tap, switchMap, mergeMap, startWith } from 'rxjs/operators';
-
 import { AngularFireAuth } from 'angularfire2/auth';
-import * as moment from 'moment';
-
+import { from, Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 import * as fromModels from '../models';
-import { of, from, Observable } from 'rxjs';
 
 export interface Credentials {
   email: string;
@@ -30,27 +25,23 @@ export class AuthenticationHttpService {
   ) { }
 
 
-  // Get
+  // Set
 
-  getUser(uid: string) {
-    const db: AngularFireObject<any> = this.db.object(`/workspaces/${uid}/user`);
-
-    return db.snapshotChanges()
-      .pipe(
-        map((change) => ({ key: change.payload.key, ...change.payload.val() })),
-      );
+  setUser(payload: fromModels.User) {
+    return of(payload);
   }
 
   // Login
 
-  loginUser({ email, password }: Credentials) {
+  loginUser({ email, password }: fromModels.UserLogin) {
     const callback = this.fireAuth.auth
       .signInWithEmailAndPassword(email, password)
-      .then(response => {
+      .then((response: any) => {
+        const user: fromModels.User = response.user;
         const value = {
-          email: response.user.email,
-          name: '',
-          uid: response.user.uid,
+          displayName: user.displayName,
+          email: user.email,
+          uid: user.uid,
         };
         return value;
       });
@@ -69,15 +60,15 @@ export class AuthenticationHttpService {
 
   // Register
 
-  registerUser(payload: fromModels.UserPayload) {
+  registerUser({ email, password }: fromModels.UserRegister) {
     const callback = this.fireAuth.auth
-      .createUserWithEmailAndPassword(payload.value.email, payload.value.password)
+      .createUserWithEmailAndPassword(email, password)
       .then(response => {
         const uid = response.user.uid;
         const db: AngularFireObject<any> = this.db.object(`/workspaces/${uid}/user`);
         const value = {
-          email: payload.value.email,
-          name: payload.value.name,
+          email,
+          name,
           uid,
         };
         db.set(value);
@@ -89,29 +80,25 @@ export class AuthenticationHttpService {
 
   // Reset
 
-  resetPassword(payload: fromModels.UserPayload) {
+  resetPassword({ email }: fromModels.PasswordReset) {
     const callback = this.fireAuth.auth
-      .sendPasswordResetEmail(
-        payload.value.email,
-      );
+      .sendPasswordResetEmail(email);
 
     return from(callback);
-
   }
 
   // Set
 
-  setPassword(payload: fromModels.UserPayload) {
+  setPassword({ oobCode, newPassword }: fromModels.PasswordSet) {
     const callback = this.fireAuth.auth
       .confirmPasswordReset(
-        payload.value.code,
-        payload.value.password,
+        oobCode,
+        newPassword,
       )
       .then(response => {
         return response;
       });
 
     return from(callback);
-
   }
 }

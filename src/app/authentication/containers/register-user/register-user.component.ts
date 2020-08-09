@@ -27,7 +27,6 @@ export class RegisterUserComponent extends CommonWithAnimationComponent implemen
   }
 
   ngOnInit(): void {
-    this.authenticationService.logoutUser();
     this.createForm();
   }
 
@@ -47,10 +46,7 @@ export class RegisterUserComponent extends CommonWithAnimationComponent implemen
   }
 
   registerUser(event: FormGroup) {
-    const payload: fromModels.UserPayload = {
-      key: null,
-      value: event.value
-    };
+    const payload: fromModels.UserRegister = event.value;
 
     this.authenticationService.registerUser(payload);
     this.authenticationService.isSuccess$

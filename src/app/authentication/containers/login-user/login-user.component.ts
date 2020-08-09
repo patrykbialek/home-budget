@@ -3,11 +3,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonWithAnimationComponent } from '@shared/components';
 import { Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { tap, filter } from 'rxjs/operators';
 import * as fromModels from '../../models';
 import * as fromServices from '../../services';
 import * as fromStoreServices from '../../store/services';
-
 
 @Component({
   selector: 'hb-login-user',
@@ -35,7 +34,6 @@ export class LoginUserComponent extends CommonWithAnimationComponent implements 
   }
 
   ngOnInit(): void {
-    this.authenticationService.logoutUser();
     this.createForm();
   }
 
@@ -51,12 +49,9 @@ export class LoginUserComponent extends CommonWithAnimationComponent implements 
   }
 
   loginUser(event: FormGroup) {
-    const payload: fromModels.UserPayload = {
-      key: null,
-      value: event.value
-    };
+    const payload: fromModels.UserLogin = event.value;
 
-    this.authenticationService.loginUser(payload.value);
+    this.authenticationService.loginUser(payload);
     this.subscription$.add(
       this.authenticationService.isSuccess$
         .pipe(

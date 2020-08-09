@@ -1,7 +1,8 @@
 import * as fromAuthentication from '../actions/authentication.actions';
+import * as fromModels from '@authentication/models';
 
 export interface AuthenticationState {
-  entity: any;
+  entity: fromModels.User;
   isFailed: boolean;
   isLoading: boolean;
   isSuccess: boolean;
@@ -21,7 +22,7 @@ export function reducer(
 
   switch (action.type) {
 
-    case fromAuthentication.GET_USER: {
+    case fromAuthentication.SET_USER: {
 
       return {
         ...state,
@@ -31,7 +32,7 @@ export function reducer(
       };
     }
 
-    case fromAuthentication.GET_USER_SUCCESS: {
+    case fromAuthentication.SET_USER_SUCCESS: {
       const user = action.payload;
 
       return {
@@ -44,7 +45,7 @@ export function reducer(
     }
 
     case fromAuthentication.LOGIN_USER:
-    case fromAuthentication.LOGOUT_USER:
+    case fromAuthentication.LOGOUT_USER_FROM_CONTAINER:
     case fromAuthentication.REGISTER_USER:
     case fromAuthentication.RESET_PASSWORD:
     case fromAuthentication.SET_PASSWORD: {
@@ -57,11 +58,20 @@ export function reducer(
       };
     }
 
-    case fromAuthentication.LOGIN_USER_SUCCESS:
     case fromAuthentication.LOGOUT_USER_SUCCESS:
-    case fromAuthentication.REGISTER_USER_SUCCESS:
     case fromAuthentication.RESET_PASSWORD_SUCCESS:
     case fromAuthentication.SET_PASSWORD_SUCCESS: {
+      return {
+        ...state,
+        entity: null,
+        isFailed: false,
+        isLoading: false,
+        isSuccess: true,
+      };
+    }
+
+    case fromAuthentication.LOGIN_USER_SUCCESS:
+    case fromAuthentication.REGISTER_USER_SUCCESS: {
       const user = action.payload;
 
       return {
@@ -73,6 +83,7 @@ export function reducer(
       };
     }
 
+    case fromAuthentication.SET_USER_FAILURE:
     case fromAuthentication.LOGIN_USER_FAILURE:
     case fromAuthentication.LOGOUT_USER_FAILURE:
     case fromAuthentication.REGISTER_USER_FAILURE:

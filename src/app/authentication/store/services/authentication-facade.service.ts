@@ -7,6 +7,7 @@ import * as fromModels from '../../models';
 import * as fromActions from '../actions';
 import * as fromReducers from '../reducers';
 import * as fromSelectors from '../selectors';
+import { UserLogin } from '../../models';
 
 @Injectable({
   providedIn: 'root'
@@ -24,27 +25,27 @@ export class AuthenticationFacadeService {
     this.user$ = this.store.pipe(select(fromSelectors.getUser));
   }
 
-  getUser(payload?: any) {
-    this.store.dispatch(new fromActions.GetUser(payload));
+  setUser(payload: fromModels.User) {
+    this.store.dispatch(new fromActions.SetUser(payload));
   }
 
-  loginUser(payload?: any) {
+  loginUser(payload: UserLogin) {
     this.store.dispatch(new fromActions.LoginUser(payload));
   }
 
-  logoutUser() {
-    this.store.dispatch(new fromActions.LogoutUser());
+  logoutUserFromContainer() {
+    this.store.dispatch(new fromActions.LogoutUserFromContainer());
   }
 
-  registerUser(payload?: fromModels.UserPayload) {
+  registerUser(payload: fromModels.UserRegister) {
     this.store.dispatch(new fromActions.RegisterUser(payload));
   }
 
-  resetPassword(payload?: fromModels.UserPayload) {
+  resetPassword(payload: fromModels.PasswordReset) {
     this.store.dispatch(new fromActions.ResetPassword(payload));
   }
 
-  setPassword(payload?: fromModels.UserPayload) {
+  setPassword(payload: fromModels.PasswordSet) {
     this.store.dispatch(new fromActions.SetPassword(payload));
   }
 

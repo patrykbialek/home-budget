@@ -26,7 +26,6 @@ export class ResetPasswordComponent extends CommonWithAnimationComponent impleme
   get emailControl() { return this.resetForm.get('email'); }
 
   ngOnInit(): void {
-    this.authenticationService.logoutUser();
     this.createForm();
   }
 
@@ -41,9 +40,8 @@ export class ResetPasswordComponent extends CommonWithAnimationComponent impleme
   }
 
   resetPassword(event: FormGroup) {
-    const payload: fromModels.UserPayload = {
-      key: null,
-      value: event.value
+    const payload: fromModels.PasswordReset = {
+      email: event.value.email
     };
 
     this.authenticationService.resetPassword(payload);

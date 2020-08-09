@@ -1,8 +1,9 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import * as fromModels from '@authentication/models';
 import { TranslateService } from '@ngx-translate/core';
 import { WindowSize } from '@shared/models';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { filter, take, tap } from 'rxjs/operators';
+import { filter, mergeMap, take, tap } from 'rxjs/operators';
 import { AuthenticationFacadeService } from './authentication/store';
 import { SharedUtilsService } from './shared/services/shared-utils.service';
 
@@ -17,35 +18,48 @@ export class AppComponent implements OnInit {
 
   constructor(
     translate: TranslateService,
-    private authenticationFacadeService: AuthenticationFacadeService,
+    private authenticationService: AuthenticationFacadeService,
     private fireAuth: AngularFireAuth,
     private sharedUtilsService: SharedUtilsService,
   ) {
-    // this language will be used as a fallback when a translation isn't found in the current language
     translate.setDefaultLang('pl');
-
-    // the lang to use, if the lang isn't available, it will use the current loader to get them
     translate.use('pl');
   }
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    const windowSize = event.target.innerWidth < mobileBreakPoint
-      ? WindowSize.Mobile
-      : WindowSize.Desktop;
-    this.sharedUtilsService.setIsMobileSize(windowSize);
+    this.setWindowResizeListener(event.target.innerWidth);
   }
 
   ngOnInit() {
-    this.fireAuth
+    this.setUserIfAuthenticated();
+    this.setWindowResizeListener(window.innerWidth);
+  }
+
+  private setUserIfAuthenticated() {
+    const setUser = (payload: fromModels.User) => this.authenticationService.setUser(payload);
+    const user$ = this.authenticationService.user$;
+    const authState$ = this.fireAuth
       .authState
       .pipe(
-        filter(response => Boolean(response)),
-        tap(response => this.authenticationFacadeService.getUser(response.uid)),
         take(1),
-      ).subscribe();
+        filter(response => Boolean(response)),
+        tap(response => setUser({
+          displayName: response.displayName,
+          email: response.email,
+          uid: response.uid
+        })),
+      );
 
-    const windowSize = window.innerWidth < mobileBreakPoint
+    user$.pipe(
+      take(1),
+      filter(response => Boolean(!response)),
+      mergeMap(() => authState$),
+    ).subscribe();
+  }
+
+  private setWindowResizeListener(innerWidth: number) {
+    const windowSize = innerWidth < mobileBreakPoint
       ? WindowSize.Mobile
       : WindowSize.Desktop;
     this.sharedUtilsService.setIsMobileSize(windowSize);

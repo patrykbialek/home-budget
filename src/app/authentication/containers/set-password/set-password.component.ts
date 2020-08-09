@@ -27,7 +27,6 @@ export class SetPasswordComponent extends CommonWithAnimationComponent implement
   }
 
   ngOnInit(): void {
-    this.authenticationService.logoutUser();
     this.createForm();
     this.redirectToLoginIfNoCodeParam();
   }
@@ -49,11 +48,10 @@ export class SetPasswordComponent extends CommonWithAnimationComponent implement
   }
 
   setPassword(event: FormGroup) {
-    const payload: fromModels.UserPayload = {
-      key: null,
-      value: event.value
+    const payload: fromModels.PasswordSet = {
+      newPassword: event.value.password,
+      oobCode: this.code,
     };
-    payload.value.code = this.code;
 
     this.authenticationService.setPassword(payload);
     this.authenticationService.isSuccess$
