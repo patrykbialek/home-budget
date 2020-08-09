@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { of, } from 'rxjs';
-import { map, catchError, mergeMap, delay, } from 'rxjs/operators';
+import { map, catchError, mergeMap, delay, tap, } from 'rxjs/operators';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
 import * as fromActions from '../actions/transactions.actions';
@@ -24,9 +24,9 @@ export class TransactionsEffects {
       return this.transactionsService
         .createTransaction(payload)
         .pipe(
-          map((response: any) => {
+          map(() => {
             this.openSnackBar('Dane zapisane.');
-            return new fromActions.CreateTransactionSuccess(response);
+            return new fromActions.CreateTransactionSuccess();
           }),
           catchError((error) => {
             return of(new fromActions.CreateTransactionFailure(error));
@@ -36,15 +36,18 @@ export class TransactionsEffects {
   );
 
   @Effect()
-  deleteTransaction$ = this.actions$.pipe(ofType(fromActions.DELETE_TRANSACTION),
-    map((action: fromActions.DeleteTransaction) => action.payload),
+  deleteTransaction$ = this.actions$.pipe(ofType(
+    fromActions.DELETE_TRANSACTION_FROM_DETAIL,
+    fromActions.DELETE_TRANSACTION_FROM_LIST,
+    ),
+    map((action: fromActions.DeleteTransactionFromDetail | fromActions.DeleteTransactionFromList) => action.payload),
     mergeMap((payload: fromModels.TransactionPayload) => {
       return this.transactionsService
         .deleteTransaction(payload)
         .pipe(
-          map((response: any) => {
+          map(() => {
             this.openSnackBar('Transakcja usunięta.');
-            return new fromActions.DeleteTransactionSuccess(response);
+            return new fromActions.DeleteTransactionSuccess();
           }),
           catchError((error) => {
             return of(new fromActions.DeleteTransactionFailure(error));
@@ -57,13 +60,13 @@ export class TransactionsEffects {
   readTransactions$ = this.actions$.pipe(
     ofType(fromActions.READ_TRANSACTIONS),
     map((action: fromActions.ReadTransactions) => action.payload),
-    mergeMap((query: any) => {
+    mergeMap((params: fromModels.TransactionParams) => {
       return this.transactionsService
-        .readTransactions(query)
+        .readTransactions(params)
         .pipe(
           // NOTE: Give some time to see spinner
           delay(300),
-          map((response: any) => {
+          map((response: fromModels.Transaction[]) => {
             return new fromActions.ReadTransactionsSuccess(response);
           }),
           catchError((error) => {
@@ -80,9 +83,9 @@ export class TransactionsEffects {
       return this.transactionsService
         .updateTransaction(payload)
         .pipe(
-          map((response: any) => {
+          map(() => {
             this.openSnackBar('Dane zapisane.');
-            return new fromActions.UpdateTransactionSuccess(response);
+            return new fromActions.UpdateTransactionSuccess();
           }),
           catchError((error) => {
             return of(new fromActions.UpdateTransactionFailure(error));

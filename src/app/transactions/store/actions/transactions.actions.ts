@@ -3,18 +3,18 @@ import { Action } from '@ngrx/store';
 import * as fromModels from '../../models';
 
 // Read
-export const READ_TRANSACTIONS          = '[Main] Read transactions';
-export const READ_TRANSACTIONS_SUCCESS  = '[Main] Read transactions success';
-export const READ_TRANSACTIONS_FAILURE  = '[Main] Read transactions failure';
+export const READ_TRANSACTIONS          = '[Transaction List Page] Read transactions';
+export const READ_TRANSACTIONS_SUCCESS  = '[Transactions API] Read transactions success';
+export const READ_TRANSACTIONS_FAILURE  = '[Transactions API] Read transactions failure';
 
 export class ReadTransactions implements Action {
   readonly type = READ_TRANSACTIONS;
-  constructor(public payload?: any, ) { }
+  constructor(public payload: fromModels.TransactionParams, ) { }
 }
 
 export class ReadTransactionsSuccess implements Action {
   readonly type = READ_TRANSACTIONS_SUCCESS;
-  constructor(public payload: any, ) { }
+  constructor(public payload: fromModels.Transaction[], ) { }
 }
 
 export class ReadTransactionsFailure implements Action {
@@ -23,18 +23,17 @@ export class ReadTransactionsFailure implements Action {
 }
 
 // Create
-export const CREATE_TRANSACTION          = '[Main] Create transaction';
-export const CREATE_TRANSACTION_SUCCESS  = '[Main] Create transaction success';
-export const CREATE_TRANSACTION_FAILURE  = '[Main] Create transaction failure';
+export const CREATE_TRANSACTION          = '[Transaction Detail Page] Create transaction';
+export const CREATE_TRANSACTION_SUCCESS  = '[Transactions API] Create transaction success';
+export const CREATE_TRANSACTION_FAILURE  = '[Transactions API] Create transaction failure';
 
 export class CreateTransaction implements Action {
   readonly type = CREATE_TRANSACTION;
-  constructor(public payload?: fromModels.TransactionPayload, ) { }
+  constructor(public payload: fromModels.TransactionPayload, ) { }
 }
 
 export class CreateTransactionSuccess implements Action {
   readonly type = CREATE_TRANSACTION_SUCCESS;
-  constructor(public payload: any, ) { }
 }
 
 export class CreateTransactionFailure implements Action {
@@ -43,18 +42,23 @@ export class CreateTransactionFailure implements Action {
 }
 
 // Delete
-export const DELETE_TRANSACTION          = '[Main] Delete transaction';
-export const DELETE_TRANSACTION_SUCCESS  = '[Main] Delete transaction success';
-export const DELETE_TRANSACTION_FAILURE  = '[Main] Delete transaction failure';
+export const DELETE_TRANSACTION_FROM_DETAIL  = '[Transaction Detail Page] Delete transaction';
+export const DELETE_TRANSACTION_FROM_LIST    = '[Transaction List Page] Delete transaction';
+export const DELETE_TRANSACTION_SUCCESS      = '[Transactions API] Delete transaction success';
+export const DELETE_TRANSACTION_FAILURE      = '[Transactions API] Delete transaction failure';
 
-export class DeleteTransaction implements Action {
-  readonly type = DELETE_TRANSACTION;
-  constructor(public payload?: fromModels.TransactionPayload, ) { }
+export class DeleteTransactionFromDetail implements Action {
+  readonly type = DELETE_TRANSACTION_FROM_DETAIL;
+  constructor(public payload: fromModels.TransactionPayload, ) { }
+}
+
+export class DeleteTransactionFromList implements Action {
+  readonly type = DELETE_TRANSACTION_FROM_LIST;
+  constructor(public payload: fromModels.TransactionPayload, ) { }
 }
 
 export class DeleteTransactionSuccess implements Action {
   readonly type = DELETE_TRANSACTION_SUCCESS;
-  constructor(public payload: any, ) { }
 }
 
 export class DeleteTransactionFailure implements Action {
@@ -63,18 +67,17 @@ export class DeleteTransactionFailure implements Action {
 }
 
 // Update
-export const UPDATE_TRANSACTION          = '[Main] Update transaction';
-export const UPDATE_TRANSACTION_SUCCESS  = '[Main] Update transaction success';
-export const UPDATE_TRANSACTION_FAILURE  = '[Main] Update transaction failure';
+export const UPDATE_TRANSACTION          = '[Transaction Detail Page] Update transaction';
+export const UPDATE_TRANSACTION_SUCCESS  = '[Transactions API] Update transaction success';
+export const UPDATE_TRANSACTION_FAILURE  = '[Transactions API] Update transaction failure';
 
 export class UpdateTransaction implements Action {
   readonly type = UPDATE_TRANSACTION;
-  constructor(public payload?: fromModels.TransactionPayload, ) { }
+  constructor(public payload: fromModels.TransactionPayload, ) { }
 }
 
 export class UpdateTransactionSuccess implements Action {
   readonly type = UPDATE_TRANSACTION_SUCCESS;
-  constructor(public payload: any, ) { }
 }
 
 export class UpdateTransactionFailure implements Action {
@@ -89,7 +92,8 @@ export type TransactionsAction =
   | CreateTransaction
   | CreateTransactionSuccess
   | CreateTransactionFailure
-  | DeleteTransaction
+  | DeleteTransactionFromDetail
+  | DeleteTransactionFromList
   | DeleteTransactionSuccess
   | DeleteTransactionFailure
   | UpdateTransaction

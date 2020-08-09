@@ -20,11 +20,11 @@ export class AuthenticationEffects {
   @Effect()
   loginUser$ = this.actions$.pipe(ofType(fromActions.LOGIN_USER),
     map((action: fromActions.LoginUser) => action.payload),
-    mergeMap((payload: any) => {
+    mergeMap((payload: fromModels.UserLogin) => {
       return this.authenticationService
         .loginUser(payload)
         .pipe(
-          map((response: any) => {
+          map((response: fromModels.User) => {
             return new fromActions.LoginUserSuccess(response);
           }),
           catchError((error: fromModels.ErrorMessage) => {
@@ -62,7 +62,7 @@ export class AuthenticationEffects {
       return this.authenticationService
         .registerUser(payload)
         .pipe(
-          map((response: any) => {
+          map((response: fromModels.User) => {
             this.openSnackBar('Dane zapisane.');
             return new fromActions.RegisterUserSuccess(response);
           }),
@@ -118,11 +118,11 @@ export class AuthenticationEffects {
   @Effect()
   setUser$ = this.actions$.pipe(ofType(fromActions.SET_USER),
     map((action: fromActions.SetUser) => action.payload),
-    mergeMap((payload: any) => {
+    mergeMap((payload: fromModels.User) => {
       return this.authenticationService
         .setUser(payload)
         .pipe(
-          map((response: any) => {
+          map((response: fromModels.User) => {
             return new fromActions.SetUserSuccess(response);
           }),
           catchError((error: fromModels.ErrorMessage) => {

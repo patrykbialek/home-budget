@@ -68,7 +68,6 @@ export class AuthenticationHttpService {
         const db: AngularFireObject<any> = this.db.object(`/workspaces/${uid}/user`);
         const value = {
           email,
-          name,
           uid,
         };
         db.set(value);

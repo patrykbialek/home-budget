@@ -52,6 +52,17 @@ export function reducer(
       };
     }
 
+    case fromTransactions.CREATE_TRANSACTION:
+    case fromTransactions.DELETE_TRANSACTION_FROM_DETAIL:
+    case fromTransactions.DELETE_TRANSACTION_FROM_LIST: {
+      return {
+        ...state,
+        isFailed: false,
+        isLoading: true,
+        isSuccess: false,
+      };
+    }
+
     case fromTransactions.CREATE_TRANSACTION_SUCCESS:
     case fromTransactions.UPDATE_TRANSACTION_SUCCESS:
     case fromTransactions.DELETE_TRANSACTION_SUCCESS: {

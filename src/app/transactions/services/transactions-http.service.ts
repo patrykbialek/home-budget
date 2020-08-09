@@ -41,10 +41,10 @@ export class TransactionsHttpService {
 
   // Read
 
-  readTransactions(payload: any) {
+  readTransactions(params: fromModels.TransactionParams) {
     let db: AngularFireList<any>;
-    const query = payload.query;
-    const uid = payload.uid;
+    const query = params.query;
+    const uid = params.uid;
 
     if (query.category && query.periodFrom) {
       db = this.db.list(`/workspaces/${uid}/transactions`, ref =>
