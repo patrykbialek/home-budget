@@ -30,23 +30,23 @@ export class TransactionsFacadeService {
     this.isSuccess$ = this.store.pipe(select(fromSelectors.getIsSuccess));
   }
 
-  createTransaction(payload?: fromModels.TransactionPayload) {
+  createTransaction(payload: fromModels.TransactionPayload) {
     this.store.dispatch(new fromActions.CreateTransaction(payload));
   }
 
-  deleteTransaction(payload?: fromModels.TransactionPayload) {
-    this.store.dispatch(new fromActions.DeleteTransaction(payload));
+  deleteTransactionFromDetail(payload: fromModels.TransactionPayload) {
+    this.store.dispatch(new fromActions.DeleteTransactionFromDetail(payload));
   }
 
-  readTransactions(uid: string, query?: any) {
-    const payload = {
-      uid,
-      query,
-    };
-    this.store.dispatch(new fromActions.ReadTransactions(payload));
+  deleteTransactionFromList(payload: fromModels.TransactionPayload) {
+    this.store.dispatch(new fromActions.DeleteTransactionFromList(payload));
   }
 
-  updateTransaction(payload?: fromModels.TransactionPayload) {
+  readTransactions(params: fromModels.TransactionParams) {
+    this.store.dispatch(new fromActions.ReadTransactions(params));
+  }
+
+  updateTransaction(payload: fromModels.TransactionPayload) {
     this.store.dispatch(new fromActions.UpdateTransaction(payload));
   }
 

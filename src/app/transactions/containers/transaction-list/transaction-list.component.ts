@@ -3,8 +3,9 @@ import { AuthenticationHttpService } from '@authentication/services';
 import { CommonWithAnimationComponent } from '@shared/components';
 import { SharedUtilsService } from '@shared/services/shared-utils.service';
 import { Subscription } from 'rxjs';
-import { filter, tap } from 'rxjs/operators';
+import { filter, take, tap } from 'rxjs/operators';
 import * as fromStore from '../../store';
+import { Query } from '@transactions/models';
 
 @Component({
   selector: 'hb-transaction-list',
@@ -41,15 +42,20 @@ export class TransactionListComponent extends CommonWithAnimationComponent imple
 
   deleteTransaction(key: string) {
     const payload = { key, value: null, uid: this.uid };
-    this.transactionsService.deleteTransaction(payload);
+    this.transactionsService.deleteTransactionFromList(payload);
   }
 
-  readTransactions(query: any) {
+  readTransactions(query: Query) {
     this.subscription$.add(
       this.user$.pipe(
+        take(1),
         filter(response => Boolean(response)),
         tap((response) => {
-          this.transactionsService.readTransactions(response.uid, query);
+          const payload = {
+            uid: response.uid,
+            query
+          };
+          this.transactionsService.readTransactions(payload);
           this.uid = response.uid;
         })
       ).subscribe()

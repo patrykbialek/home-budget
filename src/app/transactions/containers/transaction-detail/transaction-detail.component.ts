@@ -9,6 +9,7 @@ import { TransactionsFacadeService } from '@transactions/store';
 import { combineLatest, of, Subscription } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
 import * as fromModels from '../../models';
+import { TransactionType } from '../../models';
 
 export enum Mode {
   Create = 'create',
@@ -100,7 +101,7 @@ export class TransactionDetailComponent
       value: null,
       uid: this.uid,
     };
-    this.transactionsService.deleteTransaction(payload);
+    this.transactionsService.deleteTransactionFromDetail(payload);
 
     this.transactionsService.isSuccess$
       .pipe(
@@ -157,7 +158,7 @@ export class TransactionDetailComponent
       : 'Income';
   }
 
-  private prepareDataOnCreate(queryParams: any): void {
+  private prepareDataOnCreate(queryParams: { [key: string]: any; }): void {
     const transactionType = queryParams ? queryParams.type : null;
     const transactionTypeLabel = this.getTransactionTypeLabel(transactionType);
     this.setSectionTitle(transactionTypeLabel);
@@ -165,7 +166,7 @@ export class TransactionDetailComponent
     this.dateControl.setValue(new Date());
   }
 
-  private prepareDataOnUpdate(params: any): void {
+  private prepareDataOnUpdate(params: { [key: string]: any; }): void {
     this.transactionsService.transaction$
       .pipe(
         tap((response: fromModels.Transaction) => {

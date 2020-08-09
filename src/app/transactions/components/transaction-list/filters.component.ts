@@ -76,13 +76,13 @@ export class FiltersComponent implements OnDestroy, OnInit {
 
   private setDefaultQueryValues() {
     this.categories$ = this.categories$.pipe(
-      tap((categories: any[]) => {
+      tap((categories: { name: string }[]) => {
         this.categoryControl.setValue(categories[0], { emitEvent: false });
       }),
     );
 
     this.periods$ = this.periods$.pipe(
-      tap((periods: any[]) => {
+      tap((periods: { id: string, name: string }[]) => {
         this.periodControl.setValue(periods[0]);
       }),
     );
