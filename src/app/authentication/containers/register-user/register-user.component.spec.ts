@@ -100,11 +100,9 @@ fdescribe('RegisterUserComponent', () => {
 
   it(`should call 'createForm' method on init`, () => {
     const createFormSpy = spyOn(component, 'createForm');
-    const logoutSpy = spyOn(authenticationServiceStub, 'logoutUser');
 
     component.ngOnInit();
     expect(createFormSpy).toHaveBeenCalledTimes(1);
-    expect(logoutSpy).toHaveBeenCalledTimes(1);
   });
 
   it(`it should create registerForm while calling 'createForm' method`, () => {
@@ -149,10 +147,10 @@ fdescribe('RegisterUserComponent', () => {
 
   it(`should call 'registerUser' method in 'authenticationService' service while 'registerUser' is called`, () => {
     const registerUserSpy = spyOn(authenticationServiceStub, 'registerUser');
-    const event = { value: null } as FormGroup;
+    const event = { value: { email: 'email', name: 'name', password: 'password' } } as FormGroup;
 
     component.registerUser(event);
-    expect(registerUserSpy).toHaveBeenCalledWith({ key: null, value: null });
+    expect(registerUserSpy).toHaveBeenCalledWith({ email: 'email', name: 'name', password: 'password' });
   });
 
   it(`should redirect to 'dashboard' route afer registerUser succeeded`, () => {

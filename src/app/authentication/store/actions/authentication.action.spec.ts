@@ -3,39 +3,39 @@ import { UserPayload } from '@authentication/models';
 
 fdescribe('Authentication Actions', () => {
 
-  describe('GetUser Actions', () => {
-    describe('GetUser', () => {
+  describe('SetUser Actions', () => {
+    describe('SetUser', () => {
       it('should create an action', () => {
         const payload = { uid: 'test' };
-        const action = new fromAuthentication.GetUser(payload);
+        const action = new fromAuthentication.SetUser(payload);
 
         expect({ ...action }).toEqual({
-          type: fromAuthentication.GET_USER,
+          type: fromAuthentication.SET_USER,
           payload,
         });
       });
     });
 
-    describe('GetUserSuccess', () => {
+    describe('SetUserSuccess', () => {
       it('should create an action', () => {
-        const payload = { uid: 'test' };
-        const action = new fromAuthentication.GetUserSuccess(payload);
+        const payload = { email: null, displayName: null, uid: 'test' };
+        const action = new fromAuthentication.SetUserSuccess(payload);
 
         expect({ ...action }).toEqual({
-          type: fromAuthentication.GET_USER_SUCCESS,
+          type: fromAuthentication.SET_USER_SUCCESS,
           payload,
         });
       });
     });
 
-    describe('GetUserFailure', () => {
+    describe('SetUserFailure', () => {
       it('should create an action', () => {
         const payload = { uid: 'test' };
-        const action = new fromAuthentication.GetUserFailure(payload);
+        const action = new fromAuthentication.SetUserFailure(null);
 
         expect({ ...action }).toEqual({
-          type: fromAuthentication.GET_USER_FAILURE,
-          payload,
+          type: fromAuthentication.SET_USER_FAILURE,
+          payload: null,
         });
       });
     });
@@ -44,7 +44,7 @@ fdescribe('Authentication Actions', () => {
   describe('LoginUser Actions', () => {
     describe('LoginUser', () => {
       it('should create an action', () => {
-        const payload = { uid: 'test' };
+        const payload = { email: null, password: 'test' };
         const action = new fromAuthentication.LoginUser(payload);
 
         expect({ ...action }).toEqual({
@@ -56,7 +56,7 @@ fdescribe('Authentication Actions', () => {
 
     describe('LoginUserSuccess', () => {
       it('should create an action', () => {
-        const payload = { uid: 'test' };
+        const payload = { email: null, displayName: null, uid: 'test' };
         const action = new fromAuthentication.LoginUserSuccess(payload);
 
         expect({ ...action }).toEqual({
@@ -69,11 +69,10 @@ fdescribe('Authentication Actions', () => {
     describe('LoginUserFailure', () => {
       it('should create an action', () => {
         const payload = { uid: 'test' };
-        const action = new fromAuthentication.LoginUserFailure(payload);
+        const action = new fromAuthentication.LoginUserFailure();
 
         expect({ ...action }).toEqual({
           type: fromAuthentication.LOGIN_USER_FAILURE,
-          payload,
         });
       });
     });
@@ -82,36 +81,30 @@ fdescribe('Authentication Actions', () => {
   describe('LogoutUser Actions', () => {
     describe('LogoutUser', () => {
       it('should create an action', () => {
-        const payload = { uid: 'test' };
-        const action = new fromAuthentication.LogoutUser(payload);
+        const action = new fromAuthentication.LogoutUserFromContainer();
 
         expect({ ...action }).toEqual({
-          type: fromAuthentication.LOGOUT_USER,
-          payload,
+          type: fromAuthentication.LOGOUT_USER_FROM_CONTAINER,
         });
       });
     });
 
     describe('LogoutUserSuccess', () => {
       it('should create an action', () => {
-        const payload = { uid: 'test' };
-        const action = new fromAuthentication.LogoutUserSuccess(payload);
+        const action = new fromAuthentication.LogoutUserSuccess();
 
         expect({ ...action }).toEqual({
           type: fromAuthentication.LOGOUT_USER_SUCCESS,
-          payload,
         });
       });
     });
 
     describe('LogoutUserFailure', () => {
       it('should create an action', () => {
-        const payload = { uid: 'test' };
-        const action = new fromAuthentication.LogoutUserFailure(payload);
+        const action = new fromAuthentication.LogoutUserFailure();
 
         expect({ ...action }).toEqual({
           type: fromAuthentication.LOGOUT_USER_FAILURE,
-          payload,
         });
       });
     });
@@ -120,14 +113,10 @@ fdescribe('Authentication Actions', () => {
   describe('RegisterUser Actions', () => {
     describe('LogoutUser', () => {
       it('should create an action', () => {
-        const payload: UserPayload = {
-          key: 'test',
-          value: {
-            email: 'string',
-            name: 'string',
-            password: 'string',
-            code: 'any',
-          }
+        const payload = {
+          email: 'string',
+          name: 'string',
+          password: 'string',
         };
         const action = new fromAuthentication.RegisterUser(payload);
 
@@ -140,7 +129,7 @@ fdescribe('Authentication Actions', () => {
 
     describe('RegisterUserSuccess', () => {
       it('should create an action', () => {
-        const payload = { uid: 'test' };
+        const payload = { email: null, displayName: null, uid: 'test' };
         const action = new fromAuthentication.RegisterUserSuccess(payload);
 
         expect({ ...action }).toEqual({
@@ -152,12 +141,10 @@ fdescribe('Authentication Actions', () => {
 
     describe('RegisterUserFailure', () => {
       it('should create an action', () => {
-        const payload = { uid: 'test' };
-        const action = new fromAuthentication.RegisterUserFailure(payload);
+        const action = new fromAuthentication.RegisterUserFailure();
 
         expect({ ...action }).toEqual({
           type: fromAuthentication.REGISTER_USER_FAILURE,
-          payload,
         });
       });
     });
@@ -166,14 +153,10 @@ fdescribe('Authentication Actions', () => {
   describe('ResetPassword Actions', () => {
     describe('ResetPassword', () => {
       it('should create an action', () => {
-        const payload: UserPayload = {
-          key: 'test',
-          value: {
-            email: 'string',
-            name: 'string',
-            password: 'string',
-            code: 'any',
-          }
+        const payload = {
+          email: 'string',
+          name: 'string',
+          password: 'string',
         };
         const action = new fromAuthentication.ResetPassword(payload);
 
@@ -186,24 +169,20 @@ fdescribe('Authentication Actions', () => {
 
     describe('ResetPasswordSuccess', () => {
       it('should create an action', () => {
-        const payload = { uid: 'test' };
-        const action = new fromAuthentication.ResetPasswordSuccess(payload);
+        const action = new fromAuthentication.ResetPasswordSuccess();
 
         expect({ ...action }).toEqual({
           type: fromAuthentication.RESET_PASSWORD_SUCCESS,
-          payload,
         });
       });
     });
 
     describe('ResetPasswordFailure', () => {
       it('should create an action', () => {
-        const payload = { uid: 'test' };
-        const action = new fromAuthentication.ResetPasswordFailure(payload);
+        const action = new fromAuthentication.ResetPasswordFailure();
 
         expect({ ...action }).toEqual({
           type: fromAuthentication.RESET_PASSWORD_FAILURE,
-          payload,
         });
       });
     });
@@ -212,14 +191,9 @@ fdescribe('Authentication Actions', () => {
   describe('SetPassword Actions', () => {
     describe('SetPassword', () => {
       it('should create an action', () => {
-        const payload: UserPayload = {
-          key: 'test',
-          value: {
-            email: 'string',
-            name: 'string',
-            password: 'string',
-            code: 'any',
-          }
+        const payload = {
+          newPassword: 'newPassword',
+          oobCode: 'oobCode'
         };
         const action = new fromAuthentication.SetPassword(payload);
 
@@ -232,24 +206,20 @@ fdescribe('Authentication Actions', () => {
 
     describe('SetPasswordSuccess', () => {
       it('should create an action', () => {
-        const payload = { uid: 'test' };
-        const action = new fromAuthentication.SetPasswordSuccess(payload);
+        const action = new fromAuthentication.SetPasswordSuccess();
 
         expect({ ...action }).toEqual({
           type: fromAuthentication.SET_PASSWORD_SUCCESS,
-          payload,
         });
       });
     });
 
     describe('SetPasswordFailure', () => {
       it('should create an action', () => {
-        const payload = { uid: 'test' };
-        const action = new fromAuthentication.SetPasswordFailure(payload);
+        const action = new fromAuthentication.SetPasswordFailure();
 
         expect({ ...action }).toEqual({
           type: fromAuthentication.SET_PASSWORD_FAILURE,
-          payload,
         });
       });
     });

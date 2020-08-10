@@ -13,10 +13,10 @@ fdescribe('AuthenticationReducer', () => {
     });
   });
 
-  describe('GET_USER action', () => {
+  describe('SET_USER action', () => {
     it('should set loading to true', () => {
       const { initialState } = fromAuthentication;
-      const action = new fromActions.GetUser();
+      const action = new fromActions.SetUser(null);
       const state = fromAuthentication.reducer(initialState, action);
 
       expect(state.isFailed).toEqual(false);
@@ -26,16 +26,16 @@ fdescribe('AuthenticationReducer', () => {
     });
   });
 
-  describe('GET_USER_SUCCESS action', () => {
+  describe('SET_USER_SUCCESS action', () => {
     it('should populate user object', () => {
       const user: User = {
         email: 'string;',
-        name: 'string;',
-        password: 'string;',
+        displayName: 'string;',
+        uid: 'string;',
       };
       const entity = user;
       const { initialState } = fromAuthentication;
-      const action = new fromActions.GetUserSuccess(user);
+      const action = new fromActions.SetUserSuccess(user);
       const state = fromAuthentication.reducer(initialState, action);
 
       expect(state.isFailed).toEqual(false);
@@ -48,7 +48,11 @@ fdescribe('AuthenticationReducer', () => {
   describe('LOGIN_USER action', () => {
     it('should return the initial state', () => {
       const { initialState } = fromAuthentication;
-      const action = new fromActions.LoginUser();
+      const payload = {
+        email: 'email',
+        password: 'password',
+      };
+      const action = new fromActions.LoginUser(payload);
       const state = fromAuthentication.reducer(initialState, action);
 
       expect(state.entity).toEqual(null);
@@ -63,8 +67,8 @@ fdescribe('AuthenticationReducer', () => {
       const { initialState } = fromAuthentication;
       const user: User = {
         email: 'string;',
-        name: 'string;',
-        password: 'string;',
+        displayName: 'string;',
+        uid: 'string;',
       };
       const entity = user;
       const action = new fromActions.LoginUserSuccess(user);
@@ -80,11 +84,36 @@ fdescribe('AuthenticationReducer', () => {
   describe('LOGIN_USER_FAILURE action', () => {
     it('should return the initial state', () => {
       const { initialState } = fromAuthentication;
-      const error = {
-        message: 'string;'
-      };
       const entity = null;
-      const action = new fromActions.LoginUserFailure(error);
+      const action = new fromActions.LoginUserFailure();
+      const state = fromAuthentication.reducer(initialState, action);
+
+      expect(state.entity).toEqual(entity);
+      expect(state.isFailed).toEqual(true);
+      expect(state.isLoading).toEqual(false);
+      expect(state.isSuccess).toEqual(false);
+    });
+  });
+
+  describe('LOGOUT_USER_SUCCESS action', () => {
+    it('should return the initial state', () => {
+      const { initialState } = fromAuthentication;
+      const entity = null;
+      const action = new fromActions.LogoutUserSuccess();
+      const state = fromAuthentication.reducer(initialState, action);
+
+      expect(state.entity).toEqual(entity);
+      expect(state.isFailed).toEqual(false);
+      expect(state.isLoading).toEqual(false);
+      expect(state.isSuccess).toEqual(true);
+    });
+  });
+
+  describe('SET_USER_FAILURE action', () => {
+    it('should return the initial state', () => {
+      const { initialState } = fromAuthentication;
+      const entity = null;
+      const action = new fromActions.SetUserFailure(null);
       const state = fromAuthentication.reducer(initialState, action);
 
       expect(state.entity).toEqual(entity);
@@ -131,8 +160,8 @@ describe('AuthenticationReducer Selectors', () => {
     it('should return .entity', () => {
       const entity: User = {
         email: 'dd',
-        name: 'dd',
-        password: 'dd',
+        displayName: 'dd',
+        uid: 'dd',
       };
       const { initialState } = fromAuthentication;
       const previousState = { ...initialState, entity };
