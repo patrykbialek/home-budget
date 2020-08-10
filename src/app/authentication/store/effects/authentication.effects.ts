@@ -126,7 +126,6 @@ export class AuthenticationEffects {
             return new fromActions.SetUserSuccess(response);
           }),
           catchError((error: fromModels.ErrorMessage) => {
-            console.log(error)
             return of(new fromActions.SetUserFailure(error));
           })
         );
