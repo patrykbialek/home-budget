@@ -2,6 +2,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DataComponent } from './data.component';
 import { Transaction } from '@transactions/models';
+import { SimpleChange } from '@angular/core';
+import { WindowSize } from '@shared/models';
 
 fdescribe('DataComponent', () => {
   let component: DataComponent;
@@ -9,9 +11,9 @@ fdescribe('DataComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DataComponent ]
+      declarations: [DataComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -39,5 +41,27 @@ fdescribe('DataComponent', () => {
 
     component.onDelete(item);
     expect(deleteTransactionEmitSpy).toHaveBeenCalledWith('1');
+  });
+
+  it(`should set 'displayedColumnsForDesktopSize' when window size equals to 'desktop'`, () => {
+    component.windowSize = WindowSize.Desktop;
+
+    component.ngOnChanges({
+      windowSize: new SimpleChange('mobile', component.windowSize, false)
+    });
+    fixture.detectChanges();
+
+    expect(component.displayedColumns).toEqual(component.displayedColumnsForDesktopSize);
+  });
+
+  it(`should set 'displayedColumnsForMobileSize' when window size equals to 'mobile'`, () => {
+    component.windowSize = WindowSize.Mobile;
+
+    component.ngOnChanges({
+      windowSize: new SimpleChange('desktop', component.windowSize, false)
+    });
+    fixture.detectChanges();
+
+    expect(component.displayedColumns).toEqual(component.displayedColumnsForMobileSize);
   });
 });

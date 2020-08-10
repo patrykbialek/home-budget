@@ -53,8 +53,13 @@ fdescribe('Transactions Effects', () => {
     describe('When fetch success', () => {
       it('should return CreateTransaction action', () => {
         scheduler.run(({ hot, cold, expectObservable }) => {
-          const createTransactionAction = new fromActions.CreateTransaction;
-          const createTransactionSuccessAction = new fromActions.CreateTransactionSuccess(null);
+          const payload = {
+            key: null,
+            value: null,
+            uid: null,
+          };
+          const createTransactionAction = new fromActions.CreateTransaction(payload);
+          const createTransactionSuccessAction = new fromActions.CreateTransactionSuccess();
           const openSnackBarSpy = spyOn(snackBarSpy, 'open');
 
           actions$ = hot('5ms a', { a: createTransactionAction });
@@ -74,8 +79,13 @@ fdescribe('Transactions Effects', () => {
     describe('When fetch failure', () => {
       it('should return CreateTransactionFailure action', () => {
         scheduler.run(({ hot, cold, expectObservable }) => {
-          const createTransactionAction = new fromActions.CreateTransaction;
-          const error = new Error('something went wrong...');
+          const payload = {
+            key: null,
+            value: null,
+            uid: null,
+          };
+          const createTransactionAction = new fromActions.CreateTransaction(payload);
+          const error = { code: 'code', message: 'message' };
           const createTransactionFailureAction = new fromActions.CreateTransactionFailure(error);
 
           actions$ = hot('5ms a', { a: createTransactionAction });
@@ -95,8 +105,13 @@ fdescribe('Transactions Effects', () => {
     describe('When fetch success', () => {
       it('should return DeleteTransaction action', () => {
         scheduler.run(({ hot, cold, expectObservable }) => {
-          const deleteTransactionAction = new fromActions.DeleteTransaction;
-          const deleteTransactionSuccessAction = new fromActions.DeleteTransactionSuccess(null);
+          const payload = {
+            key: null,
+            value: null,
+            uid: null,
+          };
+          const deleteTransactionAction = new fromActions.DeleteTransactionFromDetail(payload);
+          const deleteTransactionSuccessAction = new fromActions.DeleteTransactionSuccess();
           const openSnackBarSpy = spyOn(snackBarSpy, 'open');
 
           actions$ = hot('5ms a', { a: deleteTransactionAction });
@@ -116,8 +131,13 @@ fdescribe('Transactions Effects', () => {
     describe('When fetch failure', () => {
       it('should return DeleteTransactionFailure action', () => {
         scheduler.run(({ hot, cold, expectObservable }) => {
-          const deleteTransactionAction = new fromActions.DeleteTransaction;
-          const error = new Error('something went wrong...');
+          const payload = {
+            key: null,
+            value: null,
+            uid: null,
+          };
+          const deleteTransactionAction = new fromActions.DeleteTransactionFromDetail(payload);
+          const error = { code: 'code', message: 'message' };
           const deleteTransactionFailureAction = new fromActions.DeleteTransactionFailure(error);
 
           actions$ = hot('5ms a', { a: deleteTransactionAction });
@@ -137,7 +157,11 @@ fdescribe('Transactions Effects', () => {
     describe('When fetch success', () => {
       it('should return ReadTransactions action', () => {
         scheduler.run(({ hot, cold, expectObservable }) => {
-          const readTransactionsAction = new fromActions.ReadTransactions;
+          const params = {
+            query: null,
+            uid: null,
+          };
+          const readTransactionsAction = new fromActions.ReadTransactions(params);
           const readTransactionsSuccessAction = new fromActions.ReadTransactionsSuccess(null);
 
           actions$ = hot('5ms a', { a: readTransactionsAction });
@@ -157,8 +181,12 @@ fdescribe('Transactions Effects', () => {
     describe('When fetch failure', () => {
       it('should return ReadTransactionFailure action', () => {
         scheduler.run(({ hot, cold, expectObservable }) => {
-          const readTransactionsAction = new fromActions.ReadTransactions;
-          const error = new Error('something went wrong...');
+          const params = {
+            query: null,
+            uid: null,
+          };
+          const readTransactionsAction = new fromActions.ReadTransactions(params);
+          const error = { code: 'code', message: 'message' };
           const readTransactionsFailureAction = new fromActions.ReadTransactionsFailure(error);
 
           actions$ = hot('5ms a', { a: readTransactionsAction });
@@ -178,8 +206,13 @@ fdescribe('Transactions Effects', () => {
     describe('When fetch success', () => {
       it('should return ReadTransaction action', () => {
         scheduler.run(({ hot, cold, expectObservable }) => {
-          const updateTransactionAction = new fromActions.UpdateTransaction;
-          const updateTransactionSuccessAction = new fromActions.UpdateTransactionSuccess(null);
+          const payload = {
+            key: null,
+            value: null,
+            uid: null,
+          };
+          const updateTransactionAction = new fromActions.UpdateTransaction(payload);
+          const updateTransactionSuccessAction = new fromActions.UpdateTransactionSuccess();
           const openSnackBarSpy = spyOn(snackBarSpy, 'open');
 
           actions$ = hot('5ms a', { a: updateTransactionAction });
@@ -199,8 +232,13 @@ fdescribe('Transactions Effects', () => {
     describe('When fetch failure', () => {
       it('should return ReadTransactionFailure action', () => {
         scheduler.run(({ hot, cold, expectObservable }) => {
-          const updateTransactionAction = new fromActions.UpdateTransaction;
-          const error = new Error('something went wrong...');
+          const payload = {
+            key: null,
+            value: null,
+            uid: null,
+          };
+          const updateTransactionAction = new fromActions.UpdateTransaction(payload);
+          const error = { code: 'code', message: 'message' };
           const updateTransactionFailureAction = new fromActions.UpdateTransactionFailure(error);
           const openSnackBarSpy = spyOn(snackBarSpy, 'open');
 
