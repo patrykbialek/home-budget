@@ -9,7 +9,6 @@ import { TransactionsFacadeService } from '@transactions/store';
 import { combineLatest, of, Subscription } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
 import * as fromModels from '../../models';
-import { TransactionType } from '../../models';
 
 export enum Mode {
   Create = 'create',
