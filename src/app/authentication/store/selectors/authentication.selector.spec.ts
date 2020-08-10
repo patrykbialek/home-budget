@@ -12,8 +12,8 @@ fdescribe('Authentication Selectors', () => {
 
   const user: User = {
     email: 'dd',
-    name: 'dd',
-    password: 'dd',
+    displayName: 'dd',
+    uid: 'dd',
   };
 
   const entity = user;
@@ -45,7 +45,7 @@ fdescribe('Authentication Selectors', () => {
         isSuccess: false,
       });
 
-      store.dispatch(new fromActions.GetUserSuccess(user));
+      store.dispatch(new fromActions.SetUserSuccess(user));
 
       expect(result).toEqual({
         entity,
@@ -66,7 +66,7 @@ fdescribe('Authentication Selectors', () => {
 
       expect(result).toEqual(false);
 
-      store.dispatch(new fromActions.GetUserSuccess({}));
+      store.dispatch(new fromActions.SetUserSuccess(null));
 
       expect(result).toEqual(true);
     });
@@ -82,9 +82,14 @@ fdescribe('Authentication Selectors', () => {
 
       expect(result).toEqual(null);
 
-      store.dispatch(new fromActions.GetUserSuccess({ email: 'test' }));
+      const payload = {
+        displayName: 'displayName',
+        email: 'email',
+        uid: 'uid',
+      };
+      store.dispatch(new fromActions.SetUserSuccess(payload));
 
-      expect(result).toEqual({ email: 'test' });
+      expect(result).toEqual(payload);
     });
   });
 });

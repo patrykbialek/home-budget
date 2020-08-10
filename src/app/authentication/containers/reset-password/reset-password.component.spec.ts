@@ -101,11 +101,9 @@ fdescribe('ResetPasswordComponent', () => {
 
   it(`should call 'createForm' method on init`, () => {
     const createFormSpy = spyOn(component, 'createForm');
-    const logoutSpy = spyOn(authenticationServiceStub, 'logoutUser');
 
     component.ngOnInit();
     expect(createFormSpy).toHaveBeenCalledTimes(1);
-    expect(logoutSpy).toHaveBeenCalledTimes(1);
   });
 
   it(`it should create resetForm while calling 'createForm' method`, () => {
@@ -131,15 +129,15 @@ fdescribe('ResetPasswordComponent', () => {
 
   it(`should call 'resetPassword' method in 'authenticationService' service while 'resetPassword' is called`, () => {
     const resetPasswordSpy = spyOn(authenticationServiceStub, 'resetPassword');
-    const event = { value: null } as FormGroup;
+    const event = { value: { email: 'email' } } as FormGroup;
 
     component.resetPassword(event);
-    expect(resetPasswordSpy).toHaveBeenCalledWith({ key: null, value: null });
+    expect(resetPasswordSpy).toHaveBeenCalledWith({ email: 'email' });
   });
 
   it(`should reset 'emailControl' value afer login succeeded`, () => {
     spyOn(authenticationServiceStub, 'resetPassword');
-    const event = { value: null } as FormGroup;
+    const event = { value: { email: null } } as FormGroup;
 
     component.resetPassword(event);
     expect(component.resetForm.get('email').value).toBe('');

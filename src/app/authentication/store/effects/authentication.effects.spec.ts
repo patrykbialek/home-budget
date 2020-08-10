@@ -12,8 +12,8 @@ import { AuthenticationEffects } from './authentication.effects';
 
 const mockUser: User = {
   email: '',
-  name: '',
-  password: '',
+  displayName: '',
+  uid: '',
 };
 
 fdescribe('Authentication Effects', () => {
@@ -35,7 +35,7 @@ fdescribe('Authentication Effects', () => {
         {
           provide: AuthenticationHttpService,
           useValue: jasmine.createSpyObj('AuthenticationHttpService',
-            ['getUser', 'loginUser', 'logoutUser', 'registerUser', 'resetPassword', 'setPassword'])
+            ['setUser', 'loginUser', 'logoutUser', 'registerUser', 'resetPassword', 'setPassword'])
         }
       ]
     });
@@ -49,40 +49,40 @@ fdescribe('Authentication Effects', () => {
     snackBarSpy = TestBed.get(MatSnackBar);
   });
 
-  describe('getUser$', () => {
+  describe('setUser$', () => {
     describe('When fetch success', () => {
-      it('should return GetUserSuccess action', () => {
+      it('should return SetUserSuccess action', () => {
         scheduler.run(({ hot, cold, expectObservable }) => {
-          const loadUserAction = new fromActions.GetUser;
-          const loadUserSuccessAction = new fromActions.GetUserSuccess(mockUser);
+          const loadUserAction = new fromActions.SetUser(null);
+          const loadUserSuccessAction = new fromActions.SetUserSuccess(mockUser);
 
           actions$ = hot('5ms a', { a: loadUserAction });
-          authenticationServiceSpy.getUser.and.returnValue(
+          authenticationServiceSpy.setUser.and.returnValue(
             cold('1s k|', { k: mockUser })
           );
 
           const expected$ = '5ms 1s z';
 
-          expectObservable(authenticationEffects.getUser$).toBe(expected$, {
+          expectObservable(authenticationEffects.setUser$).toBe(expected$, {
             z: loadUserSuccessAction
           });
         });
       });
     });
     describe('When fetch failure', () => {
-      it('should return GetUserFailure action', () => {
+      it('should return SetUserFailure action', () => {
         scheduler.run(({ hot, cold, expectObservable }) => {
-          const getUserAction = new fromActions.GetUser;
-          const error = new Error('something went wrong...');
-          const getUserFailureAction = new fromActions.GetUserFailure(error);
+          const setUserAction = new fromActions.SetUser(null);
+          const error = { code: 'code', message: 'message' };
+          const setUserFailureAction = new fromActions.SetUserFailure(error);
 
-          actions$ = hot('5ms a', { a: getUserAction });
-          authenticationServiceSpy.getUser.and.returnValue(cold('1s #', null, error));
+          actions$ = hot('5ms a', { a: setUserAction });
+          authenticationServiceSpy.setUser.and.returnValue(cold('1s #', null, error));
 
           const expected$ = '5ms 1s z';
 
-          expectObservable(authenticationEffects.getUser$).toBe(expected$, {
-            z: getUserFailureAction
+          expectObservable(authenticationEffects.setUser$).toBe(expected$, {
+            z: setUserFailureAction
           });
         });
       });
@@ -93,8 +93,8 @@ fdescribe('Authentication Effects', () => {
     describe('When fetch succeeds', () => {
       it('should return LoginUserSuccess action', () => {
         scheduler.run(({ hot, cold, expectObservable }) => {
-          const mckUser = { email: '', name: '', uid: '' };
-          const loginUserAction = new fromActions.LoginUser;
+          const mckUser = { email: '', displayName: '', uid: '' };
+          const loginUserAction = new fromActions.LoginUser({ email: null, password: null });
           const loginUserSuccessAction = new fromActions.LoginUserSuccess(mckUser);
 
           actions$ = hot('5ms a', { a: loginUserAction });
@@ -114,9 +114,9 @@ fdescribe('Authentication Effects', () => {
     describe('When fetch failure', () => {
       it('should return LoginUserFailure action', () => {
         scheduler.run(({ hot, cold, expectObservable }) => {
-          const loginUserAction = new fromActions.LoginUser;
-          const error = new Error('something went wrong...');
-          const loginUserFailureAction = new fromActions.LoginUserFailure(error);
+          const loginUserAction = new fromActions.LoginUser({ email: null, password: null });
+          const error = { code: 'code', message: 'message' };
+          const loginUserFailureAction = new fromActions.LoginUserFailure();
           const openSnackBarSpy = spyOn(snackBarSpy, 'open');
 
           actions$ = hot('5ms a', { a: loginUserAction });
@@ -136,9 +136,8 @@ fdescribe('Authentication Effects', () => {
     describe('When fetch succeeds', () => {
       it('should return LogoutUserSuccess action', () => {
         scheduler.run(({ hot, cold, expectObservable }) => {
-          const mckUser = { email: '', name: '', uid: '' };
-          const logoutUserAction = new fromActions.LogoutUser;
-          const logoutUserSuccessAction = new fromActions.LogoutUserSuccess(null);
+          const logoutUserAction = new fromActions.LogoutUserFromContainer();
+          const logoutUserSuccessAction = new fromActions.LogoutUserSuccess();
 
           actions$ = hot('5ms a', { a: logoutUserAction });
           authenticationServiceSpy.logoutUser.and.returnValue(
@@ -157,9 +156,9 @@ fdescribe('Authentication Effects', () => {
     describe('When fetch failure', () => {
       it('should return LogoutUserFailure action', () => {
         scheduler.run(({ hot, cold, expectObservable }) => {
-          const logoutUserAction = new fromActions.LogoutUser;
-          const error = new Error('something went wrong...');
-          const logoutUserFailureAction = new fromActions.LogoutUserFailure(error);
+          const logoutUserAction = new fromActions.LogoutUserFromContainer;
+          const error = { code: 'code', message: 'message' };
+          const logoutUserFailureAction = new fromActions.LogoutUserFailure();
 
           actions$ = hot('5ms a', { a: logoutUserAction });
           authenticationServiceSpy.logoutUser.and.returnValue(cold('1s #', null, error));
@@ -178,7 +177,7 @@ fdescribe('Authentication Effects', () => {
     describe('When fetch succeeds', () => {
       it('should return RegisterUserSuccess action', () => {
         scheduler.run(({ hot, cold, expectObservable }) => {
-          const mckUser = { email: '', name: '', uid: '' };
+          const mckUser = { email: '', displayName: '', uid: '' };
           const registerUserAction = new fromActions.RegisterUser;
           const registerUserSuccessAction = new fromActions.RegisterUserSuccess(mckUser);
           spyOn(snackBarSpy, 'open');
@@ -200,8 +199,8 @@ fdescribe('Authentication Effects', () => {
       it('should return RegisterUserFailure action', () => {
         scheduler.run(({ hot, cold, expectObservable }) => {
           const registerUserAction = new fromActions.RegisterUser;
-          const error = new Error('something went wrong...');
-          const registerUserFailureAction = new fromActions.RegisterUserFailure(error);
+          const error = { code: 'code', message: 'message' };
+          const registerUserFailureAction = new fromActions.RegisterUserFailure();
           const openSnackBarSpy = spyOn(snackBarSpy, 'open');
 
           actions$ = hot('5ms a', { a: registerUserAction });
@@ -222,7 +221,7 @@ fdescribe('Authentication Effects', () => {
       it('should return ResetPasswordSuccess action', () => {
         scheduler.run(({ hot, cold, expectObservable }) => {
           const resetPasswordAction = new fromActions.ResetPassword;
-          const resetPasswordSuccessAction = new fromActions.ResetPasswordSuccess(null);
+          const resetPasswordSuccessAction = new fromActions.ResetPasswordSuccess();
           spyOn(snackBarSpy, 'open');
           actions$ = hot('5ms a', { a: resetPasswordAction });
           authenticationServiceSpy.resetPassword.and.returnValue(
@@ -242,8 +241,8 @@ fdescribe('Authentication Effects', () => {
       it('should return ResetPasswordFailure action', () => {
         scheduler.run(({ hot, cold, expectObservable }) => {
           const resetPasswordAction = new fromActions.ResetPassword;
-          const error = new Error('something went wrong...');
-          const resetPasswordFailureAction = new fromActions.ResetPasswordFailure(error);
+          const error = { code: 'code', message: 'message' };
+          const resetPasswordFailureAction = new fromActions.ResetPasswordFailure();
           const openSnackBarSpy = spyOn(snackBarSpy, 'open');
 
           actions$ = hot('5ms a', { a: resetPasswordAction });
@@ -264,7 +263,7 @@ fdescribe('Authentication Effects', () => {
       it('should return SetPasswordSuccess action', () => {
         scheduler.run(({ hot, cold, expectObservable }) => {
           const setPasswordAction = new fromActions.SetPassword;
-          const setPasswordSuccessAction = new fromActions.SetPasswordSuccess(null);
+          const setPasswordSuccessAction = new fromActions.SetPasswordSuccess();
           spyOn(snackBarSpy, 'open');
           actions$ = hot('5ms a', { a: setPasswordAction });
           authenticationServiceSpy.setPassword.and.returnValue(
@@ -284,8 +283,8 @@ fdescribe('Authentication Effects', () => {
       it('should return SetPasswordFailure action', () => {
         scheduler.run(({ hot, cold, expectObservable }) => {
           const setPasswordAction = new fromActions.SetPassword;
-          const error = new Error('something went wrong...');
-          const setPasswordFailureAction = new fromActions.SetPasswordFailure(error);
+          const error = { code: 'code', message: 'message' };
+          const setPasswordFailureAction = new fromActions.SetPasswordFailure();
           const openSnackBarSpy = spyOn(snackBarSpy, 'open');
 
           actions$ = hot('5ms a', { a: setPasswordAction });

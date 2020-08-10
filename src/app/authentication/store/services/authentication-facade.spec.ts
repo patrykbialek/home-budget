@@ -51,13 +51,13 @@ function whenGetUser() {
   it(`should call 'dispatch' method with provided TransactionPayload when 'getUser' is called `, () => {
     const dispatchSpy = spyOn(storeStub, 'dispatch');
     const payload = {
-      key: 'string',
-      value: null,
+      displayName: 'string',
+      email: 'string',
       uid: 'string',
     };
-    const action = new fromActions.GetUser(payload);
+    const action = new fromActions.SetUser(payload);
 
-    service.getUser(payload);
+    service.setUser(payload);
     expect(dispatchSpy).toHaveBeenCalledWith(action);
   });
 }
@@ -73,9 +73,8 @@ function whenLoginUser() {
   it(`should call 'dispatch' method with provided TransactionPayload when 'loginUser' is called `, () => {
     const dispatchSpy = spyOn(storeStub, 'dispatch');
     const payload = {
-      key: 'string',
-      value: null,
-      uid: 'string',
+      email: 'string',
+      password: null,
     };
     const action = new fromActions.LoginUser(payload);
 
@@ -94,9 +93,9 @@ function whenLogoutUser() {
 
   it(`should call 'dispatch' method with provided TransactionPayload when 'LogoutUser' is called `, () => {
     const dispatchSpy = spyOn(storeStub, 'dispatch');
-    const action = new fromActions.LogoutUser();
+    const action = new fromActions.LogoutUserFromContainer();
 
-    service.logoutUser();
+    service.logoutUserFromContainer();
     expect(dispatchSpy).toHaveBeenCalled();
   });
 }
@@ -113,9 +112,9 @@ function whenRegisterUser() {
   it(`should call 'dispatch' method with provided TransactionPayload when 'registerUser' is called `, () => {
     const dispatchSpy = spyOn(storeStub, 'dispatch');
     const payload = {
-      key: 'string',
-      value: null,
-      uid: 'string',
+      email: 'string',
+      name: 'string',
+      password: 'string',
     };
     const action = new fromActions.RegisterUser(payload);
 
@@ -135,9 +134,7 @@ function whenResetPassword() {
   it(`should call 'dispatch' method with provided TransactionPayload when 'resetPassword' is called `, () => {
     const dispatchSpy = spyOn(storeStub, 'dispatch');
     const payload = {
-      key: 'string',
-      value: null,
-      uid: 'string',
+      email: 'string',
     };
     const action = new fromActions.ResetPassword(payload);
 
@@ -157,9 +154,8 @@ function whenSetPassword() {
   it(`should call 'dispatch' method with provided TransactionPayload when 'setPassword' is called `, () => {
     const dispatchSpy = spyOn(storeStub, 'dispatch');
     const payload = {
-      key: 'string',
-      value: null,
-      uid: 'string',
+      newPassword: 'string',
+      oobCode: null,
     };
     const action = new fromActions.SetPassword(payload);
 

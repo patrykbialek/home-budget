@@ -113,11 +113,9 @@ fdescribe('SetPasswordComponent', () => {
   it(`should call 'createForm' method on init`, () => {
     const redirectToLoginIfNoCodeParamSpy = spyOn(component, 'redirectToLoginIfNoCodeParam');
     const createFormSpy = spyOn(component, 'createForm');
-    const logoutSpy = spyOn(authenticationServiceStub, 'logoutUser');
 
     component.ngOnInit();
     expect(createFormSpy).toHaveBeenCalledTimes(1);
-    expect(logoutSpy).toHaveBeenCalledTimes(1);
   });
 
   it(`it should create setForm while calling 'createForm' method`, () => {
@@ -139,10 +137,10 @@ fdescribe('SetPasswordComponent', () => {
 
   it(`should call 'setPassword' method in 'authenticationService' service while 'setPassword' is called`, () => {
     const setPasswordSpy = spyOn(authenticationServiceStub, 'setPassword');
-    const event = { value: {} } as FormGroup;
+    const event = { value: { password: 'password' } } as FormGroup;
 
     component.setPassword(event);
-    expect(setPasswordSpy).toHaveBeenCalledWith({ key: null, value: { code: undefined } });
+    expect(setPasswordSpy).toHaveBeenCalledWith({ newPassword: 'password', oobCode: undefined });
   });
 
   it(`should redirect to 'login' route afer setPassword succeeded`, () => {
