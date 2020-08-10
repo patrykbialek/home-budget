@@ -90,16 +90,7 @@ fdescribe('AppHeaderComponent', () => {
     expect(component.currentLang).toBe('EN');
   });
 
-  it(`should call 'logoutUser' method while calling 'onLogout' method`, () => {
-    const logoutUserSpy = spyOn(authServiceStub, 'logoutUser');
-
-    component.onLogout();
-    expect(logoutUserSpy).toHaveBeenCalled();
-  });
-
   it(`should redirect to 'login' route afer logout succeeded`, () => {
-    spyOn(authServiceStub, 'logoutUser');
-
     component.onLogout();
     expect(mockRouter.navigate).toHaveBeenCalledWith(['./login']);
   });
