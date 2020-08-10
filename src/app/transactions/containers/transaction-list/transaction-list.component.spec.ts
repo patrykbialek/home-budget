@@ -35,7 +35,7 @@ export class TransactionsFacadeServiceStub {
     this.transactions$ = of([]);
   }
 
-  deleteTransaction(payload: any) {
+  deleteTransactionFromList(payload: any) {
     return of(null);
   }
 
@@ -95,7 +95,7 @@ fdescribe('TransactionListComponent', () => {
   });
 
   it(`should call 'deleteTransaction' method in 'transactionService'`, () => {
-    const deleteTransactionSpy = spyOn(transactionsServiceStub, 'deleteTransaction');
+    const deleteTransactionSpy = spyOn(transactionsServiceStub, 'deleteTransactionFromList');
     component.uid = 'test';
     const key = '123';
     const payload = { key, value: null, uid: component.uid };
@@ -106,6 +106,6 @@ fdescribe('TransactionListComponent', () => {
   it(`should call 'readTransactions' method if user logged in`, () => {
     const readTransactionsSpy = spyOn(transactionsServiceStub, 'readTransactions');
     component.readTransactions({ category: 'one' });
-    expect(readTransactionsSpy).toHaveBeenCalledWith('123', { category: 'one' });
+    expect(readTransactionsSpy).toHaveBeenCalledWith({ uid: '123', query: { category: 'one' }});
   });
 });

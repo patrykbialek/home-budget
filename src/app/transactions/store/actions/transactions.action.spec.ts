@@ -5,20 +5,23 @@ fdescribe('Transactions Actions', () => {
   describe('ReadTransactions Actions', () => {
     describe('ReadTransactions', () => {
       it('should create an action', () => {
-        const payload = { uid: 'test' };
-        const action = new fromTransactions.ReadTransactions(payload);
+        const params = {
+          query: null,
+          uid: null,
+        };
+        const action = new fromTransactions.ReadTransactions(params);
 
         expect({ ...action }).toEqual({
           type: fromTransactions.READ_TRANSACTIONS,
-          payload,
+          payload: params,
         });
       });
     });
 
     describe('ReadTransactionsSuccess', () => {
       it('should create an action', () => {
-        const payload = { uid: 'test' };
-        const action = new fromTransactions.ReadTransactionsSuccess(payload);
+        const payload = [];
+        const action = new fromTransactions.ReadTransactionsSuccess([]);
 
         expect({ ...action }).toEqual({
           type: fromTransactions.READ_TRANSACTIONS_SUCCESS,
@@ -70,12 +73,10 @@ fdescribe('Transactions Actions', () => {
 
     describe('CreateTransactionSuccess', () => {
       it('should create an action', () => {
-        const payload = { uid: 'test' };
-        const action = new fromTransactions.CreateTransactionSuccess(payload);
+        const action = new fromTransactions.CreateTransactionSuccess();
 
         expect({ ...action }).toEqual({
           type: fromTransactions.CREATE_TRANSACTION_SUCCESS,
-          payload,
         });
       });
     });
@@ -123,12 +124,10 @@ fdescribe('Transactions Actions', () => {
 
     describe('CreateTransactionSuccess', () => {
       it('should create an action', () => {
-        const payload = { uid: 'test' };
-        const action = new fromTransactions.CreateTransactionSuccess(payload);
+        const action = new fromTransactions.CreateTransactionSuccess();
 
         expect({ ...action }).toEqual({
           type: fromTransactions.CREATE_TRANSACTION_SUCCESS,
-          payload,
         });
       });
     });
@@ -165,10 +164,10 @@ fdescribe('Transactions Actions', () => {
           },
           uid: 'string',
         };
-        const action = new fromTransactions.DeleteTransaction(payload);
+        const action = new fromTransactions.DeleteTransactionFromDetail(payload);
 
         expect({ ...action }).toEqual({
-          type: fromTransactions.DELETE_TRANSACTION,
+          type: fromTransactions.DELETE_TRANSACTION_FROM_DETAIL,
           payload,
         });
       });
@@ -176,12 +175,10 @@ fdescribe('Transactions Actions', () => {
 
     describe('DeleteTransactionSuccess', () => {
       it('should create an action', () => {
-        const payload = { uid: 'test' };
-        const action = new fromTransactions.DeleteTransactionSuccess(payload);
+        const action = new fromTransactions.DeleteTransactionSuccess();
 
         expect({ ...action }).toEqual({
           type: fromTransactions.DELETE_TRANSACTION_SUCCESS,
-          payload,
         });
       });
     });
@@ -219,11 +216,10 @@ fdescribe('Transactions Actions', () => {
     describe('UpdateTransactionSuccess', () => {
       it('should create an action', () => {
         const payload = { uid: 'test' };
-        const action = new fromTransactions.UpdateTransactionSuccess(payload);
+        const action = new fromTransactions.UpdateTransactionSuccess();
 
         expect({ ...action }).toEqual({
           type: fromTransactions.UPDATE_TRANSACTION_SUCCESS,
-          payload,
         });
       });
     });

@@ -13,10 +13,25 @@ fdescribe('TransactionsReducer', () => {
     });
   });
 
+  describe('CREATE_TRANSACTION action', () => {
+    it('should set isLoading flag to true', () => {
+      const { initialState } = fromTransactions;
+      const action = new fromActions.CreateTransaction(null);
+      const state = fromTransactions.reducer(initialState, action);
+
+      expect(state.entities).toEqual([]);
+      expect(state.isFailed).toEqual(false);
+      expect(state.isLoading).toEqual(true);
+    });
+  });
+
   describe('READ_TRANSACTIONS action', () => {
     it('should set isLoading flag to true', () => {
       const { initialState } = fromTransactions;
-      const action = new fromActions.ReadTransactions();
+      const action = new fromActions.ReadTransactions({
+        query: null,
+        uid: null,
+      });
       const state = fromTransactions.reducer(initialState, action);
 
       expect(state.entities).toEqual([]);
@@ -67,7 +82,7 @@ fdescribe('TransactionsReducer', () => {
   describe('CREATE_TRANSACTION_SUCCESS action', () => {
     it('should set isSuccess flag to true', () => {
       const { initialState } = fromTransactions;
-      const action = new fromActions.CreateTransactionSuccess(null);
+      const action = new fromActions.CreateTransactionSuccess();
       const state = fromTransactions.reducer(initialState, action);
 
       expect(state.isFailed).toEqual(false);

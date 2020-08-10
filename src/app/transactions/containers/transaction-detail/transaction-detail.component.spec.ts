@@ -48,7 +48,7 @@ export class TransactionsFacadeServiceStub_ {
   }
 
   createTransaction(payload: any) { }
-  deleteTransaction(payload: any) { }
+  deleteTransactionFromDetail(payload: any) { }
   updateTransaction(payload: any) { }
 }
 
@@ -67,7 +67,7 @@ export class TransactionsFacadeServiceStub {
   readonly transaction$ = this.transactionSubject.asObservable();
 
   createTransaction(payload: any) { }
-  deleteTransaction(payload: any) { }
+  deleteTransactionFromDetail(payload: any) { }
   updateTransaction(payload: any) { }
 
   setIsSuccess(isSuccess: boolean) {
@@ -311,13 +311,13 @@ function whenDeleteTransaction() {
   });
 
   it(`should call 'deleteTransaction' method on transactionsService when 'deleteItem' called`, () => {
-    const deleteItemSpy = spyOn(transactionsFacadeServiceStub, 'deleteTransaction');
+    const deleteItemSpy = spyOn(transactionsFacadeServiceStub, 'deleteTransactionFromDetail');
     component.deleteItem();
     expect(deleteItemSpy).toHaveBeenCalled();
   });
 
   it(`should navigate to './transactions' when delete succeeded`, () => {
-    spyOn(transactionsFacadeServiceStub, 'deleteTransaction');
+    spyOn(transactionsFacadeServiceStub, 'deleteTransactionFromDetail');
     component.deleteItem();
     expect(mockRouter.navigate).toHaveBeenCalledWith(['./transactions']);
   });

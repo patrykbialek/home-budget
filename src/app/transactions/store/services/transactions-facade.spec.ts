@@ -68,16 +68,29 @@ function whenDeleteTransaction() {
       service = new TransactionsFacadeService(store);
     }));
 
-  it(`should call 'dispatch' method with provided TransactionPayload when 'deleteTransaction' is called `, () => {
+  it(`should call 'dispatch' method with provided TransactionPayload when 'deleteTransactionFromDetail' is called `, () => {
     const dispatchSpy = spyOn(storeStub, 'dispatch');
     const payload = {
       key: 'string',
       value: null,
       uid: 'string',
     };
-    const action = new fromActions.DeleteTransaction(payload);
+    const action = new fromActions.DeleteTransactionFromDetail(payload);
 
-    service.deleteTransaction(payload);
+    service.deleteTransactionFromDetail(payload);
+    expect(dispatchSpy).toHaveBeenCalledWith(action);
+  });
+
+  it(`should call 'dispatch' method with provided TransactionPayload when 'deleteTransactionFromList' is called `, () => {
+    const dispatchSpy = spyOn(storeStub, 'dispatch');
+    const payload = {
+      key: 'string',
+      value: null,
+      uid: 'string',
+    };
+    const action = new fromActions.DeleteTransactionFromList(payload);
+
+    service.deleteTransactionFromList(payload);
     expect(dispatchSpy).toHaveBeenCalledWith(action);
   });
 }
@@ -98,7 +111,7 @@ function whenRadTransactions() {
     };
     const action = new fromActions.ReadTransactions(payload);
 
-    service.readTransactions('1234', { category: 'test'});
+    service.readTransactions({ uid: '1234', query: {category: 'test'}});
     expect(dispatchSpy).toHaveBeenCalledWith(action);
   });
 }
