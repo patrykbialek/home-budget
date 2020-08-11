@@ -1,13 +1,10 @@
 import { Injectable } from '@angular/core';
+import * as fromActions from '@home-budget/authentication/store/actions';
+import * as fromReducers from '@home-budget/authentication/store/reducers';
+import * as fromSelectors from '@home-budget/authentication/store/selectors';
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-
-import { Store, select, Action } from '@ngrx/store';
-
 import * as fromModels from '../../models';
-import * as fromActions from '../actions';
-import * as fromReducers from '../reducers';
-import * as fromSelectors from '../selectors';
-import { UserLogin } from '../../models';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +26,7 @@ export class AuthenticationFacadeService {
     this.store.dispatch(new fromActions.SetUser(payload));
   }
 
-  loginUser(payload: UserLogin) {
+  loginUser(payload: fromModels.UserLogin) {
     this.store.dispatch(new fromActions.LoginUser(payload));
   }
 

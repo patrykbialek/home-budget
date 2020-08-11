@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import * as fromServices from '../../services';
-import { AuthenticationFormComponent } from '../authentication-form.component';
+import * as fromServices from '@home-budget/authentication/services';
+import { AuthenticationFormComponent } from '@home-budget/authentication/components/authentication-form.component';
 
 @Component({
   selector: 'hb-reset-form',

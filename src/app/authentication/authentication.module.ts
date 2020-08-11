@@ -1,15 +1,13 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuthenticationComponent } from './authentication.component';
-import { RouterModule } from '@angular/router';
-import { SharedModule } from '@shared/shared.module';
-import { AuthenticationRoutingModule } from './authentication-routing.module';
-
-import * as fromContainers from './containers';
-import * as fromComponents from './components';
+import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-
-import { AuthenticationStoreModule } from './store/authentication-store.module';
+import { RouterModule } from '@angular/router';
+import { AuthenticationRoutingModule } from '@home-budget/authentication/authentication-routing.module';
+import { AuthenticationComponent } from '@home-budget/authentication/authentication.component';
+import * as fromComponents from '@home-budget/authentication/components';
+import * as fromContainers from '@home-budget/authentication/containers';
+import { AuthenticationStoreModule } from '@home-budget/authentication/store/authentication-store.module';
+import { SharedModule } from '@home-budget/shared/shared.module';
 
 @NgModule({
   declarations: [

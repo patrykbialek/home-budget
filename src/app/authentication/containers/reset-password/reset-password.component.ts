@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CommonWithAnimationComponent } from '@shared/components';
+import * as fromModels from '@home-budget/authentication/models';
+import * as fromServices from '@home-budget/authentication/services';
+import * as fromStoreServices from '@home-budget/authentication/store/services';
+import { CommonWithAnimationComponent } from '@home-budget/shared/components';
 import { take, tap } from 'rxjs/operators';
-import * as fromModels from '../../models';
-import * as fromServices from '../../services';
-import * as fromStoreServices from '../../store/services';
 
 @Component({
   selector: 'hb-reset-password',

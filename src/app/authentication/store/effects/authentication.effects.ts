@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import * as fromModels from '@home-budget/authentication/models';
+import * as fromServices from '@home-budget/authentication/services';
+import * as fromActions from '@home-budget/authentication/store/actions';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-import * as fromModels from '../../models';
-import * as fromServices from '../../services';
-import * as fromActions from '../actions';
 
 @Injectable()
 export class AuthenticationEffects {

@@ -1,6 +1,5 @@
+import * as fromModels from '@home-budget/authentication/models';
 import { Action } from '@ngrx/store';
-
-import * as fromModels from '../../models';
 
 // Set
 export const SET_USER          = '[App Component] Set user';

@@ -8,7 +8,8 @@
       "@dashboard/*": ["src/app/dashboard/*"],
       "@shared/*": ["src/app/shared/*"],
       "@settings/*": ["src/app/settings/*"],
-      "@transactions/*": ["src/app/transactions/*"]
+      "@transactions/*": ["src/app/transactions/*"],
+      "@home-budget/*": ["src/app/*"],
     }
   },
   "files": [
