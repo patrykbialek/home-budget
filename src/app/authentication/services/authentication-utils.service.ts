@@ -1,5 +1,11 @@
-import { Injectable, Inject } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { Injectable } from '@angular/core';
+import { FormControl } from '@angular/forms';
+
+const messages = {
+  email: 'AUTHENTICATION.ValidationMessages.Email',
+  minlength: 'AUTHENTICATION.ValidationMessages.Minlength',
+  required: 'AUTHENTICATION.ValidationMessages.Required',
+};
 
 @Injectable({
   providedIn: 'root'
@@ -16,27 +22,27 @@ export class AuthenticationUtilsService {
 
   getErrorMessageForName(formControl: FormControl): string {
     if (formControl.hasError('required')) {
-      return 'AUTHENTICATION.ValidationMessages.Required';
+      return messages.required;
     }
   }
 
   getErrorMessageForEmail(formControl: FormControl): string {
     if (formControl.hasError('required')) {
-      return 'AUTHENTICATION.ValidationMessages.Required';
+      return messages.required;
     }
 
     if (formControl.hasError('email') || formControl.hasError('pattern')) {
-      return 'AUTHENTICATION.ValidationMessages.Email';
+      return messages.email;
     }
   }
 
   getErrorMessageForPassword(formControl: FormControl): string {
     if (formControl.hasError('required')) {
-      return 'AUTHENTICATION.ValidationMessages.Required';
+      return messages.required;
     }
 
     if (formControl.hasError('minlength')) {
-      return 'AUTHENTICATION.ValidationMessages.Minlength';
+      return messages.minlength;
     }
   }
 
