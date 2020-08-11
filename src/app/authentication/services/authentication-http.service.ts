@@ -3,10 +3,9 @@ import {
   AngularFireDatabase,
   AngularFireObject
 } from '@angular/fire/database';
+import * as fromModels from '@home-budget/authentication/models';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { from, Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
-import * as fromModels from '../models';
 
 export interface Credentials {
   email: string;

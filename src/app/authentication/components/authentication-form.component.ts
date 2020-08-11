@@ -1,6 +1,6 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
-import * as fromServices from '../services';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import * as fromServices from '@home-budget/authentication/services';
 
 @Component({
   selector: 'hb-authentication-form',

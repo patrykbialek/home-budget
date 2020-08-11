@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CommonWithAnimationComponent } from '@shared/components';
+import * as fromModels from '@home-budget/authentication/models';
+import * as fromServices from '@home-budget/authentication/services';
+import * as fromStoreServices from '@home-budget/authentication/store/services';
+import { CommonWithAnimationComponent } from '@home-budget/shared/components';
 import { Subscription } from 'rxjs';
-import { tap, filter } from 'rxjs/operators';
-import * as fromModels from '../../models';
-import * as fromServices from '../../services';
-import * as fromStoreServices from '../../store/services';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'hb-login-user',

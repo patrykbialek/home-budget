@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationFacadeService } from './store';
+import { AuthenticationFacadeService } from '@home-budget/authentication/store';
 
 @Component({
   selector: 'app-authentication',

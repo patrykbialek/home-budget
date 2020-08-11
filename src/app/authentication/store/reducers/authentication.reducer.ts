@@ -1,5 +1,5 @@
-import * as fromAuthentication from '../actions/authentication.actions';
 import * as fromModels from '@authentication/models';
+import * as fromAuthentication from '@home-budget/authentication/store/actions/authentication.actions';
 
 export interface AuthenticationState {
   entity: fromModels.User;
