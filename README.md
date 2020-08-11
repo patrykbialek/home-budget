@@ -303,10 +303,10 @@ Run `ng test --codeCoverage=true` to execute the unit tests via [Karma](https://
 
 ```
 =========== Coverage summary ======
-Statements   : 86.92% ( 678/780 )
-Branches     : 64.88% ( 109/168 )
-Functions    : 85.2% ( 236/277 )
-Lines        : 87.22% ( 628/720 )
+Statements   : 88.35% ( 690/781 )
+Branches     : 72.02% ( 121/168 )
+Functions    : 86.64% ( 240/277 )
+Lines        : 88.77% ( 640/721 )
 ===================================
 ```
 
