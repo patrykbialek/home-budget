@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, AfterContentInit, AfterViewInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-main-component',
