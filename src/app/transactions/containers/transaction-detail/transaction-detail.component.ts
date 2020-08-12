@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthenticationHttpService } from '@authentication/services';
+import { AuthenticationHttpService } from '@home-budget/authentication/services';
 import { CommonWithAnimationComponent } from '@home-budget/shared/components';
 import { SharedUtilsService } from '@home-budget/shared/services/shared-utils.service';
 import * as fromModels from '@home-budget/transactions/models';

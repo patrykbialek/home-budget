@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AuthenticationHttpService } from '@authentication/services';
+import { AuthenticationHttpService } from '@home-budget/authentication/services';
 import { CommonWithAnimationComponent } from '@home-budget/shared/components';
 import { SharedUtilsService } from '@home-budget/shared/services/shared-utils.service';
 import { Query } from '@home-budget/transactions/models';
