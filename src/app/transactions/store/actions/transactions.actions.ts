@@ -1,6 +1,5 @@
+import * as fromModels from '@home-budget/transactions/models';
 import { Action } from '@ngrx/store';
-
-import * as fromModels from '../../models';
 
 // Read
 export const READ_TRANSACTIONS          = '[Transaction List Page] Read transactions';

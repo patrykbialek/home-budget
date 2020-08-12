@@ -1,16 +1,13 @@
 import { Injectable } from '@angular/core';
-
 import {
   AngularFireDatabase,
-  AngularFireList,
+  AngularFireList
 } from '@angular/fire/database';
-import { map, delay, tap, switchMap, mergeMap } from 'rxjs/operators';
-
-import * as moment from 'moment';
-
-import * as fromModels from '../models';
-import { of, forkJoin, combineLatest } from 'rxjs';
 import { AuthenticationHttpService } from '@authentication/services';
+import * as fromModels from '@home-budget/transactions/models';
+import * as moment from 'moment';
+import { of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'

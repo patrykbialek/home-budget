@@ -1,9 +1,8 @@
+import * as fromRoot from '@home-budget/shared/store';
+import * as fromModels from '@home-budget/transactions/models';
+import * as fromFeature from '@home-budget/transactions/store/reducers';
+import * as fromTransactions from '@home-budget/transactions/store/reducers/transactions.reducer';
 import { createSelector } from '@ngrx/store';
-
-import * as fromRoot from '@shared/store';
-import * as fromModels from '../../models';
-import * as fromFeature from '../reducers';
-import * as fromTransactions from '../reducers/transactions.reducer';
 
 export const getTransactionsState = createSelector(
   fromFeature.getMainState,

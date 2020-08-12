@@ -1,5 +1,5 @@
-import * as fromTransactions from '../actions/transactions.actions';
-import * as fromModels from '../../models';
+import * as fromModels from '@home-budget/transactions/models';
+import * as fromTransactions from '@home-budget/transactions/store/actions/transactions.actions';
 export interface TransactionsState {
   entities: fromModels.Transaction[];
   isFailed: boolean;
