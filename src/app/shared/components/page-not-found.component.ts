@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonWithAnimationComponent } from './common-with-animation.component';
+import { CommonWithAnimationComponent } from '@home-budget/shared/components/common-with-animation.component';
 
 @Component({
   selector: 'hb-page-not-found',
