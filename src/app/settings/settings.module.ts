@@ -1,10 +1,9 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SettingsComponent } from './settings.component';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { SharedModule } from '@shared/shared.module';
-import { SettingsRoutingModule } from '@settings/settings-routing.module';
-
+import { SettingsRoutingModule } from '@home-budget/settings/settings-routing.module';
+import { SettingsComponent } from '@home-budget/settings/settings.component';
+import { SharedModule } from '@home-budget/shared/shared.module';
 
 @NgModule({
   declarations: [SettingsComponent],

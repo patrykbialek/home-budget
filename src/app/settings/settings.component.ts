@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonWithAnimationComponent } from '@shared/components/common-with-animation.component';
+import { Component } from '@angular/core';
+import { CommonWithAnimationComponent } from '@home-budget/shared/components/common-with-animation.component';
 
 @Component({
   selector: 'app-settings',
