@@ -1,4 +1,4 @@
-import * as fromModels from '@authentication/models';
+import * as fromModels from '@home-budget/authentication/models';
 import * as fromAuthentication from '@home-budget/authentication/store/actions/authentication.actions';
 
 export interface AuthenticationState {

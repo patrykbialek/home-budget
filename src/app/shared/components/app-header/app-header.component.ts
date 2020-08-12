@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthenticationFacadeService } from '@authentication/store';
+import { AuthenticationFacadeService } from '@home-budget/authentication/store';
 import { SharedUtilsService } from '@home-budget/shared/services/shared-utils.service';
 import { TranslateService } from '@ngx-translate/core';
 
