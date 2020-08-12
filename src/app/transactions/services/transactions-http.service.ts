@@ -3,7 +3,7 @@ import {
   AngularFireDatabase,
   AngularFireList
 } from '@angular/fire/database';
-import { AuthenticationHttpService } from '@authentication/services';
+import { AuthenticationHttpService } from '@home-budget/authentication/services';
 import * as fromModels from '@home-budget/transactions/models';
 import * as moment from 'moment';
 import { of } from 'rxjs';
