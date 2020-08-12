@@ -2,13 +2,13 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationHttpService } from '@authentication/services';
-import { CommonWithAnimationComponent } from '@shared/components';
-import { SharedUtilsService } from '@shared/services/shared-utils.service';
-import { budgetCategories } from '@transactions/models/budget-categories.data';
-import { TransactionsFacadeService } from '@transactions/store';
+import { CommonWithAnimationComponent } from '@home-budget/shared/components';
+import { SharedUtilsService } from '@home-budget/shared/services/shared-utils.service';
+import * as fromModels from '@home-budget/transactions/models';
+import { budgetCategories } from '@home-budget/transactions/models/budget-categories.data';
+import { TransactionsFacadeService } from '@home-budget/transactions/store';
 import { combineLatest, of, Subscription } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
-import * as fromModels from '../../models';
 
 export enum Mode {
   Create = 'create',

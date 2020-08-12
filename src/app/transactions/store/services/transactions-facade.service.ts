@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
+import * as fromModels from '@home-budget/transactions/models';
+import * as fromActions from '@home-budget/transactions/store/actions';
+import * as fromReducers from '@home-budget/transactions/store/reducers';
+import * as fromSelectors from '@home-budget/transactions/store/selectors';
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-
-import { Store, select, Action } from '@ngrx/store';
-
-import * as fromModels from '../../models';
-import * as fromActions from '../actions';
-import * as fromReducers from '../reducers';
-import * as fromSelectors from '../selectors';
 
 @Injectable({
   providedIn: 'root'

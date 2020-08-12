@@ -1,23 +1,19 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { TransactionsComponent } from './transactions.component';
-import { RouterModule } from '@angular/router';
-
-import { DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core';
-import { MomentDateAdapter } from '@angular/material-moment-adapter';
-
-import { SharedModule } from '@shared/shared.module';
-import { TransactionsRoutingModule } from '@transactions/transactions-routing.module';
-
-import { registerLocaleData } from '@angular/common';
+import { CommonModule, registerLocaleData } from '@angular/common';
 import localePl from '@angular/common/locales/pl';
-registerLocaleData(localePl, 'pl');
-
-import * as fromComponents from './components';
-import * as fromContainers from './containers';
+import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { TransactionsStoreModule } from './store/transactions-store.module';
-import { AuthenticationStoreModule } from '@authentication/store/authentication-store.module';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { RouterModule } from '@angular/router';
+import { AuthenticationStoreModule } from '@home-budget/authentication/store/authentication-store.module';
+import { SharedModule } from '@home-budget/shared/shared.module';
+import * as fromComponents from '@home-budget/transactions/components';
+import * as fromContainers from '@home-budget/transactions/containers';
+import { TransactionsStoreModule } from '@home-budget/transactions/store/transactions-store.module';
+import { TransactionsRoutingModule } from '@home-budget/transactions/transactions-routing.module';
+import { TransactionsComponent } from '@home-budget/transactions/transactions.component';
+
+registerLocaleData(localePl, 'pl');
 
 export const MY_FORMATS = {
   parse: {

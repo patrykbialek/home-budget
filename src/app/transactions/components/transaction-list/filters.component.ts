@@ -1,13 +1,13 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import * as fromModels from '@home-budget/transactions/models';
+import { budgetCategories } from '@home-budget/transactions/models/budget-categories.data';
+import { queryPeriods } from '@home-budget/transactions/models/query-periods.data';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import 'moment/locale/pl';
 import { of, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import * as fromModels from '../../models';
-import { budgetCategories } from '../../models/budget-categories.data';
-import { queryPeriods } from '../../models/query-periods.data';
 
 moment.locale('pl');
 

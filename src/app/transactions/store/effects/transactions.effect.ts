@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
-
-import { Effect, Actions, ofType } from '@ngrx/effects';
-import { of, } from 'rxjs';
-import { map, catchError, mergeMap, delay, tap, } from 'rxjs/operators';
-
 import { MatSnackBar } from '@angular/material/snack-bar';
-import * as fromActions from '../actions/transactions.actions';
-import * as fromModels from '@transactions/models';
-import * as fromServices from '../../services';
+import * as fromModels from '@home-budget/transactions/models';
+import * as fromServices from '@home-budget/transactions/services';
+import * as fromActions from '@home-budget/transactions/store/actions/transactions.actions';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { of } from 'rxjs';
+import { catchError, delay, map, mergeMap } from 'rxjs/operators';
 
 @Injectable()
 export class TransactionsEffects {

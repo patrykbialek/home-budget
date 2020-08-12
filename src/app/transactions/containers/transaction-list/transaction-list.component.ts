@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthenticationHttpService } from '@authentication/services';
-import { CommonWithAnimationComponent } from '@shared/components';
-import { SharedUtilsService } from '@shared/services/shared-utils.service';
+import { CommonWithAnimationComponent } from '@home-budget/shared/components';
+import { SharedUtilsService } from '@home-budget/shared/services/shared-utils.service';
+import { Query } from '@home-budget/transactions/models';
+import * as fromStore from '@home-budget/transactions/store';
 import { Subscription } from 'rxjs';
 import { filter, take, tap } from 'rxjs/operators';
-import * as fromStore from '../../store';
-import { Query } from '@transactions/models';
 
 @Component({
   selector: 'hb-transaction-list',

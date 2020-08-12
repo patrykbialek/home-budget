@@ -1,8 +1,9 @@
-import { Component, OnInit, EventEmitter, Output, Input, ChangeDetectionStrategy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import {
+  AfterViewInit, ChangeDetectionStrategy, Component,
+  ElementRef, EventEmitter, Input, Output, ViewChild
+} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
-
-import * as moment from 'moment';
 
 @Component({
   selector: 'hb-form',

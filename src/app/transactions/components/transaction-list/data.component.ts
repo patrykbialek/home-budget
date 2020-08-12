@@ -1,7 +1,10 @@
-import { Component, Input, ChangeDetectionStrategy, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-
-import * as fromModels from '../../models';
-import { WindowSize } from '@shared/models';
+import {
+  ChangeDetectionStrategy, Component,
+  EventEmitter, Input,
+  OnChanges, Output, SimpleChanges
+} from '@angular/core';
+import { WindowSize } from '@home-budget/shared/models';
+import * as fromModels from '@home-budget/transactions/models';
 
 @Component({
   selector: 'hb-data',
