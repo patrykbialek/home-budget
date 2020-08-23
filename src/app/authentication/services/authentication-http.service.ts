@@ -59,21 +59,26 @@ export class AuthenticationHttpService {
 
   // Register
 
-  registerUser({ email, password }: fromModels.UserRegister) {
+  registerUser({ email, name, password }: fromModels.UserRegister) {
     const callback = this.fireAuth.auth
       .createUserWithEmailAndPassword(email, password)
       .then(response => {
         const uid = response.user.uid;
         const db: AngularFireObject<any> = this.db.object(`/workspaces/${uid}/user`);
-        const value = {
-          email,
-          uid,
-        };
+        const value = { email, uid, };
         db.set(value);
+
+        this.setUserDisplayName(name);
+
         return value;
       });
 
     return from(callback);
+  }
+
+  private setUserDisplayName(displayName: string) {
+    const user = this.fireAuth.auth.currentUser;
+    user.updateProfile({ displayName });
   }
 
   // Reset
