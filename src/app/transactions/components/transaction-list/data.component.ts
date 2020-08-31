@@ -37,4 +37,9 @@ export class DataComponent implements OnChanges {
   onDelete(item: fromModels.Transaction) {
     this.deleteTransaction.emit(item.key);
   }
+
+  trackTransaction(index, item) {
+    return item.key;
+  }
+
 }

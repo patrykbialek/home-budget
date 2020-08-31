@@ -1,6 +1,6 @@
 <ng-container *ngIf="isLoading === false; else spinner">
   <section *ngIf="transactions.length; else nodata">
-    <table mat-table [dataSource]="transactions">
+    <table mat-table [dataSource]="transactions" [trackBy]="trackTransaction">
 
       <ng-container matColumnDef="date">
         <th mat-header-cell *matHeaderCellDef>{{ 'DATA.Date' | translate }}</th>
