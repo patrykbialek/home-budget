@@ -51,6 +51,7 @@
   "HEADER": {
     "Dashboard": "Dashboard",
     "Logout": "Wyloguj",
+    "Plan": "Plan",
     "Settings": "Ustawienia",
     "Transactions": "Transakcje"
   },
@@ -105,6 +106,9 @@
     "IncomeTotal": "Przychody",
     "Title": "Transakcje",
     "Total": "Razem"
+  },
+  "PLAN": {
+    "Title": "Plan"
   },
   "Welcome": "Witamy w aplikacji home_budget"
 }
