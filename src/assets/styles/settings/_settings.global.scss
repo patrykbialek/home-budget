@@ -9,7 +9,7 @@
 
 html,
 body {
-  font-family: "Baloo 2", cursive;
+  font-family: "Nunito Sans", cursive;
   background-color: $grey_50;
   color: $grey_700;
   -webkit-font-smoothing: antialiased;
@@ -30,7 +30,7 @@ $btn-box-shadow-active: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
 @import "~@angular/material/theming";
 
 $custom-typography: mat-typography-config(
-  $font-family: '"Baloo 2", sans-serif;',
+  $font-family: '"Nunito Sans", sans-serif;',
 );
 // Override typography CSS classes (e.g., mat-h1, mat-display-1, mat-typography, etc.).
 @include mat-base-typography($custom-typography);

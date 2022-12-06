@@ -1,0 +1,47 @@
+<table mat-table [dataSource]="dataSource" class="u-margin-bottom">
+
+  <ng-container matColumnDef="month">
+    <th mat-header-cell *matHeaderCellDef class="u-border-right u-padding-right-small">{{ 'PLAN.Project.Details.Month' | translate }}</th>
+    <td mat-cell *matCellDef="let element" class="u-border-right u-padding-right-small"> {{ element.month }} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="incomes">
+    <th mat-header-cell *matHeaderCellDef>{{ 'PLAN.Project.Details.Incomes' | translate }}</th>
+    <td mat-cell *matCellDef="let element"> {{ element.incomes | number: '.2-2' }} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="expenses">
+    <th mat-header-cell *matHeaderCellDef class="u-border-right u-padding-right-small">{{ 'PLAN.Project.Details.Expenses' | translate }}</th>
+    <td mat-cell *matCellDef="let element" class="u-border-right u-padding-right-small"> {{ element.expenses | number: '.2-2' }} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="rest">
+    <th mat-header-cell *matHeaderCellDef class="u-border-right u-padding-right-small">{{ 'PLAN.Project.Details.Rest' | translate }}</th>
+    <td mat-cell *matCellDef="let element" class="u-border-right u-padding-right-small"> {{ element.rest | number: '.2-2' }} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="increase">
+    <th mat-header-cell *matHeaderCellDef>{{ 'PLAN.Project.Details.Increase' | translate }}</th>
+    <td mat-cell *matCellDef="let element"> {{ element.increase | number: '.2-2' }} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns; let index = index"
+    [ngClass]="{'u-no-border': (index + 1) % 3 !== 0}"></tr>
+</table>
+
+<div class="c-total o-grid u-margin-bottom">
+  <div class="o-grid__cell u-3/5"></div>
+  <div class="o-grid__cell u-2/5">
+    <div class="o-grid o-grid--flush o-block o-block--right u-border">
+      <div class="o-grid__cell u-border-bottom">
+        <span class="c-total__label u-text-large o-block u-padding-tiny">
+          <strong>{{ 'PLAN.Project.Details.Total' | translate }}</strong></span>
+      </div>
+      <div class="o-grid__cell">
+        <span class="u-text-large u-text-bold o-block u-padding-tiny">
+          <strong>{{ 76275.23 | number: '.2-2' }}</strong></span>
+      </div>
+    </div>
+  </div>
+</div>

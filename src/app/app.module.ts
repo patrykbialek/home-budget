@@ -1,3 +1,7 @@
+import { AngularFireAuthModule } from 'angularfire2/auth';
+import { ChartsModule } from 'ng2-charts';
+import { environment } from 'src/environments/environment';
+
 import { registerLocaleData } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import localePl from '@angular/common/locales/pl';
@@ -16,10 +20,10 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { AngularFireAuthModule } from 'angularfire2/auth';
-import { environment } from 'src/environments/environment';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+
 registerLocaleData(localePl, 'pl');
 
 export function createTranslateLoader(http: HttpClient) {
@@ -51,6 +55,8 @@ export const MY_FORMATS = {
     AngularFireModule.initializeApp(environment.firebase, 'home-budget'),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
+
+    ChartsModule,
 
     TranslateModule.forRoot({
       loader: {
