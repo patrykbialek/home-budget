@@ -1,3 +1,5 @@
+import { ChartsModule } from 'ng2-charts';
+
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -8,14 +10,16 @@ import { AuthenticationStoreModule } from '@authentication/store/authentication-
 import { SharedModule } from '@shared/shared.module';
 import { MY_FORMATS } from '@transactions/transactions.module';
 
+import * as fromComponents from './components';
+import * as fromContainers from './containers';
 import { PlanRoutingModule } from './plan-routing.module';
 import { PlanComponent } from './plan.component';
 
 @NgModule({
   declarations: [
     PlanComponent,
-    // ...fromContainers.components,
-    // ...fromComponents.components,
+    ...fromComponents.components,
+    ...fromContainers.components,
   ],
   imports: [
     CommonModule,
@@ -26,9 +30,11 @@ import { PlanComponent } from './plan.component';
     PlanRoutingModule,
     // TransactionsStoreModule,
     AuthenticationStoreModule,
+
+    ChartsModule,
   ],
   exports: [
-    // ...fromComponents.components,
+    ...fromComponents.components,
   ],
   providers: [
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },

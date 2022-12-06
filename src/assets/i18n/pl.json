@@ -108,7 +108,22 @@
     "Total": "Razem"
   },
   "PLAN": {
-    "Title": "Plan"
+    "Title": "Plan",
+    "Project": {
+      "Title": "Projekt",
+      "Details": {
+        "Expenses": "Wydatki",
+        "Incomes": "Przychody",
+        "Increase": "Przyrost",
+        "Month": "Miesiąc",
+        "Rest": "Reszta",
+        "Total": "Razem"
+      },
+      "Graph": {
+        "Increase": "Przyrost",
+        "IncomesExpenses": "Przychody i wydatki"
+      }
+    }
   },
   "Welcome": "Witamy w aplikacji home_budget"
 }

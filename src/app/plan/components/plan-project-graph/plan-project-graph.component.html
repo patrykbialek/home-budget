@@ -1,0 +1,19 @@
+<div class="u-margin-bottom-small">
+  <canvas baseChart width="40" height="17"
+    [datasets]="increaseDatasets"
+    [labels]="chartLabels"
+    [options]="increaseOptions"
+    [chartType]="chartType"
+    (chartHover)="chartHovered($event)"
+    (chartClick)="chartClicked($event)"></canvas>
+</div>
+
+<div class="u-margin-bottom-small">
+  <canvas baseChart width="40" height="17"
+    [datasets]="incomesExpensesDatasets"
+    [labels]="chartLabels"
+    [options]="incomesExpensesOptions"
+    [chartType]="chartType"
+    (chartHover)="chartHovered($event)"
+    (chartClick)="chartClicked($event)"></canvas>
+</div>
