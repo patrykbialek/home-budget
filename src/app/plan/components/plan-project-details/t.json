@@ -1,0 +1,1026 @@
+{
+  "2023": {
+    "project": {
+      "january": {
+        "incomes": {
+          "patryk": {
+            "total": 31062.4,
+            "entries": [
+              {
+                "isTotal": false,
+                "label": "Working days",
+                "value": 21
+              },
+              {
+                "isTotal": false,
+                "label": "Holiday days",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Working hours",
+                "value": 168
+              },
+              {
+                "isTotal": false,
+                "label": "Rate",
+                "value": 160
+              },
+              {
+                "isTotal": false,
+                "label": "Invoice net",
+                "value": 26880
+              },
+              {
+                "isTotal": false,
+                "label": "Tax vat",
+                "value": 6182.4
+              },
+              {
+                "isTotal": false,
+                "label": "Tax pit",
+                "value": 3225.6
+              },
+              {
+                "isTotal": false,
+                "label": "Zus",
+                "value": 2000
+              },
+              {
+                "isTotal": true,
+                "label": "Gross no zus",
+                "value": 31062.4
+              },
+              {
+                "isTotal": false,
+                "label": "Net",
+                "value": 21654.4
+              }
+            ]
+          },
+          "gosia": {
+            "total": 14224.6,
+            "entries": [
+              {
+                "isTotal": true,
+                "label": "Income",
+                "value": 4224.6
+              },
+              {
+                "isTotal": true,
+                "label": "Extra income",
+                "value": 10000
+              }
+            ]
+          },
+          "other": {
+            "total": 1000,
+            "entries": [
+              {
+                "isTotal": true,
+                "label": "500+",
+                "value": 1000
+              }
+            ]
+          }
+        },
+        "expenses": {}
+      },
+      "february": {
+        "incomes": {
+          "patryk": {
+            "total": 31062.4,
+            "entries": [
+              {
+                "isTotal": false,
+                "label": "Working days",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Holiday days",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Working hours",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Rate",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Invoice net",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Tax vat",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Tax pit",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Zus",
+                "value": 0
+              },
+              {
+                "isTotal": true,
+                "label": "Gross no zus",
+                "value": 31062.4
+              },
+              {
+                "isTotal": false,
+                "label": "Net",
+                "value": 0
+              }
+            ]
+          },
+          "gosia": {
+            "total": 3960,
+            "entries": [
+              {
+                "isTotal": true,
+                "label": "Income",
+                "value": 3960
+              },
+              {
+                "isTotal": true,
+                "label": "Extra income",
+                "value": 0
+              }
+            ]
+          },
+          "other": {
+            "total": 1000,
+            "entries": [
+              {
+                "isTotal": true,
+                "label": "500+",
+                "value": 1000
+              }
+            ]
+          }
+        },
+        "expenses": {}
+      },
+      "march": {
+        "incomes": {
+          "patryk": {
+            "total": 31062.4,
+            "entries": [
+              {
+                "isTotal": false,
+                "label": "Working days",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Holiday days",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Working hours",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Rate",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Invoice net",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Tax vat",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Tax pit",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Zus",
+                "value": 0
+              },
+              {
+                "isTotal": true,
+                "label": "Gross no zus",
+                "value": 31062.4
+              },
+              {
+                "isTotal": false,
+                "label": "Net",
+                "value": 0
+              }
+            ]
+          },
+          "gosia": {
+            "total": 3960,
+            "entries": [
+              {
+                "isTotal": true,
+                "label": "Income",
+                "value": 3960
+              },
+              {
+                "isTotal": true,
+                "label": "Extra income",
+                "value": 0
+              }
+            ]
+          },
+          "other": {
+            "total": 1000,
+            "entries": [
+              {
+                "isTotal": true,
+                "label": "500+",
+                "value": 1000
+              }
+            ]
+          }
+        },
+        "expenses": {}
+      },
+      "april": {
+        "incomes": {
+          "patryk": {
+            "total": 31062.4,
+            "entries": [
+              {
+                "isTotal": false,
+                "label": "Working days",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Holiday days",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Working hours",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Rate",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Invoice net",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Tax vat",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Tax pit",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Zus",
+                "value": 0
+              },
+              {
+                "isTotal": true,
+                "label": "Gross no zus",
+                "value": 31062.4
+              },
+              {
+                "isTotal": false,
+                "label": "Net",
+                "value": 0
+              }
+            ]
+          },
+          "gosia": {
+            "total": 3960,
+            "entries": [
+              {
+                "isTotal": true,
+                "label": "Income",
+                "value": 3960
+              },
+              {
+                "isTotal": true,
+                "label": "Extra income",
+                "value": 0
+              }
+            ]
+          },
+          "other": {
+            "total": 1000,
+            "entries": [
+              {
+                "isTotal": true,
+                "label": "500+",
+                "value": 1000
+              }
+            ]
+          }
+        },
+        "expenses": {}
+      },
+      "may": {
+        "incomes": {
+          "patryk": {
+            "total": 31062.4,
+            "entries": [
+              {
+                "isTotal": false,
+                "label": "Working days",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Holiday days",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Working hours",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Rate",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Invoice net",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Tax vat",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Tax pit",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Zus",
+                "value": 0
+              },
+              {
+                "isTotal": true,
+                "label": "Gross no zus",
+                "value": 31062.4
+              },
+              {
+                "isTotal": false,
+                "label": "Net",
+                "value": 0
+              }
+            ]
+          },
+          "gosia": {
+            "total": 3960,
+            "entries": [
+              {
+                "isTotal": true,
+                "label": "Income",
+                "value": 3960
+              },
+              {
+                "isTotal": true,
+                "label": "Extra income",
+                "value": 0
+              }
+            ]
+          },
+          "other": {
+            "total": 1000,
+            "entries": [
+              {
+                "isTotal": true,
+                "label": "500+",
+                "value": 1000
+              }
+            ]
+          }
+        },
+        "expenses": {}
+      },
+      "june": {
+        "incomes": {
+          "patryk": {
+            "total": 31062.4,
+            "entries": [
+              {
+                "isTotal": false,
+                "label": "Working days",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Holiday days",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Working hours",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Rate",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Invoice net",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Tax vat",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Tax pit",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Zus",
+                "value": 0
+              },
+              {
+                "isTotal": true,
+                "label": "Gross no zus",
+                "value": 31062.4
+              },
+              {
+                "isTotal": false,
+                "label": "Net",
+                "value": 0
+              }
+            ]
+          },
+          "gosia": {
+            "total": 3960,
+            "entries": [
+              {
+                "isTotal": true,
+                "label": "Income",
+                "value": 3960
+              },
+              {
+                "isTotal": true,
+                "label": "Extra income",
+                "value": 0
+              }
+            ]
+          },
+          "other": {
+            "total": 1000,
+            "entries": [
+              {
+                "isTotal": true,
+                "label": "500+",
+                "value": 1000
+              }
+            ]
+          }
+        },
+        "expenses": {}
+      },
+      "july": {
+        "incomes": {
+          "patryk": {
+            "total": 31062.4,
+            "entries": [
+              {
+                "isTotal": false,
+                "label": "Working days",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Holiday days",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Working hours",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Rate",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Invoice net",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Tax vat",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Tax pit",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Zus",
+                "value": 0
+              },
+              {
+                "isTotal": true,
+                "label": "Gross no zus",
+                "value": 31062.4
+              },
+              {
+                "isTotal": false,
+                "label": "Net",
+                "value": 0
+              }
+            ]
+          },
+          "gosia": {
+            "total": 3960,
+            "entries": [
+              {
+                "isTotal": true,
+                "label": "Income",
+                "value": 3960
+              },
+              {
+                "isTotal": true,
+                "label": "Extra income",
+                "value": 0
+              }
+            ]
+          },
+          "other": {
+            "total": 1000,
+            "entries": [
+              {
+                "isTotal": true,
+                "label": "500+",
+                "value": 1000
+              }
+            ]
+          }
+        },
+        "expenses": {}
+      },
+      "august": {
+        "incomes": {
+          "patryk": {
+            "total": 31062.4,
+            "entries": [
+              {
+                "isTotal": false,
+                "label": "Working days",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Holiday days",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Working hours",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Rate",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Invoice net",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Tax vat",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Tax pit",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Zus",
+                "value": 0
+              },
+              {
+                "isTotal": true,
+                "label": "Gross no zus",
+                "value": 31062.4
+              },
+              {
+                "isTotal": false,
+                "label": "Net",
+                "value": 0
+              }
+            ]
+          },
+          "gosia": {
+            "total": 3960,
+            "entries": [
+              {
+                "isTotal": true,
+                "label": "Income",
+                "value": 3960
+              },
+              {
+                "isTotal": true,
+                "label": "Extra income",
+                "value": 0
+              }
+            ]
+          },
+          "other": {
+            "total": 1000,
+            "entries": [
+              {
+                "isTotal": true,
+                "label": "500+",
+                "value": 1000
+              }
+            ]
+          }
+        },
+        "expenses": {}
+      },
+      "september": {
+        "incomes": {
+          "patryk": {
+            "total": 31062.4,
+            "entries": [
+              {
+                "isTotal": false,
+                "label": "Working days",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Holiday days",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Working hours",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Rate",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Invoice net",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Tax vat",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Tax pit",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Zus",
+                "value": 0
+              },
+              {
+                "isTotal": true,
+                "label": "Gross no zus",
+                "value": 31062.4
+              },
+              {
+                "isTotal": false,
+                "label": "Net",
+                "value": 0
+              }
+            ]
+          },
+          "gosia": {
+            "total": 3960,
+            "entries": [
+              {
+                "isTotal": true,
+                "label": "Income",
+                "value": 3960
+              },
+              {
+                "isTotal": true,
+                "label": "Extra income",
+                "value": 0
+              }
+            ]
+          },
+          "other": {
+            "total": 1000,
+            "entries": [
+              {
+                "isTotal": true,
+                "label": "500+",
+                "value": 1000
+              }
+            ]
+          }
+        },
+        "expenses": {}
+      },
+      "october": {
+        "incomes": {
+          "patryk": {
+            "total": 31062.4,
+            "entries": [
+              {
+                "isTotal": false,
+                "label": "Working days",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Holiday days",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Working hours",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Rate",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Invoice net",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Tax vat",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Tax pit",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Zus",
+                "value": 0
+              },
+              {
+                "isTotal": true,
+                "label": "Gross no zus",
+                "value": 31062.4
+              },
+              {
+                "isTotal": false,
+                "label": "Net",
+                "value": 0
+              }
+            ]
+          },
+          "gosia": {
+            "total": 3960,
+            "entries": [
+              {
+                "isTotal": true,
+                "label": "Income",
+                "value": 3960
+              },
+              {
+                "isTotal": true,
+                "label": "Extra income",
+                "value": 0
+              }
+            ]
+          },
+          "other": {
+            "total": 1000,
+            "entries": [
+              {
+                "isTotal": true,
+                "label": "500+",
+                "value": 1000
+              }
+            ]
+          }
+        },
+        "expenses": {}
+      },
+      "november": {
+        "incomes": {
+          "patryk": {
+            "total": 31062.4,
+            "entries": [
+              {
+                "isTotal": false,
+                "label": "Working days",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Holiday days",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Working hours",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Rate",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Invoice net",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Tax vat",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Tax pit",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Zus",
+                "value": 0
+              },
+              {
+                "isTotal": true,
+                "label": "Gross no zus",
+                "value": 31062.4
+              },
+              {
+                "isTotal": false,
+                "label": "Net",
+                "value": 0
+              }
+            ]
+          },
+          "gosia": {
+            "total": 3960,
+            "entries": [
+              {
+                "isTotal": true,
+                "label": "Income",
+                "value": 3960
+              },
+              {
+                "isTotal": true,
+                "label": "Extra income",
+                "value": 0
+              }
+            ]
+          },
+          "other": {
+            "total": 1000,
+            "entries": [
+              {
+                "isTotal": true,
+                "label": "500+",
+                "value": 1000
+              }
+            ]
+          }
+        },
+        "expenses": {}
+      },
+      "december": {
+        "incomes": {
+          "patryk": {
+            "total": 31062.4,
+            "entries": [
+              {
+                "isTotal": false,
+                "label": "Working days",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Holiday days",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Working hours",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Rate",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Invoice net",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Tax vat",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Tax pit",
+                "value": 0
+              },
+              {
+                "isTotal": false,
+                "label": "Zus",
+                "value": 0
+              },
+              {
+                "isTotal": true,
+                "label": "Gross no zus",
+                "value": 31062.4
+              },
+              {
+                "isTotal": false,
+                "label": "Net",
+                "value": 0
+              }
+            ]
+          },
+          "gosia": {
+            "total": 3960,
+            "entries": [
+              {
+                "isTotal": true,
+                "label": "Income",
+                "value": 3960
+              },
+              {
+                "isTotal": true,
+                "label": "Extra income",
+                "value": 0
+              }
+            ]
+          },
+          "other": {
+            "total": 1000,
+            "entries": [
+              {
+                "isTotal": true,
+                "label": "500+",
+                "value": 1000
+              }
+            ]
+          }
+        },
+        "expenses": {}
+      }
+    }
+  }
+}

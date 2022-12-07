@@ -150,7 +150,7 @@ $mq-breakpoints: (
   padding-top: 144px;
 }
 
-@import './settings.colors';
+@import "./settings.colors";
 
 .mat-raised-button.mat-primary {
   background-color: $color--primary;
@@ -192,4 +192,8 @@ $mq-breakpoints: (
   display: flex;
   align-items: flex-end;
   justify-content: center;
+}
+
+.u-clickme {
+  cursor: pointer;
 }

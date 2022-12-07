@@ -1,0 +1,30 @@
+<form [formGroup]="form">
+  <div class="o-grid o-grid--auto o-grid--start u-text-normal">
+    <div class="o-grid__cell">
+      {{ monthId }}
+    </div>
+    <ng-container *ngFor="let column of columns">
+      <div class="o-grid__cell" [formGroupName]="column">
+        <mat-form-field class="u-border-bottom u-margin-bottom" appearance="outline" style="width: 100%;">
+          <mat-label>{{ column | titlecase }}</mat-label>
+          <input matInput formControlName="total"
+            type="number"
+            class="u-type-number u-text-right-align">
+        </mat-form-field>
+        <div formArrayName="entries">
+          <ng-container *ngFor="let control of getEntries(column).controls let i = index;">
+            <div [formGroupName]="i">
+              <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-label>{{ control.value.label }}</mat-label>
+                <input matInput formControlName="value"
+                  type="number"
+                  class="u-type-number u-text-right-align">
+              </mat-form-field>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+  <button (click)="submit()">Zapisz</button>
+</form>

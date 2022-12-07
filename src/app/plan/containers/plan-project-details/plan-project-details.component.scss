@@ -1,0 +1,60 @@
+table {
+  width: auto;
+}
+
+.c-column-text {
+  width: 140px;
+}
+
+.c-column-number {
+  text-align: right;
+  justify-content: flex-end;
+  width: 108px;
+}
+
+tr.mat-header-row{
+  height: 32px;
+}
+tr.mat-row {
+  height: 28px;
+
+  &:hover {
+    background-color: #f5f5f5;
+  }
+}
+
+.background-grey {
+  background-color: #f5f5f5;
+}
+
+.u-no-border {
+  .mat-cell {
+    border-bottom-color: transparent;
+  }
+}
+
+.c-total {
+  &__label {
+    background-color: #f5f5f5;
+  }
+}
+
+.u-text-right-align {
+  text-align: right;
+}
+
+input.u-type-number::-webkit-outer-spin-button,
+input.u-type-number::-webkit-inner-spin-button {
+  display: none;
+}
+
+input.u-type-number {
+  -moz-appearance: textfield;
+}
+
+::ng-deep .mat-form-field.c-custom-suffix .mat-form-field-suffix {
+  top: 0 !important;
+}
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-suffix {
+  margin-left: 8px;
+}
