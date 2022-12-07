@@ -117,12 +117,35 @@
         "Increase": "Przyrost",
         "Month": "Miesiąc",
         "Rest": "Reszta",
-        "Total": "Razem"
+        "Total": "Razem",
+        "other": "Inne",
+        "patryk": "Patryk",
+        "gosia": "Gosia",
+        "total": "Razem",
+        "month": "Miesiąc"
       },
       "Graph": {
         "Increase": "Przyrost",
         "IncomesExpenses": "Przychody i wydatki"
       }
+    },
+    "Month": {
+      "january": "Styczeń",
+      "february": "Luty",
+      "march": "Marzec",
+      "april": "Kwiecień",
+      "may": "Maj",
+      "june": "Czerwiec",
+      "july": "Lipiec",
+      "august": "Sierpień",
+      "september": "Wrzesień",
+      "october": "Październik",
+      "november": "Listopad",
+      "december": "Grudzień"
+    },
+    "Transaction": {
+      "incomes": "Przychody",
+      "expenses": "Wydatki"
     }
   },
   "Welcome": "Witamy w aplikacji home_budget"

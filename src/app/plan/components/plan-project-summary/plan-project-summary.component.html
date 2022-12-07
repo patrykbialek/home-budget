@@ -1,13 +1,13 @@
 <table mat-table [dataSource]="dataSource" class="u-margin-bottom">
 
   <ng-container matColumnDef="month">
-    <th mat-header-cell *matHeaderCellDef class="u-border-right u-padding-right-small">{{ 'PLAN.Project.Details.Month' | translate }}</th>
-    <td mat-cell *matCellDef="let element" class="u-border-right u-padding-right-small"> {{ element.month }} </td>
+    <th mat-header-cell *matHeaderCellDef class="c-column-text u-border-right u-padding-right-small">{{ 'PLAN.Project.Details.Month' | translate }}</th>
+    <td mat-cell *matCellDef="let element" class="c-column-text u-border-right u-padding-right-small"> {{ element.month }} </td>
   </ng-container>
 
   <ng-container matColumnDef="incomes">
     <th mat-header-cell *matHeaderCellDef>{{ 'PLAN.Project.Details.Incomes' | translate }}</th>
-    <td mat-cell *matCellDef="let element"> {{ element.incomes | number: '.2-2' }} </td>
+    <td mat-cell *matCellDef="let element" class="u-clickme" (click)="onGoToDetails(element, 'incomes')"> {{ element.incomes | number: '.2-2' }} </td>
   </ng-container>
 
   <ng-container matColumnDef="expenses">

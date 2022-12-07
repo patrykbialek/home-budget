@@ -1,21 +1,28 @@
-import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
+
+import { Component, OnInit } from '@angular/core';
 import { SharedUtilsService } from '@shared/services/shared-utils.service';
 
 import * as config from './plan.config';
 import * as model from './plan.model';
+import { PlanService } from './plan.service';
 
 @Component({
   selector: 'hb-plan',
   templateUrl: './plan.component.html',
   styleUrls: ['./plan.component.scss']
 })
-export class PlanComponent {
+export class PlanComponent implements OnInit {
 
-  public windowSize$ = this.sharedUtilsService.windowSize$;
   public navLinks: model.NavLink[] = config.navLinks;
+  public windowSize$ = this.sharedUtilsService.windowSize$;
+  public breadcrumbsState$: Observable<string[]> = this.planService.breadcrumbsState$;
 
   constructor(
-    private sharedUtilsService: SharedUtilsService,
+    private readonly planService: PlanService,
+    private readonly sharedUtilsService: SharedUtilsService,
   ) { }
 
+  public ngOnInit(): void {
+  }
 }

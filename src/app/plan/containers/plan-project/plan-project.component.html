@@ -2,9 +2,10 @@
   <div class="o-grid__cell u-1/2">
     <mat-card class="c-plan-project__card">
       <mat-card-content>
-        <hb-plan-project-details
+        <hb-plan-project-summary
           [dataSource]="dataSource"
-          [displayedColumns]="displayedColumns"></hb-plan-project-details>
+          [displayedColumns]="displayedColumns"
+          (goToDetails)="goToDetails($event)"></hb-plan-project-summary>
       </mat-card-content>
     </mat-card>
   </div>

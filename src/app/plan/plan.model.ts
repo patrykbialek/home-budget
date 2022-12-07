@@ -26,27 +26,29 @@ export interface PlanProject {
   incomes: number;
   increase: number;
   month: string;
+  monthId: string;
   rest: number;
 }
 
 export interface MonthLabel {
-  january: MonthLabelContent;
-  february: MonthLabelContent;
-  march: MonthLabelContent;
-  april: MonthLabelContent;
-  may: MonthLabelContent;
-  june: MonthLabelContent;
-  july: MonthLabelContent;
-  august: MonthLabelContent;
-  september: MonthLabelContent;
-  october: MonthLabelContent;
-  november: MonthLabelContent;
-  december: MonthLabelContent;
+  january: Item;
+  february: Item;
+  march: Item;
+  april: Item;
+  may: Item;
+  june: Item;
+  july: Item;
+  august: Item;
+  september: Item;
+  october: Item;
+  november: Item;
+  december: Item;
 }
 
-export interface MonthLabelContent {
+export interface Item {
+  id: string;
   long: string;
-  short: string;
+  short?: string;
 }
 
 export interface PlanProjectGraphData {
@@ -59,4 +61,17 @@ export interface NavLink {
   index: number;
   label: string;
   link: string;
+}
+
+export interface GoToDetails {
+  monthId: string;
+  transactionType: string;
+}
+
+export interface PlanType {
+  [key: string]: Item;
+}
+
+export interface TransactionType {
+  [key: string]: Item;
 }
