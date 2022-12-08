@@ -20,7 +20,6 @@ export class PlanProjectComponent implements OnInit {
   private main: string = "plan";
   private year: string = "2023";
   private plan: string = "project";
-  private type: string = "incomes";
 
   constructor(
     private readonly planService: PlanService,

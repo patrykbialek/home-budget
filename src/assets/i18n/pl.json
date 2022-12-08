@@ -122,7 +122,9 @@
         "patryk": "Patryk",
         "gosia": "Gosia",
         "total": "Razem",
-        "monthLabel": "Miesiąc"
+        "monthLabel": "Miesiąc",
+        "loans": "Raty",
+        "budget": "Budżet"
       },
       "Graph": {
         "Increase": "Przyrost",

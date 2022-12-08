@@ -137,10 +137,10 @@ export class PlanProjectDetailsComponent implements OnInit {
             ...currentStorage['2023'].project[this.month],
             entries: {
               ...currentStorage['2023'].project[this.month].entries,
-              incomes: {
-                ...currentStorage['2023'].project[this.month].entries.incomes,
+              [this.transactionType]: {
+                ...currentStorage['2023'].project[this.month].entries[this.transactionType],
                 entries: {
-                  ...currentStorage['2023'].project[this.month].entries.incomes.entries,
+                  ...currentStorage['2023'].project[this.month].entries[this.transactionType].entries,
                   [category]: value,
                 }
               }

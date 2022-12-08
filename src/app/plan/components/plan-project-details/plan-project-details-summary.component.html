@@ -19,7 +19,7 @@
             <span *ngIf="column === 'total'">{{ element[column] | number: '.2-2' }}</span>
             <span *ngIf="column !== 'monthLabel' && column !== 'total'"
               class="u-clickme"
-              (click)="onGoToDetails(element, element[column], 'incomes')">{{ element[column] | number: '.2-2' }}</span>
+              (click)="onGoToDetails(element, element[column])">{{ element[column] | number: '.2-2' }}</span>
           </td>
         </ng-container>
       </ng-container>
