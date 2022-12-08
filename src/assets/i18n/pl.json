@@ -122,7 +122,7 @@
         "patryk": "Patryk",
         "gosia": "Gosia",
         "total": "Razem",
-        "month": "Miesiąc"
+        "monthLabel": "Miesiąc"
       },
       "Graph": {
         "Increase": "Przyrost",

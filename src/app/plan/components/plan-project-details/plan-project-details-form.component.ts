@@ -1,8 +1,7 @@
-
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { FormArray, FormGroup } from '@angular/forms';
-
-import { data } from '../../plan-project.data';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { DataProperty } from '@home-budget/plan/plan.enum';
 
 @Component({
   selector: 'hb-plan-project-details-form',
@@ -10,38 +9,51 @@ import { data } from '../../plan-project.data';
   styleUrls: ['./plan-project-details-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PlanProjectDetailsFormComponent implements OnInit {
+export class PlanProjectDetailsFormComponent {
 
-  @Input() public form: FormGroup;
-  @Input() public monthId: string;
-  @Input() public columns: string[] = [];
+  public form: FormGroup;
+  public monthLabel: string;
+  public category: string;
 
-  public ngOnInit(): void {
-    //
+  constructor(
+    public dialogRef: MatDialogRef<PlanProjectDetailsFormComponent>,
+    @Inject(MAT_DIALOG_DATA)
+    public data: { form: FormGroup; monthLabel: string, category: string; },
+  ) {
+    this.form = this.data.form;
+    this.monthLabel = this.data.monthLabel;
+    this.category = this.data.category;
+    this.subscribeToColumnFormChanes();
+  }
+
+  private subscribeToColumnFormChanes(): void {
+    this.entries.valueChanges
+      .subscribe((item: any) => {
+        console.log(item)
+        let total: number = 0;
+        item.forEach((entry: any) => {
+          if (entry.isInTotal) {
+            total += parseFloat(entry.value || 0);
+          }
+        });
+
+        this.totalControl.setValue(total);
+      });
   }
 
   public getEntries(control: string): FormArray {
     return this.form.get(control).get('entries') as FormArray;
   }
 
-  public submit(): void {
-    if (this.form.invalid) {
-      return;
-    }
-    const currentStorage = JSON.parse(localStorage.getItem('plan'));
-    const value = this.form.value;
-    const data = {
-      ...currentStorage,
-      '2023': {
-        project: {
-          ...currentStorage['2023'].project,
-          [this.monthId]: {
-            ...currentStorage['2023'].project[this.monthId],
-            incomes: value,
-          },
-        }
-      }
-    };
-    localStorage.setItem('plan', JSON.stringify(data));
+  public save(): void {
+    this.dialogRef.close({ category: this.category, form: this.form });
+  }
+
+  public get entries(): FormArray {
+    return this.form.get(DataProperty.entries) as FormArray;
+  }
+
+  private get totalControl(): FormControl {
+    return this.form.get(DataProperty.total) as FormControl;
   }
 }

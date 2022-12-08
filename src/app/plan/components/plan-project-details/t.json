@@ -1,1025 +1,1619 @@
 {
   "2023": {
     "project": {
-      "january": {
-        "incomes": {
-          "patryk": {
-            "total": 31062.4,
-            "entries": [
-              {
-                "isTotal": false,
-                "label": "Working days",
-                "value": 21
+      "jan": {
+        "label": "Styczeń",
+        "total": 0,
+        "entries": {
+          "incomes": {
+            "label": "Przychody",
+            "total": 0,
+            "entries": {
+              "patryk": {
+                "label": "Patryk",
+                "total": 31062.4,
+                "entries": [
+                  {
+                    "isInTotal": false,
+                    "label": "Dni pracujące",
+                    "value": 21
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Wakacje",
+                    "value": 0
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Godziny",
+                    "value": 168
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Stawka",
+                    "value": 160
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Netto",
+                    "value": 26880
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "VAT",
+                    "value": 6182.4
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "PIT",
+                    "value": 3225.6
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "ZUS",
+                    "value": 2000
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Brutton b. ZUS",
+                    "value": 31062.4
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Netto",
+                    "value": 21654.4
+                  }
+                ]
               },
-              {
-                "isTotal": false,
-                "label": "Holiday days",
-                "value": 0
+              "gosia": {
+                "total": 14224.6,
+                "entries": [
+                  {
+                    "isInTotal": true,
+                    "label": "Przychód",
+                    "value": 4224.6
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Przychód ekstra",
+                    "value": 10000
+                  }
+                ]
               },
-              {
-                "isTotal": false,
-                "label": "Working hours",
-                "value": 168
-              },
-              {
-                "isTotal": false,
-                "label": "Rate",
-                "value": 160
-              },
-              {
-                "isTotal": false,
-                "label": "Invoice net",
-                "value": 26880
-              },
-              {
-                "isTotal": false,
-                "label": "Tax vat",
-                "value": 6182.4
-              },
-              {
-                "isTotal": false,
-                "label": "Tax pit",
-                "value": 3225.6
-              },
-              {
-                "isTotal": false,
-                "label": "Zus",
-                "value": 2000
-              },
-              {
-                "isTotal": true,
-                "label": "Gross no zus",
-                "value": 31062.4
-              },
-              {
-                "isTotal": false,
-                "label": "Net",
-                "value": 21654.4
+              "other": {
+                "total": 1000,
+                "entries": [
+                  {
+                    "isInTotal": true,
+                    "label": "500+",
+                    "value": 1000
+                  }
+                ]
               }
-            ]
+            }
           },
-          "gosia": {
-            "total": 14224.6,
-            "entries": [
-              {
-                "isTotal": true,
-                "label": "Income",
-                "value": 4224.6
-              },
-              {
-                "isTotal": true,
-                "label": "Extra income",
-                "value": 10000
+          "expenses": {
+            "label": "Wydatki",
+            "total": 44222.15,
+            "entries": {
+              "loans": {
+                "label": "Raty",
+                "total": 44222.15,
+                "entries": [
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 1",
+                    "value": 133.30
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 2",
+                    "value": 372.39
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 3",
+                    "value": 9.02
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 4",
+                    "value": 110.09
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 5",
+                    "value": 79.85
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 6",
+                    "value": 206.50
+                  }
+                ]
               }
-            ]
-          },
-          "other": {
-            "total": 1000,
-            "entries": [
-              {
-                "isTotal": true,
-                "label": "500+",
-                "value": 1000
-              }
-            ]
+            }
           }
-        },
-        "expenses": {}
+        }
       },
-      "february": {
-        "incomes": {
-          "patryk": {
-            "total": 31062.4,
-            "entries": [
-              {
-                "isTotal": false,
-                "label": "Working days",
-                "value": 0
+      "feb": {
+        "label": "Luty",
+        "total": 0,
+        "entries": {
+          "incomes": {
+            "label": "Przychody",
+            "total": 0,
+            "entries": {
+              "patryk": {
+                "total": 29488,
+                "entries": [
+                  {
+                    "isInTotal": false,
+                    "label": "Dni pracujące",
+                    "value": 21
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Wakacje",
+                    "value": 0
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Godziny",
+                    "value": 168
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Stawka",
+                    "value": 160
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Netto",
+                    "value": 26880
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "VAT",
+                    "value": 6182.4
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "PIT",
+                    "value": 3225.6
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "ZUS",
+                    "value": 2000
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Brutton b. ZUS",
+                    "value": 29488
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Netto",
+                    "value": 21654.4
+                  }
+                ]
               },
-              {
-                "isTotal": false,
-                "label": "Holiday days",
-                "value": 0
+              "gosia": {
+                "total": 7724.6,
+                "entries": [
+                  {
+                    "isInTotal": true,
+                    "label": "Przychód",
+                    "value": 4224.6
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Przychód ekstra",
+                    "value": 3500
+                  }
+                ]
               },
-              {
-                "isTotal": false,
-                "label": "Working hours",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Rate",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Invoice net",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Tax vat",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Tax pit",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Zus",
-                "value": 0
-              },
-              {
-                "isTotal": true,
-                "label": "Gross no zus",
-                "value": 31062.4
-              },
-              {
-                "isTotal": false,
-                "label": "Net",
-                "value": 0
+              "other": {
+                "label": "Inne",
+                "total": 1000,
+                "entries": [
+                  {
+                    "isInTotal": true,
+                    "label": "500+",
+                    "value": 1000
+                  }
+                ]
               }
-            ]
+            }
           },
-          "gosia": {
-            "total": 3960,
-            "entries": [
-              {
-                "isTotal": true,
-                "label": "Income",
-                "value": 3960
-              },
-              {
-                "isTotal": true,
-                "label": "Extra income",
-                "value": 0
+          "expenses": {
+            "label": "Wydatki",
+            "total": 34511.15,
+            "entries": {
+              "loans": {
+                "label": "Raty",
+                "total": 34511.15,
+                "entries": [
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 1",
+                    "value": 133.30
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 2",
+                    "value": 372.39
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 3",
+                    "value": 9.02
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 4",
+                    "value": 110.09
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 5",
+                    "value": 79.85
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 6",
+                    "value": 206.50
+                  }
+                ]
               }
-            ]
-          },
-          "other": {
-            "total": 1000,
-            "entries": [
-              {
-                "isTotal": true,
-                "label": "500+",
-                "value": 1000
-              }
-            ]
+            }
           }
-        },
-        "expenses": {}
+        }
       },
-      "march": {
-        "incomes": {
-          "patryk": {
-            "total": 31062.4,
-            "entries": [
-              {
-                "isTotal": false,
-                "label": "Working days",
-                "value": 0
+      "mar": {
+        "label": "Marzec",
+        "total": 22211.15,
+        "entries": {
+          "incomes": {
+            "label": "Przychody",
+            "total": 0,
+            "entries": {
+              "patryk": {
+                "total": 21616,
+                "entries": [
+                  {
+                    "isInTotal": false,
+                    "label": "Dni pracujące",
+                    "value": 21
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Wakacje",
+                    "value": 0
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Godziny",
+                    "value": 168
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Stawka",
+                    "value": 160
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Netto",
+                    "value": 26880
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "VAT",
+                    "value": 6182.4
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "PIT",
+                    "value": 3225.6
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "ZUS",
+                    "value": 2000
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Brutton b. ZUS",
+                    "value": 21616
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Netto",
+                    "value": 21654.4
+                  }
+                ]
               },
-              {
-                "isTotal": false,
-                "label": "Holiday days",
-                "value": 0
+              "gosia": {
+                "total": 7824.6,
+                "entries": [
+                  {
+                    "isInTotal": true,
+                    "label": "Przychód",
+                    "value": 4224.6
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Przychód ekstra",
+                    "value": 3600
+                  }
+                ]
               },
-              {
-                "isTotal": false,
-                "label": "Working hours",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Rate",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Invoice net",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Tax vat",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Tax pit",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Zus",
-                "value": 0
-              },
-              {
-                "isTotal": true,
-                "label": "Gross no zus",
-                "value": 31062.4
-              },
-              {
-                "isTotal": false,
-                "label": "Net",
-                "value": 0
+              "other": {
+                "label": "Inne",
+                "total": 1000,
+                "entries": [
+                  {
+                    "isInTotal": true,
+                    "label": "500+",
+                    "value": 1000
+                  }
+                ]
               }
-            ]
+            }
           },
-          "gosia": {
-            "total": 3960,
-            "entries": [
-              {
-                "isTotal": true,
-                "label": "Income",
-                "value": 3960
-              },
-              {
-                "isTotal": true,
-                "label": "Extra income",
-                "value": 0
+          "expenses": {
+            "label": "Wydatki",
+            "total": 22211.15,
+            "entries": {
+              "loans": {
+                "label": "Raty",
+                "total": 22211.15,
+                "entries": [
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 1",
+                    "value": 133.30
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 2",
+                    "value": 372.39
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 3",
+                    "value": 9.02
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 4",
+                    "value": 110.09
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 5",
+                    "value": 79.85
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 6",
+                    "value": 206.50
+                  }
+                ]
               }
-            ]
-          },
-          "other": {
-            "total": 1000,
-            "entries": [
-              {
-                "isTotal": true,
-                "label": "500+",
-                "value": 1000
-              }
-            ]
+            }
           }
-        },
-        "expenses": {}
+        }
       },
-      "april": {
-        "incomes": {
-          "patryk": {
-            "total": 31062.4,
-            "entries": [
-              {
-                "isTotal": false,
-                "label": "Working days",
-                "value": 0
+      "apr": {
+        "label": "Kwiecień",
+        "total": 0,
+        "entries": {
+          "incomes": {
+            "label": "Przychody",
+            "total": 0,
+            "entries": {
+              "patryk": {
+                "total": 34211.2,
+                "entries": [
+                  {
+                    "isInTotal": false,
+                    "label": "Dni pracujące",
+                    "value": 21
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Wakacje",
+                    "value": 0
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Godziny",
+                    "value": 168
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Stawka",
+                    "value": 160
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Netto",
+                    "value": 26880
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "VAT",
+                    "value": 6182.4
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "PIT",
+                    "value": 3225.6
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "ZUS",
+                    "value": 2000
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Brutton b. ZUS",
+                    "value": 34211.2
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Netto",
+                    "value": 21654.4
+                  }
+                ]
               },
-              {
-                "isTotal": false,
-                "label": "Holiday days",
-                "value": 0
+              "gosia": {
+                "total": 4224.6,
+                "entries": [
+                  {
+                    "isInTotal": true,
+                    "label": "Przychód",
+                    "value": 4224.6
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Przychód ekstra",
+                    "value": 0
+                  }
+                ]
               },
-              {
-                "isTotal": false,
-                "label": "Working hours",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Rate",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Invoice net",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Tax vat",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Tax pit",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Zus",
-                "value": 0
-              },
-              {
-                "isTotal": true,
-                "label": "Gross no zus",
-                "value": 31062.4
-              },
-              {
-                "isTotal": false,
-                "label": "Net",
-                "value": 0
+              "other": {
+                "label": "Inne",
+                "total": 1000,
+                "entries": [
+                  {
+                    "isInTotal": true,
+                    "label": "500+",
+                    "value": 1000
+                  }
+                ]
               }
-            ]
+            }
           },
-          "gosia": {
-            "total": 3960,
-            "entries": [
-              {
-                "isTotal": true,
-                "label": "Income",
-                "value": 3960
-              },
-              {
-                "isTotal": true,
-                "label": "Extra income",
-                "value": 0
+          "expenses": {
+            "label": "Wydatki",
+            "total": 0,
+            "entries": {
+              "loans": {
+                "label": "Raty",
+                "total": 36999.15,
+                "entries": [
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 1",
+                    "value": 133.30
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 2",
+                    "value": 372.39
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 3",
+                    "value": 9.02
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 4",
+                    "value": 110.09
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 5",
+                    "value": 79.85
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 6",
+                    "value": 206.50
+                  }
+                ]
               }
-            ]
-          },
-          "other": {
-            "total": 1000,
-            "entries": [
-              {
-                "isTotal": true,
-                "label": "500+",
-                "value": 1000
-              }
-            ]
+            }
           }
-        },
-        "expenses": {}
+        }
       },
       "may": {
-        "incomes": {
-          "patryk": {
-            "total": 31062.4,
-            "entries": [
-              {
-                "isTotal": false,
-                "label": "Working days",
-                "value": 0
+        "label": "Maj",
+        "total": 0,
+        "entries": {
+          "incomes": {
+            "label": "Przychody",
+            "total": 0,
+            "entries": {
+              "patryk": {
+                "total": 24764.8,
+                "entries": [
+                  {
+                    "isInTotal": false,
+                    "label": "Dni pracujące",
+                    "value": 21
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Wakacje",
+                    "value": 0
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Godziny",
+                    "value": 168
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Stawka",
+                    "value": 160
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Netto",
+                    "value": 26880
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "VAT",
+                    "value": 6182.4
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "PIT",
+                    "value": 3225.6
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "ZUS",
+                    "value": 2000
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Brutton b. ZUS",
+                    "value": 24764.8
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Netto",
+                    "value": 21654.4
+                  }
+                ]
               },
-              {
-                "isTotal": false,
-                "label": "Holiday days",
-                "value": 0
+              "gosia": {
+                "total": 4224.6,
+                "entries": [
+                  {
+                    "isInTotal": true,
+                    "label": "Przychód",
+                    "value": 4224.6
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Przychód ekstra",
+                    "value": 0
+                  }
+                ]
               },
-              {
-                "isTotal": false,
-                "label": "Working hours",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Rate",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Invoice net",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Tax vat",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Tax pit",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Zus",
-                "value": 0
-              },
-              {
-                "isTotal": true,
-                "label": "Gross no zus",
-                "value": 31062.4
-              },
-              {
-                "isTotal": false,
-                "label": "Net",
-                "value": 0
+              "other": {
+                "label": "Inne",
+                "total": 1000,
+                "entries": [
+                  {
+                    "isInTotal": true,
+                    "label": "500+",
+                    "value": 1000
+                  }
+                ]
               }
-            ]
+            }
           },
-          "gosia": {
-            "total": 3960,
-            "entries": [
-              {
-                "isTotal": true,
-                "label": "Income",
-                "value": 3960
-              },
-              {
-                "isTotal": true,
-                "label": "Extra income",
-                "value": 0
+          "expenses": {
+            "label": "Wydatki",
+            "total": 0,
+            "entries": {
+              "loans": {
+                "label": "Raty",
+                "total": 26911.15,
+                "entries": [
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 1",
+                    "value": 133.30
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 2",
+                    "value": 372.39
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 3",
+                    "value": 9.02
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 4",
+                    "value": 110.09
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 5",
+                    "value": 79.85
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 6",
+                    "value": 206.50
+                  }
+                ]
               }
-            ]
-          },
-          "other": {
-            "total": 1000,
-            "entries": [
-              {
-                "isTotal": true,
-                "label": "500+",
-                "value": 1000
-              }
-            ]
+            }
           }
-        },
-        "expenses": {}
+        }
       },
-      "june": {
-        "incomes": {
-          "patryk": {
-            "total": 31062.4,
-            "entries": [
-              {
-                "isTotal": false,
-                "label": "Working days",
-                "value": 0
+      "jun": {
+        "label": "Czerwiec",
+        "total": 0,
+        "entries": {
+          "incomes": {
+            "label": "Przychody",
+            "total": 0,
+            "entries": {
+              "patryk": {
+                "total": 31062.4,
+                "entries": [
+                  {
+                    "isInTotal": false,
+                    "label": "Dni pracujące",
+                    "value": 21
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Wakacje",
+                    "value": 0
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Godziny",
+                    "value": 168
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Stawka",
+                    "value": 160
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Netto",
+                    "value": 26880
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "VAT",
+                    "value": 6182.4
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "PIT",
+                    "value": 3225.6
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "ZUS",
+                    "value": 2000
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Brutton b. ZUS",
+                    "value": 31062.4
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Netto",
+                    "value": 21654.4
+                  }
+                ]
               },
-              {
-                "isTotal": false,
-                "label": "Holiday days",
-                "value": 0
+              "gosia": {
+                "total": 4224.6,
+                "entries": [
+                  {
+                    "isInTotal": true,
+                    "label": "Przychód",
+                    "value": 4224.6
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Przychód ekstra",
+                    "value": 0
+                  }
+                ]
               },
-              {
-                "isTotal": false,
-                "label": "Working hours",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Rate",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Invoice net",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Tax vat",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Tax pit",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Zus",
-                "value": 0
-              },
-              {
-                "isTotal": true,
-                "label": "Gross no zus",
-                "value": 31062.4
-              },
-              {
-                "isTotal": false,
-                "label": "Net",
-                "value": 0
+              "other": {
+                "total": 500,
+                "entries": [
+                  {
+                    "isInTotal": true,
+                    "label": "500+",
+                    "value": 500
+                  }
+                ]
               }
-            ]
+            }
           },
-          "gosia": {
-            "total": 3960,
-            "entries": [
-              {
-                "isTotal": true,
-                "label": "Income",
-                "value": 3960
-              },
-              {
-                "isTotal": true,
-                "label": "Extra income",
-                "value": 0
+          "expenses": {
+            "label": "Wydatki",
+            "total": 0,
+            "entries": {
+              "loans": {
+                "label": "Raty",
+                "total": 31501.06,
+                "entries": [
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 1",
+                    "value": 133.30
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 2",
+                    "value": 372.39
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 3",
+                    "value": 9.02
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 4",
+                    "value": 110.09
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 5",
+                    "value": 79.85
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 6",
+                    "value": 206.50
+                  }
+                ]
               }
-            ]
-          },
-          "other": {
-            "total": 1000,
-            "entries": [
-              {
-                "isTotal": true,
-                "label": "500+",
-                "value": 1000
-              }
-            ]
+            }
           }
-        },
-        "expenses": {}
+        }
       },
-      "july": {
-        "incomes": {
-          "patryk": {
-            "total": 31062.4,
-            "entries": [
-              {
-                "isTotal": false,
-                "label": "Working days",
-                "value": 0
+      "jul": {
+        "label": "Lipiec",
+        "total": 0,
+        "entries": {
+          "incomes": {
+            "label": "Przychody",
+            "total": 0,
+            "entries": {
+              "patryk": {
+                "label": "Patryk",
+                "total": 31062.4,
+                "entries": [
+                  {
+                    "isInTotal": false,
+                    "label": "Dni pracujące",
+                    "value": 21
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Wakacje",
+                    "value": 0
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Godziny",
+                    "value": 168
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Stawka",
+                    "value": 160
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Netto",
+                    "value": 26880
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "VAT",
+                    "value": 6182.4
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "PIT",
+                    "value": 3225.6
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "ZUS",
+                    "value": 2000
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Brutton b. ZUS",
+                    "value": 31062.4
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Netto",
+                    "value": 21654.4
+                  }
+                ]
               },
-              {
-                "isTotal": false,
-                "label": "Holiday days",
-                "value": 0
+              "gosia": {
+                "total": 4224.6,
+                "entries": [
+                  {
+                    "isInTotal": true,
+                    "label": "Przychód",
+                    "value": 4224.6
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Przychód ekstra",
+                    "value": 0
+                  }
+                ]
               },
-              {
-                "isTotal": false,
-                "label": "Working hours",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Rate",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Invoice net",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Tax vat",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Tax pit",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Zus",
-                "value": 0
-              },
-              {
-                "isTotal": true,
-                "label": "Gross no zus",
-                "value": 31062.4
-              },
-              {
-                "isTotal": false,
-                "label": "Net",
-                "value": 0
+              "other": {
+                "total": 500,
+                "entries": [
+                  {
+                    "isInTotal": true,
+                    "label": "500+",
+                    "value": 500
+                  }
+                ]
               }
-            ]
+            }
           },
-          "gosia": {
-            "total": 3960,
-            "entries": [
-              {
-                "isTotal": true,
-                "label": "Income",
-                "value": 3960
-              },
-              {
-                "isTotal": true,
-                "label": "Extra income",
-                "value": 0
+          "expenses": {
+            "label": "Wydatki",
+            "total": 0,
+            "entries": {
+              "loans": {
+                "label": "Raty",
+                "total": 28049.21,
+                "entries": [
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 1",
+                    "value": 133.30
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 2",
+                    "value": 372.39
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 3",
+                    "value": 9.02
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 4",
+                    "value": 110.09
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 5",
+                    "value": 79.85
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 6",
+                    "value": 206.50
+                  }
+                ]
               }
-            ]
-          },
-          "other": {
-            "total": 1000,
-            "entries": [
-              {
-                "isTotal": true,
-                "label": "500+",
-                "value": 1000
-              }
-            ]
+            }
           }
-        },
-        "expenses": {}
+        }
       },
-      "august": {
-        "incomes": {
-          "patryk": {
-            "total": 31062.4,
-            "entries": [
-              {
-                "isTotal": false,
-                "label": "Working days",
-                "value": 0
+      "aug": {
+        "label": "Sierpień",
+        "total": 0,
+        "entries": {
+          "incomes": {
+            "label": "Przychody",
+            "total": 0,
+            "entries": {
+              "patryk": {
+                "total": 18467.2,
+                "entries": [
+                  {
+                    "isInTotal": false,
+                    "label": "Dni pracujące",
+                    "value": 21
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Wakacje",
+                    "value": 0
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Godziny",
+                    "value": 168
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Stawka",
+                    "value": 160
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Netto",
+                    "value": 26880
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "VAT",
+                    "value": 6182.4
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "PIT",
+                    "value": 3225.6
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "ZUS",
+                    "value": 2000
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Brutton b. ZUS",
+                    "value": 18467.2
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Netto",
+                    "value": 21654.4
+                  }
+                ]
               },
-              {
-                "isTotal": false,
-                "label": "Holiday days",
-                "value": 0
+              "gosia": {
+                "total": 4224.6,
+                "entries": [
+                  {
+                    "isInTotal": true,
+                    "label": "Przychód",
+                    "value": 4224.6
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Przychód ekstra",
+                    "value": 0
+                  }
+                ]
               },
-              {
-                "isTotal": false,
-                "label": "Working hours",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Rate",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Invoice net",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Tax vat",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Tax pit",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Zus",
-                "value": 0
-              },
-              {
-                "isTotal": true,
-                "label": "Gross no zus",
-                "value": 31062.4
-              },
-              {
-                "isTotal": false,
-                "label": "Net",
-                "value": 0
+              "other": {
+                "total": 500,
+                "entries": [
+                  {
+                    "isInTotal": true,
+                    "label": "500+",
+                    "value": 500
+                  }
+                ]
               }
-            ]
+            }
           },
-          "gosia": {
-            "total": 3960,
-            "entries": [
-              {
-                "isTotal": true,
-                "label": "Income",
-                "value": 3960
-              },
-              {
-                "isTotal": true,
-                "label": "Extra income",
-                "value": 0
+          "expenses": {
+            "label": "Wydatki",
+            "total": 0,
+            "entries": {
+              "loans": {
+                "label": "Raty",
+                "total": 15721.21,
+                "entries": [
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 1",
+                    "value": 133.30
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 2",
+                    "value": 372.39
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 3",
+                    "value": 9.02
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 4",
+                    "value": 110.09
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 5",
+                    "value": 79.85
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 6",
+                    "value": 206.50
+                  }
+                ]
               }
-            ]
-          },
-          "other": {
-            "total": 1000,
-            "entries": [
-              {
-                "isTotal": true,
-                "label": "500+",
-                "value": 1000
-              }
-            ]
+            }
           }
-        },
-        "expenses": {}
+        }
       },
-      "september": {
-        "incomes": {
-          "patryk": {
-            "total": 31062.4,
-            "entries": [
-              {
-                "isTotal": false,
-                "label": "Working days",
-                "value": 0
+      "sep": {
+        "label": "Wrzesień",
+        "total": 0,
+        "entries": {
+          "incomes": {
+            "label": "Przychody",
+            "total": 0,
+            "entries": {
+              "patryk": {
+                "total": 32636.8,
+                "entries": [
+                  {
+                    "isInTotal": false,
+                    "label": "Dni pracujące",
+                    "value": 21
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Wakacje",
+                    "value": 0
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Godziny",
+                    "value": 168
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Stawka",
+                    "value": 160
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Netto",
+                    "value": 26880
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "VAT",
+                    "value": 6182.4
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "PIT",
+                    "value": 3225.6
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "ZUS",
+                    "value": 2000
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Brutton b. ZUS",
+                    "value": 32636.8
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Netto",
+                    "value": 21654.4
+                  }
+                ]
               },
-              {
-                "isTotal": false,
-                "label": "Holiday days",
-                "value": 0
+              "gosia": {
+                "total": 4224.6,
+                "entries": [
+                  {
+                    "isInTotal": true,
+                    "label": "Przychód",
+                    "value": 4224.6
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Przychód ekstra",
+                    "value": 0
+                  }
+                ]
               },
-              {
-                "isTotal": false,
-                "label": "Working hours",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Rate",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Invoice net",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Tax vat",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Tax pit",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Zus",
-                "value": 0
-              },
-              {
-                "isTotal": true,
-                "label": "Gross no zus",
-                "value": 31062.4
-              },
-              {
-                "isTotal": false,
-                "label": "Net",
-                "value": 0
+              "other": {
+                "total": 500,
+                "entries": [
+                  {
+                    "isInTotal": true,
+                    "label": "500+",
+                    "value": 500
+                  }
+                ]
               }
-            ]
+            }
           },
-          "gosia": {
-            "total": 3960,
-            "entries": [
-              {
-                "isTotal": true,
-                "label": "Income",
-                "value": 3960
-              },
-              {
-                "isTotal": true,
-                "label": "Extra income",
-                "value": 0
+          "expenses": {
+            "label": "Wydatki",
+            "total": 0,
+            "entries": {
+              "loans": {
+                "label": "Raty",
+                "total": 31671.21,
+                "entries": [
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 1",
+                    "value": 133.30
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 2",
+                    "value": 372.39
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 3",
+                    "value": 9.02
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 4",
+                    "value": 110.09
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 5",
+                    "value": 79.85
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 6",
+                    "value": 206.50
+                  }
+                ]
               }
-            ]
-          },
-          "other": {
-            "total": 1000,
-            "entries": [
-              {
-                "isTotal": true,
-                "label": "500+",
-                "value": 1000
-              }
-            ]
+            }
           }
-        },
-        "expenses": {}
+        }
       },
-      "october": {
-        "incomes": {
-          "patryk": {
-            "total": 31062.4,
-            "entries": [
-              {
-                "isTotal": false,
-                "label": "Working days",
-                "value": 0
+      "oct": {
+        "label": "Październik",
+        "total": 0,
+        "entries": {
+          "incomes": {
+            "label": "Przychody",
+            "total": 0,
+            "entries": {
+              "patryk": {
+                "total": 27913.6,
+                "entries": [
+                  {
+                    "isInTotal": false,
+                    "label": "Dni pracujące",
+                    "value": 21
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Wakacje",
+                    "value": 0
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Godziny",
+                    "value": 168
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Stawka",
+                    "value": 160
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Netto",
+                    "value": 26880
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "VAT",
+                    "value": 6182.4
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "PIT",
+                    "value": 3225.6
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "ZUS",
+                    "value": 2000
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Brutton b. ZUS",
+                    "value": 27913.6
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Netto",
+                    "value": 21654.4
+                  }
+                ]
               },
-              {
-                "isTotal": false,
-                "label": "Holiday days",
-                "value": 0
+              "gosia": {
+                "total": 4224.6,
+                "entries": [
+                  {
+                    "isInTotal": true,
+                    "label": "Przychód",
+                    "value": 4224.6
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Przychód ekstra",
+                    "value": 0
+                  }
+                ]
               },
-              {
-                "isTotal": false,
-                "label": "Working hours",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Rate",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Invoice net",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Tax vat",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Tax pit",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Zus",
-                "value": 0
-              },
-              {
-                "isTotal": true,
-                "label": "Gross no zus",
-                "value": 31062.4
-              },
-              {
-                "isTotal": false,
-                "label": "Net",
-                "value": 0
+              "other": {
+                "total": 500,
+                "entries": [
+                  {
+                    "isInTotal": true,
+                    "label": "500+",
+                    "value": 500
+                  }
+                ]
               }
-            ]
+            }
           },
-          "gosia": {
-            "total": 3960,
-            "entries": [
-              {
-                "isTotal": true,
-                "label": "Income",
-                "value": 3960
-              },
-              {
-                "isTotal": true,
-                "label": "Extra income",
-                "value": 0
+          "expenses": {
+            "label": "Wydatki",
+            "total": 0,
+            "entries": {
+              "loans": {
+                "label": "Raty",
+                "total": 28602.71,
+                "entries": [
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 1",
+                    "value": 133.30
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 2",
+                    "value": 372.39
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 3",
+                    "value": 9.02
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 4",
+                    "value": 110.09
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 5",
+                    "value": 79.85
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 6",
+                    "value": 206.50
+                  }
+                ]
               }
-            ]
-          },
-          "other": {
-            "total": 1000,
-            "entries": [
-              {
-                "isTotal": true,
-                "label": "500+",
-                "value": 1000
-              }
-            ]
+            }
           }
-        },
-        "expenses": {}
+        }
       },
-      "november": {
-        "incomes": {
-          "patryk": {
-            "total": 31062.4,
-            "entries": [
-              {
-                "isTotal": false,
-                "label": "Working days",
-                "value": 0
+      "nov": {
+        "label": "Listopad",
+        "total": 0,
+        "entries": {
+          "incomes": {
+            "label": "Przychody",
+            "total": 0,
+            "entries": {
+              "patryk": {
+                "total": 32636.8,
+                "entries": [
+                  {
+                    "isInTotal": false,
+                    "label": "Dni pracujące",
+                    "value": 21
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Wakacje",
+                    "value": 0
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Godziny",
+                    "value": 168
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Stawka",
+                    "value": 160
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Netto",
+                    "value": 26880
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "VAT",
+                    "value": 6182.4
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "PIT",
+                    "value": 3225.6
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "ZUS",
+                    "value": 2000
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Brutton b. ZUS",
+                    "value": 32636.8
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Netto",
+                    "value": 21654.4
+                  }
+                ]
               },
-              {
-                "isTotal": false,
-                "label": "Holiday days",
-                "value": 0
+              "gosia": {
+                "total": 4224.6,
+                "entries": [
+                  {
+                    "isInTotal": true,
+                    "label": "Przychód",
+                    "value": 4224.6
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Przychód ekstra",
+                    "value": 0
+                  }
+                ]
               },
-              {
-                "isTotal": false,
-                "label": "Working hours",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Rate",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Invoice net",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Tax vat",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Tax pit",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Zus",
-                "value": 0
-              },
-              {
-                "isTotal": true,
-                "label": "Gross no zus",
-                "value": 31062.4
-              },
-              {
-                "isTotal": false,
-                "label": "Net",
-                "value": 0
+              "other": {
+                "total": 500,
+                "entries": [
+                  {
+                    "isInTotal": true,
+                    "label": "500+",
+                    "value": 500
+                  }
+                ]
               }
-            ]
+            }
           },
-          "gosia": {
-            "total": 3960,
-            "entries": [
-              {
-                "isTotal": true,
-                "label": "Income",
-                "value": 3960
-              },
-              {
-                "isTotal": true,
-                "label": "Extra income",
-                "value": 0
+          "expenses": {
+            "label": "Wydatki",
+            "total": 0,
+            "entries": {
+              "loans": {
+                "label": "Raty",
+                "total": 20214.71,
+                "entries": [
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 1",
+                    "value": 133.30
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 2",
+                    "value": 372.39
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 3",
+                    "value": 9.02
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 4",
+                    "value": 110.09
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 5",
+                    "value": 79.85
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 6",
+                    "value": 206.50
+                  }
+                ]
               }
-            ]
-          },
-          "other": {
-            "total": 1000,
-            "entries": [
-              {
-                "isTotal": true,
-                "label": "500+",
-                "value": 1000
-              }
-            ]
+            }
           }
-        },
-        "expenses": {}
+        }
       },
-      "december": {
-        "incomes": {
-          "patryk": {
-            "total": 31062.4,
-            "entries": [
-              {
-                "isTotal": false,
-                "label": "Working days",
-                "value": 0
+      "dec": {
+        "label": "Grudzień",
+        "total": 0,
+        "entries": {
+          "incomes": {
+            "label": "Przychody",
+            "total": 0,
+            "entries": {
+              "patryk": {
+                "total": 29488,
+                "entries": [
+                  {
+                    "isInTotal": false,
+                    "label": "Dni pracujące",
+                    "value": 21
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Wakacje",
+                    "value": 0
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Godziny",
+                    "value": 168
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Stawka",
+                    "value": 160
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Netto",
+                    "value": 26880
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "VAT",
+                    "value": 6182.4
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "PIT",
+                    "value": 3225.6
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "ZUS",
+                    "value": 2000
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Brutton b. ZUS",
+                    "value": 29488
+                  },
+                  {
+                    "isInTotal": false,
+                    "label": "Netto",
+                    "value": 21654.4
+                  }
+                ]
               },
-              {
-                "isTotal": false,
-                "label": "Holiday days",
-                "value": 0
+              "gosia": {
+                "total": 4224.6,
+                "entries": [
+                  {
+                    "isInTotal": true,
+                    "label": "Przychód",
+                    "value": 4224.6
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Przychód ekstra",
+                    "value": 0
+                  }
+                ]
               },
-              {
-                "isTotal": false,
-                "label": "Working hours",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Rate",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Invoice net",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Tax vat",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Tax pit",
-                "value": 0
-              },
-              {
-                "isTotal": false,
-                "label": "Zus",
-                "value": 0
-              },
-              {
-                "isTotal": true,
-                "label": "Gross no zus",
-                "value": 31062.4
-              },
-              {
-                "isTotal": false,
-                "label": "Net",
-                "value": 0
+              "other": {
+                "total": 500,
+                "entries": [
+                  {
+                    "isInTotal": true,
+                    "label": "500+",
+                    "value": 500
+                  }
+                ]
               }
-            ]
+            }
           },
-          "gosia": {
-            "total": 3960,
-            "entries": [
-              {
-                "isTotal": true,
-                "label": "Income",
-                "value": 3960
-              },
-              {
-                "isTotal": true,
-                "label": "Extra income",
-                "value": 0
+          "expenses": {
+            "label": "Wydatki",
+            "total": 0,
+            "entries": {
+              "loans": {
+                "label": "Raty",
+                "total": 20214.71,
+                "entries": [
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 1",
+                    "value": 133.30
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 2",
+                    "value": 372.39
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 3",
+                    "value": 9.02
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 4",
+                    "value": 110.09
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 5",
+                    "value": 79.85
+                  },
+                  {
+                    "isInTotal": true,
+                    "label": "Rata 6",
+                    "value": 206.50
+                  }
+                ]
               }
-            ]
-          },
-          "other": {
-            "total": 1000,
-            "entries": [
-              {
-                "isTotal": true,
-                "label": "500+",
-                "value": 1000
-              }
-            ]
+            }
           }
-        },
-        "expenses": {}
+        }
       }
     }
   }

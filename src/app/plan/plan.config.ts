@@ -41,22 +41,22 @@ export const transactionType: model.TransactionType = {
 
 export const monthLabel: model.MonthLabel = {
   january: {
-    id: 'january',
+    id: 'jan',
     long: 'Styczeń',
     short: 'Sty',
   },
   february: {
-    id: 'february',
+    id: 'feb',
     long: 'Luty',
     short: 'Lut',
   },
   march: {
-    id: 'march',
+    id: 'mar',
     long: 'Marzec',
     short: 'Mar',
   },
   april: {
-    id: 'april',
+    id: 'apr',
     long: 'Kwiecień',
     short: 'Kwi',
   },
@@ -66,37 +66,37 @@ export const monthLabel: model.MonthLabel = {
     short: 'Maj',
   },
   june: {
-    id: 'june',
+    id: 'jun',
     long: 'Czerwiec',
     short: 'Cze',
   },
   july: {
-    id: 'july',
+    id: 'jul',
     long: 'Lipiec',
     short: 'LIp',
   },
   august: {
-    id: 'august',
+    id: 'aug',
     long: 'Sierpień',
     short: 'Sie',
   },
   september: {
-    id: 'september',
+    id: 'sep',
     long: 'Wrzesień',
     short: 'Wrz',
   },
   october: {
-    id: 'october',
+    id: 'oct',
     long: 'Październik',
     short: 'Paź',
   },
   november: {
-    id: 'november',
+    id: 'nov',
     long: 'Listopad',
     short: 'Lis',
   },
   december: {
-    id: 'december',
+    id: 'dec',
     long: 'Grudzień',
     short: 'Gru',
   },

@@ -64,8 +64,8 @@ export interface NavLink {
 }
 
 export interface GoToDetails {
-  monthId: string;
-  transactionType: string;
+  type: string;
+  month?: string;
 }
 
 export interface PlanType {
@@ -74,4 +74,49 @@ export interface PlanType {
 
 export interface TransactionType {
   [key: string]: Item;
+}
+
+export interface Plan {
+  [key: string]: PlanTypee;
+}
+
+export interface PlanTypee {
+  project: PlanMonth;
+}
+
+export interface PlanMonth {
+  label: string;
+  total: number;
+  entries: PlanMonthEntry[];
+}
+
+export interface PlanMonthEntry {
+  incomes: PlanMonthEntryIncomes;
+  expenses: PlanMonthEntryExpenses;
+}
+
+export interface PlanMonthEntryExpenses {}
+
+export interface PlanMonthEntryIncomes {
+  label: string;
+  total: number;
+  entries: PlanMonthEntryIncomesEntry[];
+}
+
+export interface PlanMonthEntryIncomesEntry {
+  patryk: PlanCommonEntry;
+  gosia: PlanCommonEntry;
+  other: PlanCommonEntry;
+}
+
+export interface PlanCommonEntry {
+  label: string;
+  total: number;
+  entries: PlanCommonEntryEntry[];
+}
+
+export interface PlanCommonEntryEntry {
+  isInTotal: boolean;
+  label: string;
+  value: number;
 }
