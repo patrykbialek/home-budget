@@ -105,6 +105,7 @@ export class PlanProjectDetailsComponent implements OnInit {
         dataItem = {
           ...dataItem,
           total: dataItem.total + dataType[type].total,
+          type: this.transactionType,
           [type]: dataType[type].total,
         };
       });

@@ -29,7 +29,6 @@ export class PlanProjectDetailsFormComponent {
   private subscribeToColumnFormChanes(): void {
     this.entries.valueChanges
       .subscribe((item: any) => {
-        console.log(item)
         let total: number = 0;
         item.forEach((entry: any) => {
           if (entry.isInTotal) {
