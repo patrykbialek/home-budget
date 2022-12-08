@@ -12,7 +12,7 @@ export class PlanProjectDetailsSummaryComponent {
   @Input() public displayedColumns: string[];
   @Output() public goToDetails: EventEmitter<any> = new EventEmitter();
 
-  public onGoToDetails(element: any, value: number, type: string): void {
+  public onGoToDetails(element: any, value: number): void {
     let category: string;
     Object.keys(element).forEach((key: string) => {
       if (element[key] === value) {
@@ -21,7 +21,7 @@ export class PlanProjectDetailsSummaryComponent {
     });
     const event = {
       category,
-      type,
+      type: element.type,
       month: element.month,
       monthLabel: element.monthLabel,
     };
