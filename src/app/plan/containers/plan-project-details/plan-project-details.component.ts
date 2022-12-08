@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
+import { PlanProjectDetailsFormComponent } from '@home-budget/plan/components';
 import { PlanService } from '@home-budget/plan/plan.service';
 
 import * as config from '../../plan.config';
+import { DataProperty } from '../../plan.enum';
 import * as model from '../../plan.model';
 
 @Component({
@@ -16,114 +19,97 @@ export class PlanProjectDetailsComponent implements OnInit {
   public columns: string[] = [];
   public form: FormGroup;
   public isLoading: boolean;
-  public monthId: string;
+  public month: string;
 
   public dataSource: any = [];
   public displayedColumns: string[] = [];
 
   private item: any;
   private storageItem: any;
-  private planType: model.Item = config.planType['project'];
-  private planYear: string = '2023';
   private transactionType: string;
+  private readonly planType: model.Item = config.planType[DataProperty.project];
+  private readonly planYear: string = '2023';
 
   constructor(
+    public dialog: MatDialog,
     private readonly route: ActivatedRoute,
+    private readonly router: Router,
     private readonly planService: PlanService,
   ) { }
 
   public ngOnInit(): void {
     this.route.queryParams
       .subscribe((params: model.GoToDetails) => {
-        this.monthId = params.monthId;
-        this.transactionType = params.transactionType;
+        this.transactionType = params.type;
         this.storageItem = JSON.parse(localStorage.getItem('plan'));
-        this.item = this.storageItem[this.planYear][this.planType.id][params.monthId][params.transactionType];
-        this.columns = Object.keys(this.item).map((item: string) => item);
+        const firstItem: any = this.storageItem[this.planYear][this.planType.id]['jan'][DataProperty.entries][params.type][DataProperty.entries];
+        this.columns = Object.keys(firstItem).map((item: string) => item);
 
         this.setDisplayedColumns();
-        this.setData(params);
+        this.setSummaryData();
+        this.setBreadcrumbsState(params);
+      });
+  }
+
+  public goToDetails(event: any): void {
+    const dialogRef = this.dialog.open(PlanProjectDetailsFormComponent, {
+      data: {
+        category: event.category,
+        form: this.setFormData(event),
+        monthLabel: event.monthLabel,
+      },
+    });
+
+    dialogRef.afterClosed()
+      .subscribe((result: { category: string, form: FormGroup; }) => {
+        if (result && result.form) {
+          this.form = result.form;
+          this.submit(result.category);
+        }
       });
   }
 
   private setDisplayedColumns(): void {
-    this.displayedColumns.push('month');
-    this.displayedColumns.push('total');
+    this.displayedColumns.push(DataProperty.monthLabel);
+    this.displayedColumns.push(DataProperty.total);
     this.displayedColumns = this.displayedColumns.concat(this.columns);
   }
 
-  private setData(params: model.GoToDetails): void {
-    this.setFormData(params);
-    this.setSummaryData();
-  }
+  private setFormData(event: any): FormGroup {
+    const storageItem = this.storageItem;
+    const items = storageItem[this.planYear][this.planType.id][event.month][DataProperty.entries][event.type][DataProperty.entries][event.category];
+    const form: FormGroup = new FormGroup({});
+    const entriesArray: FormArray = new FormArray([]);
+    this.month = event.month;
 
-  private setFormData(params: model.GoToDetails): void {
-    this.form = new FormGroup({});
-
-    Object.keys(this.item).forEach((income: string) => {
-      const incomeGroup = new FormGroup({});
-
-      incomeGroup.addControl('total', new FormControl(this.item[income].total));
-      incomeGroup.addControl('entries', new FormArray([]));
-      const entriesArray: FormArray = incomeGroup.get('entries') as FormArray;
-
-      this.item[income]['entries'].forEach((entry: any) => {
-        entriesArray.push(new FormGroup({
-          isTotal: new FormControl(entry['isTotal'] || false),
-          label: new FormControl(entry['label']),
-          value: new FormControl(entry['value']),
-        }));
-      });
-
-      this.form.addControl(income, incomeGroup);
+    items[DataProperty.entries].forEach((entry: any) => {
+      entriesArray.push(new FormGroup({
+        isInTotal: new FormControl(entry[DataProperty.isInTotal] || false),
+        label: new FormControl(entry[DataProperty.label]),
+        value: new FormControl(entry[DataProperty.value]),
+      }));
     });
-    this.subscribeToColumnFormChanes();
-    this.setBreadcrumbsState(params);
-  }
 
-  private subscribeToColumnFormChanes(): void {
-    this.columns.forEach((column: string) => {
-      const columnFormArray: FormArray = this.getEntriesControl(column);
-      if (!columnFormArray) {
-        return;
-      }
-
-      columnFormArray.valueChanges
-        .subscribe((item: any) => {
-          let total: number = 0;
-          item.forEach((entry: any) => {
-            if (entry.isTotal) {
-              total += parseFloat(entry.value || 0);
-            }
-          });
-
-          this.getTotalControl(column).setValue(total);
-        });
-    });
+    form.addControl(DataProperty.total, new FormControl(items[DataProperty.total]));
+    form.addControl(DataProperty.entries, entriesArray);
+    return form;
   }
 
   private setSummaryData(): void {
+    this.dataSource = [];
     const items = this.storageItem[this.planYear][this.planType.id];
     Object.keys(items).forEach((item: string) => {
-      let dataItem = { month: config.monthLabel[item].long, total: 0 };
-      const dataType = items[item][this.transactionType];
-      Object.keys(dataType).forEach((type: string)=>{
+      let dataItem = { monthLabel: items[item].label, month: item, total: 0 };
+      const dataType = items[item][DataProperty.entries][this.transactionType][DataProperty.entries];
+      Object.keys(dataType).forEach((type: string) => {
         dataItem = {
           ...dataItem,
           total: dataItem.total + dataType[type].total,
           [type]: dataType[type].total,
-        }
-      })
+        };
+      });
       this.dataSource.push(dataItem);
     });
-  }
-
-  private getEntriesControl(column: string): FormArray {
-    return this.form.get(column).get('entries') as FormArray;
-  }
-
-  private getTotalControl(column: string): FormControl {
-    return this.form.get(column).get('total') as FormControl;
   }
 
   private setBreadcrumbsState(params: model.GoToDetails): void {
@@ -131,8 +117,40 @@ export class PlanProjectDetailsComponent implements OnInit {
       this.planService.setBreadcrumbsState([
         this.planType.long,
         // config.monthLabel[params.monthId].long,
-        config.transactionType[params.transactionType].long,
+        config.transactionType[params.type].long,
       ]);
     });
+  }
+
+  private submit(category: string): void {
+    if (this.form.invalid) {
+      return;
+    }
+    const currentStorage = JSON.parse(localStorage.getItem('plan'));
+    const value = this.form.value;
+    const data = {
+      ...currentStorage,
+      '2023': {
+        project: {
+          ...currentStorage['2023'].project,
+          [this.month]: {
+            ...currentStorage['2023'].project[this.month],
+            entries: {
+              ...currentStorage['2023'].project[this.month].entries,
+              incomes: {
+                ...currentStorage['2023'].project[this.month].entries.incomes,
+                entries: {
+                  ...currentStorage['2023'].project[this.month].entries.incomes.entries,
+                  [category]: value,
+                }
+              }
+            }
+          },
+        }
+      }
+    };
+    localStorage.setItem('plan', JSON.stringify(data));
+    this.storageItem = JSON.parse(localStorage.getItem('plan'));
+    this.setSummaryData();
   }
 }

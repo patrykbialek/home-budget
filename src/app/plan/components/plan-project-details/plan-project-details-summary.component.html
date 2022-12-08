@@ -6,17 +6,20 @@
         <ng-container [matColumnDef]="column">
           <th mat-header-cell *matHeaderCellDef class="c-column-text u-padding-right-small"
             [ngClass]="{
-              'c-column-number': column !== 'month',
-              'u-border-right': column === 'month' || column === 'total'
+              'c-column-number': column !== 'monthLabel',
+              'u-border-right': column === 'monthLabel' || column === 'total'
             }">
             {{ 'PLAN.Project.Details.' + column | translate | titlecase }}</th>
           <td mat-cell *matCellDef="let element" class="c-column-text u-border-right u-padding-right-small"
             [ngClass]="{
-              'c-column-number': column !== 'month',
-              'u-border-right': column === 'month' || column === 'total'
+              'c-column-number': column !== 'monthLabel',
+              'u-border-right': column === 'monthLabel' || column === 'total'
             }">
-            <ng-container *ngIf="column === 'month'">{{ element[column] }}</ng-container>
-            <ng-container *ngIf="column !== 'month'">{{ element[column] | number: '.2-2' }}</ng-container>
+            <span *ngIf="column === 'monthLabel'">{{ element[column] }}</span>
+            <span *ngIf="column === 'total'">{{ element[column] | number: '.2-2' }}</span>
+            <span *ngIf="column !== 'monthLabel' && column !== 'total'"
+              class="u-clickme"
+              (click)="onGoToDetails(element, element[column], 'incomes')">{{ element[column] | number: '.2-2' }}</span>
           </td>
         </ng-container>
       </ng-container>

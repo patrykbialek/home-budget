@@ -11,10 +11,11 @@ export class PlanProjectSummaryComponent {
 
   @Input() public readonly dataSource: model.PlanProject[];
   @Input() public readonly displayedColumns: string[];
+  @Input() public readonly total: number;
 
   @Output() public goToDetails: EventEmitter<model.GoToDetails> = new EventEmitter();
 
-  public onGoToDetails(element: model.PlanProject, transactionType: string): void {
-    this.goToDetails.emit({ transactionType, monthId: element.monthId });
+  public onGoToDetails(element: model.PlanProject, type: string): void {
+    this.goToDetails.emit({ type, month: element.monthId });
   }
 }
