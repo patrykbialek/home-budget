@@ -19,4 +19,8 @@ export const queryPeriods = [
     id: `currentYear`,
     name: `CurrentYear`
   },
+  {
+    id: `previousYear`,
+    name: `PreviousYear`
+  },
 ];

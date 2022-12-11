@@ -1,0 +1,767 @@
+{
+  "2023": {
+    "project": {
+      "jan": {
+        "label": "Styczeń",
+        "total": 1000,
+        "entries": {
+          "expenses": {
+            "label": "Wydatki",
+            "total": 44222.15,
+            "entries": {
+              "budget": {
+                "label": "Budżet",
+                "total": 11000,
+                "entries": {
+                  "budget1": {
+                    "isInTotal": true,
+                    "label": "Budżet 1",
+                    "total": 11000,
+                    "entries": {
+                      "budget11": {
+                        "isInTotal": true,
+                        "label": "Budżet 11",
+                        "total": 100
+                      }
+                    }
+                  },
+                  "budget2": {
+                    "isInTotal": true,
+                    "label": "Budżet 2",
+                    "total": 0
+                  }
+                }
+              }
+            }
+          },
+          "incomes": {
+            "label": "Przychody",
+            "total": 44222.15,
+            "entries": {
+              "patryk": {
+                "label": "Patryk",
+                "total": 11000,
+                "entries": {
+                  "budget1": {
+                    "isInTotal": true,
+                    "label": "Budżet 1",
+                    "total": 11000,
+                    "entries": {
+                      "budget11": {
+                        "isInTotal": true,
+                        "label": "Budżet 11",
+                        "total": 100
+                      }
+                    }
+                  },
+                  "budget2": {
+                    "isInTotal": true,
+                    "label": "Budżet 2",
+                    "total": 0
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "feb": {
+        "label": "Luty",
+        "total": 0,
+        "entries": {
+          "expenses": {
+            "label": "Wydatki",
+            "total": 0,
+            "entries": {
+              "budget": {
+                "label": "Budżet",
+                "total": 0,
+                "entries": {
+                  "budget1": {
+                    "isInTotal": true,
+                    "label": "Budżet 1",
+                    "total": 11000
+                  },
+                  "budget2": {
+                    "isInTotal": true,
+                    "label": "Budżet 2",
+                    "total": 0
+                  }
+                }
+              }
+            }
+          },
+          "incomes": {
+            "label": "Przychody",
+            "total": 44222.15,
+            "entries": {
+              "patryk": {
+                "label": "Patryk",
+                "total": 11000,
+                "entries": {
+                  "budget1": {
+                    "isInTotal": true,
+                    "label": "Budżet 1",
+                    "total": 11000,
+                    "entries": {
+                      "budget11": {
+                        "isInTotal": true,
+                        "label": "Budżet 11",
+                        "total": 100
+                      }
+                    }
+                  },
+                  "budget2": {
+                    "isInTotal": true,
+                    "label": "Budżet 2",
+                    "total": 0
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "mar": {
+        "label": "Marzec",
+        "total": 1000,
+        "entries": {
+          "expenses": {
+            "label": "Wydatki",
+            "total": 44222.15,
+            "entries": {
+              "budget": {
+                "label": "Budżet",
+                "total": 11000,
+                "entries": {
+                  "budget1": {
+                    "isInTotal": true,
+                    "label": "Budżet 1",
+                    "total": 11000,
+                    "entries": {
+                      "budget11": {
+                        "isInTotal": true,
+                        "label": "Budżet 11",
+                        "total": 100
+                      }
+                    }
+                  },
+                  "budget2": {
+                    "isInTotal": true,
+                    "label": "Budżet 2",
+                    "total": 0
+                  }
+                }
+              }
+            }
+          },
+          "incomes": {
+            "label": "Przychody",
+            "total": 44222.15,
+            "entries": {
+              "patryk": {
+                "label": "Patryk",
+                "total": 11000,
+                "entries": {
+                  "budget1": {
+                    "isInTotal": true,
+                    "label": "Budżet 1",
+                    "total": 11000,
+                    "entries": {
+                      "budget11": {
+                        "isInTotal": true,
+                        "label": "Budżet 11",
+                        "total": 100
+                      }
+                    }
+                  },
+                  "budget2": {
+                    "isInTotal": true,
+                    "label": "Budżet 2",
+                    "total": 0
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "apr": {
+        "label": "Kwiecień",
+        "total": 1000,
+        "entries": {
+          "expenses": {
+            "label": "Wydatki",
+            "total": 44222.15,
+            "entries": {
+              "budget": {
+                "label": "Budżet",
+                "total": 11000,
+                "entries": {
+                  "budget1": {
+                    "isInTotal": true,
+                    "label": "Budżet 1",
+                    "total": 11000,
+                    "entries": {
+                      "budget11": {
+                        "isInTotal": true,
+                        "label": "Budżet 11",
+                        "total": 100
+                      }
+                    }
+                  },
+                  "budget2": {
+                    "isInTotal": true,
+                    "label": "Budżet 2",
+                    "total": 0
+                  }
+                }
+              }
+            }
+          },
+          "incomes": {
+            "label": "Przychody",
+            "total": 44222.15,
+            "entries": {
+              "patryk": {
+                "label": "Patryk",
+                "total": 11000,
+                "entries": {
+                  "budget1": {
+                    "isInTotal": true,
+                    "label": "Budżet 1",
+                    "total": 11000,
+                    "entries": {
+                      "budget11": {
+                        "isInTotal": true,
+                        "label": "Budżet 11",
+                        "total": 100
+                      }
+                    }
+                  },
+                  "budget2": {
+                    "isInTotal": true,
+                    "label": "Budżet 2",
+                    "total": 0
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "may": {
+        "label": "May",
+        "total": 1000,
+        "entries": {
+          "expenses": {
+            "label": "Wydatki",
+            "total": 44222.15,
+            "entries": {
+              "budget": {
+                "label": "Budżet",
+                "total": 11000,
+                "entries": {
+                  "budget1": {
+                    "isInTotal": true,
+                    "label": "Budżet 1",
+                    "total": 11000,
+                    "entries": {
+                      "budget11": {
+                        "isInTotal": true,
+                        "label": "Budżet 11",
+                        "total": 100
+                      }
+                    }
+                  },
+                  "budget2": {
+                    "isInTotal": true,
+                    "label": "Budżet 2",
+                    "total": 0
+                  }
+                }
+              }
+            }
+          },
+          "incomes": {
+            "label": "Przychody",
+            "total": 44222.15,
+            "entries": {
+              "patryk": {
+                "label": "Patryk",
+                "total": 11000,
+                "entries": {
+                  "budget1": {
+                    "isInTotal": true,
+                    "label": "Budżet 1",
+                    "total": 11000,
+                    "entries": {
+                      "budget11": {
+                        "isInTotal": true,
+                        "label": "Budżet 11",
+                        "total": 100
+                      }
+                    }
+                  },
+                  "budget2": {
+                    "isInTotal": true,
+                    "label": "Budżet 2",
+                    "total": 0
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "jun": {
+        "label": "Czerwiec",
+        "total": 1000,
+        "entries": {
+          "expenses": {
+            "label": "Wydatki",
+            "total": 44222.15,
+            "entries": {
+              "budget": {
+                "label": "Budżet",
+                "total": 11000,
+                "entries": {
+                  "budget1": {
+                    "isInTotal": true,
+                    "label": "Budżet 1",
+                    "total": 11000,
+                    "entries": {
+                      "budget11": {
+                        "isInTotal": true,
+                        "label": "Budżet 11",
+                        "total": 100
+                      }
+                    }
+                  },
+                  "budget2": {
+                    "isInTotal": true,
+                    "label": "Budżet 2",
+                    "total": 0
+                  }
+                }
+              }
+            }
+          },
+          "incomes": {
+            "label": "Przychody",
+            "total": 44222.15,
+            "entries": {
+              "patryk": {
+                "label": "Patryk",
+                "total": 11000,
+                "entries": {
+                  "budget1": {
+                    "isInTotal": true,
+                    "label": "Budżet 1",
+                    "total": 11000,
+                    "entries": {
+                      "budget11": {
+                        "isInTotal": true,
+                        "label": "Budżet 11",
+                        "total": 100
+                      }
+                    }
+                  },
+                  "budget2": {
+                    "isInTotal": true,
+                    "label": "Budżet 2",
+                    "total": 0
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "jul": {
+        "label": "Lipiec",
+        "total": 1000,
+        "entries": {
+          "expenses": {
+            "label": "Wydatki",
+            "total": 44222.15,
+            "entries": {
+              "budget": {
+                "label": "Budżet",
+                "total": 11000,
+                "entries": {
+                  "budget1": {
+                    "isInTotal": true,
+                    "label": "Budżet 1",
+                    "total": 11000,
+                    "entries": {
+                      "budget11": {
+                        "isInTotal": true,
+                        "label": "Budżet 11",
+                        "total": 100
+                      }
+                    }
+                  },
+                  "budget2": {
+                    "isInTotal": true,
+                    "label": "Budżet 2",
+                    "total": 0
+                  }
+                }
+              }
+            }
+          },
+          "incomes": {
+            "label": "Przychody",
+            "total": 44222.15,
+            "entries": {
+              "patryk": {
+                "label": "Patryk",
+                "total": 11000,
+                "entries": {
+                  "budget1": {
+                    "isInTotal": true,
+                    "label": "Budżet 1",
+                    "total": 11000,
+                    "entries": {
+                      "budget11": {
+                        "isInTotal": true,
+                        "label": "Budżet 11",
+                        "total": 100
+                      }
+                    }
+                  },
+                  "budget2": {
+                    "isInTotal": true,
+                    "label": "Budżet 2",
+                    "total": 0
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "aug": {
+        "label": "Sierpień",
+        "total": 1000,
+        "entries": {
+          "expenses": {
+            "label": "Wydatki",
+            "total": 44222.15,
+            "entries": {
+              "budget": {
+                "label": "Budżet",
+                "total": 11000,
+                "entries": {
+                  "budget1": {
+                    "isInTotal": true,
+                    "label": "Budżet 1",
+                    "total": 11000,
+                    "entries": {
+                      "budget11": {
+                        "isInTotal": true,
+                        "label": "Budżet 11",
+                        "total": 100
+                      }
+                    }
+                  },
+                  "budget2": {
+                    "isInTotal": true,
+                    "label": "Budżet 2",
+                    "total": 0
+                  }
+                }
+              }
+            }
+          },
+          "incomes": {
+            "label": "Przychody",
+            "total": 44222.15,
+            "entries": {
+              "patryk": {
+                "label": "Patryk",
+                "total": 11000,
+                "entries": {
+                  "budget1": {
+                    "isInTotal": true,
+                    "label": "Budżet 1",
+                    "total": 11000,
+                    "entries": {
+                      "budget11": {
+                        "isInTotal": true,
+                        "label": "Budżet 11",
+                        "total": 100
+                      }
+                    }
+                  },
+                  "budget2": {
+                    "isInTotal": true,
+                    "label": "Budżet 2",
+                    "total": 0
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "sep": {
+        "label": "Wrzesień",
+        "total": 1000,
+        "entries": {
+          "expenses": {
+            "label": "Wydatki",
+            "total": 44222.15,
+            "entries": {
+              "budget": {
+                "label": "Budżet",
+                "total": 11000,
+                "entries": {
+                  "budget1": {
+                    "isInTotal": true,
+                    "label": "Budżet 1",
+                    "total": 11000,
+                    "entries": {
+                      "budget11": {
+                        "isInTotal": true,
+                        "label": "Budżet 11",
+                        "total": 100
+                      }
+                    }
+                  },
+                  "budget2": {
+                    "isInTotal": true,
+                    "label": "Budżet 2",
+                    "total": 0
+                  }
+                }
+              }
+            }
+          },
+          "incomes": {
+            "label": "Przychody",
+            "total": 44222.15,
+            "entries": {
+              "patryk": {
+                "label": "Patryk",
+                "total": 11000,
+                "entries": {
+                  "budget1": {
+                    "isInTotal": true,
+                    "label": "Budżet 1",
+                    "total": 11000,
+                    "entries": {
+                      "budget11": {
+                        "isInTotal": true,
+                        "label": "Budżet 11",
+                        "total": 100
+                      }
+                    }
+                  },
+                  "budget2": {
+                    "isInTotal": true,
+                    "label": "Budżet 2",
+                    "total": 0
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "oct": {
+        "label": "Październik",
+        "total": 1000,
+        "entries": {
+          "expenses": {
+            "label": "Wydatki",
+            "total": 44222.15,
+            "entries": {
+              "budget": {
+                "label": "Budżet",
+                "total": 11000,
+                "entries": {
+                  "budget1": {
+                    "isInTotal": true,
+                    "label": "Budżet 1",
+                    "total": 11000,
+                    "entries": {
+                      "budget11": {
+                        "isInTotal": true,
+                        "label": "Budżet 11",
+                        "total": 100
+                      }
+                    }
+                  },
+                  "budget2": {
+                    "isInTotal": true,
+                    "label": "Budżet 2",
+                    "total": 0
+                  }
+                }
+              }
+            }
+          },
+          "incomes": {
+            "label": "Przychody",
+            "total": 44222.15,
+            "entries": {
+              "patryk": {
+                "label": "Patryk",
+                "total": 11000,
+                "entries": {
+                  "budget1": {
+                    "isInTotal": true,
+                    "label": "Budżet 1",
+                    "total": 11000,
+                    "entries": {
+                      "budget11": {
+                        "isInTotal": true,
+                        "label": "Budżet 11",
+                        "total": 100
+                      }
+                    }
+                  },
+                  "budget2": {
+                    "isInTotal": true,
+                    "label": "Budżet 2",
+                    "total": 0
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "nov": {
+        "label": "Listopad",
+        "total": 1000,
+        "entries": {
+          "expenses": {
+            "label": "Wydatki",
+            "total": 44222.15,
+            "entries": {
+              "budget": {
+                "label": "Budżet",
+                "total": 11000,
+                "entries": {
+                  "budget1": {
+                    "isInTotal": true,
+                    "label": "Budżet 1",
+                    "total": 11000,
+                    "entries": {
+                      "budget11": {
+                        "isInTotal": true,
+                        "label": "Budżet 11",
+                        "total": 100
+                      }
+                    }
+                  },
+                  "budget2": {
+                    "isInTotal": true,
+                    "label": "Budżet 2",
+                    "total": 0
+                  }
+                }
+              }
+            }
+          },
+          "incomes": {
+            "label": "Przychody",
+            "total": 44222.15,
+            "entries": {
+              "patryk": {
+                "label": "Patryk",
+                "total": 11000,
+                "entries": {
+                  "budget1": {
+                    "isInTotal": true,
+                    "label": "Budżet 1",
+                    "total": 11000,
+                    "entries": {
+                      "budget11": {
+                        "isInTotal": true,
+                        "label": "Budżet 11",
+                        "total": 100
+                      }
+                    }
+                  },
+                  "budget2": {
+                    "isInTotal": true,
+                    "label": "Budżet 2",
+                    "total": 0
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "dec": {
+        "label": "Grudzień",
+        "total": 1000,
+        "entries": {
+          "expenses": {
+            "label": "Wydatki",
+            "total": 44222.15,
+            "entries": {
+              "budget": {
+                "label": "Budżet",
+                "total": 11000,
+                "entries": {
+                  "budget1": {
+                    "isInTotal": true,
+                    "label": "Budżet 1",
+                    "total": 11000,
+                    "entries": {
+                      "budget11": {
+                        "isInTotal": true,
+                        "label": "Budżet 11",
+                        "total": 100
+                      }
+                    }
+                  },
+                  "budget2": {
+                    "isInTotal": true,
+                    "label": "Budżet 2",
+                    "total": 0
+                  }
+                }
+              }
+            }
+          },
+          "incomes": {
+            "label": "Przychody",
+            "total": 44222.15,
+            "entries": {
+              "patryk": {
+                "label": "Patryk",
+                "total": 11000,
+                "entries": {
+                  "budget1": {
+                    "isInTotal": true,
+                    "label": "Budżet 1",
+                    "total": 11000,
+                    "entries": {
+                      "budget11": {
+                        "isInTotal": true,
+                        "label": "Budżet 11",
+                        "total": 100
+                      }
+                    }
+                  },
+                  "budget2": {
+                    "isInTotal": true,
+                    "label": "Budżet 2",
+                    "total": 0
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

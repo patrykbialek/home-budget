@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { PlanService } from '@home-budget/plan/plan.service';
 
 @Component({
   selector: 'hb-plan-project-details-summary',
@@ -8,9 +9,17 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 })
 export class PlanProjectDetailsSummaryComponent {
 
+  public dataLabels: {[key:string]: string};
+
   @Input() public dataSource: any;
   @Input() public displayedColumns: string[];
   @Output() public goToDetails: EventEmitter<any> = new EventEmitter();
+
+  constructor(
+    private readonly planService: PlanService,
+  ) {
+    this.dataLabels = this.planService.dataLabels;
+  }
 
   public onGoToDetails(element: any, value: number): void {
     let category: string;
@@ -23,7 +32,8 @@ export class PlanProjectDetailsSummaryComponent {
       category,
       type: element.type,
       month: element.month,
-      monthLabel: element.monthLabel,
+      monthId: element.monthId,
+      path: element.path,
     };
     this.goToDetails.emit(event);
   }

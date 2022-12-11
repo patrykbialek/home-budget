@@ -31,6 +31,6 @@ function whenSetIsMobileSize() {
     service.windowSize$
       .subscribe(response => {
         expect(response).toBe('desktop');
-      })
+      });
   });
 }

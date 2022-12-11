@@ -21,6 +21,7 @@ export class FiltersComponent implements OnDestroy, OnInit {
   currentMonth: string;
   previousMonth: string;
   currentYear: string;
+  previousYear: string;
 
   filterForm: FormGroup;
 
@@ -109,6 +110,7 @@ export class FiltersComponent implements OnDestroy, OnInit {
     this.currentMonth = moment().locale(currentLang).format('MMMM');
     this.previousMonth = moment().locale(currentLang).subtract(1, 'months').format('MMMM');
     this.currentYear = moment().locale(currentLang).format('YYYY');
+    this.previousYear = moment().locale(currentLang).subtract(1, 'year').format('YYYY');
   }
 
   private setQueryCategoryAndReadTransactions(value: { name: string }) {
@@ -144,6 +146,11 @@ export class FiltersComponent implements OnDestroy, OnInit {
     if (value.id === 'currentYear') {
       this.query.periodFrom = moment().startOf('year').format(dateFormat);
       this.query.periodTo = moment().format(dateFormat);
+    }
+
+    if (value.id === 'previousYear') {
+      this.query.periodFrom = moment().subtract(1, 'year').startOf('year').format(dateFormat);
+      this.query.periodTo = moment().subtract(1, 'year').format(dateFormat);
     }
 
     this.readTransactions.emit(this.query);

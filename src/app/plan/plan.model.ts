@@ -28,6 +28,9 @@ export interface PlanProject {
   month: string;
   monthId: string;
   rest: number;
+  path?: string;
+  incomesPath: string;
+  expensesPath: string;
 }
 
 export interface MonthLabel {
@@ -65,6 +68,7 @@ export interface NavLink {
 
 export interface GoToDetails {
   type: string;
+  path?: string;
   month?: string;
 }
 
