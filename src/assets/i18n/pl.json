@@ -71,7 +71,8 @@
       "CurrentYear": "Ten rok",
       "Last3Months": "Ostatnie 3 miesiące",
       "Last6Months": "Ostatnie 6 miesiący",
-      "PreviousMonth": "Poprzedni miesiąc"
+      "PreviousMonth": "Poprzedni miesiąc",
+      "PreviousYear": "Poprzedni rok"
     }
   },
   "SETTINGS": {
@@ -122,9 +123,11 @@
         "patryk": "Patryk",
         "gosia": "Gosia",
         "total": "Razem",
-        "monthLabel": "Miesiąc",
+        "month": "Miesiąc",
         "loans": "Raty",
-        "budget": "Budżet"
+        "budget": "Budżet",
+        "taxVat": "VAT",
+        "taxPit": "PIT"
       },
       "Graph": {
         "Increase": "Przyrost",
