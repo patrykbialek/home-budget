@@ -1,25 +1,26 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { PlanService } from '@home-budget/plan/plan.service';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from "@angular/core";
+import { PlanService } from '@home-budget/plan/services/plan.service';
 
 @Component({
-  selector: 'hb-plan-project-details-summary',
-  templateUrl: './plan-project-details-summary.component.html',
-  styleUrls: ['./plan-project-details-summary.component.scss'],
+  selector: "hb-plan-project-details-summary",
+  templateUrl: "./plan-project-details-summary.component.html",
+  styleUrls: ["./plan-project-details-summary.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlanProjectDetailsSummaryComponent {
-
-  public dataLabels: {[key:string]: string};
-
+  @Input() public dataLabels: { [key: string]: string };
   @Input() public dataSource: any;
   @Input() public displayedColumns: string[];
+
   @Output() public goToDetails: EventEmitter<any> = new EventEmitter();
 
-  constructor(
-    private readonly planService: PlanService,
-  ) {
-    this.dataLabels = this.planService.dataLabels;
-  }
+  constructor(private readonly planService: PlanService) {}
 
   public onGoToDetails(element: any, value: number): void {
     let category: string;

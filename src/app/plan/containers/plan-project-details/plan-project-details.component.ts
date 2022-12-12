@@ -2,14 +2,12 @@ import { Component, HostListener, OnInit } from "@angular/core";
 import { FormArray, FormControl, FormGroup } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 import { ActivatedRoute, Router } from "@angular/router";
-import { PlanService } from "@home-budget/plan/plan.service";
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
 
 import * as config from "../../plan.config";
 import { DataProperty } from "../../plan.enum";
 import * as model from "../../plan.model";
 import { PlanHttpService } from "@home-budget/plan/services/plan-http.service";
+import { PlanService } from "@home-budget/plan/services/plan.service";
 
 @Component({
   selector: "hb-plan-project-details",
@@ -17,16 +15,15 @@ import { PlanHttpService } from "@home-budget/plan/services/plan-http.service";
   styleUrls: ["./plan-project-details.component.scss"],
 })
 export class PlanProjectDetailsComponent implements OnInit {
-  public columns: string[] = [];
+  public dataColumns: string[] = [];
+  public dataLabels: { [key: string]: string };
+  public dataSource: any = [];
+  public displayedColumns: string[] = [];
   public form: FormGroup;
   public isLoading: boolean;
   public month: string;
   public path: string;
 
-  public dataSource: any = [];
-  public displayedColumns: string[] = [];
-
-  private item: any;
   private storageItem: any;
   private transactionType: string;
   private readonly planType: model.Item = config.planType[DataProperty.project];
@@ -34,10 +31,10 @@ export class PlanProjectDetailsComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
-    private readonly route: ActivatedRoute,
-    private readonly router: Router,
+    private readonly planHttpService: PlanHttpService,
     private readonly planService: PlanService,
-    private readonly planHttpService: PlanHttpService
+    private readonly route: ActivatedRoute,
+    private readonly router: Router
   ) {}
 
   @HostListener("window:popstate", ["$event"])
@@ -49,16 +46,13 @@ export class PlanProjectDetailsComponent implements OnInit {
     this.route.queryParams.subscribe((params: model.GoToDetails) => {
       this.transactionType = params.type;
       this.path = params.path;
-      this.dataSource = [];
 
-      this.setDisplayedColumns(params.type);
       this.setSummaryData();
-      this.setBreadcrumbsState(params);
+      this.setBreadcrumbsState();
     });
   }
 
   public goToDetails(event: any): void {
-    console.log(event);
     const dataItem = this.planService.getDataItem(
       event.path + ".entries." + event.category
     );
@@ -92,22 +86,12 @@ export class PlanProjectDetailsComponent implements OnInit {
     //   });
   }
 
-  private setDisplayedColumns(type: string): void {
+  private setDisplayedColumns(): void {
     this.displayedColumns.push(DataProperty.month);
     this.displayedColumns.push(DataProperty.total);
-    if (type === 'incomes') {
-      this.displayedColumns.push("patryk");
-      this.displayedColumns.push("gosia");
-      this.displayedColumns.push("other");
-    } else {
-      this.displayedColumns.push("loans");
-      this.displayedColumns.push("budget");
-      this.displayedColumns.push("other");
-      this.displayedColumns.push("taxVat");
-      this.displayedColumns.push("taxPit");
-    }
-    this.displayedColumns = this.displayedColumns.concat(this.columns);
-    const dataLabels = this.planService.dataLabels;
+    this.displayedColumns = this.displayedColumns.concat([
+      ...new Set(this.dataColumns),
+    ]);
   }
 
   private setFormData(event: any): FormGroup {
@@ -138,11 +122,16 @@ export class PlanProjectDetailsComponent implements OnInit {
     return form;
   }
 
-  public dataLabels = {};
   private setSummaryData(): void {
     this.planHttpService.readDataByType(this.path).subscribe((data) => {
       const dataEntries = data[0];
       this.dataSource = [];
+      this.dataColumns = [];
+
+      this.planService.setDataLabelsAndColumns(dataEntries);
+      this.dataLabels = this.planService.dataLabels;
+      this.dataColumns = this.planService.dataColumns;
+
       Object.keys(dataEntries)
         .filter((entry: any) => entry !== "key")
         .forEach((entry: string) => {
@@ -161,7 +150,7 @@ export class PlanProjectDetailsComponent implements OnInit {
 
           Object.keys(dataEntries[entry].entries || {}).forEach(
             (entryEntry: string) => {
-              dataItem  = {
+              dataItem = {
                 ...dataItem,
                 [entryEntry]: {
                   total: dataEntries[entry].entries[entryEntry].total,
@@ -169,25 +158,39 @@ export class PlanProjectDetailsComponent implements OnInit {
               };
             }
           );
-
           this.dataSource.push(dataItem);
         });
-        this.dataSource = this.dataSource.sort((first: any, last: any) => first.order - last.order);
+
+      this.dataSource = this.dataSource.sort(
+        (first: any, last: any) => first.order - last.order
+      );
+      this.setDisplayedColumns();
     });
   }
 
-  private setBreadcrumbsState(params: model.GoToDetails): void {
-    let breadCrumbs: string[] = this.path
+  private setBreadcrumbsState(): void {
+    const labels = {
+      ...this.planService.dataLabels,
+      project: "Projekt",
+      execution: "Wykonanie",
+      incomes: "Przychody",
+      expenses: "Wydatki",
+    };
+
+    const searchRegExp = /.entries/gi;
+    const replaceWith = "";
+
+    const breadCrumbs: string[] = this.path
       .split("/")
       .join(".")
-      .replaceAll(".entries", "")
+      .replace(searchRegExp, replaceWith)
       .split(".");
 
-    let breadCrumbItems: string[] = breadCrumbs
+    const breadCrumbItems: string[] = breadCrumbs
       .filter((breadCrumb: string, index: number) => index > 0)
       .filter((breadCrumb: string) => breadCrumb.length)
       .map((breadCrumb: string) => {
-        return this.planService.dataLabels[breadCrumb];
+        return labels[breadCrumb];
       });
 
     setTimeout(() => {

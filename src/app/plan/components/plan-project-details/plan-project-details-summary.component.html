@@ -9,7 +9,7 @@
               'c-column-number': column !== 'month',
               'u-border-right': column === 'month' || column === 'total'
             }">
-            {{ "PLAN.Project.Details." + column | translate | titlecase }}</th>
+            {{  dataLabels[column] }}</th>
           <td mat-cell *matCellDef="let element" class="c-column-text u-border-right u-padding-right-small"
             [ngClass]="{
               'c-column-number': column !== 'month',

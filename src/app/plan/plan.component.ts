@@ -5,7 +5,7 @@ import { SharedUtilsService } from '@shared/services/shared-utils.service';
 
 import * as config from './plan.config';
 import * as model from './plan.model';
-import { PlanService } from './plan.service';
+import { PlanService } from './services/plan.service';
 import { PlanHttpService } from './services/plan-http.service';
 
 @Component({

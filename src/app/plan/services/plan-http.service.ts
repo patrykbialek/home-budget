@@ -106,30 +106,35 @@ export class PlanHttpService {
     return {
       order,
       entries: {
-        loans: {
+        expense02: {
+          isInTotal: true,
+          label: 'Budżet',
+          total: 11000,
+          order: 0,
+        },
+        expense01: {
           isInTotal: true,
           label: 'Raty',
           total: 2300,
+          order: 1,
         },
-        budget: {
+        expense03: {
           isInTotal: true,
-          label: 'Budzet',
-          total: 11000,
-        },
-        other: {
-          isInTotal: true,
-          label: 'Rózne',
+          label: 'Różne',
           total: 1000,
+          order: 2,
         },
-        taxVat: {
+        expense04: {
           isInTotal: true,
           label: 'VAT',
           total: 1000,
+          order: 3,
         },
-        taxPit: {
+        expense05: {
           isInTotal: true,
           label: 'PIT',
           total: 1000,
+          order: 4,
         },
       },
       isInTotal: false,
@@ -143,20 +148,23 @@ export class PlanHttpService {
     return {
       order,
       entries: {
-        patryk: {
+        income01: {
           isInTotal: true,
           label: 'Patryk',
           total: 1230,
+          order: 0,
         },
-        gosia: {
+        income02: {
           isInTotal: true,
           label: 'Gosia',
           total: 2314,
+          order: 1,
         },
-        other: {
+        incom03: {
           isInTotal: true,
           label: '500+',
           total: 1000,
+          order: 2,
         },
       },
       isInTotal: false,

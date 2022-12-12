@@ -1,7 +1,7 @@
-import { TransactionsHttpService } from './transactions-http.service';
+import { PlanHttpService } from "./plan-http.service";
+import { PlanService } from "./plan.service";
 
-export const services = [
-  TransactionsHttpService,
-];
+export const services = [PlanHttpService, PlanService];
 
-export { TransactionsHttpService };
+export { PlanHttpService };
+export { PlanService };
