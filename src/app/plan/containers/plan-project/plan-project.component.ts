@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataProperty } from '@home-budget/plan/plan.enum';
-import { PlanService } from '@home-budget/plan/plan.service';
+import { PlanService } from '@home-budget/plan/services/plan.service';
 
 import * as config from '../../plan.config';
 import * as model from '../../plan.model';
-import { PlanHttpService } from '../../services/plan-http.service';
 
 @Component({
   selector: 'hb-plan-project',
@@ -25,7 +24,6 @@ export class PlanProjectComponent implements OnInit {
 
   constructor(
     private readonly planService: PlanService,
-    private readonly plansService: PlanHttpService,
     private readonly router: Router
   ) {}
 
@@ -55,13 +53,13 @@ export class PlanProjectComponent implements OnInit {
     this.formDataSourceTotal();
   }
 
-  private getTotal(storageItem): number {
-    return Object.keys(storageItem)
-      .map((key: string) => {
-        return storageItem[key] ? storageItem[key].total : 0;
-      })
-      .reduce((partialSum, total) => partialSum + total, 0);
-  }
+  // private getTotal(storageItem): number {
+  //   return Object.keys(storageItem)
+  //     .map((key: string) => {
+  //       return storageItem[key] ? storageItem[key].total : 0;
+  //     })
+  //     .reduce((partialSum, total) => partialSum + total, 0);
+  // }
 
   private formDataSourceIncomes(type: string, source: any): any {
     const dataIncomes = source['incomes'].entries;
@@ -151,7 +149,7 @@ export class PlanProjectComponent implements OnInit {
   }
 
   public readData(): void {
-    this.plansService.readData().subscribe((data: any) => {
+    this.planService.readData().subscribe((data: any) => {
       this.formData(data);
     });
   }
