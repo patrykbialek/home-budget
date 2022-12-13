@@ -23,14 +23,14 @@ export class PlanProjectDetailsSummaryComponent {
   constructor(private readonly planService: PlanService) {}
 
   public onGoToDetails(element: any, value: number): void {
-    let category: string;
+    let entry: string;
     Object.keys(element).forEach((key: string) => {
       if (element[key] === value) {
-        category = key;
+        entry = key;
       }
     });
     const event = {
-      category,
+      entry,
       type: element.type,
       month: element.month,
       monthId: element.monthId,
