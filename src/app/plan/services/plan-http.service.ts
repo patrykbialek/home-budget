@@ -106,13 +106,63 @@ export class PlanHttpService {
     return {
       order,
       entries: {
-        expense02: {
+        expense01: {
           isInTotal: true,
           label: 'Budżet',
           total: 11000,
           order: 0,
         },
-        expense01: {
+        expense02: {
+          entries: {
+            expense0201: {
+              isInTotal: true,
+              label: 'Ekspres',
+              total: 133.30,
+              order: 0,
+            },
+            expense0202: {
+              isInTotal: true,
+              label: 'AGD',
+              total: 372.39,
+              order: 1,
+            },
+            expense0203: {
+              isInTotal: true,
+              label: 'Blender',
+              total: 9.02,
+              order: 2,
+            },
+            expense0204: {
+              isInTotal: true,
+              label: 'Krzesła',
+              total: 110.09,
+              order: 3,
+            },
+            expense0205: {
+              isInTotal: true,
+              label: 'Stoliki',
+              total: 79.85,
+              order: 4,
+            },
+            expense0206: {
+              isInTotal: true,
+              label: 'Szafka',
+              total: 206.50,
+              order: 5,
+            },
+            expense0207: {
+              isInTotal: true,
+              label: 'Suszarka',
+              total: 99.95,
+              order: 6,
+            },
+            expense0208: {
+              isInTotal: true,
+              label: 'Komoda',
+              total: 161.90,
+              order: 7,
+            },
+          },
           isInTotal: true,
           label: 'Raty',
           total: 2300,

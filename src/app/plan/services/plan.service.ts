@@ -12,6 +12,8 @@ export interface DataLabel {
   value: string;
 }
 
+const commonLabels: string[] = ["month", "monthId", "order", "path", "total"];
+
 @Injectable({ providedIn: "root" })
 export class PlanService {
   private breadcrumbsSubject$ = new BehaviorSubject<string[]>([]);
@@ -28,6 +30,10 @@ export class PlanService {
 
   public readData(): Observable<any> {
     return this.planHttpService.readData();
+  }
+
+  public readDataByType(sourcePath: string): Observable<any> {
+    return this.planHttpService.readDataByType(sourcePath);
   }
 
   public clearBreadcrumbsState(): void {
@@ -47,19 +53,19 @@ export class PlanService {
   }
 
   public setDataLabelsAndColumns(data: any): void {
-    const labels: DataLabel[] = Object.keys(data["jan"].entries)
-      .map((dataItem: string) => {
+    const labels: DataLabel[] = Object.keys(data)
+    .map((dataItem: string) => {
         return {
           key: dataItem,
-          order: data["jan"].entries[dataItem].order,
-          value: <string>data["jan"].entries[dataItem].label,
+          order: data[dataItem].order,
+          value: <string>data[dataItem].label,
         };
       })
       .sort((first: any, last: any) => first.order - last.order)
-      .map((entry: any) => {
-        delete entry.order;
-        return entry;
-      });
+      .filter((entry: any) => {
+        return !commonLabels.includes(entry.key);
+      })
+      .map((entry: any) => entry);
 
     this.setDataColumns(labels);
     this.setDataLabels(labels);

@@ -8,6 +8,7 @@ import { DataProperty } from "../../plan.enum";
 import * as model from "../../plan.model";
 import { PlanHttpService } from "@home-budget/plan/services/plan-http.service";
 import { PlanService } from "@home-budget/plan/services/plan.service";
+import { PlanProjectDetailsFormComponent } from "@home-budget/plan/components";
 
 @Component({
   selector: "hb-plan-project-details",
@@ -53,25 +54,67 @@ export class PlanProjectDetailsComponent implements OnInit {
   }
 
   public goToDetails(event: any): void {
-    const dataItem = this.planService.getDataItem(
-      event.path + ".entries." + event.category
-    );
+    console.log(event.entry)
+    const p = "2023/entries/project/entries/expenses/";
+    const sourcePath = (event.path || p) + "entries/";
+    console.log(sourcePath);
 
-    if (dataItem["entries"]) {
+    this.planService.readDataByType(sourcePath).subscribe((response) => {
+      this.dataSource = response
+        .map((entry) => {
+          if (!entry["entries"][event.entry].entries) {
+            return;
+          }
+          const entries = entry["entries"][event.entry].entries;
+          let total: number = 0;
+          let dataItem = {
+            month: entry.label,
+            monthId: entry.key,
+            order: entry.order,
+            path: "",
+          };
+          Object.keys(entries).forEach((key) => {
+            total += entries[key].total;
+            dataItem = {
+              ...dataItem,
+              [key]: {
+                total: entries[key].total,
+                label: entries[key].label,
+              },
+            };
+          });
+          return {
+            ...dataItem,
+            total,
+          };
+        })
+        .sort((first: any, last: any) => first.order - last.order);
+
+      console.log("ds", this.dataSource);
+      // this.displayedColumns = [];
+      // Object.keys(this.dataSource[0]).forEach((key) => {
+      //   this.displayedColumns.push(key);
+      //   if (this.dataSource[0][key].label) {
+      //     this.dataLabels = {
+      //       ...this.dataLabels,
+      //       [key]: this.dataSource[0][key].label,
+      //     };
+      //   }
+      // });
+      this.dataColumns = [];
       this.displayedColumns = [];
-      this.router.navigate(["./plan/details"], {
-        queryParams: {
-          path: event.path + ".entries." + event.category,
-        },
-      });
-    }
-    // setTimeout(() => {
-    //   window.location.reload();
-    // }, 100);
+      this.planService.setDataLabelsAndColumns(this.dataSource[0]);
+      this.dataLabels = this.planService.dataLabels;
+      this.dataColumns = this.planService.dataColumns;
+      this.setDisplayedColumns();
+
+      this.path = `${this.path}entries/${event.entry}`;
+      this.setBreadcrumbsState();
+    });
 
     // const dialogRef = this.dialog.open(PlanProjectDetailsFormComponent, {
     //   data: {
-    //     category: event.category,
+    //     category: event.entry,
     //     form: this.setFormData(event),
     //     monthLabel: event.monthLabel,
     //   },
@@ -128,7 +171,7 @@ export class PlanProjectDetailsComponent implements OnInit {
       this.dataSource = [];
       this.dataColumns = [];
 
-      this.planService.setDataLabelsAndColumns(dataEntries);
+      this.planService.setDataLabelsAndColumns(dataEntries["jan"].entries);
       this.dataLabels = this.planService.dataLabels;
       this.dataColumns = this.planService.dataColumns;
 
@@ -138,18 +181,19 @@ export class PlanProjectDetailsComponent implements OnInit {
           const month: string = dataEntries[entry].label;
           const order: number = dataEntries[entry].order;
           const path: string = dataEntries[entry].path;
-          const total: string = dataEntries[entry].total;
+          let total: number = 0;
 
           let dataItem = {
             month,
             monthId: entry,
             order,
             path,
-            total,
+            total: 0,
           };
 
           Object.keys(dataEntries[entry].entries || {}).forEach(
             (entryEntry: string) => {
+              total += dataEntries[entry].entries[entryEntry].total;
               dataItem = {
                 ...dataItem,
                 [entryEntry]: {
@@ -158,6 +202,12 @@ export class PlanProjectDetailsComponent implements OnInit {
               };
             }
           );
+
+          dataItem = {
+            ...dataItem,
+            total,
+          };
+
           this.dataSource.push(dataItem);
         });
 
