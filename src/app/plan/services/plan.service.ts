@@ -28,8 +28,12 @@ export class PlanService {
 
   constructor(private readonly planHttpService: PlanHttpService) {}
 
-  public readData(): Observable<any> {
-    return this.planHttpService.readData();
+  public get months(): any[] {
+    return this.planHttpService.months;
+  }
+
+  public readData(sourcePath: string): Observable<any> {
+    return this.planHttpService.readData(sourcePath);
   }
 
   public readDataByType(sourcePath: string): Observable<any> {

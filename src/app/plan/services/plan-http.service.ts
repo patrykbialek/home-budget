@@ -8,14 +8,14 @@ import { AuthenticationHttpService } from '@home-budget/authentication/services'
 import * as fromModels from '@home-budget/transactions/models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PlanHttpService {
   user$ = this.authenticationService.authState$;
 
   constructor(
     private db: AngularFireDatabase,
-    private authenticationService: AuthenticationHttpService,
+    private authenticationService: AuthenticationHttpService
   ) { }
 
   // Create
@@ -39,217 +39,441 @@ export class PlanHttpService {
     return of(db.update(payload.uid, value));
   }
 
-  private initialDataEntry(label): any {
-    return {
-      label,
-      ['entries']: {
-        project: {
-          label: 'Projekt',
-          entries: this.dataProjectEntries(`${label}/entries/project`),
-          path: `${label}/project/entries`,
-        },
-        execution: {
-          label: 'Wykonanie',
-          entries: this.dataProjectEntries(`${label}/entries/execution`),
-          path: `${label}/execution/entries`,
-        }
-      }
-    }
+  public get months(): {key: string; value: string }[] {
+    return [
+      {
+        key: 'jan',
+        value: 'Styczeń',
+      },
+      {
+        key: 'feb',
+        value: 'Luty',
+      },
+      {
+        key: 'mar',
+        value: 'Marzec',
+      },
+      {
+        key: 'apr',
+        value: 'Kwiecień',
+      },
+      {
+        key: 'may',
+        value: 'Maj',
+      },
+      {
+        key: 'jun',
+        value: 'Czerwiec',
+      },
+      {
+        key: 'jul',
+        value: 'Lipiec',
+      },
+      {
+        key: 'aug',
+        value: 'Sierpień',
+      },
+      {
+        key: 'sep',
+        value: 'Wrzesień',
+      },
+      {
+        key: 'oc',
+        value: 'Październik',
+      },
+      {
+        key: 'nov',
+        value: 'Listopad',
+      },
+      {
+        key: 'dec',
+        value: 'Grudzień',
+      },
+    ];
   }
 
-  private dataProjectEntries(parentPath: string): any {
-    return {
-      'incomes': {
-        entries: {
-          ['jan']: this.dataProjectEntry('jan', 'Styczeń', parentPath,1,'incomes'),
-          ['feb']: this.dataProjectEntry('feb', 'Luty', parentPath,2 ,'incomes'),
-          ['mar']: this.dataProjectEntry('mar', 'Marzec', parentPath,3 ,'incomes'),
-          ['apr']: this.dataProjectEntry('apr', 'Kwiecień', parentPath,4, 'incomes'),
-          ['may']: this.dataProjectEntry('may', 'Maj', parentPath,5 ,'incomes'),
-          ['jun']: this.dataProjectEntry('jun', 'Czerwiec', parentPath,6, 'incomes'),
-          ['jul']: this.dataProjectEntry('jul', 'Lipiec', parentPath,7 ,'incomes'),
-          ['aug']: this.dataProjectEntry('aug', 'Sierpień', parentPath,8,'incomes'),
-          ['sep']: this.dataProjectEntry('sep', 'Wrzesień', parentPath,9 ,'incomes'),
-          ['oct']: this.dataProjectEntry('oct', 'Paździenik', parentPath,10, 'incomes'),
-          ['nov']: this.dataProjectEntry('nov', 'Listopad', parentPath,11 ,'incomes'),
-          ['dec']: this.dataProjectEntry('dec', 'Grudzień', parentPath,12, 'incomes'),
+  private initialDataEntry(label): any {
+    let entries = {};
+    this.months.forEach((month: any, index: number) => {
+      entries = {
+        ...entries,
+        [month.key]: {
+          ['entries']: {
+            project: {
+              label: 'Projekt',
+              entries: this.dataProjectEntries(
+                `${label}/entries/project`,
+                month.key,
+                month.value
+              ),
+              path: `${label}/project/entries`,
+            },
+            execution: {
+              label: 'Wykonanie',
+              entries: this.dataProjectEntries(
+                `${label}/entries/execution`,
+                month.key,
+                month.value
+              ),
+              path: `${label}/execution/entries`,
+            },
+          },
+          label: month.value,
+          order: index,
         },
+      };
+    });
+
+    return {
+      label,
+      ['entries']: entries,
+    };
+  }
+
+  private dataProjectEntries(
+    parentPath: string,
+    monthId: string,
+    month: string
+  ): any {
+    return {
+      incomes: {
+        entries: this.dataProjectIncomeEntry(
+          monthId,
+          month,
+          parentPath,
+          1,
+          'incomes'
+        ),
         isInTotal: false,
         label: 'Przychody',
         total: 0,
         path: `${parentPath}/entries/incomes`,
       },
-      'expenses': {
-        entries: {
-          ['jan']: this.dataProjectExpenseEntry('jan', 'Styczeń', parentPath,1, 'expenses'),
-          ['feb']: this.dataProjectExpenseEntry('feb', 'Luty', parentPath,2, 'expenses'),
-          ['mar']: this.dataProjectExpenseEntry('mar', 'Marzec', parentPath,3, 'expenses'),
-          ['apr']: this.dataProjectExpenseEntry('apr', 'Kwiecień', parentPath,4, 'expenses'),
-          ['may']: this.dataProjectExpenseEntry('may', 'Maj', parentPath,5, 'expenses'),
-          ['jun']: this.dataProjectExpenseEntry('jun', 'Czerwiec', parentPath,6, 'expenses'),
-          ['jul']: this.dataProjectExpenseEntry('jul', 'Lipiec', parentPath,7, 'expenses'),
-          ['aug']: this.dataProjectExpenseEntry('aug', 'Sierpień', parentPath,8, 'expenses'),
-          ['sep']: this.dataProjectExpenseEntry('sep', 'Wrzesień', parentPath,9, 'expenses'),
-          ['oct']: this.dataProjectExpenseEntry('oct', 'Paździenik', parentPath,10, 'expenses'),
-          ['nov']: this.dataProjectExpenseEntry('nov', 'Listopad', parentPath,11, 'expenses'),
-          ['dec']: this.dataProjectExpenseEntry('dec', 'Grudzień', parentPath,12, 'expenses'),
-        },
+      expenses: {
+        entries: this.dataProjectExpenseEntry(
+          monthId,
+          month,
+          parentPath,
+          1,
+          'expenses'
+        ),
         isInTotal: false,
         label: 'Wydatki',
         path: `${parentPath}/entries/expenses`,
         total: 0,
-      }
-    }
+      },
+    };
   }
 
-  private dataProjectExpenseEntry(uid: string, label: string, parentPath: string, order: number, type: string): any {
+  private dataProjectExpenseEntry(
+    uid: string,
+    label: string,
+    parentPath: string,
+    order: number,
+    type: string
+  ): any {
     return {
-      order,
-      entries: {
-        expense01: {
-          isInTotal: true,
-          label: 'Budżet',
-          total: 11000,
-          order: 0,
-        },
-        expense02: {
-          entries: {
-            expense0201: {
-              isInTotal: true,
-              label: 'Ekspres',
-              total: 133.30,
-              order: 0,
-            },
-            expense0202: {
-              isInTotal: true,
-              label: 'AGD',
-              total: 372.39,
-              order: 1,
-            },
-            expense0203: {
-              isInTotal: true,
-              label: 'Blender',
-              total: 9.02,
-              order: 2,
-            },
-            expense0204: {
-              isInTotal: true,
-              label: 'Krzesła',
-              total: 110.09,
-              order: 3,
-            },
-            expense0205: {
-              isInTotal: true,
-              label: 'Stoliki',
-              total: 79.85,
-              order: 4,
-            },
-            expense0206: {
-              isInTotal: true,
-              label: 'Szafka',
-              total: 206.50,
-              order: 5,
-            },
-            expense0207: {
-              isInTotal: true,
-              label: 'Suszarka',
-              total: 99.95,
-              order: 6,
-            },
-            expense0208: {
-              isInTotal: true,
-              label: 'Komoda',
-              total: 161.90,
-              order: 7,
-            },
+      expense01: {
+        isInTotal: true,
+        label: 'Budżet',
+        total: 11000,
+        order: 0,
+      },
+      expense02: {
+        entries: {
+          expense0201: {
+            isInTotal: true,
+            label: 'Ekspres',
+            total: 133.3,
+            order: 0,
           },
-          isInTotal: true,
-          label: 'Raty',
-          total: 2300,
-          order: 1,
+          expense0202: {
+            isInTotal: true,
+            label: 'AGD',
+            total: 372.39,
+            order: 1,
+          },
+          expense0203: {
+            isInTotal: true,
+            label: 'Blender',
+            total: 9.02,
+            order: 2,
+          },
+          expense0204: {
+            isInTotal: true,
+            label: 'Krzesła',
+            total: 110.09,
+            order: 3,
+          },
+          expense0205: {
+            isInTotal: true,
+            label: 'Stoliki',
+            total: 79.85,
+            order: 4,
+          },
+          expense0206: {
+            isInTotal: true,
+            label: 'Szafka',
+            total: 206.5,
+            order: 5,
+          },
+          expense0207: {
+            isInTotal: true,
+            label: 'Suszarka',
+            total: 99.95,
+            order: 6,
+          },
+          expense0208: {
+            isInTotal: true,
+            label: 'Komoda',
+            total: 161.9,
+            order: 7,
+          },
         },
-        expense03: {
-          isInTotal: true,
-          label: 'Różne',
-          total: 1000,
-          order: 2,
-        },
-        expense04: {
-          isInTotal: true,
-          label: 'VAT',
-          total: 1000,
-          order: 3,
-        },
-        expense05: {
-          isInTotal: true,
-          label: 'PIT',
-          total: 1000,
-          order: 4,
-        },
+        isInTotal: true,
+        label: 'Raty',
+        total: 2300,
+        order: 1,
       },
-      isInTotal: false,
-      label: label,
-      total: 0,
-      path: `${parentPath}/entries/${type}/`,
-    }
+      expense03: {
+        entries: {
+          expense0301: {
+            entries: {
+              expense030101: {
+                isInTotal: true,
+                label: 'Moto 1',
+                total: 2000,
+                order: 0,
+              },
+              expense030102: {
+                entries: {
+                  expense03010201: {
+                    isInTotal: true,
+                    label: 'Triumph',
+                    total: 38000,
+                    order: 0,
+                  },
+                  expense03010202: {
+                    isInTotal: true,
+                    label: 'Kask',
+                    total: 2000,
+                    order: 1,
+                  },
+                },
+                isInTotal: true,
+                label: 'Moto 2',
+                total: 40000,
+                order: 1,
+              },
+            },
+            isInTotal: true,
+            label: 'Patryk',
+            total: 2000,
+            order: 0,
+          },
+          expense0302: {
+            isInTotal: true,
+            label: 'Gosia',
+            total: 1200,
+            order: 1,
+          },
+          expense0303: {
+            entries: {
+              expense030301: {
+                isInTotal: true,
+                label: 'Lato',
+                total: 1000,
+                order: 0,
+              },
+              expense030302: {
+                isInTotal: true,
+                label: 'Niemcy',
+                total: 1000,
+                order: 1,
+              },
+              expense030303: {
+                isInTotal: true,
+                label: 'Francja',
+                total: 1000,
+                order: 2,
+              },
+              expense030304: {
+                isInTotal: true,
+                label: 'Weekend',
+                total: 1000,
+                order: 3,
+              },
+            },
+            isInTotal: true,
+            label: 'Wakacje',
+            total: 4000,
+            order: 2,
+          },
+          expense0304: {
+            entries: {
+              expense030401: {
+                isInTotal: true,
+                label: 'BMW X3',
+                total: 0,
+                order: 0,
+              },
+              expense030402: {
+                isInTotal: true,
+                label: 'BMW 3',
+                total: 0,
+                order: 1,
+              },
+              expense030403: {
+                isInTotal: true,
+                label: 'Brixton',
+                total: 0,
+                order: 2,
+              },
+              expense030404: {
+                isInTotal: true,
+                label: 'Triumph',
+                total: 0,
+                order: 3,
+              },
+              expense030405: {
+                isInTotal: true,
+                label: 'Rózne 1',
+                total: 0,
+                order: 4,
+              },
+              expense030406: {
+                isInTotal: true,
+                label: 'Rózne 2',
+                total: 0,
+                order: 5,
+              },
+              expense030407: {
+                isInTotal: true,
+                label: 'Rózne 3',
+                total: 0,
+                order: 6,
+              },
+              expense030408: {
+                isInTotal: true,
+                label: 'Emerytura',
+                total: 0,
+                order: 7,
+              },
+            },
+            isInTotal: true,
+            label: 'Dom',
+            total: 1200,
+            order: 3,
+          },
+        },
+        isInTotal: true,
+        label: 'Różne',
+        total: 1000,
+        order: 2,
+      },
+      expense04: {
+        entries: {
+          expense0401: {
+            isInTotal: true,
+            label: '2022',
+            total: 0,
+            order: 0,
+          },
+          expense0402: {
+            isInTotal: true,
+            label: '2023',
+            total: 0,
+            order: 1,
+          },
+        },
+        isInTotal: true,
+        label: 'VAT',
+        total: 1000,
+        order: 3,
+      },
+      expense05: {
+        entries: {
+          expense0501: {
+            isInTotal: true,
+            label: '2022',
+            total: 0,
+            order: 0,
+          },
+          expense0502: {
+            isInTotal: true,
+            label: '2023',
+            total: 0,
+            order: 1,
+          },
+        },
+        isInTotal: true,
+        label: 'PIT',
+        total: 1000,
+        order: 4,
+      },
+    };
   }
 
-  private dataProjectEntry(uid: string, label: string, parentPath: string, order: number, type: string): any {
+  private dataProjectIncomeEntry(
+    uid: string,
+    label: string,
+    parentPath: string,
+    order: number,
+    type: string
+  ): any {
     return {
-      order,
-      entries: {
-        income01: {
-          isInTotal: true,
-          label: 'Patryk',
-          total: 1230,
-          order: 0,
-        },
-        income02: {
-          isInTotal: true,
-          label: 'Gosia',
-          total: 2314,
-          order: 1,
-        },
-        incom03: {
-          isInTotal: true,
-          label: '500+',
-          total: 1000,
-          order: 2,
-        },
+      income01: {
+        isInTotal: true,
+        label: 'Patryk',
+        total: 1230,
+        order: 0,
       },
-      isInTotal: false,
-      label: label,
-      total: 0,
-      path: `${parentPath}/entries/${type}/`,
-    }
+      income02: {
+        isInTotal: true,
+        label: 'Gosia',
+        total: 2314,
+        order: 1,
+      },
+      income03: {
+        isInTotal: true,
+        label: '500+',
+        total: 1000,
+        order: 2,
+      },
+    };
   }
 
   // Delete
 
   deleteTransaction(payload: fromModels.TransactionPayload) {
-    const db: AngularFireList<any> = this.db.list(`/workspaces/${payload.uid}/transactions`);
+    const db: AngularFireList<any> = this.db.list(
+      `/workspaces/${payload.uid}/transactions`
+    );
     const key = payload.key;
     return of(db.remove(key));
   }
 
   // Read
 
-  readData(): Observable<any> {
+  readData(sourcePath?: string): Observable<any> {
     const uid: string = 'Pmj8IO7zkJeFDmtqSYHzE0A38in1';
-    const path: string = `/workspaces/${uid}/plans`;
+    const path: string = `/workspaces/${uid}/plans/${sourcePath}`;
     const db: AngularFireList<any> = this.db.list(path);
     return db.snapshotChanges().pipe(
       map((changes) =>
-        changes.map((change) => ({ key: change.payload.key, ...change.payload.val() }))
+        changes.map((change) => ({
+          key: change.payload.key,
+          ...change.payload.val(),
+        }))
       ),
-      map(items => {
+      map((items) => {
         return items.sort(this.compare);
-      }),
+      })
     );
   }
 
   readDataByType(sourcePath: string): Observable<any> {
-    const uid: string = "Pmj8IO7zkJeFDmtqSYHzE0A38in1";
+    const uid: string = 'Pmj8IO7zkJeFDmtqSYHzE0A38in1';
     const path: string = `/workspaces/${uid}/plans/${sourcePath}`;
     const db: AngularFireList<any> = this.db.list(path);
     return db.snapshotChanges().pipe(
@@ -271,9 +495,10 @@ export class PlanHttpService {
     const uid = params.uid;
 
     if (query.category && query.periodFrom) {
-      db = this.db.list(`/workspaces/${uid}/transactions`, ref =>
-        (query.category && query.periodFrom)
-          ? ref.orderByChild('category_date')
+      db = this.db.list(`/workspaces/${uid}/transactions`, (ref) =>
+        query.category && query.periodFrom
+          ? ref
+            .orderByChild('category_date')
             .startAt(`${query.category}_${query.periodFrom}`)
             .endAt(`${query.category}_${query.periodTo}`)
           : ref
@@ -281,9 +506,10 @@ export class PlanHttpService {
     }
 
     if (!query.category && query.periodFrom) {
-      db = this.db.list(`/workspaces/${uid}/transactions`, ref =>
-        (query.periodFrom)
-          ? ref.orderByChild('date')
+      db = this.db.list(`/workspaces/${uid}/transactions`, (ref) =>
+        query.periodFrom
+          ? ref
+            .orderByChild('date')
             .startAt(`${query.periodFrom}`)
             .endAt(`${query.periodTo}`)
           : ref
@@ -291,10 +517,9 @@ export class PlanHttpService {
     }
 
     if (query.category && !query.periodFrom) {
-      db = this.db.list(`/workspaces/${uid}/transactions`, ref =>
-        (query.category && !query.periodFrom)
-          ? ref.orderByChild('category')
-            .equalTo(`${query.category}`)
+      db = this.db.list(`/workspaces/${uid}/transactions`, (ref) =>
+        query.category && !query.periodFrom
+          ? ref.orderByChild('category').equalTo(`${query.category}`)
           : ref
       );
     }
@@ -302,11 +527,14 @@ export class PlanHttpService {
     if (db) {
       return db.snapshotChanges().pipe(
         map((changes) =>
-          changes.map((change) => ({ key: change.payload.key, ...change.payload.val() }))
+          changes.map((change) => ({
+            key: change.payload.key,
+            ...change.payload.val(),
+          }))
         ),
-        map(items => {
+        map((items) => {
           return items.sort(this.compare);
-        }),
+        })
       );
     } else {
       return of([]);
@@ -316,7 +544,9 @@ export class PlanHttpService {
   // Update
 
   updateTransaction(payload: fromModels.TransactionPayload) {
-    const db: AngularFireList<any> = this.db.list(`/workspaces/${payload.uid}/transactions`);
+    const db: AngularFireList<any> = this.db.list(
+      `/workspaces/${payload.uid}/transactions`
+    );
     const key = payload.key;
     const value = this.prepareTransactionPayload(payload.value);
     return of(db.update(key, value));
@@ -347,5 +577,4 @@ export class PlanHttpService {
     };
     return data;
   }
-
 }

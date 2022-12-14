@@ -1,19 +1,21 @@
-import { Component, HostListener, OnInit } from "@angular/core";
-import { FormArray, FormControl, FormGroup } from "@angular/forms";
-import { MatDialog } from "@angular/material/dialog";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ChangeDetectionStrategy, Component, HostListener, OnInit } from '@angular/core';
+import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import * as config from "../../plan.config";
-import { DataProperty } from "../../plan.enum";
-import * as model from "../../plan.model";
-import { PlanHttpService } from "@home-budget/plan/services/plan-http.service";
-import { PlanService } from "@home-budget/plan/services/plan.service";
-import { PlanProjectDetailsFormComponent } from "@home-budget/plan/components";
+import * as config from '../../plan.config';
+import { DataProperty } from '../../plan.enum';
+import * as model from '../../plan.model';
+import { PlanHttpService } from '@home-budget/plan/services/plan-http.service';
+import { PlanService } from '@home-budget/plan/services/plan.service';
+import { PlanProjectDetailsFormComponent } from '@home-budget/plan/components';
+import { combineLatest, Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Component({
-  selector: "hb-plan-project-details",
-  templateUrl: "./plan-project-details.component.html",
-  styleUrls: ["./plan-project-details.component.scss"],
+  selector: 'hb-plan-project-details',
+  templateUrl: './plan-project-details.component.html',
+  styleUrls: ['./plan-project-details.component.scss'],
 })
 export class PlanProjectDetailsComponent implements OnInit {
   public dataColumns: string[] = [];
@@ -28,18 +30,17 @@ export class PlanProjectDetailsComponent implements OnInit {
   private storageItem: any;
   private transactionType: string;
   private readonly planType: model.Item = config.planType[DataProperty.project];
-  private readonly planYear: string = "2023";
+  private readonly planYear: string = '2023';
 
   constructor(
     public dialog: MatDialog,
-    private readonly planHttpService: PlanHttpService,
     private readonly planService: PlanService,
     private readonly route: ActivatedRoute,
     private readonly router: Router
-  ) {}
+  ) { }
 
-  @HostListener("window:popstate", ["$event"])
-  onPopState(event) {
+  @HostListener('window:popstate', ['$event'])
+  onPopState() {
     this.displayedColumns = [];
   }
 
@@ -48,69 +49,66 @@ export class PlanProjectDetailsComponent implements OnInit {
       this.transactionType = params.type;
       this.path = params.path;
 
-      this.setSummaryData();
+      this.formSummaryData();
       this.setBreadcrumbsState();
     });
   }
 
   public goToDetails(event: any): void {
-    console.log(event.entry)
-    const p = "2023/entries/project/entries/expenses/";
-    const sourcePath = (event.path || p) + "entries/";
-    console.log(sourcePath);
+    const sourcePath = `${event.path}`;
+    const months = this.planService.months;
+    const subs$: Observable<any>[] = [];
+    if (event.hasEntries) {
+      this.dataSource = []
+      months.map((month: any, index: number) => {
+        const path = sourcePath.replace('month', month.key);
+        subs$.push(this.planService.readDataByType(path)
+          .pipe(
+            tap((entries: any[]) => {
+              const foundEntry = entries.find(entry => entry.key === event.entry);
+              let dataItem = {
+                month: month.value,
+                monthId: month.key,
+                order: index,
+                path: `${path}/${event.entry}/entries`,
+                total: 0,
+              };
 
-    this.planService.readDataByType(sourcePath).subscribe((response) => {
-      this.dataSource = response
-        .map((entry) => {
-          if (!entry["entries"][event.entry].entries) {
-            return;
-          }
-          const entries = entry["entries"][event.entry].entries;
-          let total: number = 0;
-          let dataItem = {
-            month: entry.label,
-            monthId: entry.key,
-            order: entry.order,
-            path: "",
-          };
-          Object.keys(entries).forEach((key) => {
-            total += entries[key].total;
-            dataItem = {
-              ...dataItem,
-              [key]: {
-                total: entries[key].total,
-                label: entries[key].label,
-              },
-            };
-          });
-          return {
-            ...dataItem,
-            total,
-          };
-        })
-        .sort((first: any, last: any) => first.order - last.order);
+              let total: number = 0;
+              Object.keys(foundEntry.entries).forEach((key) => {
+                total += foundEntry.entries[key].total;
+                dataItem = {
+                  ...dataItem,
+                  [key]: {
+                    total: foundEntry.entries[key].total,
+                    label: foundEntry.entries[key].label,
+                    hasEntries: Boolean(foundEntry.entries[key].entries),
+                  },
+                };
+              });
 
-      console.log("ds", this.dataSource);
-      // this.displayedColumns = [];
-      // Object.keys(this.dataSource[0]).forEach((key) => {
-      //   this.displayedColumns.push(key);
-      //   if (this.dataSource[0][key].label) {
-      //     this.dataLabels = {
-      //       ...this.dataLabels,
-      //       [key]: this.dataSource[0][key].label,
-      //     };
-      //   }
-      // });
-      this.dataColumns = [];
-      this.displayedColumns = [];
-      this.planService.setDataLabelsAndColumns(this.dataSource[0]);
-      this.dataLabels = this.planService.dataLabels;
-      this.dataColumns = this.planService.dataColumns;
-      this.setDisplayedColumns();
+              dataItem = {
+                ...dataItem,
+                total,
+              };
 
-      this.path = `${this.path}entries/${event.entry}`;
-      this.setBreadcrumbsState();
-    });
+              this.dataSource.push(dataItem);
+            }))
+        )
+      });
+
+      combineLatest(subs$).subscribe(() => {
+        this.dataColumns = [];
+        this.displayedColumns = [];
+        this.planService.setDataLabelsAndColumns(this.dataSource[0]);
+        this.dataLabels = this.planService.dataLabels;
+        this.dataColumns = this.planService.dataColumns.filter((dataColumn: string) => dataColumn !== 'hasEntries');
+        this.setDisplayedColumns();
+
+        this.path = sourcePath;
+        this.setBreadcrumbsState();
+      })
+    }
 
     // const dialogRef = this.dialog.open(PlanProjectDetailsFormComponent, {
     //   data: {
@@ -141,7 +139,7 @@ export class PlanProjectDetailsComponent implements OnInit {
     const storageItem = this.storageItem;
     const items =
       storageItem[this.planYear][this.planType.id][event.month][
-        DataProperty.entries
+      DataProperty.entries
       ][event.type][DataProperty.entries][event.category];
     const form: FormGroup = new FormGroup({});
     const entriesArray: FormArray = new FormArray([]);
@@ -165,77 +163,80 @@ export class PlanProjectDetailsComponent implements OnInit {
     return form;
   }
 
-  private setSummaryData(): void {
-    this.planHttpService.readDataByType(this.path).subscribe((data) => {
-      const dataEntries = data[0];
-      this.dataSource = [];
-      this.dataColumns = [];
+  private formData(data?: any): void {
+    this.displayedColumns = ['month', 'total'];
+    this.dataLabels = { month: 'Miesiąc', total: 'Razem' };
+    this.dataSource = [];
 
-      this.planService.setDataLabelsAndColumns(dataEntries["jan"].entries);
-      this.dataLabels = this.planService.dataLabels;
-      this.dataColumns = this.planService.dataColumns;
+    const entryData = this.formEntry(data[0], this.transactionType);
+    Object.keys(entryData).forEach((key: string) => {
+      this.displayedColumns.push(key);
+      this.dataLabels = {
+        ...this.dataLabels,
+        [key]: entryData[key].label,
+      };
+    });
 
-      Object.keys(dataEntries)
-        .filter((entry: any) => entry !== "key")
-        .forEach((entry: string) => {
-          const month: string = dataEntries[entry].label;
-          const order: number = dataEntries[entry].order;
-          const path: string = dataEntries[entry].path;
-          let total: number = 0;
+    this.dataSource = data
+      .map((entry: any) => {
+        let dataItem = {
+          month: entry.label,
+          order: entry.order,
+          path: `2023/entries/month/entries/project/entries/${this.transactionType}/entries`,
+          total: 0,
+        };
 
-          let dataItem = {
-            month,
-            monthId: entry,
-            order,
-            path,
-            total: 0,
-          };
-
-          Object.keys(dataEntries[entry].entries || {}).forEach(
-            (entryEntry: string) => {
-              total += dataEntries[entry].entries[entryEntry].total;
-              dataItem = {
-                ...dataItem,
-                [entryEntry]: {
-                  total: dataEntries[entry].entries[entryEntry].total,
-                },
-              };
-            }
-          );
-
+        const entryData = this.formEntry(entry, this.transactionType);
+        let total = 0;
+        Object.keys(entryData).forEach((key: string) => {
+          total += entryData[key].total;
           dataItem = {
             ...dataItem,
+            [key]: {
+              total: entryData[key].total,
+              hasEntries: Boolean(entryData[key].entries),
+            },
             total,
           };
-
-          this.dataSource.push(dataItem);
         });
 
-      this.dataSource = this.dataSource.sort(
-        (first: any, last: any) => first.order - last.order
-      );
-      this.setDisplayedColumns();
+        return dataItem;
+      })
+      .sort((first: any, last: any) => first.order - last.order)
+      .map((entry: any) => {
+        delete entry.order;
+        return entry;
+      });
+  }
+
+  private formEntry(entry: any, node: string): any {
+    return entry.entries.project.entries[node].entries;
+  }
+
+  private formSummaryData(): void {
+    const sourcePath: string = `2023/entries`;
+    this.planService.readData(sourcePath).subscribe((data: any) => {
+      this.formData(data);
     });
   }
 
   private setBreadcrumbsState(): void {
     const labels = {
       ...this.planService.dataLabels,
-      project: "Projekt",
-      execution: "Wykonanie",
-      incomes: "Przychody",
-      expenses: "Wydatki",
+      project: 'Projekt',
+      execution: 'Wykonanie',
+      incomes: 'Przychody',
+      expenses: 'Wydatki',
     };
-
     const searchRegExp = /.entries/gi;
-    const replaceWith = "";
-
+    const replaceWith = '';
     const breadCrumbs: string[] = this.path
-      .split("/")
-      .join(".")
+      .split('/')
+      .join('.')
       .replace(searchRegExp, replaceWith)
-      .split(".");
+      .split('.');
 
+    // console.log(breadCrumbs)
     const breadCrumbItems: string[] = breadCrumbs
       .filter((breadCrumb: string, index: number) => index > 0)
       .filter((breadCrumb: string) => breadCrumb.length)
@@ -252,23 +253,23 @@ export class PlanProjectDetailsComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    const currentStorage = JSON.parse(localStorage.getItem("plan"));
+    const currentStorage = JSON.parse(localStorage.getItem('plan'));
     const value = this.form.value;
     const data = {
       ...currentStorage,
-      "2023": {
+      '2023': {
         project: {
-          ...currentStorage["2023"].project,
+          ...currentStorage['2023'].project,
           [this.month]: {
-            ...currentStorage["2023"].project[this.month],
+            ...currentStorage['2023'].project[this.month],
             entries: {
-              ...currentStorage["2023"].project[this.month].entries,
+              ...currentStorage['2023'].project[this.month].entries,
               [this.transactionType]: {
-                ...currentStorage["2023"].project[this.month].entries[
-                  this.transactionType
+                ...currentStorage['2023'].project[this.month].entries[
+                this.transactionType
                 ],
                 entries: {
-                  ...currentStorage["2023"].project[this.month].entries[
+                  ...currentStorage['2023'].project[this.month].entries[
                     this.transactionType
                   ].entries,
                   [category]: value,
@@ -279,8 +280,8 @@ export class PlanProjectDetailsComponent implements OnInit {
         },
       },
     };
-    localStorage.setItem("plan", JSON.stringify(data));
-    this.storageItem = JSON.parse(localStorage.getItem("plan"));
-    this.setSummaryData();
+    localStorage.setItem('plan', JSON.stringify(data));
+    this.storageItem = JSON.parse(localStorage.getItem('plan'));
+    // this.setSummaryData();
   }
 }

@@ -18,8 +18,9 @@
             <span *ngIf="column === 'month'">{{ element[column] }}</span>
             <span *ngIf="column === 'total'">{{ element[column] | number: '.2-2' }}</span>
             <span *ngIf="column !== 'month' || column !== 'total'"
-              class="u-clickme"
-              (click)="onGoToDetails(element, element[column])">{{ element[column]?.total | number: '.2-2' }}</span>
+              class="u-pointme"
+              [ngClass]="{ 'u-clickme': element[column]?.hasEntries }"
+              (click)="onGoToDetails(element, element[column], column)">{{ element[column]?.total | number: '.2-2' }}</span>
           </td>
         </ng-container>
       </ng-container>
