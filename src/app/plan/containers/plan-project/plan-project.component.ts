@@ -29,7 +29,9 @@ export class PlanProjectComponent implements OnInit {
 
   public ngOnInit(): void {
     this.clearBreadcrumbsState();
-    this.readData();
+
+    const sourcePath: string = `2023/entries`;
+    this.readData(sourcePath);
   }
 
   public goToDetails(event: model.GoToDetails): void {
@@ -49,77 +51,28 @@ export class PlanProjectComponent implements OnInit {
 
   private formData(data?: any): void {
     this.dataSource = [];
-    this.formDataSource(DataProperty.incomes, data[0].entries.project.entries);
-    this.formDataSourceTotal();
-  }
-
-  // private getTotal(storageItem): number {
-  //   return Object.keys(storageItem)
-  //     .map((key: string) => {
-  //       return storageItem[key] ? storageItem[key].total : 0;
-  //     })
-  //     .reduce((partialSum, total) => partialSum + total, 0);
-  // }
-
-  private formDataSourceIncomes(type: string, source: any): any {
-    const dataIncomes = source['incomes'].entries;
-    this.dataSourceIncomes = Object.keys(dataIncomes)
-      .map((entity: any) => {
-        const incomes: number = dataIncomes[entity].total;
-        const month: string = dataIncomes[entity].label;
-        const order: number = dataIncomes[entity].order;
-        const incomesPath: string = dataIncomes[entity].path;
-
-        return {
-          incomes,
-          month,
-          order,
-          increase: 0,
-          monthId: entity,
-          incomesPath,
-        };
-      })
-      .sort((first: any, last: any) => first.order - last.order);
-  }
-
-  private formDataSourceExpenses(type: string, source: any): any {
-    const dataExpenses = source['expenses'].entries;
-    this.dataSourceExpenses = Object.keys(dataExpenses)
-      .map((entity: any) => {
-        const expenses: number = dataExpenses[entity].total;
-        const month: string = dataExpenses[entity].label;
-        const order: number = dataExpenses[entity].order;
-        const expensesPath: string = dataExpenses[entity].path;
+    this.dataSource = data
+      .map((entry: any) => {
+        let expenses: number = this.calculateTotal(
+          this.formEntry(entry, 'expenses')
+        );
+        let incomes: number = this.calculateTotal(
+          this.formEntry(entry, 'incomes')
+        );
 
         return {
           expenses,
-          month,
-          order,
+          incomes,
           increase: 0,
-          monthId: entity,
-          expensesPath,
+          month: entry.label,
+          order: entry.order,
+          path: '2023/entries/month/entries/project/entries',
+          rest: 0,
         };
       })
-      .sort((first: any, last: any) => first.order - last.order);
-  }
-
-  private formDataSource(type: string, source: any): void {
-    this.formDataSourceIncomes(type, source);
-    this.formDataSourceExpenses(type, source);
-
-    this.dataSource = this.dataSourceIncomes
+      .sort((first: any, last: any) => first.order - last.order)
       .map((entry: any) => {
-        return {
-          ...entry,
-          expenses: this.dataSourceExpenses.find(
-            (expense) => expense.month === entry.month
-          ).expenses,
-          expensesPath: this.dataSourceExpenses.find(
-            (expense) => expense.month === entry.month
-          ).expensesPath,
-        };
-      })
-      .map((entry: any) => {
+        delete entry.order;
         return {
           ...entry,
           rest: entry.incomes - entry.expenses,
@@ -136,7 +89,19 @@ export class PlanProjectComponent implements OnInit {
         return array;
       }, []);
 
-    localStorage.setItem('plan', JSON.stringify(this.dataSource));
+    this.formDataSourceTotal();
+  }
+
+  private calculateTotal(data: any): number {
+    let total: number = 0;
+    Object.keys(data).forEach((key: string) => {
+      total += data[key].total;
+    });
+    return total;
+  }
+
+  private formEntry(entry: any, node: string): any {
+    return entry.entries.project.entries[node].entries;
   }
 
   private formDataSourceTotal(): void {
@@ -148,8 +113,8 @@ export class PlanProjectComponent implements OnInit {
     );
   }
 
-  public readData(): void {
-    this.planService.readData().subscribe((data: any) => {
+  public readData(sourcePath: string): void {
+    this.planService.readData(sourcePath).subscribe((data: any) => {
       this.formData(data);
     });
   }

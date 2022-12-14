@@ -22,7 +22,7 @@ export class PlanProjectDetailsSummaryComponent {
 
   constructor(private readonly planService: PlanService) {}
 
-  public onGoToDetails(element: any, value: number): void {
+  public onGoToDetails(element: any, value: any, column: any): void {
     let entry: string;
     Object.keys(element).forEach((key: string) => {
       if (element[key] === value) {
@@ -35,6 +35,7 @@ export class PlanProjectDetailsSummaryComponent {
       month: element.month,
       monthId: element.monthId,
       path: element.path,
+      hasEntries: value.hasEntries,
     };
     this.goToDetails.emit(event);
   }

@@ -10,7 +10,6 @@ import { DataProperty } from '@home-budget/plan/plan.enum';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlanProjectDetailsFormComponent {
-
   public form: FormGroup;
   public monthLabel: string;
   public category: string;

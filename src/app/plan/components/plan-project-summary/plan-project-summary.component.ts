@@ -16,9 +16,7 @@ export class PlanProjectSummaryComponent {
   @Output() public goToDetails: EventEmitter<model.GoToDetails> = new EventEmitter();
 
   public onGoToDetails(element: model.PlanProject, type: string): void {
-    const path: string = type === 'expenses'
-      ? element.expensesPath
-      : element.incomesPath;
+    const path: string = element.path;
     this.goToDetails.emit({ type, path, month: element.monthId });
   }
 }
