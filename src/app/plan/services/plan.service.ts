@@ -1,7 +1,7 @@
-import { BehaviorSubject, Observable } from "rxjs";
+import { BehaviorSubject, Observable } from 'rxjs';
 
-import { Injectable } from "@angular/core";
-import { PlanHttpService } from "./plan-http.service";
+import { Injectable } from '@angular/core';
+import { PlanHttpService } from './plan-http.service';
 
 export interface DataLabels {
   [key: string]: string;
@@ -12,21 +12,27 @@ export interface DataLabel {
   value: string;
 }
 
-const commonLabels: string[] = ["month", "monthId", "order", "path", "total"];
+const commonLabels: string[] = ['month', 'monthId', 'order', 'path', 'total'];
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class PlanService {
   private breadcrumbsSubject$ = new BehaviorSubject<string[]>([]);
   public breadcrumbsState$ = this.breadcrumbsSubject$.asObservable();
   public dataLabels: DataLabels = {
-    month: "Miesiąc",
-    total: "Razem",
+    execution: 'Wykonanie',
+    expenses: 'Wydatki',
+    incomes: 'Przychody',
+    increase: 'Przyrost',
+    month: 'Miesiąc',
+    project: 'Projekt',
+    rest: 'Reszta',
+    total: 'Razem',
   };
   public dataColumns: string[];
 
-  private main: string = "plan";
+  private main: string = 'plan';
 
-  constructor(private readonly planHttpService: PlanHttpService) {}
+  constructor(private readonly planHttpService: PlanHttpService) { }
 
   public get months(): any[] {
     return this.planHttpService.months;
@@ -49,8 +55,8 @@ export class PlanService {
   }
 
   public getDataItem(path: string): any {
-    let data = JSON.parse(localStorage.getItem(this.main))["2023"];
-    for (let i = 0, paths = path.split("."), len = paths.length; i < len; i++) {
+    let data = JSON.parse(localStorage.getItem(this.main))['2023'];
+    for (let i = 0, paths = path.split('.'), len = paths.length; i < len; i++) {
       data = data[paths[i]];
     }
     return data;
@@ -58,7 +64,7 @@ export class PlanService {
 
   public setDataLabelsAndColumns(data: any): void {
     const labels: DataLabel[] = Object.keys(data)
-    .map((dataItem: string) => {
+      .map((dataItem: string) => {
         return {
           key: dataItem,
           order: data[dataItem].order,
@@ -75,6 +81,22 @@ export class PlanService {
     this.setDataLabels(labels);
   }
 
+  public setDataLabel(label: DataLabel): void {
+    this.dataLabels = {
+      ...this.dataLabels,
+      [label.key]: label.value,
+    }
+  }
+
+  public setCommonDataLables(): void {
+    this.setDataLabel({ key: 'execution', value: 'Wykonanie' })
+    this.setDataLabel({ key: 'expenses', value: 'Wydatki' })
+    this.setDataLabel({ key: 'incomes', value: 'Przychody' })
+    this.setDataLabel({ key: 'month', value: 'Miesiąc' })
+    this.setDataLabel({ key: 'project', value: 'Projekt' })
+    this.setDataLabel({ key: 'total', value: 'Razem' })
+  }
+
   private setDataColumns(labels: DataLabel[]): void {
     this.dataColumns = labels.map((label: any) => label.key);
   }
@@ -85,4 +107,5 @@ export class PlanService {
       ...labels.map((item) => ({ [item.key]: item.value }))
     );
   }
+
 }

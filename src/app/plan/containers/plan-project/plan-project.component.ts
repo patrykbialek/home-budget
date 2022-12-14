@@ -12,7 +12,7 @@ import * as model from '../../plan.model';
   styleUrls: ['./plan-project.component.scss'],
 })
 export class PlanProjectComponent implements OnInit {
-  public displayedColumns: string[] = config.planProjectDetailsColumns;
+  public displayedColumns: string[] = config.planColumns;
   public dataSource: any[] = [];
   public dataSourceIncomes: any[] = [];
   public dataSourceExpenses: any[] = [];

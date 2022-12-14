@@ -26,7 +26,7 @@ export class PlanComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    // this.planService.setDataLabels();
+    this.planService.setCommonDataLables();
   }
 
   public initiatePlan(): void {

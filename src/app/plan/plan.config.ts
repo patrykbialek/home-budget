@@ -9,6 +9,7 @@ export const chartOption: model.ChartOption = {
   },
 };
 
+// TODO: to be deleted
 export const planType: model.PlanType = {
   project: {
     id: 'project',
@@ -17,25 +18,6 @@ export const planType: model.PlanType = {
   execution: {
     id: 'execution',
     long: 'Wykonanie',
-  },
-};
-
-export const transactionType: model.TransactionType = {
-  expenses: {
-    id: 'expenses',
-    long: 'Wydatki',
-  },
-  incomes: {
-    id: 'incomes',
-    long: 'Przychody',
-  },
-  rest: {
-    id: 'rest',
-    long: 'Reszta',
-  },
-  increase: {
-    id: 'increase',
-    long: 'Przyrost',
   },
 };
 
@@ -102,7 +84,7 @@ export const monthLabel: model.MonthLabel = {
   },
 };
 
-export const planProjectDetailsColumns: string[] = [
+export const planColumns: string[] = [
   'month', 'incomes', 'expenses', 'rest', 'increase',
 ];
 

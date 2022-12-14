@@ -7,7 +7,7 @@ import * as config from '../../plan.config';
 import { DataProperty } from '../../plan.enum';
 import * as model from '../../plan.model';
 import { PlanHttpService } from '@home-budget/plan/services/plan-http.service';
-import { PlanService } from '@home-budget/plan/services/plan.service';
+import { DataLabel, DataLabels, PlanService } from '@home-budget/plan/services/plan.service';
 import { PlanProjectDetailsFormComponent } from '@home-budget/plan/components';
 import { combineLatest, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -19,7 +19,6 @@ import { tap } from 'rxjs/operators';
 })
 export class PlanProjectDetailsComponent implements OnInit {
   public dataColumns: string[] = [];
-  public dataLabels: { [key: string]: string };
   public dataSource: any = [];
   public displayedColumns: string[] = [];
   public form: FormGroup;
@@ -47,11 +46,12 @@ export class PlanProjectDetailsComponent implements OnInit {
   public ngOnInit(): void {
     this.route.queryParams.subscribe((params: model.GoToDetails) => {
       this.transactionType = params.type;
-      this.path = params.path;
-
       this.formSummaryData();
-      this.setBreadcrumbsState();
     });
+  }
+
+  public get dataLabels(): DataLabels {
+    return this.planService.dataLabels;
   }
 
   public goToDetails(event: any): void {
@@ -73,6 +73,16 @@ export class PlanProjectDetailsComponent implements OnInit {
                 path: `${path}/${event.entry}/entries`,
                 total: 0,
               };
+
+              if (index === 11) {
+                const dataLabel: DataLabel = {
+                  key: foundEntry.key,
+                  value: foundEntry.label
+                };
+                this.setDataLabel(dataLabel)
+                const currentPath: string = `${path}/${foundEntry.key}`;
+                this.setBreadcrumbsState(currentPath);
+              }
 
               let total: number = 0;
               Object.keys(foundEntry.entries).forEach((key) => {
@@ -101,12 +111,8 @@ export class PlanProjectDetailsComponent implements OnInit {
         this.dataColumns = [];
         this.displayedColumns = [];
         this.planService.setDataLabelsAndColumns(this.dataSource[0]);
-        this.dataLabels = this.planService.dataLabels;
         this.dataColumns = this.planService.dataColumns.filter((dataColumn: string) => dataColumn !== 'hasEntries');
         this.setDisplayedColumns();
-
-        this.path = sourcePath;
-        this.setBreadcrumbsState();
       })
     }
 
@@ -165,16 +171,15 @@ export class PlanProjectDetailsComponent implements OnInit {
 
   private formData(data?: any): void {
     this.displayedColumns = ['month', 'total'];
-    this.dataLabels = { month: 'Miesiąc', total: 'Razem' };
     this.dataSource = [];
+
+    const currentPath: string = data[0].entries.project.entries[this.transactionType].path
+    this.setBreadcrumbsState(currentPath);
 
     const entryData = this.formEntry(data[0], this.transactionType);
     Object.keys(entryData).forEach((key: string) => {
       this.displayedColumns.push(key);
-      this.dataLabels = {
-        ...this.dataLabels,
-        [key]: entryData[key].label,
-      };
+      this.setDataLabel({ key, value: entryData[key].label})
     });
 
     this.dataSource = data
@@ -207,6 +212,17 @@ export class PlanProjectDetailsComponent implements OnInit {
         delete entry.order;
         return entry;
       });
+
+    let totalDataItem = {
+      month: '',
+      total: 12300,
+      expense01: 12300,
+      expense02: 12300,
+      expense03: 12300,
+      expense04: 12300,
+      expense05: 12300,
+    };
+    this.dataSource.push(totalDataItem);
   }
 
   private formEntry(entry: any, node: string): any {
@@ -220,28 +236,22 @@ export class PlanProjectDetailsComponent implements OnInit {
     });
   }
 
-  private setBreadcrumbsState(): void {
-    const labels = {
-      ...this.planService.dataLabels,
-      project: 'Projekt',
-      execution: 'Wykonanie',
-      incomes: 'Przychody',
-      expenses: 'Wydatki',
-    };
+  private setBreadcrumbsState(path: string): void {
     const searchRegExp = /.entries/gi;
     const replaceWith = '';
-    const breadCrumbs: string[] = this.path
+    const breadCrumbs: string[] = path
       .split('/')
       .join('.')
       .replace(searchRegExp, replaceWith)
+      .replace('jan', '')
+      .replace('dec', '')
       .split('.');
 
-    // console.log(breadCrumbs)
     const breadCrumbItems: string[] = breadCrumbs
       .filter((breadCrumb: string, index: number) => index > 0)
       .filter((breadCrumb: string) => breadCrumb.length)
       .map((breadCrumb: string) => {
-        return labels[breadCrumb];
+        return this.dataLabels[breadCrumb];
       });
 
     setTimeout(() => {
@@ -283,5 +293,9 @@ export class PlanProjectDetailsComponent implements OnInit {
     localStorage.setItem('plan', JSON.stringify(data));
     this.storageItem = JSON.parse(localStorage.getItem('plan'));
     // this.setSummaryData();
+  }
+
+  private setDataLabel(label: DataLabel): void {
+    this.planService.setDataLabel(label);
   }
 }
