@@ -3,6 +3,21 @@
   [form]="form"
   [monthId]="monthId"></hb-plan-project-details-form> -->
 
+<nav class="c-breadcrumb">
+  <ul class="c-breadcrumb-list u-text-tiny">
+    <ng-container *ngFor="let breadcrumb of breadcrumbs; let first = first; let last = last;">
+      <li class="c-breadcrumb-list__entry">
+        <a (click)="goToDetails(breadcrumb)"
+          class="u-margin-right-tiny u-clickme"
+          [ngClass]="{
+            'c-breadcrumb-list__entry--current': breadcrumb.isCurrent
+          }">{{ breadcrumb.label }}</a>
+        <span *ngIf="!last" class="u-margin-right-tiny">/</span>
+      </li>
+    </ng-container>
+  </ul>
+</nav>
+
 <hb-plan-project-details-summary
   [dataLabels]="dataLabels"
   [dataSource]="dataSource"

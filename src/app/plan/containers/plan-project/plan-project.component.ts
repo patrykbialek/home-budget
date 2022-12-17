@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DataProperty } from '@home-budget/plan/plan.enum';
 import { PlanService } from '@home-budget/plan/services/plan.service';
 
@@ -21,10 +21,12 @@ export class PlanProjectComponent implements OnInit {
   private main: string = 'plan';
   private year: string = '2023';
   private plan: string = 'project';
+  private planType: string;
 
   constructor(
     private readonly planService: PlanService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly activatedRoute: ActivatedRoute,
   ) {}
 
   public ngOnInit(): void {
@@ -32,13 +34,15 @@ export class PlanProjectComponent implements OnInit {
 
     const sourcePath: string = `2023/entries`;
     this.readData(sourcePath);
+
+    this.activatedRoute.url.subscribe((response: any)=> this.planType = response[0].path)
   }
 
   public goToDetails(event: model.GoToDetails): void {
-    this.router.navigate(['./plan/details'], {
+    this.router.navigate([`./plan/${this.planType}/details`], {
       queryParams: {
         type: event.type,
-        path: event.path,
+        path: `${event.path}`,
       },
     });
   }
@@ -66,7 +70,7 @@ export class PlanProjectComponent implements OnInit {
           increase: 0,
           month: entry.label,
           order: entry.order,
-          path: '2023/entries/month/entries/project/entries',
+          path: '2023/entries/month/entries/project',
           rest: 0,
         };
       })

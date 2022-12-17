@@ -91,12 +91,12 @@ export const planColumns: string[] = [
 export const navLinks: model.NavLink[] = [
   {
     label: 'Projekt',
-    link: './project',
+    href: './project',
     index: 0,
   },
   {
     label: 'Wykonanie',
-    link: './execution',
+    href: './execution',
     index: 1,
   },
 ];

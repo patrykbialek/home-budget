@@ -29,6 +29,7 @@ export class PlanService {
     total: 'Razem',
   };
   public dataColumns: string[];
+  public breadcrumbs: any[] = [];
 
   private main: string = 'plan';
 
@@ -95,6 +96,33 @@ export class PlanService {
     this.setDataLabel({ key: 'month', value: 'Miesiąc' })
     this.setDataLabel({ key: 'project', value: 'Projekt' })
     this.setDataLabel({ key: 'total', value: 'Razem' })
+  }
+
+  public formBreadcrumbs(event: any): void {
+    const item: any = {
+      ...event,
+      label: this.dataLabels[event.entry],
+      isCurrent: true,
+    };
+    this.breadcrumbs = this.breadcrumbs
+      .map((breadcrumb: any) => {
+        return {
+          ...breadcrumb,
+          isCurrent: breadcrumb.entry === item.entry,
+        };
+      })
+    const foundBreadcrumb = this.breadcrumbs
+      .find((breadcrumb: any) => breadcrumb.entry === item.entry);
+    const selectedBreadcrumbIndex = this.breadcrumbs
+      .indexOf(foundBreadcrumb);
+
+    if (selectedBreadcrumbIndex > 0) {
+      this.breadcrumbs.length = selectedBreadcrumbIndex + 1;
+    }
+
+    if (!foundBreadcrumb) {
+      this.breadcrumbs.push(item);
+    }
   }
 
   private setDataColumns(labels: DataLabel[]): void {
