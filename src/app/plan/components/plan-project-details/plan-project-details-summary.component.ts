@@ -31,7 +31,7 @@ export class PlanProjectDetailsSummaryComponent {
     });
     const event = {
       entry,
-      type: element.type,
+      type: 'expenses', // element.type,
       month: element.month,
       monthId: element.monthId,
       path: element.path,

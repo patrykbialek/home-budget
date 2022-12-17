@@ -9,21 +9,18 @@
           <a mat-tab-link
             *ngFor="let link of navLinks"
             routerLinkActive="u-router-link-active"
-            [routerLink]="link.link"
+            [routerLink]="link.href"
           >{{ link.label }}
           </a>
         </nav>
         <div class="u-padding-left-small u-margin-left-small u-border-left u-text-large">&nbsp;</div>
-        <ng-container *ngIf="breadcrumbsState$ | async as breadcrumbs" >
-          <!-- <div *ngIf="breadcrumbs.length" class="u-margin-right-tiny" style="display: inline-flex;">
-            <mat-icon>keyboard_double_arrow_right</mat-icon>
-          </div> -->
+        <!-- <ng-container *ngIf="breadcrumbsState$ | async as breadcrumbs" >
           <nav class="u-text-tiny">
             <ng-container *ngFor="let breadcrumb of breadcrumbs; let last = last;">
               <span>{{ breadcrumb }}</span><span *ngIf="!last" class="u-padding-left-tiny u-padding-right-tiny">/</span>
             </ng-container>
           </nav>
-        </ng-container>
+        </ng-container> -->
       </header>
     </div>
   </div>

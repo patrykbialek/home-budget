@@ -147,7 +147,7 @@ export class PlanHttpService {
         isInTotal: false,
         label: 'Przychody',
         total: 0,
-        path: `${parentPath}/entries/incomes`,
+        path: `${parentPath}/entries`,
       },
       expenses: {
         entries: this.dataProjectExpenseEntry(
@@ -159,7 +159,7 @@ export class PlanHttpService {
         ),
         isInTotal: false,
         label: 'Wydatki',
-        path: `${parentPath}/entries/expenses`,
+        path: `${parentPath}/entries`,
         total: 0,
       },
     };

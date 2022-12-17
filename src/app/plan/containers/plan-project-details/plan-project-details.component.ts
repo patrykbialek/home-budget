@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, HostListener, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import * as config from '../../plan.config';
 import { DataProperty } from '../../plan.enum';
@@ -17,24 +17,23 @@ import { tap } from 'rxjs/operators';
   templateUrl: './plan-project-details.component.html',
   styleUrls: ['./plan-project-details.component.scss'],
 })
-export class PlanProjectDetailsComponent implements OnInit {
+export class PlanProjectDetailsComponent implements OnDestroy, OnInit {
   public dataColumns: string[] = [];
   public dataSource: any = [];
   public displayedColumns: string[] = [];
   public form: FormGroup;
   public isLoading: boolean;
   public month: string;
-  public path: string;
 
+  private isDataLoaded: boolean;
   private storageItem: any;
-  private transactionType: string;
   private readonly planType: model.Item = config.planType[DataProperty.project];
   private readonly planYear: string = '2023';
 
   constructor(
     public dialog: MatDialog,
     private readonly planService: PlanService,
-    private readonly route: ActivatedRoute,
+    private readonly activatedRoute: ActivatedRoute,
     private readonly router: Router
   ) { }
 
@@ -43,23 +42,55 @@ export class PlanProjectDetailsComponent implements OnInit {
     this.displayedColumns = [];
   }
 
+  public ngOnDestroy(): void {
+    this.planService.breadcrumbs = [];
+  }
+
   public ngOnInit(): void {
-    this.route.queryParams.subscribe((params: model.GoToDetails) => {
-      this.transactionType = params.type;
-      this.formSummaryData();
-    });
+    combineLatest([
+      this.activatedRoute.url,
+      this.activatedRoute.queryParams,
+    ])
+      .subscribe((response) => {
+        if (response && response[1].path) {
+          this.addMainBreadcrumb(response[0][0].path);
+          this.goToDetails(this.formMainEntry(response[1]));
+          this.router.navigate([], { relativeTo: this.activatedRoute });
+          this.isDataLoaded = true;
+        } else if (!this.isDataLoaded) {
+          this.router.navigate(['../'], { relativeTo: this.activatedRoute });
+        }
+      });
   }
 
   public get dataLabels(): DataLabels {
     return this.planService.dataLabels;
   }
 
+  public get breadcrumbs(): any[] {
+    return this.planService.breadcrumbs;
+  }
+
   public goToDetails(event: any): void {
+    if (event.isCurrent) {
+      return;
+    }
+    if (event.router) {
+      const queryParams = {
+        type: event.router.type,
+        path: event.router.path,
+      };
+      this.router.navigate([event.router.href], { queryParams });
+      return;
+    }
+
     const sourcePath = `${event.path}`;
     const months = this.planService.months;
     const subs$: Observable<any>[] = [];
     if (event.hasEntries) {
-      this.dataSource = []
+      this.formBreadcrumbs(event);
+
+      const dataSource = [];
       months.map((month: any, index: number) => {
         const path = sourcePath.replace('month', month.key);
         subs$.push(this.planService.readDataByType(path)
@@ -102,18 +133,20 @@ export class PlanProjectDetailsComponent implements OnInit {
                 total,
               };
 
-              this.dataSource.push(dataItem);
+              dataSource.push(dataItem);
             }))
         )
       });
 
       combineLatest(subs$).subscribe(() => {
+        this.dataSource = dataSource;
         this.dataColumns = [];
         this.displayedColumns = [];
         this.planService.setDataLabelsAndColumns(this.dataSource[0]);
         this.dataColumns = this.planService.dataColumns.filter((dataColumn: string) => dataColumn !== 'hasEntries');
         this.setDisplayedColumns();
-      })
+      });
+
     }
 
     // const dialogRef = this.dialog.open(PlanProjectDetailsFormComponent, {
@@ -131,6 +164,29 @@ export class PlanProjectDetailsComponent implements OnInit {
     //       this.submit(result.category);
     //     }
     //   });
+    // this.router.navigate(['./plan/details']);
+  }
+
+  private formMainEntry(params: any): any {
+    return {
+      entry: params.type,
+      hasEntries: true,
+      path: `${params.path}/entries`,
+    }
+  }
+
+  private addMainBreadcrumb(entry: string): void {
+    this.planService.formBreadcrumbs({
+      entry,
+      path: null,
+      router: {
+        href: `./plan/${entry}`,
+      },
+    });
+  }
+
+  private formBreadcrumbs(event: any): void {
+    this.planService.formBreadcrumbs(event);
   }
 
   private setDisplayedColumns(): void {
@@ -169,72 +225,90 @@ export class PlanProjectDetailsComponent implements OnInit {
     return form;
   }
 
-  private formData(data?: any): void {
-    this.displayedColumns = ['month', 'total'];
-    this.dataSource = [];
+  // private formData(data?: any): void {
+  //   this.displayedColumns = ['month', 'total'];
 
-    const currentPath: string = data[0].entries.project.entries[this.transactionType].path
-    this.setBreadcrumbsState(currentPath);
+  //   const currentPath: string = data[0].entries.project.entries[this.transactionType].path
 
-    const entryData = this.formEntry(data[0], this.transactionType);
-    Object.keys(entryData).forEach((key: string) => {
-      this.displayedColumns.push(key);
-      this.setDataLabel({ key, value: entryData[key].label})
-    });
+  //   this.planService.formBreadcrumbs({
+  //     path: currentPath,
+  //     entry: 'project',
+  //     router: {
+  //       href: './plan/project',
+  //     },
+  //   });
+  //   this.planService.formBreadcrumbs({
+  //     path: currentPath,
+  //     entry: this.transactionType,
+  //     router: {
+  //       href: './plan/details',
+  //       path: this.path,
+  //       type: this.transactionType,
+  //     }
+  //   });
+  //   this.setBreadcrumbsState(currentPath);
 
-    this.dataSource = data
-      .map((entry: any) => {
-        let dataItem = {
-          month: entry.label,
-          order: entry.order,
-          path: `2023/entries/month/entries/project/entries/${this.transactionType}/entries`,
-          total: 0,
-        };
+  //   const entryData = this.formEntry(data[0], this.transactionType);
+  //   Object.keys(entryData).forEach((key: string) => {
+  //     this.displayedColumns.push(key);
+  //     this.setDataLabel({ key, value: entryData[key].label })
+  //   });
 
-        const entryData = this.formEntry(entry, this.transactionType);
-        let total = 0;
-        Object.keys(entryData).forEach((key: string) => {
-          total += entryData[key].total;
-          dataItem = {
-            ...dataItem,
-            [key]: {
-              total: entryData[key].total,
-              hasEntries: Boolean(entryData[key].entries),
-            },
-            total,
-          };
-        });
+  //   const dataSource = data
+  //     .map((entry: any) => {
+  //       let dataItem = {
+  //         month: entry.label,
+  //         order: entry.order,
+  //         path: `2023/entries/month/entries/project/entries/${this.transactionType}/entries`,
+  //         total: 0,
+  //       };
 
-        return dataItem;
-      })
-      .sort((first: any, last: any) => first.order - last.order)
-      .map((entry: any) => {
-        delete entry.order;
-        return entry;
-      });
+  //       const entryData = this.formEntry(entry, this.transactionType);
+  //       let total = 0;
+  //       Object.keys(entryData).forEach((key: string) => {
+  //         total += entryData[key].total;
+  //         dataItem = {
+  //           ...dataItem,
+  //           [key]: {
+  //             total: entryData[key].total,
+  //             hasEntries: Boolean(entryData[key].entries),
+  //           },
+  //           total,
+  //         };
+  //       });
 
-    let totalDataItem = {
-      month: '',
-      total: 12300,
-      expense01: 12300,
-      expense02: 12300,
-      expense03: 12300,
-      expense04: 12300,
-      expense05: 12300,
-    };
-    this.dataSource.push(totalDataItem);
-  }
+  //       return dataItem;
+  //     })
+  //     .sort((first: any, last: any) => first.order - last.order)
+  //     .map((entry: any) => {
+  //       delete entry.order;
+  //       return entry;
+  //     });
 
-  private formEntry(entry: any, node: string): any {
-    return entry.entries.project.entries[node].entries;
-  }
+  //   const totalDataItem = {
+  //     month: '',
+  //     total: 12300,
+  //     expense01: 12300,
+  //     expense02: 12300,
+  //     expense03: 12300,
+  //     expense04: 12300,
+  //     expense05: 12300,
+  //   };
+  //   dataSource.push(totalDataItem);
 
-  private formSummaryData(): void {
-    const sourcePath: string = `2023/entries`;
-    this.planService.readData(sourcePath).subscribe((data: any) => {
-      this.formData(data);
-    });
-  }
+  //   this.dataSource = dataSource;
+  // }
+
+  // private formEntry(entry: any, node: string): any {
+  //   return entry.entries.project.entries[node].entries;
+  // }
+
+  // private formSummaryData(): void {
+  //   const sourcePath: string = `2023/entries`;
+  //   this.planService.readData(sourcePath).subscribe((data: any) => {
+  //     this.formData(data);
+  //   });
+  // }
 
   private setBreadcrumbsState(path: string): void {
     const searchRegExp = /.entries/gi;
@@ -257,42 +331,6 @@ export class PlanProjectDetailsComponent implements OnInit {
     setTimeout(() => {
       this.planService.setBreadcrumbsState(breadCrumbItems);
     });
-  }
-
-  private submit(category: string): void {
-    if (this.form.invalid) {
-      return;
-    }
-    const currentStorage = JSON.parse(localStorage.getItem('plan'));
-    const value = this.form.value;
-    const data = {
-      ...currentStorage,
-      '2023': {
-        project: {
-          ...currentStorage['2023'].project,
-          [this.month]: {
-            ...currentStorage['2023'].project[this.month],
-            entries: {
-              ...currentStorage['2023'].project[this.month].entries,
-              [this.transactionType]: {
-                ...currentStorage['2023'].project[this.month].entries[
-                this.transactionType
-                ],
-                entries: {
-                  ...currentStorage['2023'].project[this.month].entries[
-                    this.transactionType
-                  ].entries,
-                  [category]: value,
-                },
-              },
-            },
-          },
-        },
-      },
-    };
-    localStorage.setItem('plan', JSON.stringify(data));
-    this.storageItem = JSON.parse(localStorage.getItem('plan'));
-    // this.setSummaryData();
   }
 
   private setDataLabel(label: DataLabel): void {

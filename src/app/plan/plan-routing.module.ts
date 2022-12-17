@@ -26,7 +26,7 @@ const routes: Routes = [
         component: fromComponents.PlanProjectDetailsFormComponent,
       },
       {
-        path: 'details',
+        path: 'project/details',
         component: fromContainers.PlanProjectDetailsComponent,
       },
     ]

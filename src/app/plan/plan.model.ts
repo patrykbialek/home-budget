@@ -61,9 +61,9 @@ export interface PlanProjectGraphData {
 }
 
 export interface NavLink {
+  href: string;
   index: number;
   label: string;
-  link: string;
 }
 
 export interface GoToDetails {
