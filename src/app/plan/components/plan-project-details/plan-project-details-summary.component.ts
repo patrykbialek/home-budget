@@ -5,6 +5,7 @@ import {
   Input,
   Output,
 } from "@angular/core";
+import { DataLabels, DataSourceDetails, DataSourceDetailsEntry, PlanEntry } from '@home-budget/plan/plan.model';
 import { PlanService } from '@home-budget/plan/services/plan.service';
 
 @Component({
@@ -14,27 +15,25 @@ import { PlanService } from '@home-budget/plan/services/plan.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlanProjectDetailsSummaryComponent {
-  @Input() public readonly dataLabels: { [key: string]: string };
-  @Input() public readonly dataSource: any[];
+  @Input() public readonly dataLabels: DataLabels;
+  @Input() public readonly dataSource: DataSourceDetails[];
   @Input() public readonly displayedColumns: string[];
 
-  @Output() public goToDetails: EventEmitter<any> = new EventEmitter();
+  @Output() public goToDetails: EventEmitter<PlanEntry> = new EventEmitter();
 
-  public onGoToDetails(element: any, value: any): void {
+  public onGoToDetails(element: DataSourceDetails, elementValue: DataSourceDetailsEntry): void {
     let entry: string;
     Object.keys(element).forEach((key: string) => {
-      if (element[key] === value) {
+      if (element[key] === elementValue) {
         entry = key;
       }
     });
-    const event = {
+    const planEntry: PlanEntry = {
       entry,
-      hasEntries: value.hasEntries,
+      hasEntries: elementValue.hasEntries,
       month: element.month,
-      monthId: element.monthId,
       path: element.path,
-      type: element.type,
     };
-    this.goToDetails.emit(event);
+    this.goToDetails.emit(planEntry);
   }
 }

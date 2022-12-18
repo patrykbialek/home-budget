@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
+import { PlanEntry } from '@home-budget/plan/plan.model';
 import { PlanService } from '@home-budget/plan/services/plan.service';
 import { BreadcrumbsService } from '../../services/breadcrumbs.service';
+import { BreadcrumbsItem } from './plan-breadcrumbs.model';
 
 @Component({
   selector: 'hb-plan-breadcrumbs',
@@ -14,12 +16,21 @@ export class PlanBreadcrumbsComponent {
     private readonly planService: PlanService,
   ) { }
 
-  public get breadCrumbs(): any[] {
+  public get breadCrumbs(): BreadcrumbsItem[] {
     return this.breadcrumbsService.breadcrumbs;
   }
 
-  public goToDetails(event: any): void {
-    this.planService.goToDetails(event);
+  public goToDetails(event: BreadcrumbsItem): void {
+    const { entry, hasEntries, label, isCurrent, href, path } = event;
+    const planEntry: PlanEntry = {
+      entry,
+      hasEntries,
+      href,
+      isCurrent,
+      label,
+      path,
+    }
+    this.planService.goToDetails(planEntry);
   }
 
 }

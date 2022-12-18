@@ -1,19 +1,20 @@
 import { Injectable } from '@angular/core';
 
 import { BreadcrumbsItem } from '../containers/plan-breadcrumbs/plan-breadcrumbs.model';
+import { DataLabels, PlanEntry } from '../plan.model';
 
 @Injectable({ providedIn: 'root' })
 export class BreadcrumbsService {
   public breadcrumbs: BreadcrumbsItem[] = [];
 
-  public formBreadcrumbs(event: any, dataLabels: any): void {
+  public formBreadcrumbs(planEntry: PlanEntry, dataLabels: DataLabels): void {
     const item: BreadcrumbsItem = {
-      entry: event.entry,
-      hasEntries: event.hasEntries,
-      href: event.href,
+      entry: planEntry.entry,
+      hasEntries: planEntry.hasEntries,
+      href: planEntry.href,
       isCurrent: true,
-      label: dataLabels[event.entry],
-      path: event.path,
+      label: dataLabels[planEntry.entry],
+      path: planEntry.path,
     };
     this.breadcrumbs = this.breadcrumbs
       .map((breadcrumb: BreadcrumbsItem) => {

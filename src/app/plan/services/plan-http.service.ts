@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 import { AuthenticationHttpService } from '@home-budget/authentication/services';
 import * as fromModels from '@home-budget/transactions/models';
+import { DataLabel } from '../plan.model';
 
 @Injectable({
   providedIn: 'root',
@@ -39,7 +40,7 @@ export class PlanHttpService {
     return of(db.update(payload.uid, value));
   }
 
-  public get months(): {key: string; value: string }[] {
+  public get months(): DataLabel[] {
     return [
       {
         key: 'jan',

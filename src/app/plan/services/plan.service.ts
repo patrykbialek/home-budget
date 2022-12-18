@@ -5,7 +5,7 @@ import { PlanHttpService } from './plan-http.service';
 import { tap } from 'rxjs/operators';
 import { DataProperty } from '../plan.enum';
 import { Router } from '@angular/router';
-import { DataLabels, DataLabel } from '../plan.model';
+import { DataLabels, DataLabel, DataSourceDetails, PlanEntry } from '../plan.model';
 import { BreadcrumbsService } from './breadcrumbs.service';
 
 const commonLabels: string[] = ['month', 'monthId', 'order', 'path', 'total'];
@@ -23,7 +23,9 @@ export class PlanService {
     rest: 'Reszta',
     total: 'Razem',
   };
-  public defaultDataSource: any[] = [];
+  public dataSource: DataSourceDetails[] = [];
+  public defaultDataSource: DataSourceDetails[] = [];
+  public displayedColumns: string[] = [];
 
   private readonly main: string = 'plan';
 
@@ -33,7 +35,7 @@ export class PlanService {
     private readonly router: Router,
   ) { }
 
-  public get months(): any[] {
+  public get months(): DataLabel[] {
     return this.planHttpService.months;
   }
 
@@ -45,28 +47,20 @@ export class PlanService {
     return this.planHttpService.readDataByType(sourcePath);
   }
 
-  public getDataItem(path: string): any {
-    let data = JSON.parse(localStorage.getItem(this.main))['2023'];
-    for (let i = 0, paths = path.split('.'), len = paths.length; i < len; i++) {
-      data = data[paths[i]];
-    }
-    return data;
-  }
-
-  public setDataLabelsAndColumns(data: any): void {
+  public setDataLabelsAndColumns(data: DataSourceDetails): void {
     const labels: DataLabel[] = Object.keys(data)
-      .map((dataItem: string) => {
+      .map((key: string) => {
         return {
-          key: dataItem,
-          order: data[dataItem].order,
-          value: <string>data[dataItem].label,
+          key: key,
+          order: data[key].order,
+          value: <string>data[key].label,
         };
       })
-      .sort((first: any, last: any) => first.order - last.order)
+      .sort((first: DataLabel, last: DataLabel) => first.order - last.order)
       .filter((entry: any) => {
         return !commonLabels.includes(entry.key);
       })
-      .map((entry: any) => entry);
+      .map((entry: DataLabel) => entry);
 
     this.setDataColumns(labels);
     this.setDataLabels(labels);
@@ -117,50 +111,37 @@ export class PlanService {
     ];
   }
 
-  public goToDetails(event: any): void {
-    if (event.isCurrent) {
+  public goToDetails(planEntry: PlanEntry): void {
+    if (planEntry.isCurrent) {
       return;
     }
-    if (event.href) {
-      const queryParams = {
-        type: event.type,
-        path: event.path,
-      };
-      this.router.navigate([event.href], { queryParams });
+    if (planEntry.href) {
+      this.router.navigate([planEntry.href]);
       return;
     }
 
-    const sourcePath = `${event.path}`;
-    const months = this.months;
+    const sourcePath: string = `${planEntry.path}`;
+    const months: DataLabel[] = this.months;
     const subs$: Observable<any>[] = [];
-    if (event.hasEntries) {
-      this.breadcrumbsService.formBreadcrumbs(event, this.dataLabels);
+    if (planEntry.hasEntries) {
+      this.breadcrumbsService.formBreadcrumbs(planEntry, this.dataLabels);
 
-      const dataSource = [];
-      months.map((month: any, index: number) => {
-        const path = sourcePath.replace('month', month.key);
+      const dataSource: DataSourceDetails[] = [];
+      months.map((month: DataLabel, index: number) => {
+        const path: string = sourcePath.replace('month', month.key);
         subs$.push(this.readDataByType(path)
           .pipe(
             tap((entries: any[]) => {
-              const foundEntry = entries.find(entry => entry.key === event.entry);
-              let dataItem = {
-                month: month.value,
-                monthId: month.key,
+              const foundEntry: any = entries.find(entry => entry.key === planEntry.entry);
+              let dataItem: DataSourceDetails = {
+                month: month.key,
                 order: index,
-                path: `${path}/${event.entry}/entries`,
+                path: `${path}/${planEntry.entry}/entries`,
                 total: 0,
               };
 
-              if (index === 11) {
-                const dataLabel: DataLabel = {
-                  key: foundEntry.key,
-                  value: foundEntry.label
-                };
-                this.setDataLabel(dataLabel)
-              }
-
               let total: number = 0;
-              Object.keys(foundEntry.entries).forEach((key) => {
+              Object.keys(foundEntry.entries).forEach((key: string) => {
                 total += foundEntry.entries[key].total;
                 dataItem = {
                   ...dataItem,
@@ -201,11 +182,8 @@ export class PlanService {
     ]);
   }
 
-  public dataSource: any = [];
-  public displayedColumns: any = [];
-
   private setDataColumns(labels: DataLabel[]): void {
-    this.dataColumns = labels.map((label: any) => label.key);
+    this.dataColumns = labels.map((label: DataLabel) => label.key);
   }
 
   private setDataLabels(labels: DataLabel[]): void {
