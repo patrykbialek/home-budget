@@ -426,13 +426,13 @@ export class PlanHttpService {
       income01: {
         isInTotal: true,
         label: 'Patryk',
-        total: 1230,
+        total: 21300,
         order: 0,
       },
       income02: {
         isInTotal: true,
         label: 'Gosia',
-        total: 2314,
+        total: 3960,
         order: 1,
       },
       income03: {

@@ -97,14 +97,15 @@ export class PlanProjectDetailsComponent implements OnDestroy, OnInit {
   }
 
   private addMainBreadcrumb(entry: string): void {
-    const breadcrumbsItem: BreadcrumbsItem = {
+    const planEntry: model.PlanEntry = {
       entry,
       label: this.dataLabels[entry],
       hasEntries: true,
       href: `./plan/${entry}`,
       isCurrent: false,
+      path: null,
     };
-    this.breadcrumbsService.formBreadcrumbs(breadcrumbsItem, this.dataLabels);
+    this.breadcrumbsService.formBreadcrumbs(planEntry, this.dataLabels);
   }
 
   private setFormData(event: any): FormGroup {

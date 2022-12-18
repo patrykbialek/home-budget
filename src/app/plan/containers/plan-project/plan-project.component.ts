@@ -15,6 +15,7 @@ export class PlanProjectComponent implements OnInit {
   public dataSource: any[] = [];
   public dataSourceExpenses: any[] = [];
   public dataSourceIncomes: any[] = [];
+  public isLoading: boolean;
   public total: number = 0;
 
   private planType: string;
@@ -57,6 +58,7 @@ export class PlanProjectComponent implements OnInit {
   }
 
   private formData(data?: any): void {
+    this.isLoading = true;
     const dataSource: any[] = data
       .map((entry: any) => {
         const expenses: number = this.calculateTotal(
@@ -96,6 +98,9 @@ export class PlanProjectComponent implements OnInit {
       }, []);
 
     this.dataSource = dataSource;
+    setTimeout(() => {
+      this.isLoading = false;
+    });
     this.formDataSourceTotal();
   }
 
