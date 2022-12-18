@@ -7,8 +7,9 @@ import * as config from '../../plan.config';
 import { DataProperty } from '../../plan.enum';
 import * as model from '../../plan.model';
 import { combineLatest } from 'rxjs';
-import { tap } from 'rxjs/operators';
 import { PlanService } from '@home-budget/plan/services/plan.service';
+import { BreadcrumbsService } from '@home-budget/plan/services/breadcrumbs.service';
+import { BreadcrumbsItem } from '../plan-breadcrumbs/plan-breadcrumbs.model';
 
 @Component({
   selector: 'hb-plan-project-details',
@@ -28,32 +29,19 @@ export class PlanProjectDetailsComponent implements OnDestroy, OnInit {
   constructor(
     public dialog: MatDialog,
     private readonly activatedRoute: ActivatedRoute,
+    private readonly breadcrumbsService: BreadcrumbsService,
     private readonly planService: PlanService,
     private readonly router: Router
   ) { }
 
   public ngOnDestroy(): void {
-    this.planService.breadcrumbs = [];
+    this.breadcrumbsService.breadcrumbs = [];
   }
 
   public ngOnInit(): void {
     this.planService.setCommonDataLables();
     this.planService.setDefaultDataSource();
-
-    combineLatest([
-      this.activatedRoute.url,
-      this.activatedRoute.queryParams,
-    ])
-      .subscribe((response) => {
-        if (response && response[1].path) {
-          this.addMainBreadcrumb(response[0][0].path);
-          this.goToDetails(this.formMainEntry(response[1]));
-          this.router.navigate([], { relativeTo: this.activatedRoute });
-          this.isDataLoaded = true;
-        } else if (!this.isDataLoaded) {
-          this.router.navigate(['../'], { relativeTo: this.activatedRoute });
-        }
-      });
+    this.subscribeToRouteChange();
   }
 
   public get dataLabels(): model.DataLabels {
@@ -61,7 +49,7 @@ export class PlanProjectDetailsComponent implements OnDestroy, OnInit {
   }
 
   public get breadcrumbs(): any[] {
-    return this.planService.breadcrumbs;
+    return this.breadcrumbsService.breadcrumbs;
   }
 
   public get dataSource(): any[] {
@@ -80,6 +68,26 @@ export class PlanProjectDetailsComponent implements OnDestroy, OnInit {
     this.planService.goToDetails(event);
   }
 
+  private subscribeToRouteChange(): void {
+    combineLatest([
+      this.activatedRoute.url,
+      this.activatedRoute.queryParams,
+    ])
+      .subscribe((response) => {
+        if (response && response[1].path) {
+          this.addMainBreadcrumb(response[0][0].path);
+          this.goToDetails(this.formMainEntry(response[1]));
+          this.router.navigate([], { relativeTo: this.activatedRoute });
+          this.isDataLoaded = true;
+          return;
+        }
+
+        if (!this.isDataLoaded) {
+          this.router.navigate(['../'], { relativeTo: this.activatedRoute });
+        }
+      });
+  }
+
   private formMainEntry(params: any): any {
     return {
       entry: params.type,
@@ -89,13 +97,14 @@ export class PlanProjectDetailsComponent implements OnDestroy, OnInit {
   }
 
   private addMainBreadcrumb(entry: string): void {
-    this.planService.formBreadcrumbs({
+    const breadcrumbsItem: BreadcrumbsItem = {
       entry,
-      path: null,
-      router: {
-        href: `./plan/${entry}`,
-      },
-    });
+      label: this.dataLabels[entry],
+      hasEntries: true,
+      href: `./plan/${entry}`,
+      isCurrent: false,
+    };
+    this.breadcrumbsService.formBreadcrumbs(breadcrumbsItem, this.dataLabels);
   }
 
   private setFormData(event: any): FormGroup {
