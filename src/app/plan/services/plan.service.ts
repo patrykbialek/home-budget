@@ -128,10 +128,16 @@ export class PlanService {
 
       const dataSource: DataSourceDetails[] = [];
       months.map((month: DataLabel, index: number) => {
-        const path: string = sourcePath.replace('month', month.key);
+        const path: string = sourcePath
+          .replace('jan', 'month')
+          .replace('month', month.key);
         subs$.push(this.readDataByType(path)
           .pipe(
             tap((entries: any[]) => {
+              planEntry = {
+                ...planEntry,
+                month: month.key,
+              };
               const foundEntry: any = entries.find(entry => entry.key === planEntry.entry);
               let dataItem: DataSourceDetails = {
                 month: month.key,
@@ -170,6 +176,8 @@ export class PlanService {
         this.setDataLabelsAndColumns(this.dataSource[0]);
         this.dataColumns = this.dataColumns.filter((dataColumn: string) => dataColumn !== 'hasEntries');
         this.setDisplayedColumns();
+
+        console.log(this.dataSource)
       });
     }
   }
