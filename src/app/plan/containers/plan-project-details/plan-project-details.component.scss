@@ -62,37 +62,3 @@ input.u-type-number {
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-suffix {
   margin-left: 8px;
 }
-
-.u-clickme {
-  &:hover {
-    cursor: pointer;
-    text-decoration: underline;
-  }
-}
-
-.c-breadcrumb {
-  position: absolute;
-  top: 39px;
-  left: 330px;
-  z-index: 1000;
-
-  &-list {
-    display: flex;
-    flex-direction: row;
-
-    &__entry {
-      list-style-type: none;
-
-      &--current {
-        color: #1E88E5;
-        cursor: default;
-        text-decoration: none;
-
-        &:hover {
-          cursor: default;
-          text-decoration: none;
-        }
-      }
-    }
-  }
-}

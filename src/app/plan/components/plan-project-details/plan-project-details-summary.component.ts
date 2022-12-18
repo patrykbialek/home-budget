@@ -20,9 +20,7 @@ export class PlanProjectDetailsSummaryComponent {
 
   @Output() public goToDetails: EventEmitter<any> = new EventEmitter();
 
-  constructor(private readonly planService: PlanService) {}
-
-  public onGoToDetails(element: any, value: any, column: any): void {
+  public onGoToDetails(element: any, value: any): void {
     let entry: string;
     Object.keys(element).forEach((key: string) => {
       if (element[key] === value) {
@@ -31,11 +29,11 @@ export class PlanProjectDetailsSummaryComponent {
     });
     const event = {
       entry,
-      type: element.type,
+      hasEntries: value.hasEntries,
       month: element.month,
       monthId: element.monthId,
       path: element.path,
-      hasEntries: value.hasEntries,
+      type: element.type,
     };
     this.goToDetails.emit(event);
   }

@@ -114,7 +114,6 @@ export class TransactionDetailComponent
   }
 
   saveData(event: FormGroup) {
-    console.log(this.transactionKey, this.uid)
     const payload: fromModels.TransactionPayload = {
       key: this.transactionKey,
       value: event.value,

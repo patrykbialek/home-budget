@@ -59,14 +59,3 @@ input.u-type-number {
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-suffix {
   margin-left: 8px;
 }
-
-.u-clickme {
-  &:hover {
-    cursor: pointer;
-    text-decoration: underline;
-  }
-}
-
-.u-pointme {
-  cursor: default;
-}

@@ -1,18 +1,18 @@
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 
 import { Injectable } from '@angular/core';
 import { PlanHttpService } from './plan-http.service';
 import { tap } from 'rxjs/operators';
 import { DataProperty } from '../plan.enum';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { DataLabels, DataLabel } from '../plan.model';
+import { BreadcrumbsService } from './breadcrumbs.service';
 
 const commonLabels: string[] = ['month', 'monthId', 'order', 'path', 'total'];
 
 @Injectable({ providedIn: 'root' })
 export class PlanService {
-  private breadcrumbsSubject$ = new BehaviorSubject<string[]>([]);
-  public breadcrumbsState$ = this.breadcrumbsSubject$.asObservable();
+  public dataColumns: string[];
   public dataLabels: DataLabels = {
     execution: 'Wykonanie',
     expenses: 'Wydatki',
@@ -23,17 +23,15 @@ export class PlanService {
     rest: 'Reszta',
     total: 'Razem',
   };
-  public dataColumns: string[];
-  public breadcrumbs: any[] = [];
   public defaultDataSource: any[] = [];
 
-  private main: string = 'plan';
+  private readonly main: string = 'plan';
 
   constructor(
-    private readonly activatedRoute: ActivatedRoute,
+    private readonly breadcrumbsService: BreadcrumbsService,
     private readonly planHttpService: PlanHttpService,
     private readonly router: Router,
-    ) { }
+  ) { }
 
   public get months(): any[] {
     return this.planHttpService.months;
@@ -45,14 +43,6 @@ export class PlanService {
 
   public readDataByType(sourcePath: string): Observable<any> {
     return this.planHttpService.readDataByType(sourcePath);
-  }
-
-  public clearBreadcrumbsState(): void {
-    this.breadcrumbsSubject$.next([]);
-  }
-
-  public setBreadcrumbsState(breadcrumbs: string[]): void {
-    this.breadcrumbsSubject$.next(breadcrumbs);
   }
 
   public getDataItem(path: string): any {
@@ -127,43 +117,16 @@ export class PlanService {
     ];
   }
 
-  public formBreadcrumbs(event: any): void {
-    const item: any = {
-      ...event,
-      label: this.dataLabels[event.entry],
-      isCurrent: true,
-    };
-    this.breadcrumbs = this.breadcrumbs
-      .map((breadcrumb: any) => {
-        return {
-          ...breadcrumb,
-          isCurrent: breadcrumb.entry === item.entry,
-        };
-      })
-    const foundBreadcrumb = this.breadcrumbs
-      .find((breadcrumb: any) => breadcrumb.entry === item.entry);
-    const selectedBreadcrumbIndex = this.breadcrumbs
-      .indexOf(foundBreadcrumb);
-
-    if (selectedBreadcrumbIndex > 0) {
-      this.breadcrumbs.length = selectedBreadcrumbIndex + 1;
-    }
-
-    if (!foundBreadcrumb) {
-      this.breadcrumbs.push(item);
-    }
-  }
-
   public goToDetails(event: any): void {
     if (event.isCurrent) {
       return;
     }
-    if (event.router) {
+    if (event.href) {
       const queryParams = {
-        type: event.router.type,
-        path: event.router.path,
+        type: event.type,
+        path: event.path,
       };
-      this.router.navigate([event.router.href], { queryParams });
+      this.router.navigate([event.href], { queryParams });
       return;
     }
 
@@ -171,7 +134,7 @@ export class PlanService {
     const months = this.months;
     const subs$: Observable<any>[] = [];
     if (event.hasEntries) {
-      this.formBreadcrumbs(event);
+      this.breadcrumbsService.formBreadcrumbs(event, this.dataLabels);
 
       const dataSource = [];
       months.map((month: any, index: number) => {

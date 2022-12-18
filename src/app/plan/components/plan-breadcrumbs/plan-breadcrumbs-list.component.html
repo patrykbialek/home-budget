@@ -1,0 +1,14 @@
+<ul class="c-breadcrumbs-list u-text-tiny u-margin-none">
+  <ng-container *ngFor="let breadcrumb of breadcrumbs; let last = last;">
+    <li class="c-breadcrumbs-list__item">
+      <a (click)="onGoToDetails(breadcrumb)"
+        class="u-clickme"
+        [ngClass]="{
+          'c-breadcrumbs-list__item--current': breadcrumb.isCurrent
+        }">{{ breadcrumb.label }}</a>
+      <span *ngIf="!last" class="c-breadcrumbs-list__item-separator u-margin-left-tiny u-margin-right-tiny">
+        <mat-icon class="c-breadcrumbs-list__item-separator-icon u-text-tiny">keyboard_arrow_right</mat-icon>
+      </span>
+    </li>
+  </ng-container>
+</ul>

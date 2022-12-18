@@ -194,6 +194,18 @@ $mq-breakpoints: (
   justify-content: center;
 }
 
+.u-pointme {
+  cursor: default;
+}
+
 .u-clickme {
   cursor: pointer;
+  transition: 250ms ease-in-out;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+
+  &:hover {
+    cursor: pointer;
+    text-decoration-color: #616161;
+  }
 }

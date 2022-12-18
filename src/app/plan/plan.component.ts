@@ -16,13 +16,11 @@ import { PlanHttpService } from './services/plan-http.service';
 export class PlanComponent implements OnInit {
   public navLinks: model.NavLink[] = config.navLinks;
   public windowSize$ = this.sharedUtilsService.windowSize$;
-  public breadcrumbsState$: Observable<string[]> =
-    this.planService.breadcrumbsState$;
 
   constructor(
+    private readonly planHttpService: PlanHttpService,
     private readonly planService: PlanService,
     private readonly sharedUtilsService: SharedUtilsService,
-    private readonly plansService: PlanHttpService
   ) {}
 
   public ngOnInit(): void {
@@ -31,7 +29,7 @@ export class PlanComponent implements OnInit {
 
   public initiatePlan(): void {
     const year: string = '2023';
-    this.plansService.initiatePlan(year);
+    this.planHttpService.initiatePlan(year);
   }
 
   public create(): void {
@@ -42,6 +40,6 @@ export class PlanComponent implements OnInit {
       entries: {},
       path: `/2023/${uid}`,
     };
-    this.plansService.createPlan(payload);
+    this.planHttpService.createPlan(payload);
   }
 }

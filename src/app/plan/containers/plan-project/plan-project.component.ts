@@ -34,8 +34,6 @@ export class PlanProjectComponent implements OnInit {
     this.dataSource = this.planService.defaultDataSource;
     this.activatedRoute.url.subscribe((response: any) => this.planType = response[0].path)
 
-    this.clearBreadcrumbsState();
-
     const sourcePath: string = `${this.year}/entries`;
     this.readData(sourcePath);
   }
@@ -53,10 +51,9 @@ export class PlanProjectComponent implements OnInit {
     return this.planService.dataLabels;
   }
 
-  private clearBreadcrumbsState(): void {
-    setTimeout(() => {
-      this.planService.clearBreadcrumbsState();
-    });
+  public readData(sourcePath: string): void {
+    this.planService.readData(sourcePath)
+      .subscribe((data: any) => this.formData(data));
   }
 
   private formData(data?: any): void {
@@ -120,10 +117,5 @@ export class PlanProjectComponent implements OnInit {
       },
       0
     );
-  }
-
-  public readData(sourcePath: string): void {
-    this.planService.readData(sourcePath)
-      .subscribe((data: any) => this.formData(data));
   }
 }
