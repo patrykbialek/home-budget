@@ -1,16 +1,11 @@
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 
 import { Injectable } from '@angular/core';
 import { PlanHttpService } from './plan-http.service';
-
-export interface DataLabels {
-  [key: string]: string;
-}
-
-export interface DataLabel {
-  key: string;
-  value: string;
-}
+import { tap } from 'rxjs/operators';
+import { DataProperty } from '../plan.enum';
+import { ActivatedRoute, Router } from '@angular/router';
+import { DataLabels, DataLabel } from '../plan.model';
 
 const commonLabels: string[] = ['month', 'monthId', 'order', 'path', 'total'];
 
@@ -34,7 +29,11 @@ export class PlanService {
 
   private main: string = 'plan';
 
-  constructor(private readonly planHttpService: PlanHttpService) { }
+  constructor(
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly planHttpService: PlanHttpService,
+    private readonly router: Router,
+    ) { }
 
   public get months(): any[] {
     return this.planHttpService.months;
@@ -154,6 +153,93 @@ export class PlanService {
       this.breadcrumbs.push(item);
     }
   }
+
+  public goToDetails(event: any): void {
+    if (event.isCurrent) {
+      return;
+    }
+    if (event.router) {
+      const queryParams = {
+        type: event.router.type,
+        path: event.router.path,
+      };
+      this.router.navigate([event.router.href], { queryParams });
+      return;
+    }
+
+    const sourcePath = `${event.path}`;
+    const months = this.months;
+    const subs$: Observable<any>[] = [];
+    if (event.hasEntries) {
+      this.formBreadcrumbs(event);
+
+      const dataSource = [];
+      months.map((month: any, index: number) => {
+        const path = sourcePath.replace('month', month.key);
+        subs$.push(this.readDataByType(path)
+          .pipe(
+            tap((entries: any[]) => {
+              const foundEntry = entries.find(entry => entry.key === event.entry);
+              let dataItem = {
+                month: month.value,
+                monthId: month.key,
+                order: index,
+                path: `${path}/${event.entry}/entries`,
+                total: 0,
+              };
+
+              if (index === 11) {
+                const dataLabel: DataLabel = {
+                  key: foundEntry.key,
+                  value: foundEntry.label
+                };
+                this.setDataLabel(dataLabel)
+              }
+
+              let total: number = 0;
+              Object.keys(foundEntry.entries).forEach((key) => {
+                total += foundEntry.entries[key].total;
+                dataItem = {
+                  ...dataItem,
+                  [key]: {
+                    total: foundEntry.entries[key].total,
+                    label: foundEntry.entries[key].label,
+                    hasEntries: Boolean(foundEntry.entries[key].entries),
+                  },
+                };
+              });
+
+              dataItem = {
+                ...dataItem,
+                total,
+              };
+
+              dataSource.push(dataItem);
+            }))
+        )
+      });
+
+      combineLatest(subs$).subscribe(() => {
+        this.dataSource = dataSource;
+        this.dataColumns = [];
+        this.displayedColumns = [];
+        this.setDataLabelsAndColumns(this.dataSource[0]);
+        this.dataColumns = this.dataColumns.filter((dataColumn: string) => dataColumn !== 'hasEntries');
+        this.setDisplayedColumns();
+      });
+    }
+  }
+
+  private setDisplayedColumns(): void {
+    this.displayedColumns.push(DataProperty.month);
+    this.displayedColumns.push(DataProperty.total);
+    this.displayedColumns = this.displayedColumns.concat([
+      ...new Set(this.dataColumns),
+    ]);
+  }
+
+  public dataSource: any = [];
+  public displayedColumns: any = [];
 
   private setDataColumns(labels: DataLabel[]): void {
     this.dataColumns = labels.map((label: any) => label.key);

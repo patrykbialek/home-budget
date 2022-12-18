@@ -124,3 +124,12 @@ export interface PlanCommonEntryEntry {
   label: string;
   value: number;
 }
+
+export interface DataLabels {
+  [key: string]: string;
+}
+
+export interface DataLabel {
+  key: string;
+  value: string;
+}

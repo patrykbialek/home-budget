@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DataLabels, PlanService } from '@home-budget/plan/services/plan.service';
+import { PlanService } from '@home-budget/plan/services/plan.service';
 
 import * as config from '../../plan.config';
 import * as model from '../../plan.model';
@@ -49,7 +49,7 @@ export class PlanProjectComponent implements OnInit {
     });
   }
 
-  public get dataLabels(): DataLabels {
+  public get dataLabels(): model.DataLabels {
     return this.planService.dataLabels;
   }
 
