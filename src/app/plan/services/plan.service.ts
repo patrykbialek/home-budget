@@ -30,6 +30,7 @@ export class PlanService {
   };
   public dataColumns: string[];
   public breadcrumbs: any[] = [];
+  public defaultDataSource: any[] = [];
 
   private main: string = 'plan';
 
@@ -90,12 +91,41 @@ export class PlanService {
   }
 
   public setCommonDataLables(): void {
-    this.setDataLabel({ key: 'execution', value: 'Wykonanie' })
-    this.setDataLabel({ key: 'expenses', value: 'Wydatki' })
-    this.setDataLabel({ key: 'incomes', value: 'Przychody' })
-    this.setDataLabel({ key: 'month', value: 'Miesiąc' })
-    this.setDataLabel({ key: 'project', value: 'Projekt' })
-    this.setDataLabel({ key: 'total', value: 'Razem' })
+    this.setDataLabel({ key: 'execution', value: 'Wykonanie' });
+    this.setDataLabel({ key: 'expenses', value: 'Wydatki' });
+    this.setDataLabel({ key: 'incomes', value: 'Przychody' });
+    this.setDataLabel({ key: 'month', value: 'Miesiąc' });
+    this.setDataLabel({ key: 'project', value: 'Projekt' });
+    this.setDataLabel({ key: 'total', value: 'Razem' });
+    this.setDataLabel({ key: 'jan', value: 'Styczeń' });
+    this.setDataLabel({ key: 'feb', value: 'Luty' });
+    this.setDataLabel({ key: 'mar', value: 'Marzec' });
+    this.setDataLabel({ key: 'apr', value: 'Kwiecień' });
+    this.setDataLabel({ key: 'may', value: 'Maj' });
+    this.setDataLabel({ key: 'jun', value: 'Czerwiec' });
+    this.setDataLabel({ key: 'jul', value: 'Lipiec' });
+    this.setDataLabel({ key: 'aug', value: 'Sierpień' });
+    this.setDataLabel({ key: 'sep', value: 'Wrzesień' });
+    this.setDataLabel({ key: 'oct', value: 'Październik' });
+    this.setDataLabel({ key: 'nov', value: 'Listopad' });
+    this.setDataLabel({ key: 'dec', value: 'Grudzień' });
+  }
+
+  public setDefaultDataSource(): void {
+    this.defaultDataSource = [
+      { month: 'jan', total: 0 },
+      { month: 'feb', total: 0 },
+      { month: 'mar', total: 0 },
+      { month: 'apr', total: 0 },
+      { month: 'may', total: 0 },
+      { month: 'jun', total: 0 },
+      { month: 'jul', total: 0 },
+      { month: 'aug', total: 0 },
+      { month: 'sep', total: 0 },
+      { month: 'oct', total: 0 },
+      { month: 'nov', total: 0 },
+      { month: 'dec', total: 0 },
+    ];
   }
 
   public formBreadcrumbs(event: any): void {

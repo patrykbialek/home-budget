@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DataProperty } from '@home-budget/plan/plan.enum';
-import { PlanService } from '@home-budget/plan/services/plan.service';
+import { DataLabels, PlanService } from '@home-budget/plan/services/plan.service';
 
 import * as config from '../../plan.config';
 import * as model from '../../plan.model';
@@ -14,37 +13,44 @@ import * as model from '../../plan.model';
 export class PlanProjectComponent implements OnInit {
   public displayedColumns: string[] = config.planColumns;
   public dataSource: any[] = [];
-  public dataSourceIncomes: any[] = [];
   public dataSourceExpenses: any[] = [];
+  public dataSourceIncomes: any[] = [];
   public total: number = 0;
 
-  private main: string = 'plan';
-  private year: string = '2023';
-  private plan: string = 'project';
   private planType: string;
+  private readonly main: string = 'plan';
+  private readonly year: string = '2023';
 
   constructor(
+    private readonly activatedRoute: ActivatedRoute,
     private readonly planService: PlanService,
     private readonly router: Router,
-    private readonly activatedRoute: ActivatedRoute,
-  ) {}
+  ) { }
 
   public ngOnInit(): void {
+    this.planService.setCommonDataLables();
+    this.planService.setDefaultDataSource();
+    this.displayedColumns = ['month', 'incomes', 'expenses', 'rest', 'increase'];
+    this.dataSource = this.planService.defaultDataSource;
+    this.activatedRoute.url.subscribe((response: any) => this.planType = response[0].path)
+
     this.clearBreadcrumbsState();
 
-    const sourcePath: string = `2023/entries`;
+    const sourcePath: string = `${this.year}/entries`;
     this.readData(sourcePath);
-
-    this.activatedRoute.url.subscribe((response: any)=> this.planType = response[0].path)
   }
 
   public goToDetails(event: model.GoToDetails): void {
-    this.router.navigate([`./plan/${this.planType}/details`], {
+    this.router.navigate([`./${this.main}/${this.planType}/details`], {
       queryParams: {
-        type: event.type,
         path: `${event.path}`,
+        type: event.type,
       },
     });
+  }
+
+  public get dataLabels(): DataLabels {
+    return this.planService.dataLabels;
   }
 
   private clearBreadcrumbsState(): void {
@@ -54,13 +60,12 @@ export class PlanProjectComponent implements OnInit {
   }
 
   private formData(data?: any): void {
-    this.dataSource = [];
-    this.dataSource = data
+    const dataSource: any[] = data
       .map((entry: any) => {
-        let expenses: number = this.calculateTotal(
+        const expenses: number = this.calculateTotal(
           this.formEntry(entry, 'expenses')
         );
-        let incomes: number = this.calculateTotal(
+        const incomes: number = this.calculateTotal(
           this.formEntry(entry, 'incomes')
         );
 
@@ -68,9 +73,9 @@ export class PlanProjectComponent implements OnInit {
           expenses,
           incomes,
           increase: 0,
-          month: entry.label,
+          month: entry.key,
           order: entry.order,
-          path: '2023/entries/month/entries/project',
+          path: `${this.year}/entries/month/entries/${this.planType}`,
           rest: 0,
         };
       })
@@ -93,14 +98,14 @@ export class PlanProjectComponent implements OnInit {
         return array;
       }, []);
 
+    this.dataSource = dataSource;
     this.formDataSourceTotal();
   }
 
   private calculateTotal(data: any): number {
     let total: number = 0;
-    Object.keys(data).forEach((key: string) => {
-      total += data[key].total;
-    });
+    Object.keys(data)
+      .forEach((key: string) => total += data[key].total);
     return total;
   }
 
@@ -118,8 +123,7 @@ export class PlanProjectComponent implements OnInit {
   }
 
   public readData(sourcePath: string): void {
-    this.planService.readData(sourcePath).subscribe((data: any) => {
-      this.formData(data);
-    });
+    this.planService.readData(sourcePath)
+      .subscribe((data: any) => this.formData(data));
   }
 }
