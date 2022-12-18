@@ -14,7 +14,7 @@
               'c-column-number': column !== 'month',
               'u-border-right': column === 'month' || column === 'total'
             }">
-            <span *ngIf="column === 'month'">{{ element[column] }}</span>
+            <span *ngIf="column === 'month'">{{ dataLabels[element[column]] }}</span>
             <span *ngIf="column === 'total'">{{ element[column] | number: '.2-2' }}</span>
             <span *ngIf="column !== 'month' || column !== 'total'"
               class="u-pointme"

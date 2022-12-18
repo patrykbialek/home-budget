@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router, UrlSegment } from '@angular/router';
 
 import * as config from '../../plan.config';
 import { DataProperty } from '../../plan.enum';
@@ -48,23 +48,23 @@ export class PlanProjectDetailsComponent implements OnDestroy, OnInit {
     return this.planService.dataLabels;
   }
 
-  public get breadcrumbs(): any[] {
+  public get breadcrumbs(): BreadcrumbsItem[] {
     return this.breadcrumbsService.breadcrumbs;
   }
 
-  public get dataSource(): any[] {
+  public get dataSource(): model.DataSourceDetails[] {
     return this.planService.dataSource;
   }
 
-  public get dataColumns(): any[] {
+  public get dataColumns(): string[] {
     return this.planService.dataColumns;
   }
 
-  public get displayedColumns(): any[] {
+  public get displayedColumns(): string[] {
     return this.planService.displayedColumns;
   }
 
-  public goToDetails(event: any): void {
+  public goToDetails(event: model.PlanEntry): void {
     this.planService.goToDetails(event);
   }
 
@@ -73,7 +73,7 @@ export class PlanProjectDetailsComponent implements OnDestroy, OnInit {
       this.activatedRoute.url,
       this.activatedRoute.queryParams,
     ])
-      .subscribe((response) => {
+      .subscribe((response: [UrlSegment[], model.QueryParamsResponse]) => {
         if (response && response[1].path) {
           this.addMainBreadcrumb(response[0][0].path);
           this.goToDetails(this.formMainEntry(response[1]));
@@ -88,7 +88,7 @@ export class PlanProjectDetailsComponent implements OnDestroy, OnInit {
       });
   }
 
-  private formMainEntry(params: any): any {
+  private formMainEntry(params: model.RouteParam): model.PlanEntry {
     return {
       entry: params.type,
       hasEntries: true,

@@ -1,3 +1,5 @@
+import { UrlSegment } from '@angular/router';
+
 export interface PlanGraphConfig {
   backgroundColor: string;
   borderColor: string;
@@ -99,7 +101,7 @@ export interface PlanMonthEntry {
   expenses: PlanMonthEntryExpenses;
 }
 
-export interface PlanMonthEntryExpenses {}
+export interface PlanMonthEntryExpenses { }
 
 export interface PlanMonthEntryIncomes {
   label: string;
@@ -132,4 +134,50 @@ export interface DataLabels {
 export interface DataLabel {
   key: string;
   value: string;
+  order?: number;
+}
+
+export interface DataSourceSummary {
+  expenses: number;
+  incomes: number;
+  increase: number;
+  month: string;
+  rest: number;
+}
+
+export interface DataSourceDetails {
+  month: string;
+  total: number;
+  order?: number;
+  path?: string;
+}
+
+export interface DataSourceDetailsEntry {
+  hasEntries: boolean;
+  label: string;
+  total: number;
+}
+
+export interface PlanEntry {
+  entry: string;
+  hasEntries: boolean;
+  path: string;
+  href?: string;
+  isCurrent?: boolean;
+  label?: string;
+  month?: string;
+}
+
+export interface UrlResponse {
+  segments: UrlSegment;
+}
+
+export interface QueryParamsResponse {
+  path: string;
+  type: string;
+}
+
+export interface RouteParam {
+  path: string;
+  type: string;
 }
