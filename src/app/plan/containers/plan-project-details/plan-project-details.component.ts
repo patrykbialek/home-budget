@@ -32,8 +32,8 @@ export class PlanProjectDetailsComponent implements OnDestroy, OnInit {
 
   constructor(
     public dialog: MatDialog,
-    private readonly planService: PlanService,
     private readonly activatedRoute: ActivatedRoute,
+    private readonly planService: PlanService,
     private readonly router: Router
   ) { }
 
@@ -47,6 +47,11 @@ export class PlanProjectDetailsComponent implements OnDestroy, OnInit {
   }
 
   public ngOnInit(): void {
+    this.planService.setCommonDataLables();
+    this.planService.setDefaultDataSource();
+    this.displayedColumns = ['month', 'total'];
+    this.dataSource = this.planService.defaultDataSource;
+
     combineLatest([
       this.activatedRoute.url,
       this.activatedRoute.queryParams,

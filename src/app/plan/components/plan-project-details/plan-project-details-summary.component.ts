@@ -14,9 +14,9 @@ import { PlanService } from '@home-budget/plan/services/plan.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlanProjectDetailsSummaryComponent {
-  @Input() public dataLabels: { [key: string]: string };
-  @Input() public dataSource: any;
-  @Input() public displayedColumns: string[];
+  @Input() public readonly dataLabels: { [key: string]: string };
+  @Input() public readonly dataSource: any[];
+  @Input() public readonly displayedColumns: string[];
 
   @Output() public goToDetails: EventEmitter<any> = new EventEmitter();
 
@@ -31,7 +31,7 @@ export class PlanProjectDetailsSummaryComponent {
     });
     const event = {
       entry,
-      type: 'expenses', // element.type,
+      type: element.type,
       month: element.month,
       monthId: element.monthId,
       path: element.path,

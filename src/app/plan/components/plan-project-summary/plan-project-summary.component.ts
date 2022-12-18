@@ -9,6 +9,7 @@ import * as model from '../../plan.model';
 })
 export class PlanProjectSummaryComponent {
 
+  @Input() public readonly dataLabels: { [key: string]: string };
   @Input() public readonly dataSource: model.PlanProject[];
   @Input() public readonly displayedColumns: string[];
   @Input() public readonly total: number;

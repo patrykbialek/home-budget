@@ -1,7 +1,6 @@
 <mat-card class="c-plan-project__card">
   <mat-card-content>
     <table mat-table [dataSource]="dataSource" class="u-margin-bottom">
-
       <ng-container *ngFor="let column of displayedColumns">
         <ng-container [matColumnDef]="column">
           <th mat-header-cell *matHeaderCellDef class="c-column-text u-padding-right-small"

@@ -78,7 +78,7 @@ export class PlanHttpService {
         value: 'Wrzesień',
       },
       {
-        key: 'oc',
+        key: 'oct',
         value: 'Październik',
       },
       {
