@@ -84,6 +84,15 @@ export const monthLabel: model.MonthLabel = {
   },
 };
 
+export const labels: model.DataLabel[] = [
+  { key: 'execution', value: 'Wykonanie' },
+  { key: 'expenses', value: 'Wydatki' },
+  { key: 'incomes', value: 'Przychody' },
+  { key: 'month', value: 'Miesiąc' },
+  { key: 'project', value: 'Projekt' },
+  { key: 'total', value: 'Razem' },
+];
+
 export const planColumns: string[] = [
   'month', 'incomes', 'expenses', 'rest', 'increase',
 ];

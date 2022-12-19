@@ -1,17 +1,25 @@
-<h2 mat-dialog-title>Edycja | {{ monthLabel }} > {{ 'PLAN.Project.Details.' + category | translate | titlecase }}</h2>
+<h2 mat-dialog-title>
+  Edycja
+  <span class="u-margin-left-tiny u-margin-right-tiny">
+    <mat-icon class="c-title__separator u-text-tiny">keyboard_arrow_right</mat-icon>
+  </span>
+  {{ dataLabels[monthControl.value] | titlecase }}
+  <span class="u-margin-left-tiny u-margin-right-tiny">
+    <mat-icon class="c-title__separator u-text-tiny">keyboard_arrow_right</mat-icon>
+  </span>
+  {{ dataLabels[entryControl.value] | titlecase }}</h2>
 <mat-dialog-content>
   <form [formGroup]="form">
     <div class="o-grid o-grid--auto o-grid--start u-text-normal">
       <div class="o-grid__cell">
-        <mat-form-field class="u-border-bottom u-margin-bottom" appearance="outline" style="width: 100%;">
+        <mat-form-field appearance="outline" style="width: 100%;">
           <mat-label>{{ 'Razem' | titlecase }}</mat-label>
           <input matInput
             formControlName="total"
             type="number"
-            readonly
             class="u-type-number u-text-right-align">
         </mat-form-field>
-        <div formArrayName="entries">
+        <!-- <div formArrayName="entries">
           <ng-container *ngFor="let control of entries.controls let i = index;">
             <div [formGroupName]="i">
               <mat-form-field appearance="outline" style="width: 100%;">
@@ -22,7 +30,7 @@
               </mat-form-field>
             </div>
           </ng-container>
-        </div>
+        </div> -->
       </div>
     </div>
   </form>

@@ -62,3 +62,12 @@ input.u-type-number {
 ::ng-deep .mat-dialog-container {
   width: 400px!important;
 }
+
+.mat-dialog-actions {
+  margin-bottom: -12px;
+}
+
+.c-title__separator {
+  width: 12px;
+  height: 12px;
+}

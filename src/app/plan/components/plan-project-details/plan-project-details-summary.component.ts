@@ -2,11 +2,13 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  HostListener,
   Input,
+  OnChanges,
   Output,
+  SimpleChanges,
 } from "@angular/core";
 import { DataLabels, DataSourceDetails, DataSourceDetailsEntry, PlanEntry } from '@home-budget/plan/plan.model';
-import { PlanService } from '@home-budget/plan/services/plan.service';
 
 @Component({
   selector: "hb-plan-project-details-summary",
@@ -19,7 +21,30 @@ export class PlanProjectDetailsSummaryComponent {
   @Input() public readonly dataSource: DataSourceDetails[];
   @Input() public readonly displayedColumns: string[];
 
+  @Output() public editPlanEntry: EventEmitter<PlanEntry> = new EventEmitter();
   @Output() public goToDetails: EventEmitter<PlanEntry> = new EventEmitter();
+
+  @HostListener('contextmenu', ['$event'])
+  onRightClick(event) {
+    event.preventDefault();
+  }
+
+  public onEditPlanEntry(element: DataSourceDetails, elementValue: DataSourceDetailsEntry): void {
+    let entry: string;
+    Object.keys(element).forEach((key: string) => {
+      if (element[key] === elementValue) {
+        entry = key;
+      }
+    });
+    const planEntry: PlanEntry = {
+      entry,
+      hasEntries: elementValue.hasEntries,
+      month: element.month,
+      path: element.path,
+      total: elementValue.total,
+    };
+    this.editPlanEntry.emit(planEntry);
+  }
 
   public onGoToDetails(element: DataSourceDetails, elementValue: DataSourceDetailsEntry): void {
     let entry: string;
@@ -33,6 +58,7 @@ export class PlanProjectDetailsSummaryComponent {
       hasEntries: elementValue.hasEntries,
       month: element.month,
       path: element.path,
+      total: elementValue.total,
     };
     this.goToDetails.emit(planEntry);
   }

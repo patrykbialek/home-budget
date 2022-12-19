@@ -13,16 +13,15 @@ export class PlanProjectDetailsFormComponent {
   public form: FormGroup;
   public monthLabel: string;
   public category: string;
+  public dataLabels: any;
 
   constructor(
     public dialogRef: MatDialogRef<PlanProjectDetailsFormComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data: { form: FormGroup; monthLabel: string, category: string; },
+    public data: { form: FormGroup; dataLabels: any; },
   ) {
     this.form = this.data.form;
-    this.monthLabel = this.data.monthLabel;
-    this.category = this.data.category;
-    this.subscribeToColumnFormChanes();
+    this.dataLabels = this.data.dataLabels;
   }
 
   private subscribeToColumnFormChanes(): void {
@@ -44,11 +43,19 @@ export class PlanProjectDetailsFormComponent {
   }
 
   public save(): void {
-    this.dialogRef.close({ category: this.category, form: this.form });
+    this.dialogRef.close({ form: this.form });
   }
 
   public get entries(): FormArray {
     return this.form.get(DataProperty.entries) as FormArray;
+  }
+
+  public get entryControl(): FormControl {
+    return this.form.get('entry') as FormControl;
+  }
+
+  public get monthControl(): FormControl {
+    return this.form.get(DataProperty.month) as FormControl;
   }
 
   private get totalControl(): FormControl {

@@ -1,10 +1,6 @@
-<!-- <hb-plan-project-details-form
-  [columns]="columns"
-  [form]="form"
-  [monthId]="monthId"></hb-plan-project-details-form> -->
-
 <hb-plan-project-details-summary
   [dataLabels]="dataLabels"
   [dataSource]="dataSource"
   [displayedColumns]="displayedColumns"
+  (editPlanEntry)="editPlanEntry($event)"
   (goToDetails)="goToDetails($event)"></hb-plan-project-details-summary>

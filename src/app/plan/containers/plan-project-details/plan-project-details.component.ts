@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router, UrlSegment } from '@angular/router';
@@ -18,7 +18,6 @@ import { BreadcrumbsItem } from '../plan-breadcrumbs/plan-breadcrumbs.model';
 })
 export class PlanProjectDetailsComponent implements OnDestroy, OnInit {
   public form: FormGroup;
-  public isLoading: boolean;
   public month: string;
 
   private isDataLoaded: boolean;
@@ -64,6 +63,14 @@ export class PlanProjectDetailsComponent implements OnDestroy, OnInit {
     return this.planService.displayedColumns;
   }
 
+  public get isLoading(): boolean {
+    return this.planService.isLoading;
+  }
+
+  public editPlanEntry(event: model.PlanEntry): void {
+    this.planService.editPlanEntry(event);
+  }
+
   public goToDetails(event: model.PlanEntry): void {
     this.planService.goToDetails(event);
   }
@@ -93,7 +100,7 @@ export class PlanProjectDetailsComponent implements OnDestroy, OnInit {
       entry: params.type,
       hasEntries: true,
       path: `${params.path}/entries`,
-    }
+    };
   }
 
   private addMainBreadcrumb(entry: string): void {

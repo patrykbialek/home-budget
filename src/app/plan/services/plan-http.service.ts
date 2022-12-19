@@ -29,6 +29,13 @@ export class PlanHttpService {
     return of(db.update(year, value));
   }
 
+  updateEntry(total: number, updatePath: string, uuid: string) {
+    const uid: string = 'Pmj8IO7zkJeFDmtqSYHzE0A38in1';
+    const path: string = `/workspaces/${uid}/plans/${updatePath}`;
+    const db: AngularFireList<any> = this.db.list(path);
+    return of(db.update(uuid, { total }));
+  }
+
   createPlan(payload: any) {
     const uid: string = 'Pmj8IO7zkJeFDmtqSYHzE0A38in1';
     const path: string = `/workspaces/${uid}/plans`;
