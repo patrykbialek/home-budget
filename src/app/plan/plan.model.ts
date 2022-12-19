@@ -166,6 +166,7 @@ export interface PlanEntry {
   isCurrent?: boolean;
   label?: string;
   month?: string;
+  total?: number;
 }
 
 export interface UrlResponse {

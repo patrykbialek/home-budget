@@ -2,11 +2,15 @@ import { combineLatest, Observable } from 'rxjs';
 
 import { Injectable } from '@angular/core';
 import { PlanHttpService } from './plan-http.service';
-import { tap } from 'rxjs/operators';
+import { filter, take, tap } from 'rxjs/operators';
 import { DataProperty } from '../plan.enum';
 import { Router } from '@angular/router';
 import { DataLabels, DataLabel, DataSourceDetails, PlanEntry } from '../plan.model';
 import { BreadcrumbsService } from './breadcrumbs.service';
+import { labels, monthLabel, planType } from '../plan.config';
+import { FormControl, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { PlanProjectDetailsFormComponent } from '../components';
 
 const commonLabels: string[] = ['month', 'monthId', 'order', 'path', 'total'];
 
@@ -26,10 +30,13 @@ export class PlanService {
   public dataSource: DataSourceDetails[] = [];
   public defaultDataSource: DataSourceDetails[] = [];
   public displayedColumns: string[] = [];
+  public isLoading: boolean;
 
+  private parentPlanEntry: PlanEntry;
   private readonly main: string = 'plan';
 
   constructor(
+    public dialog: MatDialog,
     private readonly breadcrumbsService: BreadcrumbsService,
     private readonly planHttpService: PlanHttpService,
     private readonly router: Router,
@@ -70,28 +77,20 @@ export class PlanService {
     this.dataLabels = {
       ...this.dataLabels,
       [label.key]: label.value,
-    }
+    };
   }
 
   public setCommonDataLables(): void {
-    this.setDataLabel({ key: 'execution', value: 'Wykonanie' });
-    this.setDataLabel({ key: 'expenses', value: 'Wydatki' });
-    this.setDataLabel({ key: 'incomes', value: 'Przychody' });
-    this.setDataLabel({ key: 'month', value: 'Miesiąc' });
-    this.setDataLabel({ key: 'project', value: 'Projekt' });
-    this.setDataLabel({ key: 'total', value: 'Razem' });
-    this.setDataLabel({ key: 'jan', value: 'Styczeń' });
-    this.setDataLabel({ key: 'feb', value: 'Luty' });
-    this.setDataLabel({ key: 'mar', value: 'Marzec' });
-    this.setDataLabel({ key: 'apr', value: 'Kwiecień' });
-    this.setDataLabel({ key: 'may', value: 'Maj' });
-    this.setDataLabel({ key: 'jun', value: 'Czerwiec' });
-    this.setDataLabel({ key: 'jul', value: 'Lipiec' });
-    this.setDataLabel({ key: 'aug', value: 'Sierpień' });
-    this.setDataLabel({ key: 'sep', value: 'Wrzesień' });
-    this.setDataLabel({ key: 'oct', value: 'Październik' });
-    this.setDataLabel({ key: 'nov', value: 'Listopad' });
-    this.setDataLabel({ key: 'dec', value: 'Grudzień' });
+    Object.keys(monthLabel).forEach((monthKey: string) => {
+      this.setDataLabel({
+        key: monthLabel[monthKey].id,
+        value: monthLabel[monthKey].long,
+      });
+    });
+
+    labels.forEach((label: DataLabel) => {
+      this.setDataLabel(label);
+    });
   }
 
   public setDefaultDataSource(): void {
@@ -111,10 +110,18 @@ export class PlanService {
     ];
   }
 
+  public editPlanEntry(planEntry: PlanEntry): void {
+    const form: FormGroup = this.setFormData(planEntry);
+    this.openDialog(form);
+  }
+
   public goToDetails(planEntry: PlanEntry): void {
+    this.parentPlanEntry = planEntry;
+
     if (planEntry.isCurrent) {
       return;
     }
+
     if (planEntry.href) {
       this.router.navigate([planEntry.href]);
       return;
@@ -127,11 +134,14 @@ export class PlanService {
       this.breadcrumbsService.formBreadcrumbs(planEntry, this.dataLabels);
 
       const dataSource: DataSourceDetails[] = [];
-      months.map((month: DataLabel, index: number) => {
-        const path: string = sourcePath
-          .replace('jan', 'month')
-          .replace('month', month.key);
-        subs$.push(this.readDataByType(path)
+      let path: string = sourcePath;
+      months.forEach((month: DataLabel) => {
+        path = path.replace(month.key, 'month');
+      });
+
+      months.forEach((month: DataLabel, index: number) => {
+        const replacedPath = path.replace('month', month.key);
+        subs$.push(this.readDataByType(replacedPath)
           .pipe(
             tap((entries: any[]) => {
               planEntry = {
@@ -142,7 +152,7 @@ export class PlanService {
               let dataItem: DataSourceDetails = {
                 month: month.key,
                 order: index,
-                path: `${path}/${planEntry.entry}/entries`,
+                path: `${replacedPath}/${planEntry.entry}/entries`,
                 total: 0,
               };
 
@@ -166,20 +176,44 @@ export class PlanService {
 
               dataSource.push(dataItem);
             }))
-        )
+        );
       });
 
-      combineLatest(subs$).subscribe(() => {
-        this.dataSource = dataSource;
-        this.dataColumns = [];
-        this.displayedColumns = [];
-        this.setDataLabelsAndColumns(this.dataSource[0]);
-        this.dataColumns = this.dataColumns.filter((dataColumn: string) => dataColumn !== 'hasEntries');
-        this.setDisplayedColumns();
-
-        console.log(this.dataSource)
-      });
+      combineLatest(subs$)
+        .pipe(take(1))
+        .subscribe(() => {
+          this.dataSource = [...new Set(dataSource)];
+          dataSource.length = 0;
+          this.dataColumns = [];
+          this.displayedColumns = [];
+          this.setDataLabelsAndColumns(this.dataSource[0]);
+          this.dataColumns = this.dataColumns.filter((dataColumn: string) => dataColumn !== 'hasEntries');
+          this.setDisplayedColumns();
+        });
     }
+  }
+
+  openDialog(form: FormGroup): void {
+    const dialogRef = this.dialog.open(PlanProjectDetailsFormComponent, {
+      data: { form, dataLabels: this.dataLabels },
+    });
+
+    dialogRef.afterClosed()
+      .pipe(filter((result: { form: FormGroup; }) => Boolean(result)))
+      .subscribe((result: { form: FormGroup; }) => {
+        const { total, path, entry } = result.form.value;
+        this.updateEntry(total, path, entry);
+      });
+  }
+
+  private updateEntry(total: number, path: string, entry: string): void {
+    this.planHttpService.updateEntry(total, path, entry)
+      .pipe(take(1))
+      .subscribe(() => {
+        setTimeout(() => {
+          this.goToDetails(this.parentPlanEntry);
+        });
+      });
   }
 
   private setDisplayedColumns(): void {
@@ -199,6 +233,18 @@ export class PlanService {
       this.dataLabels,
       ...labels.map((item) => ({ [item.key]: item.value }))
     );
+  }
+
+  public form: FormGroup;
+
+  private setFormData(planEntry: PlanEntry): FormGroup {
+    const form: FormGroup = new FormGroup({
+      entry: new FormControl(planEntry.entry),
+      month: new FormControl(planEntry.month),
+      path: new FormControl(planEntry.path),
+      total: new FormControl(planEntry.total),
+    });
+    return form;
   }
 
 }
