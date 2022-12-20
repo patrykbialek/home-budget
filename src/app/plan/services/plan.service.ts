@@ -161,7 +161,7 @@ export class PlanService {
                 month: month.key,
                 order: index,
                 path: `${replacedPath}/${planEntry.entry}/entries`,
-                total: 0,
+                total: foundEntry.total,
               };
 
               let total: number = 0;
