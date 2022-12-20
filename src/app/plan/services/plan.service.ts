@@ -1,8 +1,8 @@
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, forkJoin, Observable, Subject } from 'rxjs';
 
 import { Injectable } from '@angular/core';
 import { PlanHttpService } from './plan-http.service';
-import { filter, take, tap } from 'rxjs/operators';
+import { delay, filter, take, takeUntil, tap } from 'rxjs/operators';
 import { DataProperty } from '../plan.enum';
 import { Router } from '@angular/router';
 import { DataLabels, DataLabel, DataSourceDetails, PlanEntry } from '../plan.model';
@@ -48,6 +48,10 @@ export class PlanService {
 
   public readData(sourcePath: string): Observable<any> {
     return this.planHttpService.readData(sourcePath);
+  }
+
+  public readDataByTypeObject(sourcePath: string): Observable<any> {
+    return this.planHttpService.readDataByTypeObject(sourcePath);
   }
 
   public readDataByType(sourcePath: string): Observable<any> {
@@ -112,7 +116,7 @@ export class PlanService {
 
   public editPlanEntry(planEntry: PlanEntry): void {
     const form: FormGroup = this.setFormData(planEntry);
-    this.openDialog(form);
+    this.openDialog(form, planEntry);
   }
 
   public goToDetails(planEntry: PlanEntry): void {
@@ -137,6 +141,10 @@ export class PlanService {
       let path: string = sourcePath;
       months.forEach((month: DataLabel) => {
         path = path.replace(month.key, 'month');
+        this.parentPlanEntry = {
+          ...this.parentPlanEntry,
+          path: this.parentPlanEntry.path.replace(month.key, 'month'),
+        };
       });
 
       months.forEach((month: DataLabel, index: number) => {
@@ -171,6 +179,7 @@ export class PlanService {
 
               dataItem = {
                 ...dataItem,
+                parentPath: `${replacedPath}`,
                 total,
               };
 
@@ -193,7 +202,7 @@ export class PlanService {
     }
   }
 
-  openDialog(form: FormGroup): void {
+  openDialog(form: FormGroup, planEntry: PlanEntry): void {
     const dialogRef = this.dialog.open(PlanProjectDetailsFormComponent, {
       data: { form, dataLabels: this.dataLabels },
     });
@@ -202,18 +211,55 @@ export class PlanService {
       .pipe(filter((result: { form: FormGroup; }) => Boolean(result)))
       .subscribe((result: { form: FormGroup; }) => {
         const { total, path, entry } = result.form.value;
-        this.updateEntry(total, path, entry);
+        this.updateEntry(total, path, entry, planEntry);
       });
   }
 
-  private updateEntry(total: number, path: string, entry: string): void {
+  private updateEntry(total: number, path: string, entry: string, planEntry: PlanEntry): void {
     this.planHttpService.updateEntry(total, path, entry)
       .pipe(take(1))
       .subscribe(() => {
         setTimeout(() => {
           this.goToDetails(this.parentPlanEntry);
         });
+        this.updateParentTotals(path);
       });
+  }
+
+  private updateParentTotals(path: string): void {
+    let newPath: any[] = path.split('/');
+    const len: number = ((newPath.length - 6));
+    const subs$ = [];
+    for (let i = 0; i < len; i++) {
+      newPath = newPath.slice(0, -1);
+
+      if (newPath[newPath.length - 1] !== 'entries') {
+        const path = newPath.join('/').split('/').slice(0, -1).join('/');
+        subs$.push(
+          this.readDataByTypeObject(newPath.join('/'))
+            .pipe(
+              take(len / 2),
+              tap((response: any) => {
+                if (response.key !== 'entries') {
+                  let total = 0;
+                  const entries = response.value.entries;
+                  Object.keys(entries)
+                    .forEach((entryKey: string) => {
+                      total += entries[entryKey].total;
+                    });
+                  this.updateParentEntry(total, path, response.key);
+                }
+              })
+            )
+        );
+      }
+    }
+    forkJoin(subs$).subscribe();
+  }
+
+  private updateParentEntry(total: number, path: string, entry: string): void {
+    this.planHttpService.updateEntry(total, path, entry)
+      .pipe(take(1)).subscribe();
   }
 
   private setDisplayedColumns(): void {

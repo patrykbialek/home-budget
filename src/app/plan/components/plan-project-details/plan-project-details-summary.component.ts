@@ -29,23 +29,6 @@ export class PlanProjectDetailsSummaryComponent {
     event.preventDefault();
   }
 
-  public onEditPlanEntry(element: DataSourceDetails, elementValue: DataSourceDetailsEntry): void {
-    let entry: string;
-    Object.keys(element).forEach((key: string) => {
-      if (element[key] === elementValue) {
-        entry = key;
-      }
-    });
-    const planEntry: PlanEntry = {
-      entry,
-      hasEntries: elementValue.hasEntries,
-      month: element.month,
-      path: element.path,
-      total: elementValue.total,
-    };
-    this.editPlanEntry.emit(planEntry);
-  }
-
   public onGoToDetails(element: DataSourceDetails, elementValue: DataSourceDetailsEntry): void {
     let entry: string;
     Object.keys(element).forEach((key: string) => {
@@ -60,6 +43,9 @@ export class PlanProjectDetailsSummaryComponent {
       path: element.path,
       total: elementValue.total,
     };
-    this.goToDetails.emit(planEntry);
+
+    elementValue.hasEntries
+      ? this.goToDetails.emit(planEntry)
+      : this.editPlanEntry.emit(planEntry);
   }
 }
