@@ -38,6 +38,7 @@ export class PlanDetailsSummaryComponent {
       entry,
       hasEntries: elementValue.hasEntries,
       month: element.month,
+      notes: elementValue.notes,
       path: element.path,
       total: elementValue.total,
     };

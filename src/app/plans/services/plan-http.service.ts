@@ -29,11 +29,11 @@ export class PlanHttpService {
     return of(db.update(year, value));
   }
 
-  updateEntry(total: number, updatePath: string, uuid: string): Observable<any> {
+  updateEntry(total: number, updatePath: string, uuid: string, notes: string = ''): Observable<any> {
     const uid: string = 'Pmj8IO7zkJeFDmtqSYHzE0A38in1';
     const path: string = `/workspaces/${uid}/plans/${updatePath}`;
     const db: AngularFireList<any> = this.db.list(path);
-    return of(db.update(uuid, { total }));
+    return of(db.update(uuid, { total, notes }));
   }
 
   createPlan(payload: any) {
