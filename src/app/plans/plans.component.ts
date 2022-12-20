@@ -3,17 +3,17 @@ import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { SharedUtilsService } from '@shared/services/shared-utils.service';
 
-import * as config from './plan.config';
-import * as model from './plan.model';
+import * as config from './plans.config';
+import * as model from './plans.model';
 import { PlanService } from './services/plan.service';
 import { PlanHttpService } from './services/plan-http.service';
 
 @Component({
-  selector: 'hb-plan',
-  templateUrl: './plan.component.html',
-  styleUrls: ['./plan.component.scss'],
+  selector: 'hb-plans',
+  templateUrl: './plans.component.html',
+  styleUrls: ['./plans.component.scss'],
 })
-export class PlanComponent implements OnInit {
+export class PlansComponent implements OnInit {
   public navLinks: model.NavLink[] = config.navLinks;
   public windowSize$ = this.sharedUtilsService.windowSize$;
 

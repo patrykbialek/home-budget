@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { BreadcrumbsItem } from '../containers/plan-breadcrumbs/plan-breadcrumbs.model';
-import { DataLabels, PlanEntry } from '../plan.model';
+import { DataLabels, PlanEntry } from '../plans.model';
 
 @Injectable({ providedIn: 'root' })
 export class BreadcrumbsService {

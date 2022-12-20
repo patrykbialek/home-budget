@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList, AngularFireObject } from '@angular/fire/database';
 import { AuthenticationHttpService } from '@home-budget/authentication/services';
 import * as fromModels from '@home-budget/transactions/models';
-import { DataLabel } from '../plan.model';
+import { DataLabel } from '../plans.model';
 
 @Injectable({
   providedIn: 'root',

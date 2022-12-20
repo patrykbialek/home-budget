@@ -1,4 +1,4 @@
-import * as model from './plan.model';
+import * as model from './plans.model';
 
 export const chartOption: model.ChartOption = {
   color: {

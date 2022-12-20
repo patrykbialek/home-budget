@@ -12,12 +12,12 @@ import { MY_FORMATS } from '@transactions/transactions.module';
 
 import * as fromComponents from './components';
 import * as fromContainers from './containers';
-import { PlanRoutingModule } from './plan-routing.module';
-import { PlanComponent } from './plan.component';
+import { PlanRoutingModule } from './plans-routing.module';
+import { PlansComponent } from './plans.component';
 
 @NgModule({
   declarations: [
-    PlanComponent,
+    PlansComponent,
     ...fromComponents.components,
     ...fromContainers.components,
   ],
@@ -41,4 +41,4 @@ import { PlanComponent } from './plan.component';
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
 })
-export class PlanModule { }
+export class PlansModule { }

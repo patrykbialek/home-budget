@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { BreadcrumbsItem } from '@home-budget/plan/containers/plan-breadcrumbs/plan-breadcrumbs.model';
-import { PlanEntry } from '@home-budget/plan/plan.model';
+import { BreadcrumbsItem } from '../../../plans/containers/plan-breadcrumbs/plan-breadcrumbs.model';
 
 @Component({
   selector: 'hb-plan-breadcrumbs-list',

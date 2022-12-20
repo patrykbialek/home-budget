@@ -1,15 +1,15 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import * as model from '../../plan.model';
+import * as model from '../../plans.model';
 
 @Component({
-  selector: 'hb-plan-project-summary',
-  templateUrl: './plan-project-summary.component.html',
-  styleUrls: ['./plan-project-summary.component.scss']
+  selector: 'hb-plan-summary',
+  templateUrl: './plan-summary.component.html',
+  styleUrls: ['./plan-summary.component.scss']
 })
-export class PlanProjectSummaryComponent {
+export class PlanSummaryComponent {
 
-  @Input() public readonly dataLabels: { [key: string]: string };
+  @Input() public readonly dataLabels: { [key: string]: string; };
   @Input() public readonly dataSource: model.PlanProject[];
   @Input() public readonly displayedColumns: string[];
   @Input() public readonly total: number;

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { PlanEntry } from '@home-budget/plan/plan.model';
-import { PlanService } from '@home-budget/plan/services/plan.service';
+import { PlanEntry } from '../../../plans/plans.model';
+import { PlanService } from '../../../plans/services/plan.service';
 import { BreadcrumbsService } from '../../services/breadcrumbs.service';
 import { BreadcrumbsItem } from './plan-breadcrumbs.model';
 

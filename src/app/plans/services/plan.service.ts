@@ -3,14 +3,14 @@ import { combineLatest, forkJoin, Observable, Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { PlanHttpService } from './plan-http.service';
 import { delay, filter, take, takeUntil, tap } from 'rxjs/operators';
-import { DataProperty } from '../plan.enum';
+import { DataProperty } from '../plans.enum';
 import { Router } from '@angular/router';
-import { DataLabels, DataLabel, DataSourceDetails, PlanEntry } from '../plan.model';
+import { DataLabels, DataLabel, DataSourceDetails, PlanEntry } from '../plans.model';
 import { BreadcrumbsService } from './breadcrumbs.service';
-import { labels, monthLabel, planType } from '../plan.config';
+import { labels, monthLabel, planType } from '../plans.config';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { PlanProjectDetailsFormComponent } from '../components';
+import { PlanDetailsFormComponent } from '../components';
 
 const commonLabels: string[] = ['month', 'monthId', 'order', 'path', 'total'];
 
@@ -203,7 +203,7 @@ export class PlanService {
   }
 
   openDialog(form: FormGroup, planEntry: PlanEntry): void {
-    const dialogRef = this.dialog.open(PlanProjectDetailsFormComponent, {
+    const dialogRef = this.dialog.open(PlanDetailsFormComponent, {
       data: { form, dataLabels: this.dataLabels },
     });
 
