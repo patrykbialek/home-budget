@@ -3,20 +3,20 @@ import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router, UrlSegment } from '@angular/router';
 
-import * as config from '../../plan.config';
-import { DataProperty } from '../../plan.enum';
-import * as model from '../../plan.model';
+import * as config from '../../plans.config';
+import { DataProperty } from '../../plans.enum';
+import * as model from '../../plans.model';
 import { combineLatest } from 'rxjs';
-import { PlanService } from '@home-budget/plan/services/plan.service';
-import { BreadcrumbsService } from '@home-budget/plan/services/breadcrumbs.service';
 import { BreadcrumbsItem } from '../plan-breadcrumbs/plan-breadcrumbs.model';
+import { BreadcrumbsService } from '../../../plans/services/breadcrumbs.service';
+import { PlanService } from '../../../plans/services/plan.service';
 
 @Component({
-  selector: 'hb-plan-project-details',
-  templateUrl: './plan-project-details.component.html',
-  styleUrls: ['./plan-project-details.component.scss'],
+  selector: 'hb-plan-details',
+  templateUrl: './plan-details.component.html',
+  styleUrls: ['./plan-details.component.scss'],
 })
-export class PlanProjectDetailsComponent implements OnDestroy, OnInit {
+export class PlanDetailsComponent implements OnDestroy, OnInit {
   public form: FormGroup;
   public month: string;
 
@@ -108,7 +108,7 @@ export class PlanProjectDetailsComponent implements OnDestroy, OnInit {
       entry,
       label: this.dataLabels[entry],
       hasEntries: true,
-      href: `./plan/${entry}`,
+      href: `./plans/${entry}`,
       isCurrent: false,
       path: null,
     };

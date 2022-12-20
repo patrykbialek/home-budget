@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PlanService } from '@home-budget/plan/services/plan.service';
 
-import * as config from '../../plan.config';
-import * as model from '../../plan.model';
+import * as config from '../../plans.config';
+import * as model from '../../plans.model';
+import { PlanService } from '../../services/plan.service';
 
 @Component({
-  selector: 'hb-plan-project',
-  templateUrl: './plan-project.component.html',
-  styleUrls: ['./plan-project.component.scss'],
+  selector: 'hb-plan',
+  templateUrl: './plan.component.html',
+  styleUrls: ['./plan.component.scss'],
 })
-export class PlanProjectComponent implements OnInit {
+export class PlanComponent implements OnInit {
   public displayedColumns: string[] = config.planColumns;
   public dataSource: any[] = [];
   public dataSourceExpenses: any[] = [];
@@ -19,7 +19,7 @@ export class PlanProjectComponent implements OnInit {
   public total: number = 0;
 
   private planType: string;
-  private readonly main: string = 'plan';
+  private readonly main: string = 'plans';
   private readonly year: string = '2023';
 
   constructor(
@@ -33,7 +33,7 @@ export class PlanProjectComponent implements OnInit {
     this.planService.setDefaultDataSource();
     this.displayedColumns = ['month', 'incomes', 'expenses', 'rest', 'increase'];
     this.dataSource = this.planService.defaultDataSource;
-    this.activatedRoute.url.subscribe((response: any) => this.planType = response[0].path)
+    this.activatedRoute.url.subscribe((response: any) => this.planType = response[0].path);
 
     const sourcePath: string = `${this.year}/entries`;
     this.readData(sourcePath);

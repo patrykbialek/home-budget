@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import * as config from '../../plan.config';
-import * as model from '../../plan.model';
+import * as config from '../../plans.config';
+import * as model from '../../plans.model';
 
 const planChartOption: Partial<model.PlanGraphConfig> = {
   backgroundColor: config.chartOption.color.transparent,
@@ -12,11 +12,11 @@ const planChartOption: Partial<model.PlanGraphConfig> = {
 };
 
 @Component({
-  selector: 'hb-plan-project-graph',
-  templateUrl: './plan-project-graph.component.html',
-  styleUrls: ['./plan-project-graph.component.scss']
+  selector: 'hb-plan-graph',
+  templateUrl: './plan-graph.component.html',
+  styleUrls: ['./plan-graph.component.scss']
 })
-export class PlanProjectGraphComponent implements OnInit {
+export class PlanGraphComponent implements OnInit {
 
   public chartLabels: Array<string>;
   public chartType: string = 'line';

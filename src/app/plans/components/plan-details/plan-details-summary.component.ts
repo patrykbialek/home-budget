@@ -4,19 +4,17 @@ import {
   EventEmitter,
   HostListener,
   Input,
-  OnChanges,
   Output,
-  SimpleChanges,
-} from "@angular/core";
-import { DataLabels, DataSourceDetails, DataSourceDetailsEntry, PlanEntry } from '@home-budget/plan/plan.model';
+} from '@angular/core';
+import { DataLabels, DataSourceDetails, DataSourceDetailsEntry, PlanEntry } from '../../../plans/plans.model';
 
 @Component({
-  selector: "hb-plan-project-details-summary",
-  templateUrl: "./plan-project-details-summary.component.html",
-  styleUrls: ["./plan-project-details-summary.component.scss"],
+  selector: 'hb-plan-details-summary',
+  templateUrl: './plan-details-summary.component.html',
+  styleUrls: ['./plan-details-summary.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PlanProjectDetailsSummaryComponent {
+export class PlanDetailsSummaryComponent {
   @Input() public readonly dataLabels: DataLabels;
   @Input() public readonly dataSource: DataSourceDetails[];
   @Input() public readonly displayedColumns: string[];

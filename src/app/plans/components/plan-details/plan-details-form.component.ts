@@ -1,22 +1,22 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { DataProperty } from '@home-budget/plan/plan.enum';
+import { DataProperty } from '../../../plans/plans.enum';
 
 @Component({
   selector: 'hb-plan-project-details-form',
-  templateUrl: './plan-project-details-form.component.html',
-  styleUrls: ['./plan-project-details-form.component.scss'],
+  templateUrl: './plan-details-form.component.html',
+  styleUrls: ['./plan-details-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PlanProjectDetailsFormComponent {
+export class PlanDetailsFormComponent {
   public form: FormGroup;
   public monthLabel: string;
   public category: string;
   public dataLabels: any;
 
   constructor(
-    public dialogRef: MatDialogRef<PlanProjectDetailsFormComponent>,
+    public dialogRef: MatDialogRef<PlanDetailsFormComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: { form: FormGroup; dataLabels: any; },
   ) {
