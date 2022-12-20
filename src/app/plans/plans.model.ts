@@ -148,6 +148,7 @@ export interface DataSourceSummary {
 export interface DataSourceDetails {
   month: string;
   total: number;
+  notes?: string;
   order?: number;
   parentPath?: string;
   path?: string;
@@ -156,6 +157,7 @@ export interface DataSourceDetails {
 export interface DataSourceDetailsEntry {
   hasEntries: boolean;
   label: string;
+  notes: string;
   total: number;
 }
 
@@ -167,6 +169,7 @@ export interface PlanEntry {
   isCurrent?: boolean;
   label?: string;
   month?: string;
+  notes?: string;
   parentPath?: string;
   total?: number;
 }

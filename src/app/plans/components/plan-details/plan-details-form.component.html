@@ -20,6 +20,11 @@
             onfocus="this.select();"
             class="u-type-number u-text-right-align">
         </mat-form-field>
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>{{ 'Notatki' | titlecase }}</mat-label>
+          <input matInput
+            formControlName="notes">
+        </mat-form-field>
         <!-- <div formArrayName="entries">
           <ng-container *ngFor="let control of entries.controls let i = index;">
             <div [formGroupName]="i">

@@ -15,6 +15,8 @@
             <span *ngIf="column === 'month'">{{ dataLabels[element[column]] }}</span>
             <span *ngIf="column === 'total'">{{ element[column] | number: '.2-2' }}</span>
             <span *ngIf="column !== 'month' || column !== 'total'" class="u-clickme"
+              [matTooltip]="element[column]?.notes" matTooltipPosition="right"
+              [matTooltipDisabled]="!element[column]?.notes"
               (click)="onGoToDetails(element, element[column])">{{ element[column]?.total | number: '.2-2' }}</span>
           </td>
         </ng-container>

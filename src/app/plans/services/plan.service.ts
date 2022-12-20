@@ -165,17 +165,20 @@ export class PlanService {
               };
 
               let total: number = 0;
-              Object.keys(foundEntry.entries).forEach((key: string) => {
-                total += foundEntry.entries[key].total;
-                dataItem = {
-                  ...dataItem,
-                  [key]: {
-                    total: foundEntry.entries[key].total,
-                    label: foundEntry.entries[key].label,
-                    hasEntries: Boolean(foundEntry.entries[key].entries),
-                  },
-                };
-              });
+              Object.keys(foundEntry.entries)
+                .forEach((key: string) => {
+                  total += foundEntry.entries[key].total;
+                  console.log(foundEntry)
+                  dataItem = {
+                    ...dataItem,
+                    [key]: {
+                      label: foundEntry.entries[key].label,
+                      notes: foundEntry.entries[key].notes,
+                      total: foundEntry.entries[key].total,
+                      hasEntries: Boolean(foundEntry.entries[key].entries),
+                    },
+                  };
+                });
 
               dataItem = {
                 ...dataItem,
@@ -198,11 +201,13 @@ export class PlanService {
           this.setDataLabelsAndColumns(this.dataSource[0]);
           this.dataColumns = this.dataColumns.filter((dataColumn: string) => dataColumn !== 'hasEntries');
           this.setDisplayedColumns();
+
+          console.log(this.dataSource);
         });
     }
   }
 
-  openDialog(form: FormGroup, planEntry: PlanEntry): void {
+  public openDialog(form: FormGroup, planEntry: PlanEntry): void {
     const dialogRef = this.dialog.open(PlanDetailsFormComponent, {
       data: { form, dataLabels: this.dataLabels },
     });
@@ -210,13 +215,13 @@ export class PlanService {
     dialogRef.afterClosed()
       .pipe(filter((result: { form: FormGroup; }) => Boolean(result)))
       .subscribe((result: { form: FormGroup; }) => {
-        const { total, path, entry } = result.form.value;
-        this.updateEntry(total, path, entry, planEntry);
+        const { total, path, entry, notes } = result.form.value;
+        this.updateEntry(total, path, entry, notes, planEntry);
       });
   }
 
-  private updateEntry(total: number, path: string, entry: string, planEntry: PlanEntry): void {
-    this.planHttpService.updateEntry(total, path, entry)
+  private updateEntry(total: number, path: string, entry: string, notes: string, planEntry: PlanEntry): void {
+    this.planHttpService.updateEntry(total, path, entry, notes)
       .pipe(take(1))
       .subscribe(() => {
         setTimeout(() => {
@@ -287,6 +292,7 @@ export class PlanService {
     const form: FormGroup = new FormGroup({
       entry: new FormControl(planEntry.entry),
       month: new FormControl(planEntry.month),
+      notes: new FormControl(planEntry.notes),
       path: new FormControl(planEntry.path),
       total: new FormControl(planEntry.total),
     });
