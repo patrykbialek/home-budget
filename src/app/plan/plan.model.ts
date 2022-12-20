@@ -149,6 +149,7 @@ export interface DataSourceDetails {
   month: string;
   total: number;
   order?: number;
+  parentPath?: string;
   path?: string;
 }
 
@@ -166,6 +167,7 @@ export interface PlanEntry {
   isCurrent?: boolean;
   label?: string;
   month?: string;
+  parentPath?: string;
   total?: number;
 }
 

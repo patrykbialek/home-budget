@@ -3,7 +3,7 @@ import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
+import { AngularFireDatabase, AngularFireList, AngularFireObject } from '@angular/fire/database';
 import { AuthenticationHttpService } from '@home-budget/authentication/services';
 import * as fromModels from '@home-budget/transactions/models';
 import { DataLabel } from '../plan.model';
@@ -29,7 +29,7 @@ export class PlanHttpService {
     return of(db.update(year, value));
   }
 
-  updateEntry(total: number, updatePath: string, uuid: string) {
+  updateEntry(total: number, updatePath: string, uuid: string): Observable<any> {
     const uid: string = 'Pmj8IO7zkJeFDmtqSYHzE0A38in1';
     const path: string = `/workspaces/${uid}/plans/${updatePath}`;
     const db: AngularFireList<any> = this.db.list(path);
@@ -480,21 +480,37 @@ export class PlanHttpService {
     );
   }
 
+  readDataByTypeObject(sourcePath: string): Observable<any> {
+    const uid: string = 'Pmj8IO7zkJeFDmtqSYHzE0A38in1';
+    const path: string = `/workspaces/${uid}/plans/${sourcePath}`;
+    const db: AngularFireObject<any> = this.db.object(path);
+    return db.snapshotChanges()
+      .pipe(
+        map((changes) => {
+          return {
+            key: changes.payload.key,
+            value: changes.payload.val(),
+          };
+        }),
+      );
+  }
+
   readDataByType(sourcePath: string): Observable<any> {
     const uid: string = 'Pmj8IO7zkJeFDmtqSYHzE0A38in1';
     const path: string = `/workspaces/${uid}/plans/${sourcePath}`;
     const db: AngularFireList<any> = this.db.list(path);
-    return db.snapshotChanges().pipe(
-      map((changes) =>
-        changes.map((change) => ({
-          key: change.payload.key,
-          ...change.payload.val(),
-        }))
-      ),
-      map((items) => {
-        return items.sort(this.compare);
-      })
-    );
+    return db.snapshotChanges()
+      .pipe(
+        map((changes) =>
+          changes.map((change) => ({
+            key: change.payload.key,
+            ...change.payload.val(),
+          }))
+        ),
+        map((items) => {
+          return items.sort(this.compare);
+        })
+      );
   }
 
   readTransactions(params: fromModels.TransactionParams) {
