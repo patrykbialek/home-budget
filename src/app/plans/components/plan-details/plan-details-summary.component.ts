@@ -17,6 +17,7 @@ import { DataLabels, DataSourceDetails, DataSourceDetailsEntry, PlanEntry } from
 export class PlanDetailsSummaryComponent {
   @Input() public readonly dataLabels: DataLabels;
   @Input() public readonly dataSource: DataSourceDetails[];
+  @Input() public readonly dataSourceFooter: DataSourceDetails;
   @Input() public readonly displayedColumns: string[];
 
   @Output() public editPlanEntry: EventEmitter<PlanEntry> = new EventEmitter();
