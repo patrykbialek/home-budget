@@ -23,7 +23,7 @@ export interface ChartOptionColor {
   transparent: string;
 }
 
-export interface PlanProject {
+export interface Plan {
   expenses: number;
   incomes: number;
   increase: number;
@@ -82,13 +82,13 @@ export interface TransactionType {
   [key: string]: Item;
 }
 
-export interface Plan {
-  [key: string]: PlanTypee;
-}
+// export interface Plan {
+//   [key: string]: PlanTypee;
+// }
 
-export interface PlanTypee {
-  project: PlanMonth;
-}
+// export interface PlanTypee {
+//   project: PlanMonth;
+// }
 
 export interface PlanMonth {
   label: string;

@@ -20,19 +20,19 @@ export class PlanGraphComponent implements OnInit {
 
   public chartLabels: Array<string>;
   public chartType: string = 'line';
-  public data: model.PlanProjectGraphData;
+  public data: model.PlanGraphData;
   public incomesExpensesDatasets: Array<Partial<model.PlanGraphConfig>> = [];
   public incomesExpensesOptions: any;
   public increaseDatasets: Array<Partial<model.PlanGraphConfig>> = [];
   public increaseOptions: any;
 
-  @Input() public readonly dataSource: model.PlanProject[];
+  @Input() public readonly dataSource: model.Plan[];
 
   public ngOnInit(): void {
     this.data = {
-      expenses: this.dataSource.map((data: model.PlanProject) => data.expenses),
-      incomes: this.dataSource.map((data: model.PlanProject) => data.incomes),
-      increase: this.dataSource.map((data: model.PlanProject) => data.increase),
+      expenses: this.dataSource.map((data: model.Plan) => data.expenses),
+      incomes: this.dataSource.map((data: model.Plan) => data.incomes),
+      increase: this.dataSource.map((data: model.Plan) => data.increase),
     };
     this.chartLabels = Object.keys(config.monthLabel)
       .map((key: string) => config.monthLabel[key].short);

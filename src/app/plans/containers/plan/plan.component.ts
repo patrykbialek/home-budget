@@ -112,12 +112,12 @@ export class PlanComponent implements OnInit {
   }
 
   private formEntry(entry: any, node: string): any {
-    return entry.entries.project.entries[node].entries;
+    return entry.entries[this.planType].entries[node].entries;
   }
 
   private formDataSourceTotal(): void {
     this.total = this.dataSource.reduce(
-      (previousValue: number, entity: model.PlanProject) => {
+      (previousValue: number, entity: model.Plan) => {
         return previousValue + entity.rest;
       },
       0
