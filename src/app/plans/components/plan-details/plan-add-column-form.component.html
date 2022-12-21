@@ -1,0 +1,25 @@
+<h2 mat-dialog-title>Dodaj kolumnę</h2>
+<form [formGroup]="form" (ngSubmit)="save()">
+  <mat-dialog-content>
+    <div class="o-grid o-grid--auto o-grid--start u-text-normal">
+      <div class="o-grid__cell">
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>{{ 'Eytkieta' | titlecase }}</mat-label>
+          <input matInput
+            formControlName="label"
+            onfocus="this.select()">
+        </mat-form-field>
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>{{ 'Pozycja' | titlecase }}</mat-label>
+          <input matInput
+            formControlName="order"
+            type="number">
+        </mat-form-field>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" [mat-dialog-close]="null">Anuluj</button>
+    <button mat-button type="submit" (click)="save()">Zapisz</button>
+  </mat-dialog-actions>
+</form>

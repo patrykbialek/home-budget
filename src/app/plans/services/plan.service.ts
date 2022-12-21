@@ -10,9 +10,10 @@ import { BreadcrumbsService } from './breadcrumbs.service';
 import { labels, monthLabel, planType } from '../plans.config';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { PlanDetailsFormComponent } from '../components';
+import { PlanAddColumnFormComponent, PlanDetailsFormComponent } from '../components';
+import { BreadcrumbsItem } from '../containers/plan-breadcrumbs/plan-breadcrumbs.model';
 
-const commonLabels: string[] = ['month', 'monthId', 'order', 'path', 'total'];
+const commonLabels: string[] = ['month', 'monthId', 'order', 'path', 'parentPath', 'total'];
 
 @Injectable({ providedIn: 'root' })
 export class PlanService {
@@ -32,6 +33,7 @@ export class PlanService {
   public defaultDataSource: DataSourceDetails[] = [];
   public displayedColumns: string[] = [];
   public isLoading: boolean;
+  public form: FormGroup;
 
   private parentPlanEntry: PlanEntry;
   private readonly main: string = 'plan';
@@ -120,6 +122,26 @@ export class PlanService {
     this.openDialog(form, planEntry);
   }
 
+  public get currentEntries(): any {
+    return this.breadcrumbsService.breadcrumbs
+      .filter((breadcrumb: BreadcrumbsItem) => breadcrumb.isCurrent)
+      .map((breadcrumb: BreadcrumbsItem) => {
+        return {
+          entry: breadcrumb.entry,
+          path: `${breadcrumb.path}/${breadcrumb.entry}/entries`,
+        };
+      })[0];
+  }
+
+  public addColumn(): void {
+    const form: FormGroup = new FormGroup({
+      label: new FormControl(),
+      order: new FormControl(),
+    });
+
+    this.openAddColumnDialog(form);
+  }
+
   public goToDetails(planEntry: PlanEntry): void {
     this.parentPlanEntry = planEntry;
 
@@ -152,6 +174,7 @@ export class PlanService {
         const replacedPath = path.replace('month', month.key);
         subs$.push(this.readDataByType(replacedPath)
           .pipe(
+            take(1),
             tap((entries: any[]) => {
               planEntry = {
                 ...planEntry,
@@ -174,6 +197,7 @@ export class PlanService {
                     [key]: {
                       label: foundEntry.entries[key].label,
                       notes: foundEntry.entries[key].notes,
+                      order: foundEntry.entries[key].order,
                       total: foundEntry.entries[key].total,
                       hasEntries: Boolean(foundEntry.entries[key].entries),
                     },
@@ -192,7 +216,6 @@ export class PlanService {
       });
 
       combineLatest(subs$)
-        .pipe(take(1))
         .subscribe(() => {
           this.dataSource = [...new Set(dataSource)];
           this.setDataSourceFooter();
@@ -264,6 +287,60 @@ export class PlanService {
       });
   }
 
+  public openAddColumnDialog(form: FormGroup): void {
+    const dialogRef = this.dialog.open(PlanAddColumnFormComponent, {
+      data: { form },
+    });
+
+    dialogRef.afterClosed()
+      .pipe(filter((result: { form: FormGroup; }) => Boolean(result)))
+      .subscribe((result: { form: FormGroup; }) => {
+        this.addColumnToAllMonths(result);
+      });
+  }
+
+  private addColumnToAllMonths(result: { form: FormGroup; }): void {
+    const payload = {
+      ...result.form.value,
+      isInTotal: true,
+      notes: null,
+      total: 0,
+    };
+
+    let path: string = this.currentEntries.path;
+    const entry: string = this.currentEntries.entry;
+    const subs$: Observable<any>[] = [];
+
+    const months: DataLabel[] = this.months;
+    months.forEach((month: DataLabel) => {
+      path = path.replace(month.key, 'month');
+    });
+
+    months.forEach((month: DataLabel) => {
+      const replacedPath = path.replace('month', month.key);
+      subs$.push(this.planHttpService.readEntriesObject(replacedPath)
+        .pipe(
+          take(1),
+          tap((entries: any) => {
+            const lastIndex: number = Object.keys(entries).length + 1;
+            const key: string = `${entry}${this.formattedNumber(lastIndex)}`;
+            entries = {
+              ...entries,
+              [key]: payload,
+            };
+
+            this.planHttpService.updateEntriesObject(replacedPath, entries);
+          }))
+      );
+    });
+
+    combineLatest(subs$).subscribe();
+  }
+
+  private formattedNumber(index: number): string {
+    return ('0' + index).slice(-2);
+  }
+
   private updateEntry(total: number, path: string, entry: string, notes: string, planEntry: PlanEntry): void {
     this.planHttpService.updateEntry(total, path, entry, notes)
       .pipe(take(1))
@@ -329,8 +406,6 @@ export class PlanService {
       ...labels.map((item) => ({ [item.key]: item.value }))
     );
   }
-
-  public form: FormGroup;
 
   private setFormData(planEntry: PlanEntry): FormGroup {
     const form: FormGroup = new FormGroup({

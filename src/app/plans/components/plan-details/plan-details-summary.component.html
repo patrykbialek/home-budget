@@ -1,5 +1,18 @@
 <mat-card class="c-plan-project__card">
   <mat-card-content>
+    <mat-card-actions align="end" class="u-margin-none u-margin-bottom-small u-padding-none">
+      <div>
+        <a mat-button color="green" (click)="onAddColumn()">
+          <mat-icon class="u-margin-right-tiny">add_circle_outline</mat-icon>
+          <span>Dodaj kolumnę</span>
+        </a>
+        <!-- <span class="u-border-left u-margin-left-tiny u-margin-right-tiny"></span> -->
+        <!-- <a mat-button color="red" [routerLink]="['./create']" [queryParams]="{ type: 'expense' }">
+          <mat-icon class="u-margin-right-tiny">remove_circle_outline</mat-icon>
+          <span>{{ 'TRANSACTIONS.Actions.AddExpense' | translate }}</span>
+        </a> -->
+      </div>
+    </mat-card-actions>
     <table mat-table [dataSource]="dataSource" class="u-margin-bottom">
       <ng-container *ngFor="let column of displayedColumns">
         <ng-container [matColumnDef]="column">

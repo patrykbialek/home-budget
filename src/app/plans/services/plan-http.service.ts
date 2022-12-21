@@ -1,12 +1,14 @@
 import * as moment from 'moment';
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList, AngularFireObject } from '@angular/fire/database';
 import { AuthenticationHttpService } from '@home-budget/authentication/services';
 import * as fromModels from '@home-budget/transactions/models';
 import { DataLabel } from '../plans.model';
+
+const uid: string = 'Pmj8IO7zkJeFDmtqSYHzE0A38in1';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +23,18 @@ export class PlanHttpService {
 
   // Create
 
+  updateEntriesObject(updatePath: string, playload: any) {
+    const path: string = `/workspaces/${uid}/plans/${updatePath}`;
+    const db: AngularFireObject<any> = this.db.object(path);
+    db.update(playload);
+  }
+
+  readEntriesObject(sourcePath: string):any {
+    const path: string = `/workspaces/${uid}/plans/${sourcePath}`;
+    const db: AngularFireObject<any> = this.db.object(path);
+    return db.valueChanges();
+  }
+
   initiatePlan(year: string) {
     const uid: string = 'Pmj8IO7zkJeFDmtqSYHzE0A38in1';
     const path: string = `/workspaces/${uid}/plans`;
@@ -30,14 +44,12 @@ export class PlanHttpService {
   }
 
   updateEntry(total: number, updatePath: string, uuid: string, notes: string = ''): Observable<any> {
-    const uid: string = 'Pmj8IO7zkJeFDmtqSYHzE0A38in1';
     const path: string = `/workspaces/${uid}/plans/${updatePath}`;
     const db: AngularFireList<any> = this.db.list(path);
     return of(db.update(uuid, { total, notes }));
   }
 
   createPlan(payload: any) {
-    const uid: string = 'Pmj8IO7zkJeFDmtqSYHzE0A38in1';
     const path: string = `/workspaces/${uid}/plans`;
     const db: AngularFireList<any> = this.db.list(path);
     const value = {

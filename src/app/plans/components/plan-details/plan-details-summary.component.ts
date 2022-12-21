@@ -20,12 +20,12 @@ export class PlanDetailsSummaryComponent {
   @Input() public readonly dataSourceFooter: DataSourceDetails;
   @Input() public readonly displayedColumns: string[];
 
+  @Output() public addColumn: EventEmitter<void> = new EventEmitter();
   @Output() public editPlanEntry: EventEmitter<PlanEntry> = new EventEmitter();
   @Output() public goToDetails: EventEmitter<PlanEntry> = new EventEmitter();
 
-  @HostListener('contextmenu', ['$event'])
-  onRightClick(event) {
-    event.preventDefault();
+  public onAddColumn(): void {
+    this.addColumn.emit();
   }
 
   public onGoToDetails(element: DataSourceDetails, elementValue: DataSourceDetailsEntry): void {

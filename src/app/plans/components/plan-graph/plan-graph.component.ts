@@ -20,7 +20,7 @@ export class PlanGraphComponent implements OnInit {
 
   public chartLabels: Array<string>;
   public chartType: string = 'line';
-  public data: model.PlanGraphData;
+  public data: any;
   public incomesExpensesDatasets: Array<Partial<model.PlanGraphConfig>> = [];
   public incomesExpensesOptions: any;
   public increaseDatasets: Array<Partial<model.PlanGraphConfig>> = [];
