@@ -28,6 +28,7 @@ export class PlanService {
     total: 'Razem',
   };
   public dataSource: DataSourceDetails[] = [];
+  public dataSourceFooter: DataSourceDetails;
   public defaultDataSource: DataSourceDetails[] = [];
   public displayedColumns: string[] = [];
   public isLoading: boolean;
@@ -194,6 +195,7 @@ export class PlanService {
         .pipe(take(1))
         .subscribe(() => {
           this.dataSource = [...new Set(dataSource)];
+          this.setDataSourceFooter();
           dataSource.length = 0;
           this.dataColumns = [];
           this.displayedColumns = [];
@@ -202,6 +204,51 @@ export class PlanService {
           this.setDisplayedColumns();
         });
     }
+  }
+
+  private setDataSourceFooter(): void {
+    const commonColumns: string[] = ['month', 'order', 'path', 'parentPath'];
+    let rowTotals = {
+      month: 'total',
+      total: 0,
+    };
+
+    // NOTE: build rowTotals object
+    Object.keys(this.dataSource[0])
+      .forEach((key: string) => {
+        if (!commonColumns.includes(key))
+          rowTotals = {
+            ...rowTotals,
+            [key]: key === 'total' ? 0 : { total: 0 },
+          };
+      });
+
+    // NOTE: calculate totals
+    this.dataSource.forEach((entry: DataSourceDetails) => {
+      Object.keys(entry).forEach((key: string) => {
+        if (entry[key].total >= 0) {
+          const total: number = rowTotals[key].total + entry[key].total;
+          rowTotals = {
+            ...rowTotals,
+            [key]: { total },
+          };
+        }
+      });
+    });
+
+    // NOTE: caclulate total of totals
+    Object.keys(rowTotals)
+      .forEach((key: string) => {
+        const total = !['month', 'total'].includes(key)
+          ? rowTotals.total + rowTotals[key].total
+          : 0;
+        rowTotals = {
+          ...rowTotals,
+          total,
+        };
+      });
+
+    this.dataSourceFooter = rowTotals;
   }
 
   public openDialog(form: FormGroup, planEntry: PlanEntry): void {

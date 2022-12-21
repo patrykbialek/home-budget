@@ -16,15 +16,28 @@
             <span *ngIf="column === 'total'">{{ element[column] | number: '.2-2' }}</span>
             <span *ngIf="column !== 'month' || column !== 'total'" class="u-clickme"
               [matTooltip]="element[column]?.notes" matTooltipPosition="right"
-              [matTooltipDisabled]="!element[column]?.notes"
-              (click)="onGoToDetails(element, element[column])">{{ element[column]?.total | number: '.2-2' }}</span>
+              [matTooltipDisabled]="!element[column]?.notes" (click)="onGoToDetails(element, element[column])">{{
+              element[column]?.total | number: '.2-2' }}</span>
+          </td>
+          <td mat-cell *matFooterCellDef class="c-column-text u-border-right u-padding-right-small" [ngClass]="{
+              'c-column-number': column !== 'month',
+              'u-border-right': column === 'month' || column === 'total'
+            }">
+            <span *ngIf="column === 'month'">{{ dataLabels[dataSourceFooter[column]] }}</span>
+            <span *ngIf="column === 'total'">{{ dataSourceFooter[column] | number: '.2-2' }}</span>
+            <span *ngIf="column !== 'month' || column !== 'total'" class="u-pointme"
+              [matTooltip]="dataSourceFooter[column]?.notes" matTooltipPosition="right"
+              [matTooltipDisabled]="!dataSourceFooter[column]?.notes">{{
+              dataSourceFooter[column]?.total | number: '.2-2' }}</span>
           </td>
         </ng-container>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns; let index = index"
-        [ngClass]="{'u-no-border': (index + 1) % 3 !== 0}"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns; let index = index; let last = last"
+        [ngClass]="{'u-no-border': (index + 1) % 3 !== 0 }"></tr>
+      <tr mat-footer-row *matFooterRowDef="displayedColumns"
+        class="u-no-border u-pointme" style="font-weight: bold"></tr>
     </table>
   </mat-card-content>
 </mat-card>

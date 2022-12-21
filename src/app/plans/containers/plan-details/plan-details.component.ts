@@ -55,6 +55,10 @@ export class PlanDetailsComponent implements OnDestroy, OnInit {
     return this.planService.dataSource;
   }
 
+  public get dataSourceFooter(): model.DataSourceDetails {
+    return this.planService.dataSourceFooter;
+  }
+
   public get dataColumns(): string[] {
     return this.planService.dataColumns;
   }
