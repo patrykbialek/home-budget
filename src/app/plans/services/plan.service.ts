@@ -168,7 +168,6 @@ export class PlanService {
               Object.keys(foundEntry.entries)
                 .forEach((key: string) => {
                   total += foundEntry.entries[key].total;
-                  console.log(foundEntry)
                   dataItem = {
                     ...dataItem,
                     [key]: {
@@ -201,8 +200,6 @@ export class PlanService {
           this.setDataLabelsAndColumns(this.dataSource[0]);
           this.dataColumns = this.dataColumns.filter((dataColumn: string) => dataColumn !== 'hasEntries');
           this.setDisplayedColumns();
-
-          console.log(this.dataSource);
         });
     }
   }

@@ -8,8 +8,8 @@
     <mat-icon class="c-title__separator u-text-tiny">keyboard_arrow_right</mat-icon>
   </span>
   {{ dataLabels[entryControl.value] | titlecase }}</h2>
-<mat-dialog-content>
-  <form [formGroup]="form">
+<form [formGroup]="form" (ngSubmit)="save()">
+  <mat-dialog-content>
     <div class="o-grid o-grid--auto o-grid--start u-text-normal">
       <div class="o-grid__cell">
         <mat-form-field appearance="outline" style="width: 100%;">
@@ -39,9 +39,9 @@
         </div> -->
       </div>
     </div>
-  </form>
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-button [mat-dialog-close]="null">Anuluj</button>
-  <button mat-button (click)="save()">Zapisz</button>
-</mat-dialog-actions>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" [mat-dialog-close]="null">Anuluj</button>
+    <button mat-button type="submit" (click)="save()">Zapisz</button>
+  </mat-dialog-actions>
+</form>

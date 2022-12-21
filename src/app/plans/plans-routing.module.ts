@@ -24,6 +24,10 @@ const routes: Routes = [
         path: 'project/details',
         component: fromContainers.PlanDetailsComponent,
       },
+      {
+        path: 'execution/details',
+        component: fromContainers.PlanDetailsComponent,
+      },
     ]
   },
 ];
