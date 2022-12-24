@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DataProperty } from '@home-budget/plans/plans.enum';
+import { Subscription } from 'rxjs';
 
 import * as config from '../../plans.config';
 import * as model from '../../plans.model';
@@ -10,15 +12,14 @@ import { PlanService } from '../../services/plan.service';
   templateUrl: './plan.component.html',
   styleUrls: ['./plan.component.scss'],
 })
-export class PlanComponent implements OnInit {
+export class PlanComponent implements OnDestroy, OnInit {
   public displayedColumns: string[] = config.planColumns;
-  public dataSource: any[] = [];
-  public dataSourceExpenses: any[] = [];
-  public dataSourceIncomes: any[] = [];
+  public dataSource: model.DataSourceSummary[] = config.defaultDataSource;
   public isLoading: boolean;
   public total: number = 0;
 
   private planType: string;
+  private subscription$: Subscription = new Subscription();
   private readonly main: string = 'plans';
   private readonly year: string = '2023';
 
@@ -28,15 +29,15 @@ export class PlanComponent implements OnInit {
     private readonly router: Router,
   ) { }
 
-  public ngOnInit(): void {
-    this.planService.setCommonDataLables();
-    this.planService.setDefaultDataSource();
-    this.displayedColumns = ['month', 'incomes', 'expenses', 'rest', 'increase'];
-    this.dataSource = this.planService.defaultDataSource;
-    this.activatedRoute.url.subscribe((response: any) => this.planType = response[0].path);
+  public ngOnDestroy(): void {
+    this.subscription$.unsubscribe();
+  }
 
-    const sourcePath: string = `${this.year}/entries`;
-    this.readData(sourcePath);
+  public ngOnInit(): void {
+    this.isLoading = true;
+    this.setCommonDataLables();
+    this.setPlanType();
+    this.readData();
   }
 
   public goToDetails(event: model.GoToDetails): void {
@@ -52,20 +53,31 @@ export class PlanComponent implements OnInit {
     return this.planService.dataLabels;
   }
 
-  public readData(sourcePath: string): void {
-    this.planService.readData(sourcePath)
-      .subscribe((data: any) => this.formData(data));
+  public readData(): void {
+    const sourcePath: string = `${this.year}/entries`;
+    this.subscription$.add(
+      this.planService.readData(sourcePath)
+        .subscribe((data: model.DataEntry[]) => this.formData(data))
+    );
   }
 
-  private formData(data?: any): void {
-    this.isLoading = true;
-    const dataSource: any[] = data
-      .map((entry: any) => {
+  private setCommonDataLables(): void {
+    this.planService.setCommonDataLables();
+  }
+
+  private setPlanType(): void {
+    this.activatedRoute.url
+      .subscribe((response: any) => this.planType = response[0].path);
+  }
+
+  private formData(data?: model.DataEntry[]): void {
+    this.dataSource = data
+      .map((entry: model.DataEntry) => {
         const expenses: number = this.calculateTotal(
-          this.formEntry(entry, 'expenses')
+          this.formEntry(entry, DataProperty.expenses)
         );
         const incomes: number = this.calculateTotal(
-          this.formEntry(entry, 'incomes')
+          this.formEntry(entry, DataProperty.incomes)
         );
 
         return {
@@ -78,17 +90,17 @@ export class PlanComponent implements OnInit {
           rest: 0,
         };
       })
-      .sort((first: any, last: any) => first.order - last.order)
-      .map((entry: any) => {
+      .sort((first: model.DataSourceSummary, last: model.DataSourceSummary) => first.order - last.order)
+      .map((entry: model.DataSourceSummary) => {
         delete entry.order;
         return {
           ...entry,
           rest: entry.incomes - entry.expenses,
         };
       })
-      .reduce((array: any[], entity: any, index: number) => {
-        const currentEntity = { ...entity };
-        const previousEntity = array[index - 1];
+      .reduce((array: model.DataSourceSummary[], entity: model.DataSourceSummary, index: number) => {
+        const currentEntity: model.DataSourceSummary = { ...entity };
+        const previousEntity: model.DataSourceSummary = array[index - 1];
         currentEntity.increase =
           index === 0
             ? currentEntity.rest
@@ -97,27 +109,26 @@ export class PlanComponent implements OnInit {
         return array;
       }, []);
 
-    this.dataSource = dataSource;
     setTimeout(() => {
       this.isLoading = false;
+      this.formDataSourceTotal();
     });
-    this.formDataSourceTotal();
   }
 
-  private calculateTotal(data: any): number {
+  private calculateTotal(data: model.DataEntryPlanEntry): number {
     let total: number = 0;
     Object.keys(data)
       .forEach((key: string) => total += data[key].total);
     return total;
   }
 
-  private formEntry(entry: any, node: string): any {
+  private formEntry(entry: model.DataEntry, node: string): model.DataEntryPlanEntry {
     return entry.entries[this.planType].entries[node].entries;
   }
 
   private formDataSourceTotal(): void {
     this.total = this.dataSource.reduce(
-      (previousValue: number, entity: model.Plan) => {
+      (previousValue: number, entity: model.DataSourceSummary) => {
         return previousValue + entity.rest;
       },
       0

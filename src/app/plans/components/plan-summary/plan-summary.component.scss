@@ -68,3 +68,19 @@ input.u-type-number {
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-suffix {
   margin-left: 8px;
 }
+
+.c-plan-summary__total.u-is-loading,
+::ng-deep.mat-cell.u-is-loading {
+  position: relative;
+  transition: all 250ms ease-in-out;
+  &:after {
+    content: "";
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: calc(100% - 8px);
+    height: calc(100% - 8px);
+    background-color: #f5f5f5 !important;
+    border-radius: 4px;
+  }
+}
