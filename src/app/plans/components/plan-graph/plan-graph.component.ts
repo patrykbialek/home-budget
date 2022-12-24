@@ -26,13 +26,13 @@ export class PlanGraphComponent implements OnInit {
   public increaseDatasets: Array<Partial<model.PlanGraphConfig>> = [];
   public increaseOptions: any;
 
-  @Input() public readonly dataSource: model.Plan[];
+  @Input() public readonly dataSource: any[];
 
   public ngOnInit(): void {
     this.data = {
-      expenses: this.dataSource.map((data: model.Plan) => data.expenses),
-      incomes: this.dataSource.map((data: model.Plan) => data.incomes),
-      increase: this.dataSource.map((data: model.Plan) => data.increase),
+      expenses: this.dataSource.map((data: any) => data.expenses),
+      incomes: this.dataSource.map((data: any) => data.incomes),
+      increase: this.dataSource.map((data: any) => data.increase),
     };
     this.chartLabels = Object.keys(config.monthLabel)
       .map((key: string) => config.monthLabel[key].short);

@@ -1,39 +1,32 @@
-import { combineLatest, forkJoin, Observable, Subject } from 'rxjs';
+import { combineLatest, forkJoin, Observable } from 'rxjs';
 
 import { Injectable } from '@angular/core';
 import { PlanHttpService } from './plan-http.service';
-import { delay, filter, take, takeUntil, tap } from 'rxjs/operators';
+import { filter, take, tap } from 'rxjs/operators';
 import { DataProperty } from '../plans.enum';
 import { Router } from '@angular/router';
-import { DataLabels, DataLabel, DataSourceDetails, PlanEntry } from '../plans.model';
+import { DataLabels, DataLabel, DataSourceDetails, PlanEntry, DataSourceDetailsEntry, DataItem, DataSourceSummary } from '../plans.model';
 import { BreadcrumbsService } from './breadcrumbs.service';
-import { labels, monthLabel, planType } from '../plans.config';
+import { dataLabels, defaultDataSource, labels, monthLabel, months } from '../plans.config';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { PlanAddColumnFormComponent, PlanDetailsFormComponent } from '../components';
 import { BreadcrumbsItem } from '../containers/plan-breadcrumbs/plan-breadcrumbs.model';
+
+import * as _ from 'lodash';
 
 const commonLabels: string[] = ['month', 'monthId', 'order', 'path', 'parentPath', 'total'];
 
 @Injectable({ providedIn: 'root' })
 export class PlanService {
   public dataColumns: string[];
-  public dataLabels: DataLabels = {
-    execution: 'Wykonanie',
-    expenses: 'Wydatki',
-    incomes: 'Przychody',
-    increase: 'Przyrost',
-    month: 'Miesiąc',
-    project: 'Projekt',
-    rest: 'Reszta',
-    total: 'Razem',
-  };
+  public dataLabels: DataLabels = dataLabels;
   public dataSource: DataSourceDetails[] = [];
   public dataSourceFooter: DataSourceDetails;
-  public defaultDataSource: DataSourceDetails[] = [];
+  public defaultDataSource: DataSourceSummary[] = [];
   public displayedColumns: string[] = [];
-  public isLoading: boolean;
   public form: FormGroup;
+  public isLoading: boolean;
 
   private parentPlanEntry: PlanEntry;
   private readonly main: string = 'plan';
@@ -46,7 +39,7 @@ export class PlanService {
   ) { }
 
   public get months(): DataLabel[] {
-    return this.planHttpService.months;
+    return months;
   }
 
   public readData(sourcePath: string): Observable<any> {
@@ -71,7 +64,7 @@ export class PlanService {
         };
       })
       .sort((first: DataLabel, last: DataLabel) => first.order - last.order)
-      .filter((entry: any) => {
+      .filter((entry: DataLabel) => {
         return !commonLabels.includes(entry.key);
       })
       .map((entry: DataLabel) => entry);
@@ -101,28 +94,15 @@ export class PlanService {
   }
 
   public setDefaultDataSource(): void {
-    this.defaultDataSource = [
-      { month: 'jan', total: 0 },
-      { month: 'feb', total: 0 },
-      { month: 'mar', total: 0 },
-      { month: 'apr', total: 0 },
-      { month: 'may', total: 0 },
-      { month: 'jun', total: 0 },
-      { month: 'jul', total: 0 },
-      { month: 'aug', total: 0 },
-      { month: 'sep', total: 0 },
-      { month: 'oct', total: 0 },
-      { month: 'nov', total: 0 },
-      { month: 'dec', total: 0 },
-    ];
+    this.defaultDataSource = defaultDataSource;
   }
 
   public editPlanEntry(planEntry: PlanEntry): void {
-    const form: FormGroup = this.setFormData(planEntry);
-    this.openDialog(form, planEntry);
+    const form: FormGroup = this.buildEditForm(planEntry);
+    this.editDetails(form, planEntry);
   }
 
-  public get currentEntries(): any {
+  public get currentEntries(): BreadcrumbsItem {
     return this.breadcrumbsService.breadcrumbs
       .filter((breadcrumb: BreadcrumbsItem) => breadcrumb.isCurrent)
       .map((breadcrumb: BreadcrumbsItem) => {
@@ -143,90 +123,82 @@ export class PlanService {
   }
 
   public goToDetails(planEntry: PlanEntry): void {
-    this.parentPlanEntry = planEntry;
-
-    if (planEntry.isCurrent) {
-      return;
-    }
-
     if (planEntry.href) {
       this.router.navigate([planEntry.href]);
       return;
     }
 
-    const sourcePath: string = `${planEntry.path}`;
-    const months: DataLabel[] = this.months;
-    const subs$: Observable<any>[] = [];
-    if (planEntry.hasEntries) {
-      this.breadcrumbsService.formBreadcrumbs(planEntry, this.dataLabels);
+    this.formBreadcrumbs(planEntry);
+    this.subscribeToReadData(planEntry);
+    this.parentPlanEntry = planEntry;
+  }
 
-      const dataSource: DataSourceDetails[] = [];
-      let path: string = sourcePath;
-      months.forEach((month: DataLabel) => {
-        path = path.replace(month.key, 'month');
-        this.parentPlanEntry = {
-          ...this.parentPlanEntry,
-          path: this.parentPlanEntry.path.replace(month.key, 'month'),
+  private formBreadcrumbs(planEntry: PlanEntry): void {
+    this.breadcrumbsService.formBreadcrumbs(planEntry, this.dataLabels);
+  }
+
+  private subscribeToReadData(planEntry: PlanEntry): void {
+    // TODO: replace path with generic one
+    this.readData(`${'2023'}/entries`)
+      .subscribe((data: DataItem[]) => {
+        this.formDataSource(planEntry, data);
+        this.setDataSourceFooter();
+        this.setDataLabelsAndColumns(this.dataSource[0]);
+        this.setDisplayedColumns();
+      });
+  }
+
+  private formDataSource(planEntry: PlanEntry, data: DataItem[]): void {
+    const dataSourceEntryPath: string = `${planEntry.path}/${planEntry.entry}/entries`;
+    this.dataSource = data
+      .sort((first: DataItem, last: DataItem) => first.order - last.order)
+      .map((entry: DataItem) => {
+        let total: number = 0;
+        let dataItem: DataSourceDetails = {
+          month: entry.key,
+          order: entry.order,
+          path: dataSourceEntryPath,
+          total,
+        };
+
+        const dataItemEntries: {
+          dataItem: DataSourceDetails; total: number;
+        } = this.formDataItemEntries(total, dataItem, planEntry, entry, dataSourceEntryPath);
+        dataItem = {
+          ...dataItemEntries.dataItem,
+          total: dataItemEntries.total,
+        };
+        return dataItem;
+      });
+  }
+
+  private formEntries(planEntry: PlanEntry, entry: DataItem): { [key: string]: DataSourceDetailsEntry; } {
+    const path1: string[] = planEntry.path.substring(18, planEntry.path.length).split('/');
+    const path2: string = path1.join('.').concat(`.${planEntry.entry}.entries`);
+    const path3: string = path2.substring(1, path2.length);
+    return _.get(entry, path3);
+  }
+
+  private formDataItemEntries(total: number, dataItem: DataSourceDetails,
+    planEntry: PlanEntry, entry: DataItem, dataSourceEntryPath: string): {
+      dataItem: DataSourceDetails; total: number;
+    } {
+    const entries: { [key: string]: DataSourceDetailsEntry; } = this.formEntries(planEntry, entry);
+    Object.keys(entries)
+      .forEach((entry: string) => {
+        total += entries[entry].total;
+        dataItem = {
+          ...dataItem,
+          [entry]: {
+            hasEntries: Boolean(entries[entry].entries),
+            label: entries[entry].label,
+            notes: entries[entry].notes,
+            path: `${dataSourceEntryPath}/${entry}`,
+            total: entries[entry].total,
+          }
         };
       });
-
-      months.forEach((month: DataLabel, index: number) => {
-        const replacedPath = path.replace('month', month.key);
-        subs$.push(this.readDataByType(replacedPath)
-          .pipe(
-            take(1),
-            tap((entries: any[]) => {
-              planEntry = {
-                ...planEntry,
-                month: month.key,
-              };
-              const foundEntry: any = entries.find(entry => entry.key === planEntry.entry);
-              let dataItem: DataSourceDetails = {
-                month: month.key,
-                order: index,
-                path: `${replacedPath}/${planEntry.entry}/entries`,
-                total: foundEntry.total,
-              };
-
-              let total: number = 0;
-              Object.keys(foundEntry.entries)
-                .forEach((key: string) => {
-                  total += foundEntry.entries[key].total;
-                  dataItem = {
-                    ...dataItem,
-                    [key]: {
-                      label: foundEntry.entries[key].label,
-                      notes: foundEntry.entries[key].notes,
-                      order: foundEntry.entries[key].order,
-                      total: foundEntry.entries[key].total,
-                      hasEntries: Boolean(foundEntry.entries[key].entries),
-                    },
-                  };
-                });
-
-              dataItem = {
-                ...dataItem,
-                parentPath: `${replacedPath}`,
-                total,
-              };
-
-              dataSource.push(dataItem);
-            }))
-        );
-      });
-
-      combineLatest(subs$)
-        .subscribe(() => {
-          this.dataSource = [...new Set(dataSource)];
-          this.setDataSourceFooter();
-          dataSource.length = 0;
-          this.dataColumns = [];
-          this.displayedColumns = [];
-          this.setDataLabelsAndColumns(this.dataSource[0]);
-          this.dataColumns = this.dataColumns.filter((dataColumn: string) => dataColumn !== 'hasEntries');
-          this.setDisplayedColumns();
-        });
-    }
+    return { dataItem, total };
   }
 
   private setDataSourceFooter(): void {
@@ -274,15 +246,15 @@ export class PlanService {
     this.dataSourceFooter = rowTotals;
   }
 
-  public openDialog(form: FormGroup, planEntry: PlanEntry): void {
+  public editDetails(form: FormGroup, planEntry: PlanEntry): void {
     const dialogRef = this.dialog.open(PlanDetailsFormComponent, {
       data: { form, dataLabels: this.dataLabels },
     });
 
     dialogRef.afterClosed()
-      .pipe(filter((result: { form: FormGroup; }) => Boolean(result)))
-      .subscribe((result: { form: FormGroup; }) => {
-        const { total, path, entry, notes } = result.form.value;
+      .pipe(filter((callback: { form: FormGroup; }) => Boolean(callback)))
+      .subscribe((callback: { form: FormGroup; }) => {
+        const { total, path, entry, notes } = callback.form.value;
         this.updateEntry(total, path, entry, notes, planEntry);
       });
   }
@@ -353,7 +325,7 @@ export class PlanService {
   }
 
   private updateParentTotals(path: string): void {
-    let newPath: any[] = path.split('/');
+    let newPath: string[] = path.split('/');
     const len: number = ((newPath.length - 6));
     const subs$ = [];
     for (let i = 0; i < len; i++) {
@@ -365,7 +337,7 @@ export class PlanService {
           this.readDataByTypeObject(newPath.join('/'))
             .pipe(
               take(len / 2),
-              tap((response: any) => {
+              tap((response: DataItem) => {
                 if (response.key !== 'entries') {
                   let total = 0;
                   const entries = response.value.entries;
@@ -389,6 +361,7 @@ export class PlanService {
   }
 
   private setDisplayedColumns(): void {
+    this.displayedColumns = [];
     this.displayedColumns.push(DataProperty.month);
     this.displayedColumns.push(DataProperty.total);
     this.displayedColumns = this.displayedColumns.concat([
@@ -397,6 +370,7 @@ export class PlanService {
   }
 
   private setDataColumns(labels: DataLabel[]): void {
+    this.dataColumns = [];
     this.dataColumns = labels.map((label: DataLabel) => label.key);
   }
 
@@ -407,15 +381,14 @@ export class PlanService {
     );
   }
 
-  private setFormData(planEntry: PlanEntry): FormGroup {
-    const form: FormGroup = new FormGroup({
+  private buildEditForm(planEntry: PlanEntry): FormGroup {
+    return new FormGroup({
       entry: new FormControl(planEntry.entry),
       month: new FormControl(planEntry.month),
       notes: new FormControl(planEntry.notes),
-      path: new FormControl(planEntry.path),
+      path: new FormControl(planEntry.path.replace('month', planEntry.month)),
       total: new FormControl(planEntry.total),
     });
-    return form;
   }
 
 }

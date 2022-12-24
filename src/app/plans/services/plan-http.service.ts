@@ -6,7 +6,8 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList, AngularFireObject } from '@angular/fire/database';
 import { AuthenticationHttpService } from '@home-budget/authentication/services';
 import * as fromModels from '@home-budget/transactions/models';
-import { DataLabel } from '../plans.model';
+import { DataEntry, DataLabel } from '../plans.model';
+import { months } from '../plans.config';
 
 const uid: string = 'Pmj8IO7zkJeFDmtqSYHzE0A38in1';
 
@@ -29,7 +30,7 @@ export class PlanHttpService {
     db.update(playload);
   }
 
-  readEntriesObject(sourcePath: string):any {
+  readEntriesObject(sourcePath: string): any {
     const path: string = `/workspaces/${uid}/plans/${sourcePath}`;
     const db: AngularFireObject<any> = this.db.object(path);
     return db.valueChanges();
@@ -59,62 +60,9 @@ export class PlanHttpService {
     return of(db.update(payload.uid, value));
   }
 
-  public get months(): DataLabel[] {
-    return [
-      {
-        key: 'jan',
-        value: 'Styczeń',
-      },
-      {
-        key: 'feb',
-        value: 'Luty',
-      },
-      {
-        key: 'mar',
-        value: 'Marzec',
-      },
-      {
-        key: 'apr',
-        value: 'Kwiecień',
-      },
-      {
-        key: 'may',
-        value: 'Maj',
-      },
-      {
-        key: 'jun',
-        value: 'Czerwiec',
-      },
-      {
-        key: 'jul',
-        value: 'Lipiec',
-      },
-      {
-        key: 'aug',
-        value: 'Sierpień',
-      },
-      {
-        key: 'sep',
-        value: 'Wrzesień',
-      },
-      {
-        key: 'oct',
-        value: 'Październik',
-      },
-      {
-        key: 'nov',
-        value: 'Listopad',
-      },
-      {
-        key: 'dec',
-        value: 'Grudzień',
-      },
-    ];
-  }
-
   private initialDataEntry(label): any {
     let entries = {};
-    this.months.forEach((month: any, index: number) => {
+    months.forEach((month: any, index: number) => {
       entries = {
         ...entries,
         [month.key]: {
@@ -475,8 +423,7 @@ export class PlanHttpService {
 
   // Read
 
-  readData(sourcePath?: string): Observable<any> {
-    const uid: string = 'Pmj8IO7zkJeFDmtqSYHzE0A38in1';
+  readData(sourcePath?: string): Observable<DataEntry[]> {
     const path: string = `/workspaces/${uid}/plans/${sourcePath}`;
     const db: AngularFireList<any> = this.db.list(path);
     return db.snapshotChanges().pipe(

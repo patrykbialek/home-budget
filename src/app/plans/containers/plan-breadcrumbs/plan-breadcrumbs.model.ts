@@ -1,8 +1,8 @@
 export interface BreadcrumbsItem {
   entry: string;
-  hasEntries: boolean;
-  label: string;
-  isCurrent: boolean;
+  hasEntries?: boolean;
   href?: string;
+  isCurrent?: boolean;
+  label?: string;
   path?: string;
 }

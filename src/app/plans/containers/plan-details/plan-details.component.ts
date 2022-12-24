@@ -1,7 +1,7 @@
-import { Component, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Params, Router, UrlSegment } from '@angular/router';
+import { ActivatedRoute, Router, UrlSegment } from '@angular/router';
 
 import * as config from '../../plans.config';
 import { DataProperty } from '../../plans.enum';
@@ -21,7 +21,6 @@ export class PlanDetailsComponent implements OnDestroy, OnInit {
   public month: string;
 
   private isDataLoaded: boolean;
-  private storageItem: any;
   private readonly planType: model.Item = config.planType[DataProperty.project];
   private readonly planYear: string = '2023';
 
@@ -122,33 +121,4 @@ export class PlanDetailsComponent implements OnDestroy, OnInit {
     };
     this.breadcrumbsService.formBreadcrumbs(planEntry, this.dataLabels);
   }
-
-  private setFormData(event: any): FormGroup {
-    const storageItem = this.storageItem;
-    const items =
-      storageItem[this.planYear][this.planType.id][event.month][
-      DataProperty.entries
-      ][event.type][DataProperty.entries][event.category];
-    const form: FormGroup = new FormGroup({});
-    const entriesArray: FormArray = new FormArray([]);
-    this.month = event.month;
-
-    items[DataProperty.entries].forEach((entry: any) => {
-      entriesArray.push(
-        new FormGroup({
-          isInTotal: new FormControl(entry[DataProperty.isInTotal] || false),
-          label: new FormControl(entry[DataProperty.label]),
-          value: new FormControl(entry[DataProperty.value]),
-        })
-      );
-    });
-
-    form.addControl(
-      DataProperty.total,
-      new FormControl(items[DataProperty.total])
-    );
-    form.addControl(DataProperty.entries, entriesArray);
-    return form;
-  }
-
 }

@@ -19,6 +19,7 @@ export class PlanDetailsSummaryComponent {
   @Input() public readonly dataSource: DataSourceDetails[];
   @Input() public readonly dataSourceFooter: DataSourceDetails;
   @Input() public readonly displayedColumns: string[];
+  @Input() public readonly isLoading: boolean;
 
   @Output() public addColumn: EventEmitter<void> = new EventEmitter();
   @Output() public editPlanEntry: EventEmitter<PlanEntry> = new EventEmitter();

@@ -21,6 +21,57 @@ export const planType: model.PlanType = {
   },
 };
 
+export const months: model.DataLabel[] = [
+  {
+    key: 'jan',
+    value: 'Styczeń',
+  },
+  {
+    key: 'feb',
+    value: 'Luty',
+  },
+  {
+    key: 'mar',
+    value: 'Marzec',
+  },
+  {
+    key: 'apr',
+    value: 'Kwiecień',
+  },
+  {
+    key: 'may',
+    value: 'Maj',
+  },
+  {
+    key: 'jun',
+    value: 'Czerwiec',
+  },
+  {
+    key: 'jul',
+    value: 'Lipiec',
+  },
+  {
+    key: 'aug',
+    value: 'Sierpień',
+  },
+  {
+    key: 'sep',
+    value: 'Wrzesień',
+  },
+  {
+    key: 'oct',
+    value: 'Październik',
+  },
+  {
+    key: 'nov',
+    value: 'Listopad',
+  },
+  {
+    key: 'dec',
+    value: 'Grudzień',
+  },
+];
+
 export const monthLabel: model.MonthLabel = {
   january: {
     id: 'jan',
@@ -109,3 +160,29 @@ export const navLinks: model.NavLink[] = [
     index: 1,
   },
 ];
+
+export const defaultDataSource: any[] = [
+  { month: 'jan', total: 0 },
+  { month: 'feb', total: 0 },
+  { month: 'mar', total: 0 },
+  { month: 'apr', total: 0 },
+  { month: 'may', total: 0 },
+  { month: 'jun', total: 0 },
+  { month: 'jul', total: 0 },
+  { month: 'aug', total: 0 },
+  { month: 'sep', total: 0 },
+  { month: 'oct', total: 0 },
+  { month: 'nov', total: 0 },
+  { month: 'dec', total: 0 },
+];
+
+export const dataLabels = {
+  execution: 'Wykonanie',
+  expenses: 'Wydatki',
+  incomes: 'Przychody',
+  increase: 'Przyrost',
+  month: 'Miesiąc',
+  project: 'Projekt',
+  rest: 'Reszta',
+  total: 'Razem',
+};

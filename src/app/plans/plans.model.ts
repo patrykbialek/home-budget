@@ -23,18 +23,6 @@ export interface ChartOptionColor {
   transparent: string;
 }
 
-export interface Plan {
-  expenses: number;
-  incomes: number;
-  increase: number;
-  month: string;
-  monthId: string;
-  rest: number;
-  path?: string;
-  incomesPath: string;
-  expensesPath: string;
-}
-
 export interface MonthLabel {
   january: Item;
   february: Item;
@@ -82,39 +70,6 @@ export interface TransactionType {
   [key: string]: Item;
 }
 
-// export interface Plan {
-//   [key: string]: PlanTypee;
-// }
-
-// export interface PlanTypee {
-//   project: PlanMonth;
-// }
-
-export interface PlanMonth {
-  label: string;
-  total: number;
-  entries: PlanMonthEntry[];
-}
-
-export interface PlanMonthEntry {
-  incomes: PlanMonthEntryIncomes;
-  expenses: PlanMonthEntryExpenses;
-}
-
-export interface PlanMonthEntryExpenses { }
-
-export interface PlanMonthEntryIncomes {
-  label: string;
-  total: number;
-  entries: PlanMonthEntryIncomesEntry[];
-}
-
-export interface PlanMonthEntryIncomesEntry {
-  patryk: PlanCommonEntry;
-  gosia: PlanCommonEntry;
-  other: PlanCommonEntry;
-}
-
 export interface PlanCommonEntry {
   label: string;
   total: number;
@@ -142,7 +97,9 @@ export interface DataSourceSummary {
   incomes: number;
   increase: number;
   month: string;
+  path: string;
   rest: number;
+  order?: number;
 }
 
 export interface DataSourceDetails {
@@ -155,16 +112,20 @@ export interface DataSourceDetails {
 }
 
 export interface DataSourceDetailsEntry {
+  entries: any;
   hasEntries: boolean;
+  isInTotal: boolean;
   label: string;
+  order: number;
+  path: string;
   notes: string;
   total: number;
 }
 
 export interface PlanEntry {
   entry: string;
-  hasEntries: boolean;
   path: string;
+  hasEntries?: boolean;
   href?: string;
   isCurrent?: boolean;
   label?: string;
@@ -186,4 +147,52 @@ export interface QueryParamsResponse {
 export interface RouteParam {
   path: string;
   type: string;
+}
+
+export interface DataItem {
+  entries: {
+    [key: string]: any;
+  };
+  key: string;
+  labl: string;
+  order: number;
+  value: any;
+}
+
+
+/////////
+
+export interface DataEntry {
+  key: string;
+  entries: DataEntryEntries;
+  label: string;
+  order: number;
+}
+
+export interface DataEntryEntries {
+  execution: DataEntryPlan;
+  project: DataEntryPlan;
+  key: string;
+  label: string;
+  order: number;
+}
+
+export interface DataEntryPlan {
+  entries: {
+    expenses: DataEntryPlanEntry;
+    incomes: DataEntryPlanEntry;
+  };
+  label: string;
+  path: string;
+}
+
+export interface DataEntryPlanEntry {
+  isInTotal: boolean;
+  label: string;
+  notes: string;
+  path: string;
+  total: number;
+  entries?: {
+    [key: string]: DataEntryPlanEntry;
+  };
 }
