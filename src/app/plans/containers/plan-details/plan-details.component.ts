@@ -74,10 +74,6 @@ export class PlanDetailsComponent implements OnDestroy, OnInit {
     this.planService.editPlanEntry(event);
   }
 
-  public addColumn(): void {
-    this.planService.addColumn();
-  }
-
   public goToDetails(event: model.PlanEntry): void {
     this.planService.goToDetails(event);
   }

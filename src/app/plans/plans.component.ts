@@ -42,4 +42,8 @@ export class PlansComponent implements OnInit {
     };
     this.planHttpService.createPlan(payload);
   }
+
+  public addColumn(): void {
+    this.planService.addColumn();
+  }
 }

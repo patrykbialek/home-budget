@@ -392,9 +392,9 @@ export class PlanService {
                     });
 
                   const updatePayload: UpadatePayload = {
-                    total, path,
+                    path,
                     entry: response.key,
-                    order: response.order,
+                    total: parseFloat(total.toFixed(2)),
                   };
                   this.updateParentEntry(updatePayload);
                 }
@@ -407,7 +407,7 @@ export class PlanService {
   }
 
   private updateParentEntry(payload: UpadatePayload): void {
-    this.planHttpService.updateEntry(payload)
+    this.planHttpService.updateParentEntry(payload)
       .pipe(take(1)).subscribe();
   }
 

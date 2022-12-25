@@ -20,6 +20,18 @@ export class PlanBreadcrumbsComponent {
     return this.breadcrumbsService.breadcrumbs;
   }
 
+  public get isAddColumnButtonShown(): boolean {
+    if (!this.planService.currentEntries){
+      return false;
+    }
+    const exludedEntries: string[] = ['expenses', 'incomes'];
+    return !exludedEntries.includes(this.planService.currentEntries.entry);
+  }
+
+  public addColumn(): void {
+    this.planService.addColumn();
+  }
+
   public goToDetails(event: BreadcrumbsItem): void {
     const { entry, hasEntries, label, isCurrent, href, path } = event;
     const planEntry: PlanEntry = {
@@ -29,7 +41,7 @@ export class PlanBreadcrumbsComponent {
       isCurrent,
       label,
       path,
-    }
+    };
     this.planService.goToDetails(planEntry);
   }
 

@@ -1,14 +1,24 @@
-<ul class="c-breadcrumbs-list u-text-tiny u-margin-none">
-  <ng-container *ngFor="let breadcrumb of breadcrumbs; let last = last;">
-    <li class="c-breadcrumbs-list__item">
-      <a (click)="onGoToDetails(breadcrumb)"
-        class="u-clickme"
-        [ngClass]="{
-          'c-breadcrumbs-list__item--current': breadcrumb.isCurrent
-        }">{{ breadcrumb.label }}</a>
-      <span *ngIf="!last" class="c-breadcrumbs-list__item-separator u-margin-left-tiny u-margin-right-tiny">
-        <mat-icon class="c-breadcrumbs-list__item-separator-icon u-text-tiny">keyboard_arrow_right</mat-icon>
+<ng-container *ngIf="breadcrumbs.length">
+  <ul class="c-breadcrumbs-list u-text-small u-margin-none u-padding-horizontal-tiny">
+    <ng-container *ngFor="let breadcrumb of breadcrumbs; let last = last;">
+      <li class="c-breadcrumbs-list__item">
+        <a (click)="onGoToDetails(breadcrumb)"
+          class="u-clickme"
+          [ngClass]="{
+            'c-breadcrumbs-list__item--current': breadcrumb.isCurrent
+          }">{{ breadcrumb.label }}</a>
+        <span *ngIf="!last" class="c-breadcrumbs-list__item-separator u-margin-left-tiny u-margin-right-tiny">
+          <mat-icon class="c-breadcrumbs-list__item-separator-icon u-text-tiny">keyboard_arrow_right</mat-icon>
+        </span>
+      </li>
+    </ng-container>
+    <li *ngIf="isAddColumnButtonShown" class="c-breadcrumbs-list__item">
+      <span class="c-breadcrumbs-list__item-separator u-margin-left-tiny u-margin-right-tiny">
+        <mat-icon class="c-breadcrumbs-list__item-separator-icon u-text-tiny">keyboard_double_arrow_right</mat-icon>
       </span>
+      <a (click)="onAddColumn()"
+        class="mat-icon-button mat-green">Dodaj kolumnę</a>
     </li>
-  </ng-container>
-</ul>
+  </ul>
+</ng-container>
+
