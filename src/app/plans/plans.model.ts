@@ -197,3 +197,11 @@ export interface DataEntryPlanEntry {
     [key: string]: DataEntryPlanEntry;
   };
 }
+
+export interface UpadatePayload {
+  entry: string;
+  order: number;
+  path: string;
+  total: number;
+  notes?: string;
+}

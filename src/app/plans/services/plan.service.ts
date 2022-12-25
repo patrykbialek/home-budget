@@ -5,7 +5,7 @@ import { PlanHttpService } from './plan-http.service';
 import { filter, take, tap } from 'rxjs/operators';
 import { DataProperty } from '../plans.enum';
 import { Router } from '@angular/router';
-import { DataLabels, DataLabel, DataSourceDetails, PlanEntry, DataSourceDetailsEntry, DataItem, DataSourceSummary } from '../plans.model';
+import { DataLabels, DataLabel, DataSourceDetails, PlanEntry, DataSourceDetailsEntry, DataItem, DataSourceSummary, UpadatePayload } from '../plans.model';
 import { BreadcrumbsService } from './breadcrumbs.service';
 import { dataLabels, defaultDataSource, labels, monthLabel, months } from '../plans.config';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -115,6 +115,7 @@ export class PlanService {
 
   public addColumn(): void {
     const form: FormGroup = new FormGroup({
+      hasEntries: new FormControl(),
       label: new FormControl(),
       order: new FormControl(),
     });
@@ -260,7 +261,7 @@ export class PlanService {
           this.deleteEntry(path, entry);
           return;
         }
-        this.updateEntry(total, path, entry, notes, order, planEntry);
+        this.updateEntry({ entry, order, path, notes, total });
       });
   }
 
@@ -299,16 +300,17 @@ export class PlanService {
   }
 
   private addColumnToAllMonths(result: { form: FormGroup; }): void {
-    const payload = {
-      ...result.form.value,
-      isInTotal: true,
-      notes: null,
-      total: 0,
-    };
-
     let path: string = this.currentEntries.path;
     const entry: string = this.currentEntries.entry;
     const subs$: Observable<any>[] = [];
+
+    let payload: any = {
+      isInTotal: true,
+      label: result.form.value.label,
+      notes: null,
+      order: result.form.value.order,
+      total: 0,
+    };
 
     const months: DataLabel[] = this.months;
     months.forEach((month: DataLabel) => {
@@ -323,6 +325,22 @@ export class PlanService {
           tap((entries: any) => {
             const lastIndex: number = Object.keys(entries).length + 1;
             const key: string = `${entry}${this.formattedNumber(lastIndex)}`;
+
+            if (result.form.value.hasEntries) {
+              const childKey: string = `${key}${this.formattedNumber(1)}`;
+              payload = {
+                ...payload,
+                entries: {
+                  [childKey]: {
+                    isInTotal: true,
+                    label: `${result.form.value.label} 1`,
+                    order: 1,
+                    total: 0,
+                  }
+                }
+              };
+            }
+
             entries = {
               ...entries,
               [key]: payload,
@@ -340,14 +358,14 @@ export class PlanService {
     return ('0' + index).slice(-2);
   }
 
-  private updateEntry(total: number, path: string, entry: string, notes: string, order: number, planEntry: PlanEntry): void {
-    this.planHttpService.updateEntry(total, path, entry, order, notes)
+  private updateEntry(payload: UpadatePayload): void {
+    this.planHttpService.updateEntry(payload)
       .pipe(take(1))
       .subscribe(() => {
         setTimeout(() => {
           this.goToDetails(this.parentPlanEntry);
         });
-        this.updateParentTotals(path);
+        this.updateParentTotals(payload.path);
       });
   }
 
@@ -372,7 +390,13 @@ export class PlanService {
                     .forEach((entryKey: string) => {
                       total += entries[entryKey].total;
                     });
-                  this.updateParentEntry(total, path, response.key, response.order);
+
+                  const updatePayload: UpadatePayload = {
+                    total, path,
+                    entry: response.key,
+                    order: response.order,
+                  };
+                  this.updateParentEntry(updatePayload);
                 }
               })
             )
@@ -382,8 +406,8 @@ export class PlanService {
     forkJoin(subs$).subscribe();
   }
 
-  private updateParentEntry(total: number, path: string, entry: string, order: number): void {
-    this.planHttpService.updateEntry(total, path, entry, order)
+  private updateParentEntry(payload: UpadatePayload): void {
+    this.planHttpService.updateEntry(payload)
       .pipe(take(1)).subscribe();
   }
 
@@ -411,6 +435,7 @@ export class PlanService {
   private buildEditForm(planEntry: PlanEntry): FormGroup {
     return new FormGroup({
       entry: new FormControl(planEntry.entry),
+      hasEntries: new FormControl(planEntry.hasEntries),
       month: new FormControl(planEntry.month),
       notes: new FormControl(planEntry.notes),
       order: new FormControl(planEntry.order),

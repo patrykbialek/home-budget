@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList, AngularFireObject } from '@angular/fire/database';
 import { AuthenticationHttpService } from '@home-budget/authentication/services';
 import * as fromModels from '@home-budget/transactions/models';
-import { DataEntry, DataLabel } from '../plans.model';
+import { DataEntry, UpadatePayload } from '../plans.model';
 import { months } from '../plans.config';
 
 const uid: string = 'Pmj8IO7zkJeFDmtqSYHzE0A38in1';
@@ -44,10 +44,11 @@ export class PlanHttpService {
     return of(db.update(year, value));
   }
 
-  updateEntry(total: number, updatePath: string, uuid: string, order: number, notes: string = ''): Observable<any> {
-    const path: string = `/workspaces/${uid}/plans/${updatePath}`;
-    const db: AngularFireList<any> = this.db.list(path);
-    return of(db.update(uuid, { total, notes, order }));
+  updateEntry(payload: UpadatePayload): Observable<any> {
+    const { entry, notes, order, path, total } = payload;
+    const updatedPath: string = `/workspaces/${uid}/plans/${path}`;
+    const db: AngularFireList<any> = this.db.list(updatedPath);
+    return of(db.update(entry, { total, notes, order }));
   }
 
   createPlan(payload: any) {
