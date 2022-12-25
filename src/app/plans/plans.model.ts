@@ -200,8 +200,8 @@ export interface DataEntryPlanEntry {
 
 export interface UpadatePayload {
   entry: string;
-  order: number;
   path: string;
   total: number;
   notes?: string;
+  order?: number;
 }

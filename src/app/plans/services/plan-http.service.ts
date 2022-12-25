@@ -24,31 +24,12 @@ export class PlanHttpService {
 
   // Create
 
-  updateEntriesObject(updatePath: string, payload: any) {
-    const path: string = `/workspaces/${uid}/plans/${updatePath}`;
-    const db: AngularFireObject<any> = this.db.object(path);
-    db.update(payload);
-  }
-
-  readEntriesObject(sourcePath: string): any {
-    const path: string = `/workspaces/${uid}/plans/${sourcePath}`;
-    const db: AngularFireObject<any> = this.db.object(path);
-    return db.valueChanges();
-  }
-
   initiatePlan(year: string) {
     const uid: string = 'Pmj8IO7zkJeFDmtqSYHzE0A38in1';
     const path: string = `/workspaces/${uid}/plans`;
     const db: AngularFireList<any> = this.db.list(path);
     const value = this.initialDataEntry(year);
     return of(db.update(year, value));
-  }
-
-  updateEntry(payload: UpadatePayload): Observable<any> {
-    const { entry, notes, order, path, total } = payload;
-    const updatedPath: string = `/workspaces/${uid}/plans/${path}`;
-    const db: AngularFireList<any> = this.db.list(updatedPath);
-    return of(db.update(entry, { total, notes, order }));
   }
 
   createPlan(payload: any) {
@@ -59,6 +40,109 @@ export class PlanHttpService {
       path: payload.path,
     };
     return of(db.update(payload.uid, value));
+  }
+
+  // Read
+
+  readEntriesObject(sourcePath: string): any {
+    const path: string = `/workspaces/${uid}/plans/${sourcePath}`;
+    const db: AngularFireObject<any> = this.db.object(path);
+    return db.valueChanges();
+  }
+
+  readData(sourcePath?: string): Observable<DataEntry[]> {
+    const path: string = `/workspaces/${uid}/plans/${sourcePath}`;
+    const db: AngularFireList<any> = this.db.list(path);
+    return db.snapshotChanges().pipe(
+      map((changes) =>
+        changes.map((change) => ({
+          key: change.payload.key,
+          ...change.payload.val(),
+        }))
+      ),
+      map((items) => {
+        return items.sort(this.compare);
+      })
+    );
+  }
+
+  readDataByTypeObject(sourcePath: string): Observable<any> {
+    const uid: string = 'Pmj8IO7zkJeFDmtqSYHzE0A38in1';
+    const path: string = `/workspaces/${uid}/plans/${sourcePath}`;
+    const db: AngularFireObject<any> = this.db.object(path);
+    return db.snapshotChanges()
+      .pipe(
+        map((changes) => {
+          return {
+            key: changes.payload.key,
+            value: changes.payload.val(),
+          };
+        }),
+      );
+  }
+
+  readDataByType(sourcePath: string): Observable<any> {
+    const uid: string = 'Pmj8IO7zkJeFDmtqSYHzE0A38in1';
+    const path: string = `/workspaces/${uid}/plans/${sourcePath}`;
+    const db: AngularFireList<any> = this.db.list(path);
+    return db.snapshotChanges()
+      .pipe(
+        map((changes) =>
+          changes.map((change) => ({
+            key: change.payload.key,
+            ...change.payload.val(),
+          }))
+        ),
+        map((items) => {
+          return items.sort(this.compare);
+        })
+      );
+  }
+
+  // Update
+
+  updateEntriesObject(updatePath: string, payload: any) {
+    const path: string = `/workspaces/${uid}/plans/${updatePath}`;
+    const db: AngularFireObject<any> = this.db.object(path);
+    db.update(payload);
+  }
+
+  updateEntry(payload: UpadatePayload): Observable<any> {
+    const { entry, notes, path, order, total } = payload;
+    const updatedPath: string = `/workspaces/${uid}/plans/${path}`;
+    const db: AngularFireList<any> = this.db.list(updatedPath);
+    return of(db.update(entry, { notes, order, total }));
+  }
+
+  updateParentEntry(payload: UpadatePayload): Observable<any> {
+    const { entry, path, total } = payload;
+    const updatedPath: string = `/workspaces/${uid}/plans/${path}`;
+    const db: AngularFireList<any> = this.db.list(updatedPath);
+    return of(db.update(entry, { total }));
+  }
+
+  // Delete
+
+  deletePlanEntry(updatePath: string): Observable<any> {
+    const path: string = `/workspaces/${uid}/plans/${updatePath}`;
+    const db: AngularFireObject<any> = this.db.object(path);
+    return of(db.remove());
+  }
+
+
+  // Utils
+
+  private compare(first, second) {
+    const orderFirst = first.date;
+    const orderSecond = second.date;
+
+    let comparison = 0;
+    if (orderFirst < orderSecond) {
+      comparison = 1;
+    } else if (orderFirst > orderSecond) {
+      comparison = -1;
+    }
+    return comparison;
   }
 
   private initialDataEntry(label): any {
@@ -412,151 +496,4 @@ export class PlanHttpService {
     };
   }
 
-  // Delete
-
-  deletePlanEntry(updatePath: string): Observable<any> {
-    const path: string = `/workspaces/${uid}/plans/${updatePath}`;
-    const db: AngularFireObject<any> = this.db.object(path);
-    return of(db.remove());
-  }
-
-  // Read
-
-  readData(sourcePath?: string): Observable<DataEntry[]> {
-    const path: string = `/workspaces/${uid}/plans/${sourcePath}`;
-    const db: AngularFireList<any> = this.db.list(path);
-    return db.snapshotChanges().pipe(
-      map((changes) =>
-        changes.map((change) => ({
-          key: change.payload.key,
-          ...change.payload.val(),
-        }))
-      ),
-      map((items) => {
-        return items.sort(this.compare);
-      })
-    );
-  }
-
-  readDataByTypeObject(sourcePath: string): Observable<any> {
-    const uid: string = 'Pmj8IO7zkJeFDmtqSYHzE0A38in1';
-    const path: string = `/workspaces/${uid}/plans/${sourcePath}`;
-    const db: AngularFireObject<any> = this.db.object(path);
-    return db.snapshotChanges()
-      .pipe(
-        map((changes) => {
-          return {
-            key: changes.payload.key,
-            value: changes.payload.val(),
-          };
-        }),
-      );
-  }
-
-  readDataByType(sourcePath: string): Observable<any> {
-    const uid: string = 'Pmj8IO7zkJeFDmtqSYHzE0A38in1';
-    const path: string = `/workspaces/${uid}/plans/${sourcePath}`;
-    const db: AngularFireList<any> = this.db.list(path);
-    return db.snapshotChanges()
-      .pipe(
-        map((changes) =>
-          changes.map((change) => ({
-            key: change.payload.key,
-            ...change.payload.val(),
-          }))
-        ),
-        map((items) => {
-          return items.sort(this.compare);
-        })
-      );
-  }
-
-  readTransactions(params: fromModels.TransactionParams) {
-    let db: AngularFireList<any>;
-    const query = params.query;
-    const uid = params.uid;
-
-    if (query.category && query.periodFrom) {
-      db = this.db.list(`/workspaces/${uid}/transactions`, (ref) =>
-        query.category && query.periodFrom
-          ? ref
-            .orderByChild('category_date')
-            .startAt(`${query.category}_${query.periodFrom}`)
-            .endAt(`${query.category}_${query.periodTo}`)
-          : ref
-      );
-    }
-
-    if (!query.category && query.periodFrom) {
-      db = this.db.list(`/workspaces/${uid}/transactions`, (ref) =>
-        query.periodFrom
-          ? ref
-            .orderByChild('date')
-            .startAt(`${query.periodFrom}`)
-            .endAt(`${query.periodTo}`)
-          : ref
-      );
-    }
-
-    if (query.category && !query.periodFrom) {
-      db = this.db.list(`/workspaces/${uid}/transactions`, (ref) =>
-        query.category && !query.periodFrom
-          ? ref.orderByChild('category').equalTo(`${query.category}`)
-          : ref
-      );
-    }
-
-    if (db) {
-      return db.snapshotChanges().pipe(
-        map((changes) =>
-          changes.map((change) => ({
-            key: change.payload.key,
-            ...change.payload.val(),
-          }))
-        ),
-        map((items) => {
-          return items.sort(this.compare);
-        })
-      );
-    } else {
-      return of([]);
-    }
-  }
-
-  // Update
-
-  updateTransaction(payload: fromModels.TransactionPayload) {
-    const db: AngularFireList<any> = this.db.list(
-      `/workspaces/${payload.uid}/transactions`
-    );
-    const key = payload.key;
-    const value = this.prepareTransactionPayload(payload.value);
-    return of(db.update(key, value));
-  }
-
-  private compare(first, second) {
-    const orderFirst = first.date;
-    const orderSecond = second.date;
-
-    let comparison = 0;
-    if (orderFirst < orderSecond) {
-      comparison = 1;
-    } else if (orderFirst > orderSecond) {
-      comparison = -1;
-    }
-    return comparison;
-  }
-
-  private prepareTransactionPayload(data: any) {
-    const category = data.category.name;
-    const date = moment(data.date).format('YYYY-MM-DD');
-
-    data = {
-      ...data,
-      category,
-      category_date: `${category}_${date}`,
-      date,
-    };
-    return data;
-  }
 }

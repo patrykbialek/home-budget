@@ -9,9 +9,17 @@ import { BreadcrumbsItem } from '../../../plans/containers/plan-breadcrumbs/plan
 })
 export class PlanBreadcrumbsListComponent {
   @Input() public readonly breadcrumbs: BreadcrumbsItem[];
+  @Input() public readonly isAddColumnButtonShown: boolean;
+
+  @Output() public readonly addColumn: EventEmitter<void> = new EventEmitter();
   @Output() public readonly goToDetails: EventEmitter<BreadcrumbsItem> = new EventEmitter();
+
+  public onAddColumn(): void {
+    this.addColumn.emit();
+  }
 
   public onGoToDetails(event: BreadcrumbsItem): void {
     this.goToDetails.emit(event);
   }
+
 }

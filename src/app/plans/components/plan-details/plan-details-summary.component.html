@@ -1,13 +1,5 @@
 <mat-card class="c-plan-project__card">
   <mat-card-content>
-    <mat-card-actions align="end" class="u-margin-none u-margin-bottom-small u-padding-none">
-      <div>
-        <a mat-button color="green" (click)="onAddColumn()">
-          <mat-icon class="u-margin-right-tiny">add_circle_outline</mat-icon>
-          <span>Dodaj kolumnę</span>
-        </a>
-      </div>
-    </mat-card-actions>
     <table mat-table [dataSource]="dataSource" class="u-margin-bottom">
       <ng-container *ngFor="let column of displayedColumns">
         <ng-container [matColumnDef]="column">
