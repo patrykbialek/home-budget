@@ -25,6 +25,11 @@ export class PlanDetailsSummaryComponent {
   @Output() public editPlanEntry: EventEmitter<PlanEntry> = new EventEmitter();
   @Output() public goToDetails: EventEmitter<PlanEntry> = new EventEmitter();
 
+  @HostListener('contextmenu', ['$event'])
+  onRightClick(event) {
+    event.preventDefault();
+  }
+
   public onAddColumn(): void {
     this.addColumn.emit();
   }
@@ -41,6 +46,7 @@ export class PlanDetailsSummaryComponent {
       hasEntries: elementValue.hasEntries,
       month: element.month,
       notes: elementValue.notes,
+      order: elementValue.order,
       path: element.path,
       total: elementValue.total,
     };
@@ -48,5 +54,25 @@ export class PlanDetailsSummaryComponent {
     elementValue.hasEntries
       ? this.goToDetails.emit(planEntry)
       : this.editPlanEntry.emit(planEntry);
+  }
+
+  public onEditPlanEntry(element: DataSourceDetails, elementValue: DataSourceDetailsEntry): void {
+    let entry: string;
+    Object.keys(element).forEach((key: string) => {
+      if (element[key] === elementValue) {
+        entry = key;
+      }
+    });
+    const planEntry: PlanEntry = {
+      entry,
+      hasEntries: elementValue.hasEntries,
+      month: element.month,
+      notes: elementValue.notes,
+      order: elementValue.order,
+      path: element.path,
+      total: elementValue.total,
+    };
+
+    this.editPlanEntry.emit(planEntry);
   }
 }

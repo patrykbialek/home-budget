@@ -46,6 +46,10 @@ export class PlanDetailsFormComponent {
     this.dialogRef.close({ form: this.form });
   }
 
+  public delete(): void {
+    this.dialogRef.close({ form: this.form, isToDelete: true });
+  }
+
   public get entries(): FormArray {
     return this.form.get(DataProperty.entries) as FormArray;
   }

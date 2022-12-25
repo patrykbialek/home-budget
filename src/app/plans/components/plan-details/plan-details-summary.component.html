@@ -6,11 +6,6 @@
           <mat-icon class="u-margin-right-tiny">add_circle_outline</mat-icon>
           <span>Dodaj kolumnę</span>
         </a>
-        <!-- <span class="u-border-left u-margin-left-tiny u-margin-right-tiny"></span> -->
-        <!-- <a mat-button color="red" [routerLink]="['./create']" [queryParams]="{ type: 'expense' }">
-          <mat-icon class="u-margin-right-tiny">remove_circle_outline</mat-icon>
-          <span>{{ 'TRANSACTIONS.Actions.AddExpense' | translate }}</span>
-        </a> -->
       </div>
     </mat-card-actions>
     <table mat-table [dataSource]="dataSource" class="u-margin-bottom">
@@ -29,20 +24,25 @@
             <span *ngIf="column === 'month'">{{ dataLabels[element[column]] }}</span>
             <span *ngIf="column === 'total'">{{ element[column] | number: '.2-2' }}</span>
             <span *ngIf="column !== 'month' || column !== 'total'" class="u-clickme"
-              [matTooltip]="element[column]?.notes" matTooltipPosition="right"
-              [matTooltipDisabled]="!element[column]?.notes" (click)="onGoToDetails(element, element[column])">{{
-              element[column]?.total | number: '.2-2' }}</span>
+              [matTooltip]="element[column]?.notes"
+              matTooltipPosition="right"
+              [matTooltipDisabled]="!element[column]?.notes"
+              (click)="onGoToDetails(element, element[column])"
+              (contextmenu)="onEditPlanEntry(element, element[column])"
+            >{{ element[column]?.total | number: '.2-2' }}</span>
           </td>
-          <td mat-cell *matFooterCellDef class="c-column-text u-border-right u-padding-right-small" [ngClass]="{
+          <td mat-cell *matFooterCellDef class="c-column-text u-border-right u-padding-right-small"
+            [ngClass]="{
               'c-column-number': column !== 'month',
               'u-border-right': column === 'month' || column === 'total'
             }">
             <span *ngIf="column === 'month'">{{ dataLabels[dataSourceFooter[column]] }}</span>
             <span *ngIf="column === 'total'">{{ dataSourceFooter[column] | number: '.2-2' }}</span>
             <span *ngIf="column !== 'month' || column !== 'total'" class="u-pointme"
-              [matTooltip]="dataSourceFooter[column]?.notes" matTooltipPosition="right"
-              [matTooltipDisabled]="!dataSourceFooter[column]?.notes">{{
-              dataSourceFooter[column]?.total | number: '.2-2' }}</span>
+              [matTooltip]="dataSourceFooter[column]?.notes"
+              matTooltipPosition="right"
+              [matTooltipDisabled]="!dataSourceFooter[column]?.notes"
+            >{{ dataSourceFooter[column]?.total | number: '.2-2' }}</span>
           </td>
         </ng-container>
       </ng-container>

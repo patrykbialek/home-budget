@@ -24,10 +24,10 @@ export class PlanHttpService {
 
   // Create
 
-  updateEntriesObject(updatePath: string, playload: any) {
+  updateEntriesObject(updatePath: string, payload: any) {
     const path: string = `/workspaces/${uid}/plans/${updatePath}`;
     const db: AngularFireObject<any> = this.db.object(path);
-    db.update(playload);
+    db.update(payload);
   }
 
   readEntriesObject(sourcePath: string): any {
@@ -44,10 +44,10 @@ export class PlanHttpService {
     return of(db.update(year, value));
   }
 
-  updateEntry(total: number, updatePath: string, uuid: string, notes: string = ''): Observable<any> {
+  updateEntry(total: number, updatePath: string, uuid: string, order: number, notes: string = ''): Observable<any> {
     const path: string = `/workspaces/${uid}/plans/${updatePath}`;
     const db: AngularFireList<any> = this.db.list(path);
-    return of(db.update(uuid, { total, notes }));
+    return of(db.update(uuid, { total, notes, order }));
   }
 
   createPlan(payload: any) {
@@ -413,12 +413,10 @@ export class PlanHttpService {
 
   // Delete
 
-  deleteTransaction(payload: fromModels.TransactionPayload) {
-    const db: AngularFireList<any> = this.db.list(
-      `/workspaces/${payload.uid}/transactions`
-    );
-    const key = payload.key;
-    return of(db.remove(key));
+  deletePlanEntry(updatePath: string): Observable<any> {
+    const path: string = `/workspaces/${uid}/plans/${updatePath}`;
+    const db: AngularFireObject<any> = this.db.object(path);
+    return of(db.remove());
   }
 
   // Read
