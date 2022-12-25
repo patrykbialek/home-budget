@@ -131,6 +131,7 @@ export interface PlanEntry {
   label?: string;
   month?: string;
   notes?: string;
+  order?: number;
   parentPath?: string;
   total?: number;
 }

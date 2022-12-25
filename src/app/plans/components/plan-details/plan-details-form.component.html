@@ -25,6 +25,12 @@
           <input matInput
             formControlName="notes">
         </mat-form-field>
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>{{ 'Kolejność' | titlecase }}</mat-label>
+          <input matInput
+            formControlName="order"
+            type="number">
+        </mat-form-field>
         <!-- <div formArrayName="entries">
           <ng-container *ngFor="let control of entries.controls let i = index;">
             <div [formGroupName]="i">
@@ -40,7 +46,9 @@
       </div>
     </div>
   </mat-dialog-content>
-  <mat-dialog-actions align="end">
+  <mat-dialog-actions align="end" style="display: flex">
+    <button mat-button color="red" type="button" (click)="delete()">Usuń</button>
+    <div class="u-border-right u-margin-right-tiny u-padding-right-tiny">&nbsp;</div>
     <button mat-button type="button" [mat-dialog-close]="null">Anuluj</button>
     <button mat-button type="submit" (click)="save()">Zapisz</button>
   </mat-dialog-actions>

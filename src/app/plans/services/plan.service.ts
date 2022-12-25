@@ -193,6 +193,7 @@ export class PlanService {
             hasEntries: Boolean(entries[entry].entries),
             label: entries[entry].label,
             notes: entries[entry].notes,
+            order: entries[entry].order,
             path: `${dataSourceEntryPath}/${entry}`,
             total: entries[entry].total,
           }
@@ -253,9 +254,13 @@ export class PlanService {
 
     dialogRef.afterClosed()
       .pipe(filter((callback: { form: FormGroup; }) => Boolean(callback)))
-      .subscribe((callback: { form: FormGroup; }) => {
-        const { total, path, entry, notes } = callback.form.value;
-        this.updateEntry(total, path, entry, notes, planEntry);
+      .subscribe((callback: { form: FormGroup; isToDelete: boolean; }) => {
+        const { total, path, entry, notes, order } = callback.form.value;
+        if (callback.isToDelete) {
+          this.deleteEntry(path, entry);
+          return;
+        }
+        this.updateEntry(total, path, entry, notes, order, planEntry);
       });
   }
 
@@ -268,6 +273,28 @@ export class PlanService {
       .pipe(filter((result: { form: FormGroup; }) => Boolean(result)))
       .subscribe((result: { form: FormGroup; }) => {
         this.addColumnToAllMonths(result);
+      });
+  }
+
+  private deleteEntry(path: string, entry: PlanEntry): void {
+    let updatedPath: string = `${path}/${entry}`;
+    const subs$: Observable<any>[] = [];
+
+    const months: DataLabel[] = this.months;
+    months.forEach((month: DataLabel) => {
+      updatedPath = updatedPath.replace(month.key, 'month');
+    });
+
+    months.forEach((month: DataLabel) => {
+      const replacedPath = updatedPath.replace('month', month.key);
+      subs$.push(this.planHttpService.deletePlanEntry(replacedPath));
+    });
+
+    combineLatest(subs$)
+      .subscribe(() => {
+        setTimeout(() => {
+          this.goToDetails(this.parentPlanEntry);
+        });
       });
   }
 
@@ -313,8 +340,8 @@ export class PlanService {
     return ('0' + index).slice(-2);
   }
 
-  private updateEntry(total: number, path: string, entry: string, notes: string, planEntry: PlanEntry): void {
-    this.planHttpService.updateEntry(total, path, entry, notes)
+  private updateEntry(total: number, path: string, entry: string, notes: string, order: number, planEntry: PlanEntry): void {
+    this.planHttpService.updateEntry(total, path, entry, order, notes)
       .pipe(take(1))
       .subscribe(() => {
         setTimeout(() => {
@@ -345,7 +372,7 @@ export class PlanService {
                     .forEach((entryKey: string) => {
                       total += entries[entryKey].total;
                     });
-                  this.updateParentEntry(total, path, response.key);
+                  this.updateParentEntry(total, path, response.key, response.order);
                 }
               })
             )
@@ -355,8 +382,8 @@ export class PlanService {
     forkJoin(subs$).subscribe();
   }
 
-  private updateParentEntry(total: number, path: string, entry: string): void {
-    this.planHttpService.updateEntry(total, path, entry)
+  private updateParentEntry(total: number, path: string, entry: string, order: number): void {
+    this.planHttpService.updateEntry(total, path, entry, order)
       .pipe(take(1)).subscribe();
   }
 
@@ -386,6 +413,7 @@ export class PlanService {
       entry: new FormControl(planEntry.entry),
       month: new FormControl(planEntry.month),
       notes: new FormControl(planEntry.notes),
+      order: new FormControl(planEntry.order),
       path: new FormControl(planEntry.path.replace('month', planEntry.month)),
       total: new FormControl(planEntry.total),
     });
