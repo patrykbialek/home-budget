@@ -1,6 +1,6 @@
 export interface DataSourceSummary {
-  expenses: number;
-  incomes: number;
+  expense: number;
+  income: number;
   increase: number;
   month: string;
   path: string;

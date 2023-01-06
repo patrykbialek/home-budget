@@ -15,8 +15,8 @@ export interface DataEntryEntries {
 
 export interface DataEntryPlan {
   entries: {
-    expenses: DataEntryPlanEntry;
-    incomes: DataEntryPlanEntry;
+    expense: DataEntryPlanEntry;
+    income: DataEntryPlanEntry;
   };
   label: string;
   path: string;

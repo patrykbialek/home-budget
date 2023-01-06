@@ -137,15 +137,15 @@ export const monthLabel: fromModels.MonthLabel = {
 
 export const labels: fromModels.DataLabel[] = [
   { key: 'execution', value: 'Wykonanie' },
-  { key: 'expenses', value: 'Wydatki' },
-  { key: 'incomes', value: 'Przychody' },
+  { key: 'expense', value: 'Wydatki' },
+  { key: 'income', value: 'Przychody' },
   { key: 'month', value: 'Miesiąc' },
   { key: 'project', value: 'Projekt' },
   { key: 'total', value: 'Razem' },
 ];
 
 export const planColumns: string[] = [
-  'month', 'incomes', 'expenses', 'rest', 'increase',
+  'month', 'income', 'expense', 'rest', 'increase',
 ];
 
 export const navLinks: fromModels.NavLink[] = [
@@ -178,8 +178,8 @@ export const defaultDataSource: any[] = [
 
 export const dataLabels = {
   execution: 'Wykonanie',
-  expenses: 'Wydatki',
-  incomes: 'Przychody',
+  expense: 'Wydatki',
+  income: 'Przychody',
   increase: 'Przyrost',
   month: 'Miesiąc',
   project: 'Projekt',

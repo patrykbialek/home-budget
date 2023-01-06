@@ -21,11 +21,8 @@ export class PlanBreadcrumbsComponent {
   }
 
   public get isAddColumnButtonShown(): boolean {
-    if (!this.planService.currentEntries){
-      return false;
-    }
-    const exludedEntries: string[] = ['expenses', 'incomes'];
-    return !exludedEntries.includes(this.planService.currentEntries.entry);
+    // NOTE: to use in the future, based on roles, etc.
+    return true;
   }
 
   public addColumn(): void {

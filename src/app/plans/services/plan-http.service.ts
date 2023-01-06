@@ -188,26 +188,26 @@ export class PlanHttpService {
     month: string
   ): any {
     return {
-      incomes: {
+      income: {
         entries: this.dataProjectIncomeEntry(
           monthId,
           month,
           parentPath,
           1,
-          'incomes'
+          'income'
         ),
         isInTotal: false,
         label: 'Przychody',
         total: 0,
         path: `${parentPath}/entries`,
       },
-      expenses: {
+      expense: {
         entries: this.dataProjectExpenseEntry(
           monthId,
           month,
           parentPath,
           1,
-          'expenses'
+          'expense'
         ),
         isInTotal: false,
         label: 'Wydatki',

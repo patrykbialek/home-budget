@@ -73,16 +73,16 @@ export class PlanComponent implements OnDestroy, OnInit {
   private formData(data?: fromModels.DataEntry[]): void {
     this.dataSource = data
       .map((entry: fromModels.DataEntry) => {
-        const expenses: number = this.calculateTotal(
-          this.formEntry(entry, DataProperty.expenses)
+        const expense: number = this.calculateTotal(
+          this.formEntry(entry, DataProperty.expense)
         );
-        const incomes: number = this.calculateTotal(
-          this.formEntry(entry, DataProperty.incomes)
+        const income: number = this.calculateTotal(
+          this.formEntry(entry, DataProperty.income)
         );
 
         return {
-          expenses,
-          incomes,
+          expense,
+          income,
           increase: 0,
           month: entry.key,
           order: entry.order,
@@ -95,7 +95,7 @@ export class PlanComponent implements OnDestroy, OnInit {
         delete entry.order;
         return {
           ...entry,
-          rest: entry.incomes - entry.expenses,
+          rest: entry.income - entry.expense,
         };
       })
       .reduce((array: fromModels.DataSourceSummary[], entity: fromModels.DataSourceSummary, index: number) => {

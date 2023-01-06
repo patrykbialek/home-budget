@@ -30,8 +30,8 @@ export class PlanGraphComponent implements OnInit {
 
   public ngOnInit(): void {
     this.data = {
-      expenses: this.dataSource.map((data: any) => data.expenses),
-      incomes: this.dataSource.map((data: any) => data.incomes),
+      expenses: this.dataSource.map((data: any) => data.expense),
+      incomes: this.dataSource.map((data: any) => data.income),
       increase: this.dataSource.map((data: any) => data.increase),
     };
     this.chartLabels = Object.keys(config.monthLabel)
