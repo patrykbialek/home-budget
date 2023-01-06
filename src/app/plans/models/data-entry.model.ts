@@ -36,8 +36,9 @@ export interface DataEntryPlanEntry {
 export interface UpadatePayload {
   entry: string;
   path: string;
-  total: number;
+  total?: number;
   isInTotal?: boolean;
+  label?: string;
   notes?: string;
   order?: number;
 }

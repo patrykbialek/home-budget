@@ -262,12 +262,12 @@ export class PlanService {
     dialogRef.afterClosed()
       .pipe(filter((callback: { form: FormGroup; }) => Boolean(callback)))
       .subscribe((callback: { form: FormGroup; isToDelete: boolean; }) => {
-        const { entry, isInTotal, notes, order, path, total } = callback.form.value;
+        const { entry, isInTotal, label, notes, order, path, total } = callback.form.value;
         if (callback.isToDelete) {
           this.deleteEntry(path, entry);
           return;
         }
-        this.updateEntry({ entry, isInTotal, notes, order, path, total });
+        this.updateEntry({ entry, isInTotal, label, notes, order, path, total });
       });
   }
 
@@ -360,8 +360,35 @@ export class PlanService {
     combineLatest(subs$).subscribe();
   }
 
+  private updateEntryLabelToAllMonths(payload: fromModels.UpadatePayload): void {
+    const entry: string = payload.entry;
+    const label: string = payload.label;
+
+    let path: string = this.currentEntries.path;
+    const months: fromModels.DataLabel[] = this.months;
+    months.forEach((month: fromModels.DataLabel) => {
+      path = path.replace(month.key, 'month');
+    });
+
+    months.forEach((month: fromModels.DataLabel) => {
+      const replacedPath: string = path.replace('month', month.key);
+      const updatedPayload: fromModels.UpadatePayload = {
+        entry,
+        label,
+        path: replacedPath,
+      };
+      this.updateEntryLabel(updatedPayload);
+    });
+  }
+
   private formattedNumber(index: number): string {
     return ('0' + index).slice(-2);
+  }
+
+  private updateEntryLabel(payload: fromModels.UpadatePayload): void {
+    this.planHttpService.updateEntryLabel(payload)
+      .pipe(take(1))
+      .subscribe();
   }
 
   private updateEntry(payload: fromModels.UpadatePayload): void {
@@ -372,6 +399,7 @@ export class PlanService {
           this.goToDetails(this.parentPlanEntry);
         });
         this.updateParentTotals(payload.path);
+        this.updateEntryLabelToAllMonths(payload);
       });
   }
 
@@ -445,6 +473,7 @@ export class PlanService {
       entry: new FormControl(planEntry.entry),
       hasEntries: new FormControl(planEntry.hasEntries),
       isInTotal: new FormControl(planEntry.isInTotal),
+      label: new FormControl(planEntry.label),
       month: new FormControl(planEntry.month),
       notes: new FormControl(planEntry.notes),
       order: new FormControl(planEntry.order),

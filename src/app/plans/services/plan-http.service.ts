@@ -107,10 +107,17 @@ export class PlanHttpService {
   }
 
   updateEntry(payload: fromModels.UpadatePayload): Observable<any> {
-    const { entry, isInTotal, notes, path, order, total } = payload;
+    const { entry, isInTotal, label, notes, path, order, total } = payload;
     const updatedPath: string = `/workspaces/${uid}/plans/${path}`;
     const db: AngularFireList<any> = this.db.list(updatedPath);
-    return of(db.update(entry, { isInTotal, notes, order, total }));
+    return of(db.update(entry, { isInTotal, label, notes, order, total }));
+  }
+
+  updateEntryLabel(payload: fromModels.UpadatePayload): Observable<any> {
+    const { entry, label, path } = payload;
+    const updatedPath: string = `/workspaces/${uid}/plans/${path}`;
+    const db: AngularFireList<any> = this.db.list(updatedPath);
+    return of(db.update(entry, { label }));
   }
 
   updateParentEntry(payload: fromModels.UpadatePayload): Observable<any> {
