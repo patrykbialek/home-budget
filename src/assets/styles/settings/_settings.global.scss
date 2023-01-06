@@ -152,6 +152,22 @@ $mq-breakpoints: (
 
 @import "./settings.colors";
 
+.mat-form-field.mat-focused .mat-form-field-label {
+  color: $color--primary;
+}
+.mat-form-field.mat-form-field-invalid .mat-form-field-label {
+  color: $red_600;
+}
+.mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  color: $color--primary;
+}
+.mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  caret-color: $color--primary!important;
+}
+.mat-input-element {
+  caret-color: $color--primary;
+}
+.mat-flat-button.mat-primary,
 .mat-raised-button.mat-primary {
   background-color: $color--primary;
 }
@@ -170,10 +186,12 @@ $mq-breakpoints: (
 .mat-stroked-button.mat-red {
   color: $red_600;
 }
+.mat-mat-button.mat-green,
 .mat-raised-button.mat-green {
   background-color: $green_500;
   color: $grey_50;
 }
+.mat-flat-button.mat-red,
 .mat-raised-button.mat-red {
   background-color: $red_500;
   color: $grey_50;

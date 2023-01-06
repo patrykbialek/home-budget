@@ -7,7 +7,7 @@ import { DataProperty } from '../models/plans.enum';
 import { Router } from '@angular/router';
 import { BreadcrumbsService } from './breadcrumbs.service';
 import { dataLabels, defaultDataSource, labels, monthLabel, months } from '../shared/plans.config';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { PlanAddColumnFormComponent, PlanDetailsFormComponent } from '../components';
 import { BreadcrumbsItem } from '../models/plan-breadcrumbs.model';
@@ -118,12 +118,7 @@ export class PlanService {
   }
 
   public addColumn(): void {
-    const form: FormGroup = new FormGroup({
-      hasEntries: new FormControl(),
-      label: new FormControl(),
-      order: new FormControl(),
-    });
-
+    const form: FormGroup = this.buildAddColumnForm();
     this.openAddColumnDialog(form);
   }
 
@@ -308,7 +303,7 @@ export class PlanService {
         setTimeout(() => {
           this.goToDetails(this.parentPlanEntry);
           this.setIsLoadingOn(false);
-        }, 300);
+        }, 450);
       });
   }
 
@@ -368,7 +363,7 @@ export class PlanService {
       .subscribe(() => {
         setTimeout(() => {
           this.setIsLoadingOn(false);
-        }, 300);
+        }, 450);
       });
   }
 
@@ -413,7 +408,7 @@ export class PlanService {
         setTimeout(() => {
           this.goToDetails(this.parentPlanEntry);
           this.setIsLoadingOn(false);
-        }, 300);
+        }, 450);
       });
   }
 
@@ -485,16 +480,26 @@ export class PlanService {
   }
 
   private buildEditForm(planEntry: fromModels.PlanEntry): FormGroup {
+    const numberRegEx: RegExp = /^\d+([.,]\d{0,2})?$/;
+
     return new FormGroup({
       entry: new FormControl(planEntry.entry),
-      hasEntries: new FormControl(planEntry.hasEntries),
+      hasEntries: new FormControl(planEntry.hasEntries, [Validators.required]),
       isInTotal: new FormControl(planEntry.isInTotal),
-      label: new FormControl(planEntry.label),
+      label: new FormControl(planEntry.label, [Validators.required]),
       month: new FormControl(planEntry.month),
       notes: new FormControl(planEntry.notes),
-      order: new FormControl(planEntry.order),
+      order: new FormControl(planEntry.order, [Validators.required]),
       path: new FormControl(planEntry.path.replace('month', planEntry.month)),
-      total: new FormControl(planEntry.total),
+      total: new FormControl(planEntry.total, [Validators.required, Validators.pattern(numberRegEx)]),
+    });
+  }
+
+  private buildAddColumnForm(): FormGroup {
+    return new FormGroup({
+      hasEntries: new FormControl(null),
+      label: new FormControl(null, [Validators.required]),
+      order: new FormControl(0, [Validators.required]),
     });
   }
 

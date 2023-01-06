@@ -10,10 +10,12 @@ import { DataProperty } from '@home-budget/plans/models/plans.enum';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlanDetailsFormComponent {
-  public form: FormGroup;
-  public monthLabel: string;
   public category: string;
   public dataLabels: any;
+  public form: FormGroup;
+  public isDeleteButtonShown: boolean;
+  public isMoreShown: boolean = false;
+  public monthLabel: string;
 
   constructor(
     public dialogRef: MatDialogRef<PlanDetailsFormComponent>,
@@ -48,7 +50,11 @@ export class PlanDetailsFormComponent {
     return this.form.get(DataProperty.month) as FormControl;
   }
 
-  private get totalControl(): FormControl {
-    return this.form.get(DataProperty.total) as FormControl;
+  public toggleIsDeleteButtonShown(): void {
+    this.isDeleteButtonShown = !this.isDeleteButtonShown;
+  }
+
+  public toggleIsMoreShown(): void {
+    this.isMoreShown = !this.isMoreShown;
   }
 }

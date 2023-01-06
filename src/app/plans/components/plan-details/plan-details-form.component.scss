@@ -71,3 +71,14 @@ input.u-type-number {
   width: 12px;
   height: 12px;
 }
+
+::ng-deep .o-block {
+  display: block!important;
+  &--left {
+    text-align: left!important;
+  }
+}
+
+.c-actions-separator {
+  margin-left: -2px;
+}
