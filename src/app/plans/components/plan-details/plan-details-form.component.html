@@ -12,25 +12,57 @@
   <mat-dialog-content>
     <div class="o-grid o-grid--auto o-grid--start u-text-normal">
       <div class="o-grid__cell">
-        <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-form-field appearance="outline" class="o-block o-block--left u-margin-bottom-small c-custom-suffix">
           <mat-label>{{ 'Razem' | titlecase }}</mat-label>
           <input matInput
             formControlName="total"
             type="number"
+            min="0"
             onfocus="this.select();"
             class="u-type-number u-text-right-align">
+          <span matSuffix>PLN</span>
+          <mat-error *ngIf="form.get('total').hasError('required')">Pole wymagane.</mat-error>
+          <mat-error *ngIf="form.get('total').hasError('pattern')">Nieprawidłowa wartość.</mat-error>
         </mat-form-field>
-        <mat-form-field appearance="outline" style="width: 100%;">
-          <mat-label>{{ 'Notatki' | titlecase }}</mat-label>
-          <input matInput
-            formControlName="notes">
-        </mat-form-field>
-        <mat-form-field appearance="outline" style="width: 100%;">
-          <mat-label>{{ 'Kolejność' | titlecase }}</mat-label>
-          <input matInput
-            formControlName="order"
-            type="number">
-        </mat-form-field>
+
+        <div class="u-margin-top-small u-margin-bottom">
+          <mat-slide-toggle [checked]="isMoreShown" (change)="toggleIsMoreShown()" tabindex="-1">
+            <ng-container *ngIf="!isMoreShown">Więcej</ng-container>
+            <ng-container *ngIf="isMoreShown">Mniej</ng-container>
+          </mat-slide-toggle>
+        </div>
+
+        <ng-container *ngIf="isMoreShown">
+          <div class="o-grid">
+            <div class="o-grid__cell u-3/5">
+              <mat-form-field appearance="outline" class="o-block o-block--left u-margin-bottom-small">
+                <mat-label>{{ 'Etykieta' | titlecase }}</mat-label>
+                <input matInput
+                  formControlName="label">
+                <mat-error *ngIf="form.get('label').hasError('required')">Pole wymagane.</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="o-grid__cell u-2/5">
+              <mat-form-field appearance="outline" class="o-block o-block--left u-margin-bottom-small">
+                <mat-label>{{ 'Kolejność' | titlecase }}</mat-label>
+                <input matInput
+                  formControlName="order"
+                  type="number">
+                <mat-error *ngIf="form.get('order').hasError('required')">Pole wymagane.</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <mat-form-field appearance="outline" class="o-block o-block--left">
+            <mat-label>{{ 'Notatki' | titlecase }}</mat-label>
+            <input matInput
+              formControlName="notes">
+          </mat-form-field>
+          <div class="o-block o-block--left u-margin-bottom u-padding-bottom">
+            <mat-checkbox
+              formControlName="isInTotal">Dodaj do sumy (razem)</mat-checkbox>
+          </div>
+        </ng-container>
+
         <!-- <div formArrayName="entries">
           <ng-container *ngFor="let control of entries.controls let i = index;">
             <div [formGroupName]="i">
@@ -46,10 +78,18 @@
       </div>
     </div>
   </mat-dialog-content>
-  <mat-dialog-actions align="end" style="display: flex">
-    <button mat-button color="red" type="button" (click)="delete()">Usuń</button>
-    <div class="u-border-right u-margin-right-tiny u-padding-right-tiny">&nbsp;</div>
-    <button mat-button type="button" [mat-dialog-close]="null">Anuluj</button>
-    <button mat-button type="submit" (click)="save()">Zapisz</button>
+  <mat-dialog-actions align="end" style="display: flex;">
+    <button mat-button type="button" (click)="toggleIsDeleteButtonShown()" tabindex="-1">
+      <span *ngIf="!isDeleteButtonShown" class="u-text-error">USUŃ</span>
+      <span *ngIf="isDeleteButtonShown">ANULUJ</span>
+    </button>
+    <ng-container *ngIf="isDeleteButtonShown">
+      <button mat-flat-button color="red" type="button" (click)="delete()">USUŃ</button>
+    </ng-container>
+    <ng-container *ngIf="!isDeleteButtonShown">
+      <div class="c-actions-separator u-border-right u-margin-right-tiny u-padding-right-tiny">&nbsp;</div>
+      <button mat-button type="button" [mat-dialog-close]="null">ANULUJ</button>
+      <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid" (click)="save()">ZAPISZ</button>
+    </ng-container>
   </mat-dialog-actions>
 </form>

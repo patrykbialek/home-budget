@@ -1,3 +1,5 @@
+@import '../../../../assets/styles/settings/settings.colors';
+
 table {
   width: auto;
 }
@@ -59,4 +61,15 @@ input.u-type-number {
 }
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-suffix {
   margin-left: 8px;
+}
+::ng-deep .mat-card-content {
+  min-height: 420px;
+}
+
+::ng-deep .c-spinner {
+  height: 420px!important;
+}
+
+.u-is-not-in-total {
+  color: $grey_500;
 }

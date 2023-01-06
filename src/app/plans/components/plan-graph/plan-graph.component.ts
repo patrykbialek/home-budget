@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import * as config from '../../plans.config';
-import * as model from '../../plans.model';
+import * as config from '../../shared/plans.config';
+import * as fromModels from '@home-budget/plans/models';
 
-const planChartOption: Partial<model.PlanGraphConfig> = {
+const planChartOption: Partial<fromModels.PlanGraphConfig> = {
   backgroundColor: config.chartOption.color.transparent,
   label: '',
   pointHoverRadius: 7,
@@ -21,17 +21,17 @@ export class PlanGraphComponent implements OnInit {
   public chartLabels: Array<string>;
   public chartType: string = 'line';
   public data: any;
-  public incomesExpensesDatasets: Array<Partial<model.PlanGraphConfig>> = [];
+  public incomesExpensesDatasets: Array<Partial<fromModels.PlanGraphConfig>> = [];
   public incomesExpensesOptions: any;
-  public increaseDatasets: Array<Partial<model.PlanGraphConfig>> = [];
+  public increaseDatasets: Array<Partial<fromModels.PlanGraphConfig>> = [];
   public increaseOptions: any;
 
   @Input() public readonly dataSource: any[];
 
   public ngOnInit(): void {
     this.data = {
-      expenses: this.dataSource.map((data: any) => data.expenses),
-      incomes: this.dataSource.map((data: any) => data.incomes),
+      expenses: this.dataSource.map((data: any) => data.expense),
+      incomes: this.dataSource.map((data: any) => data.income),
       increase: this.dataSource.map((data: any) => data.increase),
     };
     this.chartLabels = Object.keys(config.monthLabel)

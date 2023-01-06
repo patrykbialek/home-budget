@@ -1,6 +1,6 @@
-import * as model from './plans.model';
+import * as fromModels from '@home-budget/plans/models';
 
-export const chartOption: model.ChartOption = {
+export const chartOption: fromModels.ChartOption = {
   color: {
     blue: 'rgba(0, 132, 255, 1)',
     green: 'rgba(13, 157, 61, 1)',
@@ -10,7 +10,7 @@ export const chartOption: model.ChartOption = {
 };
 
 // TODO: to be deleted
-export const planType: model.PlanType = {
+export const planType: any = {
   project: {
     id: 'project',
     long: 'Projekt',
@@ -21,7 +21,7 @@ export const planType: model.PlanType = {
   },
 };
 
-export const months: model.DataLabel[] = [
+export const months: fromModels.DataLabel[] = [
   {
     key: 'jan',
     value: 'Styczeń',
@@ -72,7 +72,7 @@ export const months: model.DataLabel[] = [
   },
 ];
 
-export const monthLabel: model.MonthLabel = {
+export const monthLabel: fromModels.MonthLabel = {
   january: {
     id: 'jan',
     long: 'Styczeń',
@@ -135,20 +135,20 @@ export const monthLabel: model.MonthLabel = {
   },
 };
 
-export const labels: model.DataLabel[] = [
+export const labels: fromModels.DataLabel[] = [
   { key: 'execution', value: 'Wykonanie' },
-  { key: 'expenses', value: 'Wydatki' },
-  { key: 'incomes', value: 'Przychody' },
+  { key: 'expense', value: 'Wydatki' },
+  { key: 'income', value: 'Przychody' },
   { key: 'month', value: 'Miesiąc' },
   { key: 'project', value: 'Projekt' },
   { key: 'total', value: 'Razem' },
 ];
 
 export const planColumns: string[] = [
-  'month', 'incomes', 'expenses', 'rest', 'increase',
+  'month', 'income', 'expense', 'rest', 'increase',
 ];
 
-export const navLinks: model.NavLink[] = [
+export const navLinks: fromModels.NavLink[] = [
   {
     label: 'Projekt',
     href: './project',
@@ -178,8 +178,8 @@ export const defaultDataSource: any[] = [
 
 export const dataLabels = {
   execution: 'Wykonanie',
-  expenses: 'Wydatki',
-  incomes: 'Przychody',
+  expense: 'Wydatki',
+  income: 'Przychody',
   increase: 'Przyrost',
   month: 'Miesiąc',
   project: 'Projekt',

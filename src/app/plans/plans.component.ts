@@ -1,10 +1,8 @@
-import { Observable } from 'rxjs';
-
 import { Component, OnInit } from '@angular/core';
 import { SharedUtilsService } from '@shared/services/shared-utils.service';
 
-import * as config from './plans.config';
-import * as model from './plans.model';
+import * as config from './shared/plans.config';
+import * as fromModels from '@home-budget/plans/models';
 import { PlanService } from './services/plan.service';
 import { PlanHttpService } from './services/plan-http.service';
 
@@ -14,14 +12,14 @@ import { PlanHttpService } from './services/plan-http.service';
   styleUrls: ['./plans.component.scss'],
 })
 export class PlansComponent implements OnInit {
-  public navLinks: model.NavLink[] = config.navLinks;
+  public navLinks: fromModels.NavLink[] = config.navLinks;
   public windowSize$ = this.sharedUtilsService.windowSize$;
 
   constructor(
     private readonly planHttpService: PlanHttpService,
     private readonly planService: PlanService,
     private readonly sharedUtilsService: SharedUtilsService,
-  ) {}
+  ) { }
 
   public ngOnInit(): void {
     this.planService.setCommonDataLables();

@@ -3,19 +3,21 @@
   <mat-dialog-content>
     <div class="o-grid o-grid--auto o-grid--start u-text-normal">
       <div class="o-grid__cell">
-        <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-form-field appearance="outline" class="o-block o-block--left u-margin-bottom-small">
           <mat-label>{{ 'Eytkieta' | titlecase }}</mat-label>
           <input matInput
             formControlName="label"
             onfocus="this.select()">
+          <mat-error *ngIf="form.get('label').hasError('required')">Pole wymagane.</mat-error>
         </mat-form-field>
-        <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-form-field appearance="outline" class="o-block o-block--left u-margin-bottom-small">
           <mat-label>{{ 'Kolejność' | titlecase }}</mat-label>
           <input matInput
             formControlName="order"
             type="number">
+          <mat-error *ngIf="form.get('order').hasError('required')">Pole wymagane.</mat-error>
         </mat-form-field>
-        <div style="width: 100%;">
+        <div class="o-block o-block--left u-margin-bottom">
           <mat-checkbox
             formControlName="hasEntries">Zawiera szczegóły</mat-checkbox>
         </div>
@@ -23,7 +25,7 @@
     </div>
   </mat-dialog-content>
   <mat-dialog-actions align="end">
-    <button mat-button type="button" [mat-dialog-close]="null">Anuluj</button>
-    <button mat-button type="submit" (click)="save()">Zapisz</button>
+    <button mat-button type="button" [mat-dialog-close]="null">ANULUJ</button>
+    <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid" (click)="save()">ZAPISZ</button>
   </mat-dialog-actions>
 </form>

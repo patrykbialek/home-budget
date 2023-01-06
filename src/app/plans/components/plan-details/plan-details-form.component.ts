@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { DataProperty } from '../../../plans/plans.enum';
+import { DataProperty } from '@home-budget/plans/models/plans.enum';
 
 @Component({
   selector: 'hb-plan-project-details-form',
@@ -10,10 +10,12 @@ import { DataProperty } from '../../../plans/plans.enum';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlanDetailsFormComponent {
-  public form: FormGroup;
-  public monthLabel: string;
   public category: string;
   public dataLabels: any;
+  public form: FormGroup;
+  public isDeleteButtonShown: boolean;
+  public isMoreShown: boolean = false;
+  public monthLabel: string;
 
   constructor(
     public dialogRef: MatDialogRef<PlanDetailsFormComponent>,
@@ -22,20 +24,6 @@ export class PlanDetailsFormComponent {
   ) {
     this.form = this.data.form;
     this.dataLabels = this.data.dataLabels;
-  }
-
-  private subscribeToColumnFormChanes(): void {
-    this.entries.valueChanges
-      .subscribe((item: any) => {
-        let total: number = 0;
-        item.forEach((entry: any) => {
-          if (entry.isInTotal) {
-            total += parseFloat(entry.value || 0);
-          }
-        });
-
-        this.totalControl.setValue(total);
-      });
   }
 
   public getEntries(control: string): FormArray {
@@ -62,7 +50,11 @@ export class PlanDetailsFormComponent {
     return this.form.get(DataProperty.month) as FormControl;
   }
 
-  private get totalControl(): FormControl {
-    return this.form.get(DataProperty.total) as FormControl;
+  public toggleIsDeleteButtonShown(): void {
+    this.isDeleteButtonShown = !this.isDeleteButtonShown;
+  }
+
+  public toggleIsMoreShown(): void {
+    this.isMoreShown = !this.isMoreShown;
   }
 }

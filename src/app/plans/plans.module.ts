@@ -28,7 +28,6 @@ import { PlansComponent } from './plans.component';
 
     SharedModule,
     PlanRoutingModule,
-    // TransactionsStoreModule,
     AuthenticationStoreModule,
 
     ChartsModule,

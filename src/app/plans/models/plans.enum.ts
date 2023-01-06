@@ -1,8 +1,8 @@
 export enum DataProperty {
   entries = 'entries',
   execution = 'execution',
-  expenses = 'expenses',
-  incomes = 'incomes',
+  expense = 'expense',
+  income = 'income',
   isInTotal = 'isInTotal',
   label = 'label',
   month = 'month',

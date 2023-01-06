@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import * as model from '../../plans.model';
+import * as fromModels from '@home-budget/plans/models';
 
 @Component({
   selector: 'hb-plan-summary',
@@ -15,7 +15,7 @@ export class PlanSummaryComponent {
   @Input() public readonly total: number;
   @Input() public readonly isLoading: boolean;
 
-  @Output() public goToDetails: EventEmitter<model.GoToDetails> = new EventEmitter();
+  @Output() public goToDetails: EventEmitter<any> = new EventEmitter();
 
   public onGoToDetails(element: any, type: string): void {
     const path: string = element.path;

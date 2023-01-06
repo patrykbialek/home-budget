@@ -5,9 +5,8 @@ import { map, take } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList, AngularFireObject } from '@angular/fire/database';
 import { AuthenticationHttpService } from '@home-budget/authentication/services';
-import * as fromModels from '@home-budget/transactions/models';
-import { DataEntry, UpadatePayload } from '../plans.model';
-import { months } from '../plans.config';
+import * as fromModels from '@home-budget/plans/models';
+import { months } from '../shared/plans.config';
 
 const uid: string = 'Pmj8IO7zkJeFDmtqSYHzE0A38in1';
 
@@ -50,7 +49,7 @@ export class PlanHttpService {
     return db.valueChanges();
   }
 
-  readData(sourcePath?: string): Observable<DataEntry[]> {
+  readData(sourcePath?: string): Observable<fromModels.DataEntry[]> {
     const path: string = `/workspaces/${uid}/plans/${sourcePath}`;
     const db: AngularFireList<any> = this.db.list(path);
     return db.snapshotChanges().pipe(
@@ -107,14 +106,21 @@ export class PlanHttpService {
     db.update(payload);
   }
 
-  updateEntry(payload: UpadatePayload): Observable<any> {
-    const { entry, notes, path, order, total } = payload;
+  updateEntry(payload: fromModels.UpadatePayload): Observable<any> {
+    const { entry, isInTotal, label, notes, path, order, total } = payload;
     const updatedPath: string = `/workspaces/${uid}/plans/${path}`;
     const db: AngularFireList<any> = this.db.list(updatedPath);
-    return of(db.update(entry, { notes, order, total }));
+    return of(db.update(entry, { isInTotal, label, notes, order, total }));
   }
 
-  updateParentEntry(payload: UpadatePayload): Observable<any> {
+  updateEntryLabel(payload: fromModels.UpadatePayload): Observable<any> {
+    const { entry, label, path } = payload;
+    const updatedPath: string = `/workspaces/${uid}/plans/${path}`;
+    const db: AngularFireList<any> = this.db.list(updatedPath);
+    return of(db.update(entry, { label }));
+  }
+
+  updateParentEntry(payload: fromModels.UpadatePayload): Observable<any> {
     const { entry, path, total } = payload;
     const updatedPath: string = `/workspaces/${uid}/plans/${path}`;
     const db: AngularFireList<any> = this.db.list(updatedPath);
@@ -189,26 +195,26 @@ export class PlanHttpService {
     month: string
   ): any {
     return {
-      incomes: {
+      income: {
         entries: this.dataProjectIncomeEntry(
           monthId,
           month,
           parentPath,
           1,
-          'incomes'
+          'income'
         ),
         isInTotal: false,
         label: 'Przychody',
         total: 0,
         path: `${parentPath}/entries`,
       },
-      expenses: {
+      expense: {
         entries: this.dataProjectExpenseEntry(
           monthId,
           month,
           parentPath,
           1,
-          'expenses'
+          'expense'
         ),
         isInTotal: false,
         label: 'Wydatki',

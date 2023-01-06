@@ -3,32 +3,32 @@ import { combineLatest, forkJoin, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { PlanHttpService } from './plan-http.service';
 import { filter, take, tap } from 'rxjs/operators';
-import { DataProperty } from '../plans.enum';
+import { DataProperty } from '../models/plans.enum';
 import { Router } from '@angular/router';
-import { DataLabels, DataLabel, DataSourceDetails, PlanEntry, DataSourceDetailsEntry, DataItem, DataSourceSummary, UpadatePayload } from '../plans.model';
 import { BreadcrumbsService } from './breadcrumbs.service';
-import { dataLabels, defaultDataSource, labels, monthLabel, months } from '../plans.config';
-import { FormControl, FormGroup } from '@angular/forms';
+import { dataLabels, defaultDataSource, labels, monthLabel, months } from '../shared/plans.config';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { PlanAddColumnFormComponent, PlanDetailsFormComponent } from '../components';
-import { BreadcrumbsItem } from '../containers/plan-breadcrumbs/plan-breadcrumbs.model';
+import { BreadcrumbsItem } from '../models/plan-breadcrumbs.model';
 
 import * as _ from 'lodash';
+import * as fromModels from '@home-budget/plans/models';
 
 const commonLabels: string[] = ['month', 'monthId', 'order', 'path', 'parentPath', 'total'];
 
 @Injectable({ providedIn: 'root' })
 export class PlanService {
   public dataColumns: string[];
-  public dataLabels: DataLabels = dataLabels;
-  public dataSource: DataSourceDetails[] = [];
-  public dataSourceFooter: DataSourceDetails;
-  public defaultDataSource: DataSourceSummary[] = [];
+  public dataLabels: fromModels.DataLabels = dataLabels;
+  public dataSource: fromModels.DataSourceDetails[] = [];
+  public dataSourceFooter: fromModels.DataSourceDetails;
+  public defaultDataSource: fromModels.DataSourceSummary[] = [];
   public displayedColumns: string[] = [];
   public form: FormGroup;
-  public isLoading: boolean;
 
-  private parentPlanEntry: PlanEntry;
+  private isLoadingOn: boolean = false;
+  private parentPlanEntry: fromModels.PlanEntry;
   private readonly main: string = 'plan';
 
   constructor(
@@ -38,8 +38,12 @@ export class PlanService {
     private readonly router: Router,
   ) { }
 
-  public get months(): DataLabel[] {
+  public get months(): fromModels.DataLabel[] {
     return months;
+  }
+
+  public get isLoading(): boolean {
+    return this.isLoadingOn;
   }
 
   public readData(sourcePath: string): Observable<any> {
@@ -54,8 +58,8 @@ export class PlanService {
     return this.planHttpService.readDataByType(sourcePath);
   }
 
-  public setDataLabelsAndColumns(data: DataSourceDetails): void {
-    const labels: DataLabel[] = Object.keys(data)
+  public setDataLabelsAndColumns(data: fromModels.DataSourceDetails): void {
+    const labels: fromModels.DataLabel[] = Object.keys(data)
       .map((key: string) => {
         return {
           key: key,
@@ -63,17 +67,17 @@ export class PlanService {
           value: <string>data[key].label,
         };
       })
-      .sort((first: DataLabel, last: DataLabel) => first.order - last.order)
-      .filter((entry: DataLabel) => {
+      .sort((first: fromModels.DataLabel, last: fromModels.DataLabel) => first.order - last.order)
+      .filter((entry: fromModels.DataLabel) => {
         return !commonLabels.includes(entry.key);
       })
-      .map((entry: DataLabel) => entry);
+      .map((entry: fromModels.DataLabel) => entry);
 
     this.setDataColumns(labels);
     this.setDataLabels(labels);
   }
 
-  public setDataLabel(label: DataLabel): void {
+  public setDataLabel(label: fromModels.DataLabel): void {
     this.dataLabels = {
       ...this.dataLabels,
       [label.key]: label.value,
@@ -88,7 +92,7 @@ export class PlanService {
       });
     });
 
-    labels.forEach((label: DataLabel) => {
+    labels.forEach((label: fromModels.DataLabel) => {
       this.setDataLabel(label);
     });
   }
@@ -97,7 +101,7 @@ export class PlanService {
     this.defaultDataSource = defaultDataSource;
   }
 
-  public editPlanEntry(planEntry: PlanEntry): void {
+  public editPlanEntry(planEntry: fromModels.PlanEntry): void {
     const form: FormGroup = this.buildEditForm(planEntry);
     this.editDetails(form, planEntry);
   }
@@ -114,16 +118,11 @@ export class PlanService {
   }
 
   public addColumn(): void {
-    const form: FormGroup = new FormGroup({
-      hasEntries: new FormControl(),
-      label: new FormControl(),
-      order: new FormControl(),
-    });
-
+    const form: FormGroup = this.buildAddColumnForm();
     this.openAddColumnDialog(form);
   }
 
-  public goToDetails(planEntry: PlanEntry): void {
+  public goToDetails(planEntry: fromModels.PlanEntry): void {
     if (planEntry.href) {
       this.router.navigate([planEntry.href]);
       return;
@@ -134,14 +133,14 @@ export class PlanService {
     this.parentPlanEntry = planEntry;
   }
 
-  private formBreadcrumbs(planEntry: PlanEntry): void {
+  private formBreadcrumbs(planEntry: fromModels.PlanEntry): void {
     this.breadcrumbsService.formBreadcrumbs(planEntry, this.dataLabels);
   }
 
-  private subscribeToReadData(planEntry: PlanEntry): void {
+  private subscribeToReadData(planEntry: fromModels.PlanEntry): void {
     // TODO: replace path with generic one
     this.readData(`${'2023'}/entries`)
-      .subscribe((data: DataItem[]) => {
+      .subscribe((data: fromModels.DataItem[]) => {
         this.formDataSource(planEntry, data);
         this.setDataSourceFooter();
         this.setDataLabelsAndColumns(this.dataSource[0]);
@@ -149,13 +148,13 @@ export class PlanService {
       });
   }
 
-  private formDataSource(planEntry: PlanEntry, data: DataItem[]): void {
+  private formDataSource(planEntry: fromModels.PlanEntry, data: fromModels.DataItem[]): void {
     const dataSourceEntryPath: string = `${planEntry.path}/${planEntry.entry}/entries`;
     this.dataSource = data
-      .sort((first: DataItem, last: DataItem) => first.order - last.order)
-      .map((entry: DataItem) => {
+      .sort((first: fromModels.DataItem, last: fromModels.DataItem) => first.order - last.order)
+      .map((entry: fromModels.DataItem) => {
         let total: number = 0;
-        let dataItem: DataSourceDetails = {
+        let dataItem: fromModels.DataSourceDetails = {
           month: entry.key,
           order: entry.order,
           path: dataSourceEntryPath,
@@ -163,7 +162,7 @@ export class PlanService {
         };
 
         const dataItemEntries: {
-          dataItem: DataSourceDetails; total: number;
+          dataItem: fromModels.DataSourceDetails; total: number;
         } = this.formDataItemEntries(total, dataItem, planEntry, entry, dataSourceEntryPath);
         dataItem = {
           ...dataItemEntries.dataItem,
@@ -173,30 +172,34 @@ export class PlanService {
       });
   }
 
-  private formEntries(planEntry: PlanEntry, entry: DataItem): { [key: string]: DataSourceDetailsEntry; } {
+  private formEntries(planEntry: fromModels.PlanEntry, entry: fromModels.DataItem)
+    : { [key: string]: fromModels.DataSourceDetailsEntry; } {
     const path1: string[] = planEntry.path.substring(18, planEntry.path.length).split('/');
     const path2: string = path1.join('.').concat(`.${planEntry.entry}.entries`);
     const path3: string = path2.substring(1, path2.length);
     return _.get(entry, path3);
   }
 
-  private formDataItemEntries(total: number, dataItem: DataSourceDetails,
-    planEntry: PlanEntry, entry: DataItem, dataSourceEntryPath: string): {
-      dataItem: DataSourceDetails; total: number;
+  private formDataItemEntries(total: number, dataItem: fromModels.DataSourceDetails,
+    planEntry: fromModels.PlanEntry, entry: fromModels.DataItem, dataSourceEntryPath: string): {
+      dataItem: fromModels.DataSourceDetails; total: number;
     } {
-    const entries: { [key: string]: DataSourceDetailsEntry; } = this.formEntries(planEntry, entry);
+    const entries: { [key: string]: fromModels.DataSourceDetailsEntry; } = this.formEntries(planEntry, entry);
     Object.keys(entries)
-      .forEach((entry: string) => {
-        total += entries[entry].total;
+      .forEach((key: string) => {
+        if (entries[key].isInTotal) {
+          total += entries[key].total;
+        }
         dataItem = {
           ...dataItem,
-          [entry]: {
-            hasEntries: Boolean(entries[entry].entries),
-            label: entries[entry].label,
-            notes: entries[entry].notes,
-            order: entries[entry].order,
+          [key]: {
+            hasEntries: Boolean(entries[key].entries),
+            isInTotal: entries[key].isInTotal,
+            label: entries[key].label,
+            notes: entries[key].notes,
+            order: entries[key].order,
             path: `${dataSourceEntryPath}/${entry}`,
-            total: entries[entry].total,
+            total: entries[key].total,
           }
         };
       });
@@ -205,7 +208,8 @@ export class PlanService {
 
   private setDataSourceFooter(): void {
     const commonColumns: string[] = ['month', 'order', 'path', 'parentPath'];
-    let rowTotals = {
+    let rowTotals: fromModels.DataSourceDetails = {
+      isInTotal: false,
       month: 'total',
       total: 0,
     };
@@ -221,9 +225,9 @@ export class PlanService {
       });
 
     // NOTE: calculate totals
-    this.dataSource.forEach((entry: DataSourceDetails) => {
+    this.dataSource.forEach((entry: fromModels.DataSourceDetails) => {
       Object.keys(entry).forEach((key: string) => {
-        if (entry[key].total >= 0) {
+        if (key !== 'isInTotal' && entry[key].total >= 0) {
           const total: number = rowTotals[key].total + entry[key].total;
           rowTotals = {
             ...rowTotals,
@@ -236,11 +240,12 @@ export class PlanService {
     // NOTE: caclulate total of totals
     Object.keys(rowTotals)
       .forEach((key: string) => {
-        const total = !['month', 'total'].includes(key)
+        const total = !['isInTotal', 'month', 'total'].includes(key)
           ? rowTotals.total + rowTotals[key].total
           : 0;
         rowTotals = {
           ...rowTotals,
+          isInTotal: rowTotals[key].isInTotal,
           total,
         };
       });
@@ -248,7 +253,7 @@ export class PlanService {
     this.dataSourceFooter = rowTotals;
   }
 
-  public editDetails(form: FormGroup, planEntry: PlanEntry): void {
+  public editDetails(form: FormGroup, planEntry: fromModels.PlanEntry): void {
     const dialogRef = this.dialog.open(PlanDetailsFormComponent, {
       data: { form, dataLabels: this.dataLabels },
     });
@@ -256,12 +261,13 @@ export class PlanService {
     dialogRef.afterClosed()
       .pipe(filter((callback: { form: FormGroup; }) => Boolean(callback)))
       .subscribe((callback: { form: FormGroup; isToDelete: boolean; }) => {
-        const { total, path, entry, notes, order } = callback.form.value;
+        const { entry, isInTotal, label, notes, order, path, total } = callback.form.value;
+        this.setIsLoadingOn(true);
         if (callback.isToDelete) {
           this.deleteEntry(path, entry);
           return;
         }
-        this.updateEntry({ entry, order, path, notes, total });
+        this.updateEntry({ entry, isInTotal, label, notes, order, path, total });
       });
   }
 
@@ -273,29 +279,31 @@ export class PlanService {
     dialogRef.afterClosed()
       .pipe(filter((result: { form: FormGroup; }) => Boolean(result)))
       .subscribe((result: { form: FormGroup; }) => {
+        this.setIsLoadingOn(true);
         this.addColumnToAllMonths(result);
       });
   }
 
-  private deleteEntry(path: string, entry: PlanEntry): void {
+  private deleteEntry(path: string, entry: fromModels.PlanEntry): void {
     let updatedPath: string = `${path}/${entry}`;
     const subs$: Observable<any>[] = [];
 
-    const months: DataLabel[] = this.months;
-    months.forEach((month: DataLabel) => {
+    const months: fromModels.DataLabel[] = this.months;
+    months.forEach((month: fromModels.DataLabel) => {
       updatedPath = updatedPath.replace(month.key, 'month');
     });
 
-    months.forEach((month: DataLabel) => {
+    months.forEach((month: fromModels.DataLabel) => {
       const replacedPath = updatedPath.replace('month', month.key);
       subs$.push(this.planHttpService.deletePlanEntry(replacedPath));
     });
 
-    combineLatest(subs$)
+    forkJoin(subs$)
       .subscribe(() => {
         setTimeout(() => {
           this.goToDetails(this.parentPlanEntry);
-        });
+          this.setIsLoadingOn(false);
+        }, 450);
       });
   }
 
@@ -312,12 +320,12 @@ export class PlanService {
       total: 0,
     };
 
-    const months: DataLabel[] = this.months;
-    months.forEach((month: DataLabel) => {
+    const months: fromModels.DataLabel[] = this.months;
+    months.forEach((month: fromModels.DataLabel) => {
       path = path.replace(month.key, 'month');
     });
 
-    months.forEach((month: DataLabel) => {
+    months.forEach((month: fromModels.DataLabel) => {
       const replacedPath = path.replace('month', month.key);
       subs$.push(this.planHttpService.readEntriesObject(replacedPath)
         .pipe(
@@ -351,21 +359,56 @@ export class PlanService {
       );
     });
 
-    combineLatest(subs$).subscribe();
+    forkJoin(subs$)
+      .subscribe(() => {
+        setTimeout(() => {
+          this.setIsLoadingOn(false);
+        }, 450);
+      });
+  }
+
+  private updateEntryLabelToAllMonths(payload: fromModels.UpadatePayload): void {
+    const entry: string = payload.entry;
+    const label: string = payload.label;
+
+    let path: string = this.currentEntries.path;
+    const months: fromModels.DataLabel[] = this.months;
+    months.forEach((month: fromModels.DataLabel) => {
+      path = path.replace(month.key, 'month');
+    });
+
+    months.forEach((month: fromModels.DataLabel) => {
+      const replacedPath: string = path.replace('month', month.key);
+      const updatedPayload: fromModels.UpadatePayload = {
+        entry,
+        label,
+        path: replacedPath,
+      };
+      this.updateEntryLabel(updatedPayload);
+    });
   }
 
   private formattedNumber(index: number): string {
     return ('0' + index).slice(-2);
   }
 
-  private updateEntry(payload: UpadatePayload): void {
+  private updateEntryLabel(payload: fromModels.UpadatePayload): void {
+    this.planHttpService.updateEntryLabel(payload)
+      .pipe(take(1))
+      .subscribe();
+  }
+
+  private updateEntry(payload: fromModels.UpadatePayload): void {
     this.planHttpService.updateEntry(payload)
       .pipe(take(1))
       .subscribe(() => {
+        this.updateParentTotals(payload.path);
+        this.updateEntryLabelToAllMonths(payload);
+
         setTimeout(() => {
           this.goToDetails(this.parentPlanEntry);
-        });
-        this.updateParentTotals(payload.path);
+          this.setIsLoadingOn(false);
+        }, 450);
       });
   }
 
@@ -382,16 +425,18 @@ export class PlanService {
           this.readDataByTypeObject(newPath.join('/'))
             .pipe(
               take(len / 2),
-              tap((response: DataItem) => {
+              tap((response: fromModels.DataItem) => {
                 if (response.key !== 'entries') {
-                  let total = 0;
+                  let total: number = 0;
                   const entries = response.value.entries;
                   Object.keys(entries)
                     .forEach((entryKey: string) => {
-                      total += entries[entryKey].total;
+                      if (entries[entryKey].isInTotal) {
+                        total += entries[entryKey].total;
+                      }
                     });
 
-                  const updatePayload: UpadatePayload = {
+                  const updatePayload: fromModels.UpadatePayload = {
                     path,
                     entry: response.key,
                     total: parseFloat(total.toFixed(2)),
@@ -403,12 +448,14 @@ export class PlanService {
         );
       }
     }
-    forkJoin(subs$).subscribe();
+    forkJoin(subs$)
+      .subscribe();
   }
 
-  private updateParentEntry(payload: UpadatePayload): void {
+  private updateParentEntry(payload: fromModels.UpadatePayload): void {
     this.planHttpService.updateParentEntry(payload)
-      .pipe(take(1)).subscribe();
+      .pipe(take(1))
+      .subscribe();
   }
 
   private setDisplayedColumns(): void {
@@ -420,28 +467,44 @@ export class PlanService {
     ]);
   }
 
-  private setDataColumns(labels: DataLabel[]): void {
+  private setDataColumns(labels: fromModels.DataLabel[]): void {
     this.dataColumns = [];
-    this.dataColumns = labels.map((label: DataLabel) => label.key);
+    this.dataColumns = labels.map((label: fromModels.DataLabel) => label.key);
   }
 
-  private setDataLabels(labels: DataLabel[]): void {
+  private setDataLabels(labels: fromModels.DataLabel[]): void {
     this.dataLabels = Object.assign(
       this.dataLabels,
       ...labels.map((item) => ({ [item.key]: item.value }))
     );
   }
 
-  private buildEditForm(planEntry: PlanEntry): FormGroup {
+  private buildEditForm(planEntry: fromModels.PlanEntry): FormGroup {
+    const numberRegEx: RegExp = /^\d+([.,]\d{0,2})?$/;
+
     return new FormGroup({
       entry: new FormControl(planEntry.entry),
-      hasEntries: new FormControl(planEntry.hasEntries),
+      hasEntries: new FormControl(planEntry.hasEntries, [Validators.required]),
+      isInTotal: new FormControl(planEntry.isInTotal),
+      label: new FormControl(planEntry.label, [Validators.required]),
       month: new FormControl(planEntry.month),
       notes: new FormControl(planEntry.notes),
-      order: new FormControl(planEntry.order),
+      order: new FormControl(planEntry.order, [Validators.required]),
       path: new FormControl(planEntry.path.replace('month', planEntry.month)),
-      total: new FormControl(planEntry.total),
+      total: new FormControl(planEntry.total, [Validators.required, Validators.pattern(numberRegEx)]),
     });
+  }
+
+  private buildAddColumnForm(): FormGroup {
+    return new FormGroup({
+      hasEntries: new FormControl(null),
+      label: new FormControl(null, [Validators.required]),
+      order: new FormControl(0, [Validators.required]),
+    });
+  }
+
+  private setIsLoadingOn(isOn: boolean): void {
+    this.isLoadingOn = isOn;
   }
 
 }
