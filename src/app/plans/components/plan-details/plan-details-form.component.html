@@ -13,17 +13,17 @@
     <div class="o-grid o-grid--auto o-grid--start u-text-normal">
       <div class="o-grid__cell">
         <mat-form-field appearance="outline" style="width: 100%;">
-          <mat-label>{{ 'Nazwa' | titlecase }}</mat-label>
-          <input matInput
-            formControlName="label">
-        </mat-form-field>
-        <mat-form-field appearance="outline" style="width: 100%;">
           <mat-label>{{ 'Razem' | titlecase }}</mat-label>
           <input matInput
-            formControlName="total"
-            type="number"
-            onfocus="this.select();"
-            class="u-type-number u-text-right-align">
+          formControlName="total"
+          type="number"
+          onfocus="this.select();"
+          class="u-type-number u-text-right-align">
+        </mat-form-field>
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>{{ 'Etykieta' | titlecase }}</mat-label>
+          <input matInput
+            formControlName="label">
         </mat-form-field>
         <mat-form-field appearance="outline" style="width: 100%;">
           <mat-label>{{ 'Notatki' | titlecase }}</mat-label>

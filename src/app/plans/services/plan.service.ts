@@ -26,8 +26,8 @@ export class PlanService {
   public defaultDataSource: fromModels.DataSourceSummary[] = [];
   public displayedColumns: string[] = [];
   public form: FormGroup;
-  public isLoading: boolean;
 
+  private isLoadingOn: boolean = false;
   private parentPlanEntry: fromModels.PlanEntry;
   private readonly main: string = 'plan';
 
@@ -40,6 +40,10 @@ export class PlanService {
 
   public get months(): fromModels.DataLabel[] {
     return months;
+  }
+
+  public get isLoading(): boolean {
+    return this.isLoadingOn;
   }
 
   public readData(sourcePath: string): Observable<any> {
@@ -263,6 +267,7 @@ export class PlanService {
       .pipe(filter((callback: { form: FormGroup; }) => Boolean(callback)))
       .subscribe((callback: { form: FormGroup; isToDelete: boolean; }) => {
         const { entry, isInTotal, label, notes, order, path, total } = callback.form.value;
+        this.setIsLoadingOn(true);
         if (callback.isToDelete) {
           this.deleteEntry(path, entry);
           return;
@@ -279,6 +284,7 @@ export class PlanService {
     dialogRef.afterClosed()
       .pipe(filter((result: { form: FormGroup; }) => Boolean(result)))
       .subscribe((result: { form: FormGroup; }) => {
+        this.setIsLoadingOn(true);
         this.addColumnToAllMonths(result);
       });
   }
@@ -297,11 +303,12 @@ export class PlanService {
       subs$.push(this.planHttpService.deletePlanEntry(replacedPath));
     });
 
-    combineLatest(subs$)
+    forkJoin(subs$)
       .subscribe(() => {
         setTimeout(() => {
           this.goToDetails(this.parentPlanEntry);
-        });
+          this.setIsLoadingOn(false);
+        }, 300);
       });
   }
 
@@ -357,7 +364,12 @@ export class PlanService {
       );
     });
 
-    combineLatest(subs$).subscribe();
+    forkJoin(subs$)
+      .subscribe(() => {
+        setTimeout(() => {
+          this.setIsLoadingOn(false);
+        }, 300);
+      });
   }
 
   private updateEntryLabelToAllMonths(payload: fromModels.UpadatePayload): void {
@@ -395,11 +407,13 @@ export class PlanService {
     this.planHttpService.updateEntry(payload)
       .pipe(take(1))
       .subscribe(() => {
-        setTimeout(() => {
-          this.goToDetails(this.parentPlanEntry);
-        });
         this.updateParentTotals(payload.path);
         this.updateEntryLabelToAllMonths(payload);
+
+        setTimeout(() => {
+          this.goToDetails(this.parentPlanEntry);
+          this.setIsLoadingOn(false);
+        }, 300);
       });
   }
 
@@ -439,12 +453,14 @@ export class PlanService {
         );
       }
     }
-    forkJoin(subs$).subscribe();
+    forkJoin(subs$)
+      .subscribe();
   }
 
   private updateParentEntry(payload: fromModels.UpadatePayload): void {
     this.planHttpService.updateParentEntry(payload)
-      .pipe(take(1)).subscribe();
+      .pipe(take(1))
+      .subscribe();
   }
 
   private setDisplayedColumns(): void {
@@ -480,6 +496,10 @@ export class PlanService {
       path: new FormControl(planEntry.path.replace('month', planEntry.month)),
       total: new FormControl(planEntry.total),
     });
+  }
+
+  private setIsLoadingOn(isOn: boolean): void {
+    this.isLoadingOn = isOn;
   }
 
 }
