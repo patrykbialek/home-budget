@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { PlanEntry } from '../../../plans/plans.model';
+import * as fromModels from '@home-budget/plans/models';
 import { PlanService } from '../../../plans/services/plan.service';
 import { BreadcrumbsService } from '../../services/breadcrumbs.service';
-import { BreadcrumbsItem } from './plan-breadcrumbs.model';
+import { BreadcrumbsItem } from '../../models/plan-breadcrumbs.model';
 
 @Component({
   selector: 'hb-plan-breadcrumbs',
@@ -34,7 +34,7 @@ export class PlanBreadcrumbsComponent {
 
   public goToDetails(event: BreadcrumbsItem): void {
     const { entry, hasEntries, label, isCurrent, href, path } = event;
-    const planEntry: PlanEntry = {
+    const planEntry: fromModels.PlanEntry = {
       entry,
       hasEntries,
       href,

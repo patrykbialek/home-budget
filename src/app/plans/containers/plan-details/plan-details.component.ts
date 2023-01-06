@@ -3,11 +3,11 @@ import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router, UrlSegment } from '@angular/router';
 
-import * as config from '../../plans.config';
-import { DataProperty } from '../../plans.enum';
-import * as model from '../../plans.model';
+import * as config from '../../shared/plans.config';
+import { DataProperty } from '../../models/plans.enum';
+import * as fromModels from '@home-budget/plans/models';
 import { combineLatest } from 'rxjs';
-import { BreadcrumbsItem } from '../plan-breadcrumbs/plan-breadcrumbs.model';
+import { BreadcrumbsItem } from '../../models/plan-breadcrumbs.model';
 import { BreadcrumbsService } from '../../../plans/services/breadcrumbs.service';
 import { PlanService } from '../../../plans/services/plan.service';
 
@@ -21,7 +21,7 @@ export class PlanDetailsComponent implements OnDestroy, OnInit {
   public month: string;
 
   private isDataLoaded: boolean;
-  private readonly planType: model.Item = config.planType[DataProperty.project];
+  private readonly planType: fromModels.Item = config.planType[DataProperty.project];
   private readonly planYear: string = '2023';
 
   constructor(
@@ -42,7 +42,7 @@ export class PlanDetailsComponent implements OnDestroy, OnInit {
     this.subscribeToRouteChange();
   }
 
-  public get dataLabels(): model.DataLabels {
+  public get dataLabels(): fromModels.DataLabels {
     return this.planService.dataLabels;
   }
 
@@ -50,11 +50,11 @@ export class PlanDetailsComponent implements OnDestroy, OnInit {
     return this.breadcrumbsService.breadcrumbs;
   }
 
-  public get dataSource(): model.DataSourceDetails[] {
+  public get dataSource(): fromModels.DataSourceDetails[] {
     return this.planService.dataSource;
   }
 
-  public get dataSourceFooter(): model.DataSourceDetails {
+  public get dataSourceFooter(): fromModels.DataSourceDetails {
     return this.planService.dataSourceFooter;
   }
 
@@ -70,11 +70,11 @@ export class PlanDetailsComponent implements OnDestroy, OnInit {
     return this.planService.isLoading;
   }
 
-  public editPlanEntry(event: model.PlanEntry): void {
+  public editPlanEntry(event: fromModels.PlanEntry): void {
     this.planService.editPlanEntry(event);
   }
 
-  public goToDetails(event: model.PlanEntry): void {
+  public goToDetails(event: fromModels.PlanEntry): void {
     this.planService.goToDetails(event);
   }
 
@@ -83,7 +83,7 @@ export class PlanDetailsComponent implements OnDestroy, OnInit {
       this.activatedRoute.url,
       this.activatedRoute.queryParams,
     ])
-      .subscribe((response: [UrlSegment[], model.QueryParamsResponse]) => {
+      .subscribe((response: [UrlSegment[], fromModels.QueryParamsResponse]) => {
         if (response && response[1].path) {
           this.addMainBreadcrumb(response[0][0].path);
           this.goToDetails(this.formMainEntry(response[1]));
@@ -98,7 +98,7 @@ export class PlanDetailsComponent implements OnDestroy, OnInit {
       });
   }
 
-  private formMainEntry(params: model.RouteParam): model.PlanEntry {
+  private formMainEntry(params: fromModels.QueryParamsResponse): fromModels.PlanEntry {
     return {
       entry: params.type,
       hasEntries: true,
@@ -107,7 +107,7 @@ export class PlanDetailsComponent implements OnDestroy, OnInit {
   }
 
   private addMainBreadcrumb(entry: string): void {
-    const planEntry: model.PlanEntry = {
+    const planEntry: fromModels.PlanEntry = {
       entry,
       label: this.dataLabels[entry],
       hasEntries: true,

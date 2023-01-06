@@ -5,9 +5,8 @@ import { map, take } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList, AngularFireObject } from '@angular/fire/database';
 import { AuthenticationHttpService } from '@home-budget/authentication/services';
-import * as fromModels from '@home-budget/transactions/models';
-import { DataEntry, UpadatePayload } from '../plans.model';
-import { months } from '../plans.config';
+import * as fromModels from '@home-budget/plans/models';
+import { months } from '../shared/plans.config';
 
 const uid: string = 'Pmj8IO7zkJeFDmtqSYHzE0A38in1';
 
@@ -50,7 +49,7 @@ export class PlanHttpService {
     return db.valueChanges();
   }
 
-  readData(sourcePath?: string): Observable<DataEntry[]> {
+  readData(sourcePath?: string): Observable<fromModels.DataEntry[]> {
     const path: string = `/workspaces/${uid}/plans/${sourcePath}`;
     const db: AngularFireList<any> = this.db.list(path);
     return db.snapshotChanges().pipe(
@@ -107,14 +106,14 @@ export class PlanHttpService {
     db.update(payload);
   }
 
-  updateEntry(payload: UpadatePayload): Observable<any> {
+  updateEntry(payload: any): Observable<any> {
     const { entry, notes, path, order, total } = payload;
     const updatedPath: string = `/workspaces/${uid}/plans/${path}`;
     const db: AngularFireList<any> = this.db.list(updatedPath);
     return of(db.update(entry, { notes, order, total }));
   }
 
-  updateParentEntry(payload: UpadatePayload): Observable<any> {
+  updateParentEntry(payload: any): Observable<any> {
     const { entry, path, total } = payload;
     const updatedPath: string = `/workspaces/${uid}/plans/${path}`;
     const db: AngularFireList<any> = this.db.list(updatedPath);

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { DataProperty } from '../../../plans/plans.enum';
+import { DataProperty } from '@home-budget/plans/models/plans.enum';
 
 @Component({
   selector: 'hb-plan-project-details-form',

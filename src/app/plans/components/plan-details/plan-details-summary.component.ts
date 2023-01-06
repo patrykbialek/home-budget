@@ -6,7 +6,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { DataLabels, DataSourceDetails, DataSourceDetailsEntry, PlanEntry } from '../../../plans/plans.model';
+import * as fromModels from '@home-budget/plans/models';
 
 @Component({
   selector: 'hb-plan-details-summary',
@@ -15,28 +15,28 @@ import { DataLabels, DataSourceDetails, DataSourceDetailsEntry, PlanEntry } from
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlanDetailsSummaryComponent {
-  @Input() public readonly dataLabels: DataLabels;
-  @Input() public readonly dataSource: DataSourceDetails[];
-  @Input() public readonly dataSourceFooter: DataSourceDetails;
+  @Input() public readonly dataLabels: fromModels.DataLabels;
+  @Input() public readonly dataSource: fromModels.DataSourceDetails[];
+  @Input() public readonly dataSourceFooter: fromModels.DataSourceDetails;
   @Input() public readonly displayedColumns: string[];
   @Input() public readonly isLoading: boolean;
 
-  @Output() public editPlanEntry: EventEmitter<PlanEntry> = new EventEmitter();
-  @Output() public goToDetails: EventEmitter<PlanEntry> = new EventEmitter();
+  @Output() public editPlanEntry: EventEmitter<fromModels.PlanEntry> = new EventEmitter();
+  @Output() public goToDetails: EventEmitter<fromModels.PlanEntry> = new EventEmitter();
 
   @HostListener('contextmenu', ['$event'])
   onRightClick(event) {
     event.preventDefault();
   }
 
-  public onGoToDetails(element: DataSourceDetails, elementValue: DataSourceDetailsEntry): void {
+  public onGoToDetails(element: fromModels.DataSourceDetails, elementValue: fromModels.DataSourceDetailsEntry): void {
     let entry: string;
     Object.keys(element).forEach((key: string) => {
       if (element[key] === elementValue) {
         entry = key;
       }
     });
-    const planEntry: PlanEntry = {
+    const planEntry: fromModels.PlanEntry = {
       entry,
       hasEntries: elementValue.hasEntries,
       month: element.month,
@@ -51,14 +51,14 @@ export class PlanDetailsSummaryComponent {
       : this.editPlanEntry.emit(planEntry);
   }
 
-  public onEditPlanEntry(element: DataSourceDetails, elementValue: DataSourceDetailsEntry): void {
+  public onEditPlanEntry(element: fromModels.DataSourceDetails, elementValue: fromModels.DataSourceDetailsEntry): void {
     let entry: string;
     Object.keys(element).forEach((key: string) => {
       if (element[key] === elementValue) {
         entry = key;
       }
     });
-    const planEntry: PlanEntry = {
+    const planEntry: fromModels.PlanEntry = {
       entry,
       hasEntries: elementValue.hasEntries,
       month: element.month,
