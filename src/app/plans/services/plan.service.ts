@@ -173,7 +173,8 @@ export class PlanService {
       });
   }
 
-  private formEntries(planEntry: fromModels.PlanEntry, entry: fromModels.DataItem): { [key: string]: fromModels.DataSourceDetailsEntry; } {
+  private formEntries(planEntry: fromModels.PlanEntry, entry: fromModels.DataItem)
+    : { [key: string]: fromModels.DataSourceDetailsEntry; } {
     const path1: string[] = planEntry.path.substring(18, planEntry.path.length).split('/');
     const path2: string = path1.join('.').concat(`.${planEntry.entry}.entries`);
     const path3: string = path2.substring(1, path2.length);
@@ -186,17 +187,20 @@ export class PlanService {
     } {
     const entries: { [key: string]: fromModels.DataSourceDetailsEntry; } = this.formEntries(planEntry, entry);
     Object.keys(entries)
-      .forEach((entry: string) => {
-        total += entries[entry].total;
+      .forEach((key: string) => {
+        if (entries[key].isInTotal) {
+          total += entries[key].total;
+        }
         dataItem = {
           ...dataItem,
-          [entry]: {
-            hasEntries: Boolean(entries[entry].entries),
-            label: entries[entry].label,
-            notes: entries[entry].notes,
-            order: entries[entry].order,
+          [key]: {
+            hasEntries: Boolean(entries[key].entries),
+            isInTotal: entries[key].isInTotal,
+            label: entries[key].label,
+            notes: entries[key].notes,
+            order: entries[key].order,
             path: `${dataSourceEntryPath}/${entry}`,
-            total: entries[entry].total,
+            total: entries[key].total,
           }
         };
       });
@@ -205,7 +209,8 @@ export class PlanService {
 
   private setDataSourceFooter(): void {
     const commonColumns: string[] = ['month', 'order', 'path', 'parentPath'];
-    let rowTotals = {
+    let rowTotals: fromModels.DataSourceDetails = {
+      isInTotal: false,
       month: 'total',
       total: 0,
     };
@@ -223,7 +228,7 @@ export class PlanService {
     // NOTE: calculate totals
     this.dataSource.forEach((entry: fromModels.DataSourceDetails) => {
       Object.keys(entry).forEach((key: string) => {
-        if (entry[key].total >= 0) {
+        if (key !== 'isInTotal' && entry[key].total >= 0) {
           const total: number = rowTotals[key].total + entry[key].total;
           rowTotals = {
             ...rowTotals,
@@ -236,11 +241,12 @@ export class PlanService {
     // NOTE: caclulate total of totals
     Object.keys(rowTotals)
       .forEach((key: string) => {
-        const total = !['month', 'total'].includes(key)
+        const total = !['isInTotal', 'month', 'total'].includes(key)
           ? rowTotals.total + rowTotals[key].total
           : 0;
         rowTotals = {
           ...rowTotals,
+          isInTotal: rowTotals[key].isInTotal,
           total,
         };
       });
@@ -256,12 +262,12 @@ export class PlanService {
     dialogRef.afterClosed()
       .pipe(filter((callback: { form: FormGroup; }) => Boolean(callback)))
       .subscribe((callback: { form: FormGroup; isToDelete: boolean; }) => {
-        const { total, path, entry, notes, order } = callback.form.value;
+        const { entry, isInTotal, notes, order, path, total } = callback.form.value;
         if (callback.isToDelete) {
           this.deleteEntry(path, entry);
           return;
         }
-        this.updateEntry({ entry, order, path, notes, total });
+        this.updateEntry({ entry, isInTotal, notes, order, path, total });
       });
   }
 
@@ -384,11 +390,13 @@ export class PlanService {
               take(len / 2),
               tap((response: fromModels.DataItem) => {
                 if (response.key !== 'entries') {
-                  let total = 0;
+                  let total: number = 0;
                   const entries = response.value.entries;
                   Object.keys(entries)
                     .forEach((entryKey: string) => {
-                      total += entries[entryKey].total;
+                      if (entries[entryKey].isInTotal) {
+                        total += entries[entryKey].total;
+                      }
                     });
 
                   const updatePayload: fromModels.UpadatePayload = {
@@ -436,6 +444,7 @@ export class PlanService {
     return new FormGroup({
       entry: new FormControl(planEntry.entry),
       hasEntries: new FormControl(planEntry.hasEntries),
+      isInTotal: new FormControl(planEntry.isInTotal),
       month: new FormControl(planEntry.month),
       notes: new FormControl(planEntry.notes),
       order: new FormControl(planEntry.order),

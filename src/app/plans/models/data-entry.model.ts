@@ -37,6 +37,7 @@ export interface UpadatePayload {
   entry: string;
   path: string;
   total: number;
+  isInTotal?: boolean;
   notes?: string;
   order?: number;
 }

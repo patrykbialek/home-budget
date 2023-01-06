@@ -39,6 +39,7 @@ export class PlanDetailsSummaryComponent {
     const planEntry: fromModels.PlanEntry = {
       entry,
       hasEntries: elementValue.hasEntries,
+      isInTotal: elementValue.isInTotal,
       month: element.month,
       notes: elementValue.notes,
       order: elementValue.order,
@@ -61,6 +62,7 @@ export class PlanDetailsSummaryComponent {
     const planEntry: fromModels.PlanEntry = {
       entry,
       hasEntries: elementValue.hasEntries,
+      isInTotal: elementValue.isInTotal,
       month: element.month,
       notes: elementValue.notes,
       order: elementValue.order,

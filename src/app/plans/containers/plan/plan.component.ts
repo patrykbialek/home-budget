@@ -118,7 +118,10 @@ export class PlanComponent implements OnDestroy, OnInit {
   private calculateTotal(data: fromModels.DataEntryPlanEntry): number {
     let total: number = 0;
     Object.keys(data)
-      .forEach((key: string) => total += data[key].total);
+      .forEach((key: string) => {
+        if (data[key].isInTotal)
+          total += data[key].total;
+      });
     return total;
   }
 

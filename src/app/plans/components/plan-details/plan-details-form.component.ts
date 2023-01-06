@@ -24,20 +24,6 @@ export class PlanDetailsFormComponent {
     this.dataLabels = this.data.dataLabels;
   }
 
-  private subscribeToColumnFormChanes(): void {
-    this.entries.valueChanges
-      .subscribe((item: any) => {
-        let total: number = 0;
-        item.forEach((entry: any) => {
-          if (entry.isInTotal) {
-            total += parseFloat(entry.value || 0);
-          }
-        });
-
-        this.totalControl.setValue(total);
-      });
-  }
-
   public getEntries(control: string): FormArray {
     return this.form.get(control).get('entries') as FormArray;
   }

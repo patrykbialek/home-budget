@@ -11,6 +11,7 @@ export interface DataSourceSummary {
 export interface DataSourceDetails {
   month: string;
   total: number;
+  isInTotal?: boolean;
   notes?: string;
   order?: number;
   parentPath?: string;
@@ -22,8 +23,8 @@ export interface DataSourceDetailsEntry {
   hasEntries: boolean;
   isInTotal: boolean;
   label: string;
+  notes: string;
   order: number;
   path: string;
-  notes: string;
   total: number;
 }

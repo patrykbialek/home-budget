@@ -31,6 +31,10 @@
             formControlName="order"
             type="number">
         </mat-form-field>
+        <div class="o-block o-block--left u-margin-bottom">
+          <mat-checkbox
+            formControlName="isInTotal">Dodaj do sumy (razem)</mat-checkbox>
+        </div>
         <!-- <div formArrayName="entries">
           <ng-container *ngFor="let control of entries.controls let i = index;">
             <div [formGroupName]="i">

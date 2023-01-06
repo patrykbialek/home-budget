@@ -16,6 +16,7 @@ export interface PlanEntry {
   hasEntries?: boolean;
   href?: string;
   isCurrent?: boolean;
+  isInTotal?: boolean;
   label?: string;
   month?: string;
   notes?: string;

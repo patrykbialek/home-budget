@@ -2,8 +2,9 @@ export interface DataItem {
   entries: {
     [key: string]: any;
   };
+  isInTotal: boolean;
   key: string;
-  labl: string;
+  label: string;
   order: number;
   value: any;
 }
