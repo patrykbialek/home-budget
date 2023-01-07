@@ -70,7 +70,10 @@
       "CurrentYear": "Current year",
       "Last3Months": "Last 3 months",
       "Last6Months": "Last 6 months",
-      "PreviousMonth": "Previous month"
+      "PreviousMonth": "Previous month",
+      "PreviousYear": "Previous year",
+      "2021": "2021",
+      "2020": "2020"
     }
   },
   "SETTINGS": {

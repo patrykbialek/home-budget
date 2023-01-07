@@ -23,4 +23,12 @@ export const queryPeriods = [
     id: `previousYear`,
     name: `PreviousYear`
   },
+  {
+    id: `year`,
+    name: `2021`
+  },
+  {
+    id: `year`,
+    name: `2020`
+  },
 ];
