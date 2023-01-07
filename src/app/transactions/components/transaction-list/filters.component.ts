@@ -150,7 +150,12 @@ export class FiltersComponent implements OnDestroy, OnInit {
 
     if (value.id === 'previousYear') {
       this.query.periodFrom = moment().subtract(1, 'year').startOf('year').format(dateFormat);
-      this.query.periodTo = moment().subtract(1, 'year').format(dateFormat);
+      this.query.periodTo = moment().subtract(1, 'year').endOf('year').format(dateFormat);
+    }
+
+    if (value.id === 'year') {
+      this.query.periodFrom = moment(`01/01/${value.name}`).startOf('year').format(dateFormat);
+      this.query.periodTo = moment(`01/01/${value.name}`).endOf('year').format(dateFormat);
     }
 
     this.readTransactions.emit(this.query);
