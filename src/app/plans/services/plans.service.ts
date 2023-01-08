@@ -16,6 +16,7 @@ import { PlansFormService } from './plans-form.service';
 
 import * as _ from 'lodash';
 import * as fromModels from '@home-budget/plans/models';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 const commonLabels: string[] = ['month', 'monthId', 'order', 'path', 'parentPath', 'total'];
 
@@ -35,6 +36,7 @@ export class PlansService {
 
   constructor(
     public dialog: MatDialog,
+    private snackBar: MatSnackBar,
     private readonly plansBreadcrumbsService: PlansBreadcrumbsService,
     private readonly plansHttpService: PlansHttpService,
     private readonly plansFormService: PlansFormService,
@@ -238,7 +240,7 @@ export class PlansService {
     // NOTE: calculate totals
     this.dataSource.forEach((entry: fromModels.DataSourceDetails) => {
       Object.keys(entry).forEach((key: string) => {
-        if (key !== 'isInTotal' && entry[key].total >= 0) {
+        if (key !== 'isInTotal' && entry[key].total >= 0 && entry[key] && rowTotals[key]) {
           const total: number = rowTotals[key].total + entry[key].total;
           rowTotals = {
             ...rowTotals,
@@ -313,6 +315,7 @@ export class PlansService {
         setTimeout(() => {
           this.goToDetails(this.parentPlanEntry);
           this.setIsLoadingOn(false);
+          this.openSnackBar('Dane zapisane.');
         }, 450);
       });
   }
@@ -372,6 +375,7 @@ export class PlansService {
       .subscribe(() => {
         setTimeout(() => {
           this.setIsLoadingOn(false);
+          this.openSnackBar('Dane zapisane.');
         }, 450);
       });
   }
@@ -416,6 +420,7 @@ export class PlansService {
         setTimeout(() => {
           this.goToDetails(this.parentPlanEntry);
           this.setIsLoadingOn(false);
+          this.openSnackBar('Dane zapisane.');
         }, 450);
       });
   }
@@ -491,4 +496,9 @@ export class PlansService {
     this.isLoadingOn = isOn;
   }
 
+  private openSnackBar(message: string) {
+    this.snackBar.open(message, 'Zamknij', {
+      duration: 5000,
+    });
+  }
 }
