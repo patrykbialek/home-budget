@@ -1,9 +1,16 @@
-import { BreadcrumbsService } from "./breadcrumbs.service";
-import { PlanHttpService } from "./plan-http.service";
-import { PlanService } from "./plan.service";
+import { PlansBreadcrumbsService } from "./plans-breadcrumbs.service";
+import { PlansFacadeService } from "./plans-facade.service";
+import { PlansHttpService } from "./plans-http.service";
+import { PlansService } from "./plans.service";
 
-export const services = [BreadcrumbsService, PlanHttpService, PlanService];
+export const services = [
+  PlansBreadcrumbsService,
+  PlansFacadeService,
+  PlansHttpService,
+  PlansService,
+];
 
-export { BreadcrumbsService };
-export { PlanHttpService };
-export { PlanService };
+export { PlansBreadcrumbsService };
+export { PlansFacadeService };
+export { PlansHttpService };
+export { PlansService };

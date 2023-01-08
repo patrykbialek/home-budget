@@ -1,16 +1,18 @@
 import { combineLatest, forkJoin, Observable } from 'rxjs';
 
 import { Injectable } from '@angular/core';
-import { PlanHttpService } from './plan-http.service';
+import { PlansHttpService } from './plans-http.service';
 import { filter, take, tap } from 'rxjs/operators';
 import { DataProperty } from '../models/plans.enum';
 import { Router } from '@angular/router';
-import { BreadcrumbsService } from './breadcrumbs.service';
+import { PlansBreadcrumbsService } from './plans-breadcrumbs.service';
 import { dataLabels, defaultDataSource, labels, monthLabel, months } from '../shared/plans.config';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { PlanAddColumnFormComponent, PlanDetailsFormComponent } from '../components';
 import { BreadcrumbsItem } from '../models/plan-breadcrumbs.model';
+
+import { PlansFormService } from './plans-form.service';
 
 import * as _ from 'lodash';
 import * as fromModels from '@home-budget/plans/models';
@@ -18,7 +20,7 @@ import * as fromModels from '@home-budget/plans/models';
 const commonLabels: string[] = ['month', 'monthId', 'order', 'path', 'parentPath', 'total'];
 
 @Injectable({ providedIn: 'root' })
-export class PlanService {
+export class PlansService {
   public dataColumns: string[];
   public dataLabels: fromModels.DataLabels = dataLabels;
   public dataSource: fromModels.DataSourceDetails[] = [];
@@ -33,8 +35,9 @@ export class PlanService {
 
   constructor(
     public dialog: MatDialog,
-    private readonly breadcrumbsService: BreadcrumbsService,
-    private readonly planHttpService: PlanHttpService,
+    private readonly plansBreadcrumbsService: PlansBreadcrumbsService,
+    private readonly plansHttpService: PlansHttpService,
+    private readonly plansFormService: PlansFormService,
     private readonly router: Router,
   ) { }
 
@@ -47,15 +50,15 @@ export class PlanService {
   }
 
   public readData(sourcePath: string): Observable<any> {
-    return this.planHttpService.readData(sourcePath);
+    return this.plansHttpService.readData(sourcePath);
   }
 
   public readDataByTypeObject(sourcePath: string): Observable<any> {
-    return this.planHttpService.readDataByTypeObject(sourcePath);
+    return this.plansHttpService.readDataByTypeObject(sourcePath);
   }
 
   public readDataByType(sourcePath: string): Observable<any> {
-    return this.planHttpService.readDataByType(sourcePath);
+    return this.plansHttpService.readDataByType(sourcePath);
   }
 
   public setDataLabelsAndColumns(data: fromModels.DataSourceDetails): void {
@@ -102,12 +105,12 @@ export class PlanService {
   }
 
   public editPlanEntry(planEntry: fromModels.PlanEntry): void {
-    const form: FormGroup = this.buildEditForm(planEntry);
+    const form: FormGroup = this.plansFormService.buildEditForm(planEntry);
     this.editDetails(form, planEntry);
   }
 
   public get currentEntries(): BreadcrumbsItem {
-    return this.breadcrumbsService.breadcrumbs
+    return this.plansBreadcrumbsService.breadcrumbs
       .filter((breadcrumb: BreadcrumbsItem) => breadcrumb.isCurrent)
       .map((breadcrumb: BreadcrumbsItem) => {
         return {
@@ -117,8 +120,8 @@ export class PlanService {
       })[0];
   }
 
-  public addColumn(): void {
-    const form: FormGroup = this.buildAddColumnForm();
+  public addPlanEntryColumn(): void {
+    const form: FormGroup = this.plansFormService.buildAddColumnForm();
     this.openAddColumnDialog(form);
   }
 
@@ -134,7 +137,7 @@ export class PlanService {
   }
 
   private formBreadcrumbs(planEntry: fromModels.PlanEntry): void {
-    this.breadcrumbsService.formBreadcrumbs(planEntry, this.dataLabels);
+    this.plansBreadcrumbsService.formBreadcrumbs(planEntry, this.dataLabels);
   }
 
   private subscribeToReadData(planEntry: fromModels.PlanEntry): void {
@@ -295,7 +298,7 @@ export class PlanService {
 
     months.forEach((month: fromModels.DataLabel) => {
       const replacedPath = updatedPath.replace('month', month.key);
-      subs$.push(this.planHttpService.deletePlanEntry(replacedPath));
+      subs$.push(this.plansHttpService.deletePlanEntry(replacedPath));
     });
 
     forkJoin(subs$)
@@ -327,7 +330,7 @@ export class PlanService {
 
     months.forEach((month: fromModels.DataLabel) => {
       const replacedPath = path.replace('month', month.key);
-      subs$.push(this.planHttpService.readEntriesObject(replacedPath)
+      subs$.push(this.plansHttpService.readEntriesObject(replacedPath)
         .pipe(
           take(1),
           tap((entries: any) => {
@@ -354,7 +357,7 @@ export class PlanService {
               [key]: payload,
             };
 
-            this.planHttpService.updateEntriesObject(replacedPath, entries);
+            this.plansHttpService.updateEntriesObject(replacedPath, entries);
           }))
       );
     });
@@ -393,13 +396,13 @@ export class PlanService {
   }
 
   private updateEntryLabel(payload: fromModels.UpadatePayload): void {
-    this.planHttpService.updateEntryLabel(payload)
+    this.plansHttpService.updateEntryLabel(payload)
       .pipe(take(1))
       .subscribe();
   }
 
   private updateEntry(payload: fromModels.UpadatePayload): void {
-    this.planHttpService.updateEntry(payload)
+    this.plansHttpService.updateEntry(payload)
       .pipe(take(1))
       .subscribe(() => {
         this.updateParentTotals(payload.path);
@@ -453,7 +456,7 @@ export class PlanService {
   }
 
   private updateParentEntry(payload: fromModels.UpadatePayload): void {
-    this.planHttpService.updateParentEntry(payload)
+    this.plansHttpService.updateParentEntry(payload)
       .pipe(take(1))
       .subscribe();
   }
@@ -477,30 +480,6 @@ export class PlanService {
       this.dataLabels,
       ...labels.map((item) => ({ [item.key]: item.value }))
     );
-  }
-
-  private buildEditForm(planEntry: fromModels.PlanEntry): FormGroup {
-    const numberRegEx: RegExp = /^\d+([.,]\d{0,2})?$/;
-
-    return new FormGroup({
-      entry: new FormControl(planEntry.entry),
-      hasEntries: new FormControl(planEntry.hasEntries, [Validators.required]),
-      isInTotal: new FormControl(planEntry.isInTotal),
-      label: new FormControl(planEntry.label, [Validators.required]),
-      month: new FormControl(planEntry.month),
-      notes: new FormControl(planEntry.notes),
-      order: new FormControl(planEntry.order, [Validators.required]),
-      path: new FormControl(planEntry.path.replace('month', planEntry.month)),
-      total: new FormControl(planEntry.total, [Validators.required, Validators.pattern(numberRegEx)]),
-    });
-  }
-
-  private buildAddColumnForm(): FormGroup {
-    return new FormGroup({
-      hasEntries: new FormControl(null),
-      label: new FormControl(null, [Validators.required]),
-      order: new FormControl(0, [Validators.required]),
-    });
   }
 
   private setIsLoadingOn(isOn: boolean): void {

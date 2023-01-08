@@ -1,13 +1,13 @@
 import { PlanBreadcrumbsComponent } from './plan-breadcrumbs/plan-breadcrumbs.component'
 import { PlanDetailsComponent } from './plan-details/plan-details.component';
-import { PlanComponent } from './plan/plan.component';
+import { PlanSummaryComponent } from './plan-summary/plan-summary.component';
 
 export const components = [
   PlanBreadcrumbsComponent,
-  PlanComponent,
   PlanDetailsComponent,
+  PlanSummaryComponent,
 ];
 
 export { PlanBreadcrumbsComponent };
-export { PlanComponent };
 export { PlanDetailsComponent };
+export { PlanSummaryComponent };

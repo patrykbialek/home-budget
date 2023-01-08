@@ -10,10 +10,8 @@ import { months } from '../shared/plans.config';
 
 const uid: string = 'Pmj8IO7zkJeFDmtqSYHzE0A38in1';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class PlanHttpService {
+@Injectable({ providedIn: 'root' })
+export class PlansHttpService {
   user$ = this.authenticationService.authState$;
 
   constructor(
