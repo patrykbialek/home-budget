@@ -1,22 +1,22 @@
 import { PlanAddColumnFormComponent } from './plan-details/plan-add-column-form.component';
-import { PlanBreadcrumbsListComponent } from './plan-breadcrumbs/plan-breadcrumbs-list.component';
+import { PlanBreadcrumbsDataComponent } from './plan-breadcrumbs/plan-breadcrumbs-data.component';
+import { PlanDetailsDataComponent } from './plan-details/plan-details-data.component';
+import { PlanEditFormComponent } from './plan-details/plan-edit-form.component';
 import { PlanGraphComponent } from './plan-graph/plan-graph.component';
 import { PlanSummaryDataComponent } from './plan-summary-data/plan-summary-data.component';
-import { PlanDetailsSummaryComponent } from './plan-details/plan-details-summary.component';
-import { PlanDetailsFormComponent } from './plan-details/plan-details-form.component';
 
 export const components = [
   PlanAddColumnFormComponent,
-  PlanBreadcrumbsListComponent,
-  PlanDetailsFormComponent,
-  PlanDetailsSummaryComponent,
+  PlanBreadcrumbsDataComponent,
+  PlanDetailsDataComponent,
+  PlanEditFormComponent,
   PlanGraphComponent,
   PlanSummaryDataComponent,
 ];
 
 export { PlanAddColumnFormComponent };
-export { PlanBreadcrumbsListComponent };
-export { PlanDetailsFormComponent };
-export { PlanDetailsSummaryComponent };
+export { PlanBreadcrumbsDataComponent };
+export { PlanDetailsDataComponent };
+export { PlanEditFormComponent };
 export { PlanGraphComponent };
 export { PlanSummaryDataComponent };

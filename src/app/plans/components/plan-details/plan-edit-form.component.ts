@@ -4,12 +4,12 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DataProperty } from '@home-budget/plans/models/plans.enum';
 
 @Component({
-  selector: 'hb-plan-project-details-form',
-  templateUrl: './plan-details-form.component.html',
-  styleUrls: ['./plan-details-form.component.scss'],
+  selector: 'hb-plan-edit-form',
+  templateUrl: './plan-edit-form.component.html',
+  styleUrls: ['./plan-edit-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PlanDetailsFormComponent {
+export class PlanEditFormComponent {
   public category: string;
   public dataLabels: any;
   public form: FormGroup;
@@ -18,7 +18,7 @@ export class PlanDetailsFormComponent {
   public monthLabel: string;
 
   constructor(
-    public dialogRef: MatDialogRef<PlanDetailsFormComponent>,
+    public dialogRef: MatDialogRef<PlanEditFormComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: { form: FormGroup; dataLabels: any; },
   ) {

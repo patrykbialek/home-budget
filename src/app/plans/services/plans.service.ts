@@ -7,7 +7,7 @@ import { filter, take, tap } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { PlanAddColumnFormComponent, PlanDetailsFormComponent } from '../components';
+import { PlanAddColumnFormComponent, PlanEditFormComponent } from '../components';
 import { PlansBreadcrumbsService } from './plans-breadcrumbs.service';
 import { PlansHttpService } from './plans-http.service';
 import { Router } from '@angular/router';
@@ -124,7 +124,7 @@ export class PlansService {
   }
 
   private editDetails(form: FormGroup): void {
-    const dialogRef: MatDialogRef<PlanDetailsFormComponent> = this.dialog.open(PlanDetailsFormComponent, {
+    const dialogRef: MatDialogRef<PlanEditFormComponent> = this.dialog.open(PlanEditFormComponent, {
       data: { form, dataLabels: this.dataLabels },
     });
 

@@ -9,10 +9,10 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlanAddColumnFormComponent {
-  public form: FormGroup;
-  public monthLabel: string;
   public category: string;
   public dataLabels: any;
+  public form: FormGroup;
+  public monthLabel: string;
 
   constructor(
     public dialogRef: MatDialogRef<PlanAddColumnFormComponent>,
