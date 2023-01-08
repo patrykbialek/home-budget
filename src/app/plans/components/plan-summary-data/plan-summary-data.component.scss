@@ -69,6 +69,10 @@ input.u-type-number {
   margin-left: 8px;
 }
 
+.c-plan-summary__total.u-is-loading {
+  min-height: 40px;
+}
+
 .c-plan-summary__total.u-is-loading,
 ::ng-deep.mat-cell.u-is-loading {
   position: relative;

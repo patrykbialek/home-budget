@@ -1,4 +1,3 @@
-
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import * as fromContainers from '../plans/containers';
@@ -14,11 +13,11 @@ const routes: Routes = [
     children: [
       {
         path: 'project',
-        component: fromContainers.PlanComponent,
+        component: fromContainers.PlanSummaryComponent,
       },
       {
         path: 'execution',
-        component: fromContainers.PlanComponent,
+        component: fromContainers.PlanSummaryComponent,
       },
       {
         path: 'project/details',

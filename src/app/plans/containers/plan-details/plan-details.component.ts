@@ -1,15 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router, UrlSegment } from '@angular/router';
 
 import * as config from '../../shared/plans.config';
-import { DataProperty } from '../../models/plans.enum';
 import * as fromModels from '@home-budget/plans/models';
 import { combineLatest } from 'rxjs';
 import { BreadcrumbsItem } from '../../models/plan-breadcrumbs.model';
-import { BreadcrumbsService } from '../../../plans/services/breadcrumbs.service';
-import { PlanService } from '../../../plans/services/plan.service';
+import { PlansService } from '../../services/plans.service';
+import { PlansFacadeService } from '@home-budget/plans/services/plans-facade.service';
 
 @Component({
   selector: 'hb-plan-details',
@@ -21,61 +19,57 @@ export class PlanDetailsComponent implements OnDestroy, OnInit {
   public month: string;
 
   private isDataLoaded: boolean;
-  private readonly planType: fromModels.Item = config.planType[DataProperty.project];
+  private readonly planType: fromModels.Item = config.planType[fromModels.DataProperty.project];
   private readonly planYear: string = '2023';
 
   constructor(
-    public dialog: MatDialog,
     private readonly activatedRoute: ActivatedRoute,
-    private readonly breadcrumbsService: BreadcrumbsService,
-    private readonly planService: PlanService,
-    private readonly router: Router
+    private readonly plansFacadeService: PlansFacadeService,
+    private readonly router: Router,
   ) { }
 
   public ngOnDestroy(): void {
-    this.breadcrumbsService.breadcrumbs = [];
+    this.resetBreadcrumbs();
   }
 
   public ngOnInit(): void {
-    this.planService.setCommonDataLables();
-    this.planService.setDefaultDataSource();
     this.subscribeToRouteChange();
   }
 
   public get dataLabels(): fromModels.DataLabels {
-    return this.planService.dataLabels;
+    return this.plansFacadeService.dataLabels;
   }
 
   public get breadcrumbs(): BreadcrumbsItem[] {
-    return this.breadcrumbsService.breadcrumbs;
+    return this.plansFacadeService.breadcrumbs;
   }
 
   public get dataSource(): fromModels.DataSourceDetails[] {
-    return this.planService.dataSource;
+    return this.plansFacadeService.dataSource;
   }
 
   public get dataSourceFooter(): fromModels.DataSourceDetails {
-    return this.planService.dataSourceFooter;
+    return this.plansFacadeService.dataSourceFooter;
   }
 
   public get dataColumns(): string[] {
-    return this.planService.dataColumns;
+    return this.plansFacadeService.dataColumns;
   }
 
   public get displayedColumns(): string[] {
-    return this.planService.displayedColumns;
+    return this.plansFacadeService.displayedColumns;
   }
 
   public get isLoading(): boolean {
-    return this.planService.isLoading;
+    return this.plansFacadeService.isLoading;
   }
 
   public editPlanEntry(event: fromModels.PlanEntry): void {
-    this.planService.editPlanEntry(event);
+    this.plansFacadeService.editPlanEntry(event);
   }
 
   public goToDetails(event: fromModels.PlanEntry): void {
-    this.planService.goToDetails(event);
+    this.plansFacadeService.goToDetails(event);
   }
 
   private subscribeToRouteChange(): void {
@@ -85,17 +79,36 @@ export class PlanDetailsComponent implements OnDestroy, OnInit {
     ])
       .subscribe((response: [UrlSegment[], fromModels.QueryParamsResponse]) => {
         if (response && response[1].path) {
-          this.addMainBreadcrumb(response[0][0].path);
-          this.goToDetails(this.formMainEntry(response[1]));
-          this.router.navigate([], { relativeTo: this.activatedRoute });
-          this.isDataLoaded = true;
+          this.handleWhenPathIsPassed(response);
           return;
         }
 
         if (!this.isDataLoaded) {
-          this.router.navigate(['../'], { relativeTo: this.activatedRoute });
+          this.navigateToParentRoute();
         }
       });
+  }
+
+  private handleWhenPathIsPassed(response: [UrlSegment[], fromModels.QueryParamsResponse]): void {
+    this.addMainBreadcrumb(response[0][0].path);
+    this.goToDetails(this.formMainEntry(response[1]));
+    this.reloadCurrentRoute();
+    this.isDataLoaded = true;
+  }
+
+  private addMainBreadcrumb(entry: string): void {
+    this.plansFacadeService.formBreadcrumbs(this.formPlanEntry(entry), this.dataLabels);
+  }
+
+  private formPlanEntry(entry: string): fromModels.PlanEntry {
+    return {
+      entry,
+      label: this.dataLabels[entry],
+      hasEntries: true,
+      href: `./plans/${entry}`,
+      isCurrent: false,
+      path: null,
+    };
   }
 
   private formMainEntry(params: fromModels.QueryParamsResponse): fromModels.PlanEntry {
@@ -106,15 +119,15 @@ export class PlanDetailsComponent implements OnDestroy, OnInit {
     };
   }
 
-  private addMainBreadcrumb(entry: string): void {
-    const planEntry: fromModels.PlanEntry = {
-      entry,
-      label: this.dataLabels[entry],
-      hasEntries: true,
-      href: `./plans/${entry}`,
-      isCurrent: false,
-      path: null,
-    };
-    this.breadcrumbsService.formBreadcrumbs(planEntry, this.dataLabels);
+  private reloadCurrentRoute(): void {
+    this.router.navigate([], { relativeTo: this.activatedRoute });
+  }
+
+  private navigateToParentRoute(): void {
+    this.router.navigate(['../'], { relativeTo: this.activatedRoute });
+  }
+
+  private resetBreadcrumbs(): void {
+    this.plansFacadeService.resetBreadcrumbs();
   }
 }

@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import * as fromModels from '@home-budget/plans/models';
-import { PlanService } from '../../../plans/services/plan.service';
-import { BreadcrumbsService } from '../../services/breadcrumbs.service';
-import { BreadcrumbsItem } from '../../models/plan-breadcrumbs.model';
+import { PlansFacadeService } from '@home-budget/plans/services/plans-facade.service';
 
 @Component({
   selector: 'hb-plan-breadcrumbs',
@@ -12,12 +10,11 @@ import { BreadcrumbsItem } from '../../models/plan-breadcrumbs.model';
 export class PlanBreadcrumbsComponent {
 
   constructor(
-    private readonly breadcrumbsService: BreadcrumbsService,
-    private readonly planService: PlanService,
+    private readonly plansFacadeService: PlansFacadeService,
   ) { }
 
-  public get breadCrumbs(): BreadcrumbsItem[] {
-    return this.breadcrumbsService.breadcrumbs;
+  public get breadcrumbs(): fromModels.BreadcrumbsItem[] {
+    return this.plansFacadeService.breadcrumbs;
   }
 
   public get isAddColumnButtonShown(): boolean {
@@ -25,11 +22,11 @@ export class PlanBreadcrumbsComponent {
     return true;
   }
 
-  public addColumn(): void {
-    this.planService.addColumn();
+  public addPlanEntryColumn(): void {
+    this.plansFacadeService.addPlanEntryColumn();
   }
 
-  public goToDetails(event: BreadcrumbsItem): void {
+  public goToDetails(event: fromModels.BreadcrumbsItem): void {
     const { entry, hasEntries, label, isCurrent, href, path } = event;
     const planEntry: fromModels.PlanEntry = {
       entry,
@@ -39,7 +36,7 @@ export class PlanBreadcrumbsComponent {
       label,
       path,
     };
-    this.planService.goToDetails(planEntry);
+    this.plansFacadeService.goToDetails(planEntry);
   }
 
 }

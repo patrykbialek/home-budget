@@ -1,5 +1,5 @@
 <h2 mat-dialog-title>
-  Edycja
+  Edytuj
   <span class="u-margin-left-tiny u-margin-right-tiny">
     <mat-icon class="c-title__separator u-text-tiny">keyboard_arrow_right</mat-icon>
   </span>
@@ -27,14 +27,13 @@
 
         <div class="u-margin-top-small u-margin-bottom">
           <mat-slide-toggle [checked]="isMoreShown" (change)="toggleIsMoreShown()" tabindex="-1">
-            <ng-container *ngIf="!isMoreShown">Więcej</ng-container>
-            <ng-container *ngIf="isMoreShown">Mniej</ng-container>
+            <ng-container>Więcej danych</ng-container>
           </mat-slide-toggle>
         </div>
 
         <ng-container *ngIf="isMoreShown">
           <div class="o-grid">
-            <div class="o-grid__cell u-3/5">
+            <div class="o-grid__cell u-5/7">
               <mat-form-field appearance="outline" class="o-block o-block--left u-margin-bottom-small">
                 <mat-label>{{ 'Etykieta' | titlecase }}</mat-label>
                 <input matInput
@@ -42,7 +41,7 @@
                 <mat-error *ngIf="form.get('label').hasError('required')">Pole wymagane.</mat-error>
               </mat-form-field>
             </div>
-            <div class="o-grid__cell u-2/5">
+            <div class="o-grid__cell u-2/7">
               <mat-form-field appearance="outline" class="o-block o-block--left u-margin-bottom-small">
                 <mat-label>{{ 'Kolejność' | titlecase }}</mat-label>
                 <input matInput
@@ -54,12 +53,12 @@
           </div>
           <mat-form-field appearance="outline" class="o-block o-block--left">
             <mat-label>{{ 'Notatki' | titlecase }}</mat-label>
-            <input matInput
-              formControlName="notes">
+            <textarea matInput
+              formControlName="notes"></textarea>
           </mat-form-field>
           <div class="o-block o-block--left u-margin-bottom u-padding-bottom">
-            <mat-checkbox
-              formControlName="isInTotal">Dodaj do sumy (razem)</mat-checkbox>
+            <mat-slide-toggle
+              formControlName="isInTotal">Dodaj do sumy (razem)</mat-slide-toggle>
           </div>
         </ng-container>
 

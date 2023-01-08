@@ -1,7 +1,7 @@
 <nav class="c-breadcrumbs">
-  <hb-plan-breadcrumbs-list
-    [breadcrumbs]="breadCrumbs"
+  <hb-plan-breadcrumbs-data
+    [breadcrumbs]="breadcrumbs"
     [isAddColumnButtonShown]="isAddColumnButtonShown"
-    (addColumn)="addColumn()"
-    (goToDetails)="goToDetails($event)"></hb-plan-breadcrumbs-list>
+    (addColumn)="addPlanEntryColumn()"
+    (goToDetails)="goToDetails($event)"></hb-plan-breadcrumbs-data>
 </nav>

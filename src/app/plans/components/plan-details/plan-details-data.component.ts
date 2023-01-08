@@ -9,12 +9,12 @@ import {
 import * as fromModels from '@home-budget/plans/models';
 
 @Component({
-  selector: 'hb-plan-details-summary',
-  templateUrl: './plan-details-summary.component.html',
-  styleUrls: ['./plan-details-summary.component.scss'],
+  selector: 'hb-plan-details-data',
+  templateUrl: './plan-details-data.component.html',
+  styleUrls: ['./plan-details-data.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PlanDetailsSummaryComponent {
+export class PlanDetailsDataComponent {
   @Input() public readonly dataLabels: fromModels.DataLabels;
   @Input() public readonly dataSource: fromModels.DataSourceDetails[];
   @Input() public readonly dataSourceFooter: fromModels.DataSourceDetails;

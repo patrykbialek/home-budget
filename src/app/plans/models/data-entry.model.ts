@@ -42,3 +42,8 @@ export interface UpadatePayload {
   notes?: string;
   order?: number;
 }
+
+export interface PlanConfig {
+  type: string;
+  year: string;
+}

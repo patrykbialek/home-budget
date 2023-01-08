@@ -4,8 +4,12 @@ import { BreadcrumbsItem } from '../models/plan-breadcrumbs.model';
 import * as fromModels from '@home-budget/plans/models';
 
 @Injectable({ providedIn: 'root' })
-export class BreadcrumbsService {
+export class PlansBreadcrumbsService {
   public breadcrumbs: BreadcrumbsItem[] = [];
+
+  public resetBreadcrumbs(): void {
+    this.breadcrumbs = [];
+  }
 
   public formBreadcrumbs(planEntry: fromModels.PlanEntry, dataLabels: fromModels.DataLabels): void {
     const item: BreadcrumbsItem = {
@@ -22,10 +26,10 @@ export class BreadcrumbsService {
           ...breadcrumb,
           isCurrent: breadcrumb.entry === item.entry,
         };
-      })
-    const foundBreadcrumb = this.breadcrumbs
+      });
+    const foundBreadcrumb: BreadcrumbsItem = this.breadcrumbs
       .find((breadcrumb: BreadcrumbsItem) => breadcrumb.entry === item.entry);
-    const selectedBreadcrumbIndex = this.breadcrumbs
+    const selectedBreadcrumbIndex: number = this.breadcrumbs
       .indexOf(foundBreadcrumb);
 
     if (selectedBreadcrumbIndex > 0) {
