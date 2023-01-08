@@ -1,22 +1,17 @@
-import * as moment from 'moment';
 import { Observable, of } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList, AngularFireObject } from '@angular/fire/database';
-import { AuthenticationHttpService } from '@home-budget/authentication/services';
 import * as fromModels from '@home-budget/plans/models';
-import { months } from '../shared/plans.config';
 
 const uid: string = 'Pmj8IO7zkJeFDmtqSYHzE0A38in1';
 
 @Injectable({ providedIn: 'root' })
 export class PlansHttpService {
-  user$ = this.authenticationService.authState$;
 
   constructor(
     private db: AngularFireDatabase,
-    private authenticationService: AuthenticationHttpService
   ) { }
 
   // Create
@@ -28,15 +23,15 @@ export class PlansHttpService {
   //   return of(db.update(year, value));
   // }
 
-  createPlan(payload: any) {
-    const path: string = `/workspaces/${uid}/plans`;
-    const db: AngularFireList<any> = this.db.list(path);
-    const value = {
-      label: payload.label,
-      path: payload.path,
-    };
-    return of(db.update(payload.uid, value));
-  }
+  // createPlan(payload: any) {
+  //   const path: string = `/workspaces/${uid}/plans`;
+  //   const db: AngularFireList<any> = this.db.list(path);
+  //   const value = {
+  //     label: payload.label,
+  //     path: payload.path,
+  //   };
+  //   return of(db.update(payload.uid, value));
+  // }
 
   // Read
 
@@ -62,20 +57,6 @@ export class PlansHttpService {
     );
   }
 
-  readDataByTypeObject(sourcePath: string): Observable<any> {
-    const path: string = `/workspaces/${uid}/plans/${sourcePath}`;
-    const db: AngularFireObject<any> = this.db.object(path);
-    return db.snapshotChanges()
-      .pipe(
-        map((changes) => {
-          return {
-            key: changes.payload.key,
-            value: changes.payload.val(),
-          };
-        }),
-      );
-  }
-
   readDataByType(sourcePath: string): Observable<any> {
     const path: string = `/workspaces/${uid}/plans/${sourcePath}`;
     const db: AngularFireList<any> = this.db.list(path);
@@ -93,9 +74,23 @@ export class PlansHttpService {
       );
   }
 
+  readDataByTypeObject(sourcePath: string): Observable<any> {
+    const path: string = `/workspaces/${uid}/plans/${sourcePath}`;
+    const db: AngularFireObject<any> = this.db.object(path);
+    return db.snapshotChanges()
+      .pipe(
+        map((changes) => {
+          return {
+            key: changes.payload.key,
+            value: changes.payload.val(),
+          };
+        }),
+      );
+  }
+
   // Update
 
-  updateEntriesObject(updatePath: string, payload: any) {
+  updateEntriesObject(updatePath: string, payload: any): void {
     const path: string = `/workspaces/${uid}/plans/${updatePath}`;
     const db: AngularFireObject<any> = this.db.object(path);
     db.update(payload);
@@ -124,7 +119,7 @@ export class PlansHttpService {
 
   // Delete
 
-  deletePlanEntry(updatePath: string): Observable<any> {
+  deleteEntry(updatePath: string): Observable<any> {
     const path: string = `/workspaces/${uid}/plans/${updatePath}`;
     const db: AngularFireObject<any> = this.db.object(path);
     return of(db.remove());

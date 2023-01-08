@@ -73,7 +73,4 @@ export class PlansFacadeService {
     this.plansService.goToDetails(planEntry);
   }
 
-  public setDefaultDataSource() {
-    this.plansService.setDefaultDataSource();
-  }
 }

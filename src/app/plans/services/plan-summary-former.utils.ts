@@ -3,13 +3,9 @@ import { DataProperty } from '@home-budget/plans/models/plans.enum';
 
 function formData(data: fromModels.DataEntry[], planConfig: fromModels.PlanConfig): fromModels.DataSourceSummary[] {
   return data
-    .map((entry: fromModels.DataEntry) => {
-      return mapData(entry, planConfig);
-    })
+    .map((entry: fromModels.DataEntry) => mapData(entry, planConfig))
     .sort((first: fromModels.DataSourceSummary, last: fromModels.DataSourceSummary) => first.order - last.order)
-    .map((entry: fromModels.DataSourceSummary) => {
-      return formRestTotal(entry);
-    })
+    .map((entry: fromModels.DataSourceSummary) => formRestTotal(entry))
     .reduce((array: fromModels.DataSourceSummary[], entry: fromModels.DataSourceSummary, index: number) => {
       return formIncreaseTotal(array, entry, index);
     }, []);

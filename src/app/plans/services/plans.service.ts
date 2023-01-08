@@ -1,16 +1,16 @@
-import { combineLatest, forkJoin, Observable } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 
-import { Injectable } from '@angular/core';
-import { PlansHttpService } from './plans-http.service';
-import { filter, take, tap } from 'rxjs/operators';
-import { DataProperty } from '../models/plans.enum';
-import { Router } from '@angular/router';
-import { PlansBreadcrumbsService } from './plans-breadcrumbs.service';
-import { dataLabels, defaultDataSource, labels, monthLabel, months } from '../shared/plans.config';
-import { FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { PlanAddColumnFormComponent, PlanDetailsFormComponent } from '../components';
 import { BreadcrumbsItem } from '../models/plan-breadcrumbs.model';
+import { dataLabels, defaultDataSource, labels, monthLabel, months } from '../shared/plans.config';
+import { DataProperty } from '../models/plans.enum';
+import { filter, take, tap } from 'rxjs/operators';
+import { FormGroup } from '@angular/forms';
+import { Injectable } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { PlanAddColumnFormComponent, PlanDetailsFormComponent } from '../components';
+import { PlansBreadcrumbsService } from './plans-breadcrumbs.service';
+import { PlansHttpService } from './plans-http.service';
+import { Router } from '@angular/router';
 
 import { PlansFormService } from './plans-form.service';
 
@@ -18,7 +18,7 @@ import * as _ from 'lodash';
 import * as fromModels from '@home-budget/plans/models';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-const commonLabels: string[] = ['month', 'monthId', 'order', 'path', 'parentPath', 'total'];
+import { formatdNumber, formData, formDataFooter, formLabels, formPathForDeleteEntry } from './plan-details-former.utils';
 
 @Injectable({ providedIn: 'root' })
 export class PlansService {
@@ -26,20 +26,19 @@ export class PlansService {
   public dataLabels: fromModels.DataLabels = dataLabels;
   public dataSource: fromModels.DataSourceDetails[] = [];
   public dataSourceFooter: fromModels.DataSourceDetails;
-  public defaultDataSource: fromModels.DataSourceSummary[] = [];
+  public defaultDataSource: fromModels.DataSourceSummary[] = defaultDataSource;
   public displayedColumns: string[] = [];
   public form: FormGroup;
 
   private isLoadingOn: boolean = false;
   private parentPlanEntry: fromModels.PlanEntry;
-  private readonly main: string = 'plan';
 
   constructor(
     public dialog: MatDialog,
-    private snackBar: MatSnackBar,
+    private readonly snackBar: MatSnackBar,
     private readonly plansBreadcrumbsService: PlansBreadcrumbsService,
-    private readonly plansHttpService: PlansHttpService,
     private readonly plansFormService: PlansFormService,
+    private readonly plansHttpService: PlansHttpService,
     private readonly router: Router,
   ) { }
 
@@ -55,6 +54,17 @@ export class PlansService {
     return this.isLoadingOn;
   }
 
+  public get currentEntries(): BreadcrumbsItem {
+    return this.plansBreadcrumbsService.breadcrumbs
+      .filter((breadcrumb: BreadcrumbsItem) => breadcrumb.isCurrent)
+      .map((breadcrumb: BreadcrumbsItem) => {
+        return {
+          entry: breadcrumb.entry,
+          path: `${breadcrumb.path}/${breadcrumb.entry}/entries`,
+        };
+      })[0];
+  }
+
   public readData(sourcePath: string): Observable<any> {
     return this.plansHttpService.readData(sourcePath);
   }
@@ -67,26 +77,12 @@ export class PlansService {
     return this.plansHttpService.readDataByType(sourcePath);
   }
 
-  public setDataLabelsAndColumns(data: fromModels.DataSourceDetails): void {
-    const dataLables: fromModels.DataLabel[] = Object.keys(data)
-      .map((key: string) => {
-        return {
-          key,
-          order: data[key].order,
-          value: data[key].label as string,
-        };
-      })
-      .sort((first: fromModels.DataLabel, last: fromModels.DataLabel) => first.order - last.order)
-      .filter((entry: fromModels.DataLabel) => {
-        return !commonLabels.includes(entry.key);
-      })
-      .map((entry: fromModels.DataLabel) => entry);
-
-    this.setDataColumns(dataLables);
-    this.setDataLabels(dataLables);
+  private formDataLabelsAndColumns(data: fromModels.DataSourceDetails): void {
+    this.formDataColumns(formLabels(data));
+    this.formDataLabels(formLabels(data));
   }
 
-  public setDataLabel(label: fromModels.DataLabel): void {
+  private setDataLabel(label: fromModels.DataLabel): void {
     this.dataLabels = {
       ...this.dataLabels,
       [label.key]: label.value,
@@ -94,41 +90,26 @@ export class PlansService {
   }
 
   public setCommonDataLables(): void {
-    Object.keys(monthLabel).forEach((monthKey: string) => {
+    Object.keys(monthLabel).forEach((key: string) => {
       this.setDataLabel({
-        key: monthLabel[monthKey].id,
-        value: monthLabel[monthKey].long,
+        key: monthLabel[key].id,
+        value: monthLabel[key].long,
       });
     });
 
-    labels.forEach((label: fromModels.DataLabel) => {
+    this.labels.forEach((label: fromModels.DataLabel) => {
       this.setDataLabel(label);
     });
   }
 
-  public setDefaultDataSource(): void {
-    this.defaultDataSource = defaultDataSource;
-  }
-
   public editPlanEntry(planEntry: fromModels.PlanEntry): void {
     const form: FormGroup = this.plansFormService.buildEditForm(planEntry);
-    this.editDetails(form, planEntry);
-  }
-
-  public get currentEntries(): BreadcrumbsItem {
-    return this.plansBreadcrumbsService.breadcrumbs
-      .filter((breadcrumb: BreadcrumbsItem) => breadcrumb.isCurrent)
-      .map((breadcrumb: BreadcrumbsItem) => {
-        return {
-          entry: breadcrumb.entry,
-          path: `${breadcrumb.path}/${breadcrumb.entry}/entries`,
-        };
-      })[0];
+    this.editDetails(form);
   }
 
   public addPlanEntryColumn(): void {
     const form: FormGroup = this.plansFormService.buildAddColumnForm();
-    this.openAddColumnDialog(form);
+    this.addColumn(form);
   }
 
   public goToDetails(planEntry: fromModels.PlanEntry): void {
@@ -142,6 +123,45 @@ export class PlansService {
     this.parentPlanEntry = planEntry;
   }
 
+  private editDetails(form: FormGroup): void {
+    const dialogRef: MatDialogRef<PlanDetailsFormComponent> = this.dialog.open(PlanDetailsFormComponent, {
+      data: { form, dataLabels: this.dataLabels },
+    });
+
+    dialogRef.afterClosed()
+      .pipe(filter((callback: { form: FormGroup; }) => Boolean(callback)))
+      .subscribe((callback: { form: FormGroup; isToDelete: boolean; }) => {
+        this.handleAfterEditDialogClose(callback.form, callback.isToDelete);
+      });
+  }
+
+  private handleAfterEditDialogClose(form: FormGroup, isToDelete: boolean): void {
+    const { entry, isInTotal, label, notes, order, path, total } = form.value;
+    this.setIsLoadingOn(true);
+    if (isToDelete) {
+      this.deleteEntry(path, entry);
+      return;
+    }
+    this.updateEntry({ entry, isInTotal, label, notes, order, path, total });
+  }
+
+  private addColumn(form: FormGroup): void {
+    const dialogRef = this.dialog.open(PlanAddColumnFormComponent, {
+      data: { form },
+    });
+
+    dialogRef.afterClosed()
+      .pipe(filter((callback: { form: FormGroup; }) => Boolean(callback)))
+      .subscribe((callback: { form: FormGroup; }) => {
+        this.handleAfterAddColumnDialogClose(callback.form);
+      });
+  }
+
+  private handleAfterAddColumnDialogClose(form: FormGroup): void {
+    this.setIsLoadingOn(true);
+    this.addColumnToAllMonths(form);
+  }
+
   private formBreadcrumbs(planEntry: fromModels.PlanEntry): void {
     this.plansBreadcrumbsService.formBreadcrumbs(planEntry, this.dataLabels);
   }
@@ -151,185 +171,50 @@ export class PlansService {
     this.readData(`${'2023'}/entries`)
       .subscribe((data: fromModels.DataItem[]) => {
         this.formDataSource(planEntry, data);
-        this.setDataSourceFooter();
-        this.setDataLabelsAndColumns(this.dataSource[0]);
+        this.formDataSourceFooter();
+        this.formDataLabelsAndColumns(this.dataSource[0]);
         this.setDisplayedColumns();
       });
   }
 
   private formDataSource(planEntry: fromModels.PlanEntry, data: fromModels.DataItem[]): void {
-    const dataSourceEntryPath: string = `${planEntry.path}/${planEntry.entry}/entries`;
-    this.dataSource = data
-      .sort((first: fromModels.DataItem, last: fromModels.DataItem) => first.order - last.order)
-      .map((entry: fromModels.DataItem) => {
-        const total: number = 0;
-        let dataItem: fromModels.DataSourceDetails = {
-          month: entry.key,
-          order: entry.order,
-          path: dataSourceEntryPath,
-          total,
-        };
-
-        const dataItemEntries: {
-          dataItem: fromModels.DataSourceDetails; total: number;
-        } = this.formDataItemEntries(total, dataItem, planEntry, entry, dataSourceEntryPath);
-        dataItem = {
-          ...dataItemEntries.dataItem,
-          total: dataItemEntries.total,
-        };
-        return dataItem;
-      });
+    this.dataSource = formData(planEntry, data);
   }
 
-  private formEntries(planEntry: fromModels.PlanEntry, entry: fromModels.DataItem)
-    : { [key: string]: fromModels.DataSourceDetailsEntry; } {
-    const path1: string[] = planEntry.path.substring(18, planEntry.path.length).split('/');
-    const path2: string = path1.join('.').concat(`.${planEntry.entry}.entries`);
-    const path3: string = path2.substring(1, path2.length);
-    return _.get(entry, path3);
-  }
-
-  private formDataItemEntries(
-    total: number,
-    dataItem: fromModels.DataSourceDetails,
-    planEntry: fromModels.PlanEntry,
-    entry: fromModels.DataItem,
-    dataSourceEntryPath: string,
-  ): { dataItem: fromModels.DataSourceDetails; total: number; } {
-    const entries: { [key: string]: fromModels.DataSourceDetailsEntry; } = this.formEntries(planEntry, entry);
-    Object.keys(entries)
-      .forEach((key: string) => {
-        if (entries[key].isInTotal) {
-          total += entries[key].total;
-        }
-        dataItem = {
-          ...dataItem,
-          [key]: {
-            hasEntries: Boolean(entries[key].entries),
-            isInTotal: entries[key].isInTotal,
-            label: entries[key].label,
-            notes: entries[key].notes,
-            order: entries[key].order,
-            path: `${dataSourceEntryPath}/${entry}`,
-            total: entries[key].total,
-          }
-        };
-      });
-    return { dataItem, total };
-  }
-
-  private setDataSourceFooter(): void {
-    const commonColumns: string[] = ['month', 'order', 'path', 'parentPath'];
-    let rowTotals: fromModels.DataSourceDetails = {
-      isInTotal: false,
-      month: 'total',
-      total: 0,
-    };
-
-    // NOTE: build rowTotals object
-    Object.keys(this.dataSource[0])
-      .forEach((key: string) => {
-        if (!commonColumns.includes(key)) {
-          rowTotals = {
-            ...rowTotals,
-            [key]: key === 'total' ? 0 : { total: 0 },
-          };
-        }
-      });
-
-    // NOTE: calculate totals
-    this.dataSource.forEach((entry: fromModels.DataSourceDetails) => {
-      Object.keys(entry).forEach((key: string) => {
-        if (key !== 'isInTotal' && entry[key].total >= 0 && entry[key] && rowTotals[key]) {
-          const total: number = rowTotals[key].total + entry[key].total;
-          rowTotals = {
-            ...rowTotals,
-            [key]: { total },
-          };
-        }
-      });
-    });
-
-    // NOTE: caclulate total of totals
-    Object.keys(rowTotals)
-      .forEach((key: string) => {
-        const total = !['isInTotal', 'month', 'total'].includes(key)
-          ? rowTotals.total + rowTotals[key].total
-          : 0;
-        rowTotals = {
-          ...rowTotals,
-          isInTotal: rowTotals[key].isInTotal,
-          total,
-        };
-      });
-
-    this.dataSourceFooter = rowTotals;
-  }
-
-  public editDetails(form: FormGroup, planEntry: fromModels.PlanEntry): void {
-    const dialogRef = this.dialog.open(PlanDetailsFormComponent, {
-      data: { form, dataLabels: this.dataLabels },
-    });
-
-    dialogRef.afterClosed()
-      .pipe(filter((callback: { form: FormGroup; }) => Boolean(callback)))
-      .subscribe((callback: { form: FormGroup; isToDelete: boolean; }) => {
-        const { entry, isInTotal, label, notes, order, path, total } = callback.form.value;
-        this.setIsLoadingOn(true);
-        if (callback.isToDelete) {
-          this.deleteEntry(path, entry);
-          return;
-        }
-        this.updateEntry({ entry, isInTotal, label, notes, order, path, total });
-      });
-  }
-
-  public openAddColumnDialog(form: FormGroup): void {
-    const dialogRef = this.dialog.open(PlanAddColumnFormComponent, {
-      data: { form },
-    });
-
-    dialogRef.afterClosed()
-      .pipe(filter((result: { form: FormGroup; }) => Boolean(result)))
-      .subscribe((result: { form: FormGroup; }) => {
-        this.setIsLoadingOn(true);
-        this.addColumnToAllMonths(result);
-      });
+  private formDataSourceFooter(): void {
+    this.dataSourceFooter = formDataFooter(this.dataSource);
   }
 
   private deleteEntry(path: string, entry: fromModels.PlanEntry): void {
-    let updatedPath: string = `${path}/${entry}`;
+    const updatedPath: string = formPathForDeleteEntry(path, entry);
     const subs$: Observable<any>[] = [];
-
     this.months.forEach((month: fromModels.DataLabel) => {
-      updatedPath = updatedPath.replace(month.key, 'month');
-    });
-
-    this.months.forEach((month: fromModels.DataLabel) => {
-      const replacedPath = updatedPath.replace('month', month.key);
-      subs$.push(this.plansHttpService.deletePlanEntry(replacedPath));
+      const replacedPath: string = updatedPath.replace('month', month.key);
+      subs$.push(this.plansHttpService.deleteEntry(replacedPath));
     });
 
     forkJoin(subs$)
-      .subscribe(() => {
-        setTimeout(() => {
-          this.goToDetails(this.parentPlanEntry);
-          this.setIsLoadingOn(false);
-          this.openSnackBar('Dane zapisane.');
-        }, 450);
-      });
+      .subscribe(() => this.handleAfterDeleteEntry());
   }
 
-  private addColumnToAllMonths(result: { form: FormGroup; }): void {
+  private handleAfterDeleteEntry(): void {
+    setTimeout(() => {
+      this.goToDetails(this.parentPlanEntry);
+      this.setIsLoadingOn(false);
+      this.openSnackBar('Dane zapisane.');
+    }, 450);
+  }
+
+  private addColumnToAllMonths(form: FormGroup): void {
     let path: string = this.currentEntries.path;
     const entry: string = this.currentEntries.entry;
     const subs$: Observable<any>[] = [];
 
     let payload: any = {
       isInTotal: true,
-      label: result.form.value.label,
+      label: form.value.label,
       notes: null,
-      order: result.form.value.order,
+      order: form.value.order,
       total: 0,
     };
 
@@ -344,16 +229,16 @@ export class PlansService {
           take(1),
           tap((entries: any) => {
             const lastIndex: number = Object.keys(entries).length + 1;
-            const key: string = `${entry}${this.formattedNumber(lastIndex)}`;
+            const key: string = `${entry}${formatdNumber(lastIndex)}`;
 
-            if (result.form.value.hasEntries) {
-              const childKey: string = `${key}${this.formattedNumber(1)}`;
+            if (form.value.hasEntries) {
+              const childKey: string = `${key}${formatdNumber(1)}`;
               payload = {
                 ...payload,
                 entries: {
                   [childKey]: {
                     isInTotal: true,
-                    label: `${result.form.value.label} 1`,
+                    label: `${form.value.label} 1`,
                     order: 1,
                     total: 0,
                   }
@@ -372,12 +257,14 @@ export class PlansService {
     });
 
     forkJoin(subs$)
-      .subscribe(() => {
-        setTimeout(() => {
-          this.setIsLoadingOn(false);
-          this.openSnackBar('Dane zapisane.');
-        }, 450);
-      });
+      .subscribe(() => this.handleAfterAddColumnToAllMonths());
+  }
+
+  private handleAfterAddColumnToAllMonths(): void {
+    setTimeout(() => {
+      this.setIsLoadingOn(false);
+      this.openSnackBar('Dane zapisane.');
+    }, 450);
   }
 
   private updateEntryLabelToAllMonths(payload: fromModels.UpadatePayload): void {
@@ -400,10 +287,6 @@ export class PlansService {
     });
   }
 
-  private formattedNumber(index: number): string {
-    return ('0' + index).slice(-2);
-  }
-
   private updateEntryLabel(payload: fromModels.UpadatePayload): void {
     this.plansHttpService.updateEntryLabel(payload)
       .pipe(take(1))
@@ -413,16 +296,18 @@ export class PlansService {
   private updateEntry(payload: fromModels.UpadatePayload): void {
     this.plansHttpService.updateEntry(payload)
       .pipe(take(1))
-      .subscribe(() => {
-        this.updateParentTotals(payload.path);
-        this.updateEntryLabelToAllMonths(payload);
+      .subscribe(() => this.handleAfterUpdateEntry(payload));
+  }
 
-        setTimeout(() => {
-          this.goToDetails(this.parentPlanEntry);
-          this.setIsLoadingOn(false);
-          this.openSnackBar('Dane zapisane.');
-        }, 450);
-      });
+  private handleAfterUpdateEntry(payload: fromModels.UpadatePayload): void {
+    this.updateParentTotals(payload.path);
+    this.updateEntryLabelToAllMonths(payload);
+
+    setTimeout(() => {
+      this.goToDetails(this.parentPlanEntry);
+      this.setIsLoadingOn(false);
+      this.openSnackBar('Dane zapisane.');
+    }, 450);
   }
 
   private updateParentTotals(path: string): void {
@@ -480,12 +365,12 @@ export class PlansService {
     ]);
   }
 
-  private setDataColumns(formedLabels: fromModels.DataLabel[]): void {
+  private formDataColumns(formedLabels: fromModels.DataLabel[]): void {
     this.dataColumns = [];
     this.dataColumns = formedLabels.map((label: fromModels.DataLabel) => label.key);
   }
 
-  private setDataLabels(formedLabels: fromModels.DataLabel[]): void {
+  private formDataLabels(formedLabels: fromModels.DataLabel[]): void {
     this.dataLabels = Object.assign(
       this.dataLabels,
       ...formedLabels.map((item) => ({ [item.key]: item.value }))
@@ -497,8 +382,6 @@ export class PlansService {
   }
 
   private openSnackBar(message: string) {
-    this.snackBar.open(message, 'Zamknij', {
-      duration: 5000,
-    });
+    this.snackBar.open(message, 'Zamknij', { duration: 5000 });
   }
 }

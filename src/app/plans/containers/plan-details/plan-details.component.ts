@@ -33,7 +33,6 @@ export class PlanDetailsComponent implements OnDestroy, OnInit {
   }
 
   public ngOnInit(): void {
-    this.setDefaultDataSource();
     this.subscribeToRouteChange();
   }
 
@@ -71,10 +70,6 @@ export class PlanDetailsComponent implements OnDestroy, OnInit {
 
   public goToDetails(event: fromModels.PlanEntry): void {
     this.plansFacadeService.goToDetails(event);
-  }
-
-  private setDefaultDataSource() {
-    this.plansFacadeService.setDefaultDataSource();
   }
 
   private subscribeToRouteChange(): void {
