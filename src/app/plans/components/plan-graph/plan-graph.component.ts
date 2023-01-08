@@ -123,6 +123,6 @@ export class PlanGraphComponent implements OnInit {
 
   public chartHovered(e: any): void {
     console.log(e);
-  };
+  }
 
 }

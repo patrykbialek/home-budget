@@ -45,6 +45,10 @@ export class PlansService {
     return months;
   }
 
+  public get labels(): fromModels.DataLabel[] {
+    return labels;
+  }
+
   public get isLoading(): boolean {
     return this.isLoadingOn;
   }
@@ -62,12 +66,12 @@ export class PlansService {
   }
 
   public setDataLabelsAndColumns(data: fromModels.DataSourceDetails): void {
-    const labels: fromModels.DataLabel[] = Object.keys(data)
+    const dataLables: fromModels.DataLabel[] = Object.keys(data)
       .map((key: string) => {
         return {
-          key: key,
+          key,
           order: data[key].order,
-          value: <string>data[key].label,
+          value: data[key].label as string,
         };
       })
       .sort((first: fromModels.DataLabel, last: fromModels.DataLabel) => first.order - last.order)
@@ -76,8 +80,8 @@ export class PlansService {
       })
       .map((entry: fromModels.DataLabel) => entry);
 
-    this.setDataColumns(labels);
-    this.setDataLabels(labels);
+    this.setDataColumns(dataLables);
+    this.setDataLabels(dataLables);
   }
 
   public setDataLabel(label: fromModels.DataLabel): void {
@@ -156,7 +160,7 @@ export class PlansService {
     this.dataSource = data
       .sort((first: fromModels.DataItem, last: fromModels.DataItem) => first.order - last.order)
       .map((entry: fromModels.DataItem) => {
-        let total: number = 0;
+        const total: number = 0;
         let dataItem: fromModels.DataSourceDetails = {
           month: entry.key,
           order: entry.order,
@@ -183,10 +187,13 @@ export class PlansService {
     return _.get(entry, path3);
   }
 
-  private formDataItemEntries(total: number, dataItem: fromModels.DataSourceDetails,
-    planEntry: fromModels.PlanEntry, entry: fromModels.DataItem, dataSourceEntryPath: string): {
-      dataItem: fromModels.DataSourceDetails; total: number;
-    } {
+  private formDataItemEntries(
+    total: number,
+    dataItem: fromModels.DataSourceDetails,
+    planEntry: fromModels.PlanEntry,
+    entry: fromModels.DataItem,
+    dataSourceEntryPath: string,
+  ): { dataItem: fromModels.DataSourceDetails; total: number; } {
     const entries: { [key: string]: fromModels.DataSourceDetailsEntry; } = this.formEntries(planEntry, entry);
     Object.keys(entries)
       .forEach((key: string) => {
@@ -220,11 +227,12 @@ export class PlansService {
     // NOTE: build rowTotals object
     Object.keys(this.dataSource[0])
       .forEach((key: string) => {
-        if (!commonColumns.includes(key))
+        if (!commonColumns.includes(key)) {
           rowTotals = {
             ...rowTotals,
             [key]: key === 'total' ? 0 : { total: 0 },
           };
+        }
       });
 
     // NOTE: calculate totals
@@ -291,12 +299,11 @@ export class PlansService {
     let updatedPath: string = `${path}/${entry}`;
     const subs$: Observable<any>[] = [];
 
-    const months: fromModels.DataLabel[] = this.months;
-    months.forEach((month: fromModels.DataLabel) => {
+    this.months.forEach((month: fromModels.DataLabel) => {
       updatedPath = updatedPath.replace(month.key, 'month');
     });
 
-    months.forEach((month: fromModels.DataLabel) => {
+    this.months.forEach((month: fromModels.DataLabel) => {
       const replacedPath = updatedPath.replace('month', month.key);
       subs$.push(this.plansHttpService.deletePlanEntry(replacedPath));
     });
@@ -323,12 +330,11 @@ export class PlansService {
       total: 0,
     };
 
-    const months: fromModels.DataLabel[] = this.months;
-    months.forEach((month: fromModels.DataLabel) => {
+    this.months.forEach((month: fromModels.DataLabel) => {
       path = path.replace(month.key, 'month');
     });
 
-    months.forEach((month: fromModels.DataLabel) => {
+    this.months.forEach((month: fromModels.DataLabel) => {
       const replacedPath = path.replace('month', month.key);
       subs$.push(this.plansHttpService.readEntriesObject(replacedPath)
         .pipe(
@@ -375,12 +381,11 @@ export class PlansService {
     const label: string = payload.label;
 
     let path: string = this.currentEntries.path;
-    const months: fromModels.DataLabel[] = this.months;
-    months.forEach((month: fromModels.DataLabel) => {
+    this.months.forEach((month: fromModels.DataLabel) => {
       path = path.replace(month.key, 'month');
     });
 
-    months.forEach((month: fromModels.DataLabel) => {
+    this.months.forEach((month: fromModels.DataLabel) => {
       const replacedPath: string = path.replace('month', month.key);
       const updatedPayload: fromModels.UpadatePayload = {
         entry,
@@ -423,7 +428,7 @@ export class PlansService {
       newPath = newPath.slice(0, -1);
 
       if (newPath[newPath.length - 1] !== 'entries') {
-        const path = newPath.join('/').split('/').slice(0, -1).join('/');
+        const formedPath = newPath.join('/').split('/').slice(0, -1).join('/');
         subs$.push(
           this.readDataByTypeObject(newPath.join('/'))
             .pipe(
@@ -440,7 +445,7 @@ export class PlansService {
                     });
 
                   const updatePayload: fromModels.UpadatePayload = {
-                    path,
+                    path: formedPath,
                     entry: response.key,
                     total: parseFloat(total.toFixed(2)),
                   };
@@ -470,15 +475,15 @@ export class PlansService {
     ]);
   }
 
-  private setDataColumns(labels: fromModels.DataLabel[]): void {
+  private setDataColumns(formedLabels: fromModels.DataLabel[]): void {
     this.dataColumns = [];
-    this.dataColumns = labels.map((label: fromModels.DataLabel) => label.key);
+    this.dataColumns = formedLabels.map((label: fromModels.DataLabel) => label.key);
   }
 
-  private setDataLabels(labels: fromModels.DataLabel[]): void {
+  private setDataLabels(formedLabels: fromModels.DataLabel[]): void {
     this.dataLabels = Object.assign(
       this.dataLabels,
-      ...labels.map((item) => ({ [item.key]: item.value }))
+      ...formedLabels.map((item) => ({ [item.key]: item.value }))
     );
   }
 

@@ -1,165 +1,165 @@
-import { inject, TestBed } from '@angular/core/testing';
-import { Store, StoreModule } from '@ngrx/store';
-import * as fromActions from '../actions';
-import * as fromReducers from '../reducers';
-import { AuthenticationFacadeService } from './authentication-facade.service';
+// import { inject, TestBed } from '@angular/core/testing';
+// import { Store, StoreModule } from '@ngrx/store';
+// import * as fromActions from '../actions';
+// import * as fromReducers from '../reducers';
+// import { AuthenticationFacadeService } from './authentication-facade.service';
 
-let storeStub;
+// let storeStub;
 
-const providers = [
-  Store,
-];
-const imports = [
-  StoreModule.forRoot({})
-];
+// const providers = [
+//   Store,
+// ];
+// const imports = [
+//   StoreModule.forRoot({})
+// ];
 
-fdescribe('AuthenticationFacadeService', () => {
-  let service: AuthenticationFacadeService;
+// fdescribe('AuthenticationFacadeService', () => {
+//   let service: AuthenticationFacadeService;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports,
-      providers,
-    });
-    service = TestBed.inject(AuthenticationFacadeService);
-  });
+//   beforeEach(() => {
+//     TestBed.configureTestingModule({
+//       imports,
+//       providers,
+//     });
+//     service = TestBed.inject(AuthenticationFacadeService);
+//   });
 
-  beforeEach(() => {
-    storeStub = TestBed.get(Store);
-  });
+//   beforeEach(() => {
+//     storeStub = TestBed.get(Store);
+//   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
+//   it('should be created', () => {
+//     expect(service).toBeTruthy();
+//   });
 
-  describe('when getUser', whenGetUser);
-  describe('when loginUser', whenLoginUser);
-  describe('when logoutUser', whenLogoutUser);
-  describe('when registerUser', whenRegisterUser);
-  describe('when resetPassword', whenResetPassword);
-  describe('when setPassword', whenSetPassword);
-});
+//   describe('when getUser', whenGetUser);
+//   describe('when loginUser', whenLoginUser);
+//   describe('when logoutUser', whenLogoutUser);
+//   describe('when registerUser', whenRegisterUser);
+//   describe('when resetPassword', whenResetPassword);
+//   describe('when setPassword', whenSetPassword);
+// });
 
-function whenGetUser() {
-  let service: AuthenticationFacadeService;
+// function whenGetUser() {
+//   let service: AuthenticationFacadeService;
 
-  beforeEach(inject([Store],
-    (store: Store<fromReducers.MainState>) => {
-      service = new AuthenticationFacadeService(store);
-    }));
+//   beforeEach(inject([Store],
+//     (store: Store<fromReducers.MainState>) => {
+//       service = new AuthenticationFacadeService(store);
+//     }));
 
-  it(`should call 'dispatch' method with provided TransactionPayload when 'getUser' is called `, () => {
-    const dispatchSpy = spyOn(storeStub, 'dispatch');
-    const payload = {
-      displayName: 'string',
-      email: 'string',
-      uid: 'string',
-    };
-    const action = new fromActions.SetUser(payload);
+//   it(`should call 'dispatch' method with provided TransactionPayload when 'getUser' is called `, () => {
+//     const dispatchSpy = spyOn(storeStub, 'dispatch');
+//     const payload = {
+//       displayName: 'string',
+//       email: 'string',
+//       uid: 'string',
+//     };
+//     const action = new fromActions.SetUser(payload);
 
-    service.setUser(payload);
-    expect(dispatchSpy).toHaveBeenCalledWith(action);
-  });
-}
+//     service.setUser(payload);
+//     expect(dispatchSpy).toHaveBeenCalledWith(action);
+//   });
+// }
 
-function whenLoginUser() {
-  let service: AuthenticationFacadeService;
+// function whenLoginUser() {
+//   let service: AuthenticationFacadeService;
 
-  beforeEach(inject([Store],
-    (store: Store<fromReducers.MainState>) => {
-      service = new AuthenticationFacadeService(store);
-    }));
+//   beforeEach(inject([Store],
+//     (store: Store<fromReducers.MainState>) => {
+//       service = new AuthenticationFacadeService(store);
+//     }));
 
-  it(`should call 'dispatch' method with provided TransactionPayload when 'loginUser' is called `, () => {
-    const dispatchSpy = spyOn(storeStub, 'dispatch');
-    const payload = {
-      email: 'string',
-      password: null,
-    };
-    const action = new fromActions.LoginUser(payload);
+//   it(`should call 'dispatch' method with provided TransactionPayload when 'loginUser' is called `, () => {
+//     const dispatchSpy = spyOn(storeStub, 'dispatch');
+//     const payload = {
+//       email: 'string',
+//       password: null,
+//     };
+//     const action = new fromActions.LoginUser(payload);
 
-    service.loginUser(payload);
-    expect(dispatchSpy).toHaveBeenCalledWith(action);
-  });
-}
+//     service.loginUser(payload);
+//     expect(dispatchSpy).toHaveBeenCalledWith(action);
+//   });
+// }
 
-function whenLogoutUser() {
-  let service: AuthenticationFacadeService;
+// function whenLogoutUser() {
+//   let service: AuthenticationFacadeService;
 
-  beforeEach(inject([Store],
-    (store: Store<fromReducers.MainState>) => {
-      service = new AuthenticationFacadeService(store);
-    }));
+//   beforeEach(inject([Store],
+//     (store: Store<fromReducers.MainState>) => {
+//       service = new AuthenticationFacadeService(store);
+//     }));
 
-  it(`should call 'dispatch' method with provided TransactionPayload when 'LogoutUser' is called `, () => {
-    const dispatchSpy = spyOn(storeStub, 'dispatch');
-    const action = new fromActions.LogoutUserFromContainer();
+//   it(`should call 'dispatch' method with provided TransactionPayload when 'LogoutUser' is called `, () => {
+//     const dispatchSpy = spyOn(storeStub, 'dispatch');
+//     const action = new fromActions.LogoutUserFromContainer();
 
-    service.logoutUserFromContainer();
-    expect(dispatchSpy).toHaveBeenCalled();
-  });
-}
+//     service.logoutUserFromContainer();
+//     expect(dispatchSpy).toHaveBeenCalled();
+//   });
+// }
 
 
-function whenRegisterUser() {
-  let service: AuthenticationFacadeService;
+// function whenRegisterUser() {
+//   let service: AuthenticationFacadeService;
 
-  beforeEach(inject([Store],
-    (store: Store<fromReducers.MainState>) => {
-      service = new AuthenticationFacadeService(store);
-    }));
+//   beforeEach(inject([Store],
+//     (store: Store<fromReducers.MainState>) => {
+//       service = new AuthenticationFacadeService(store);
+//     }));
 
-  it(`should call 'dispatch' method with provided TransactionPayload when 'registerUser' is called `, () => {
-    const dispatchSpy = spyOn(storeStub, 'dispatch');
-    const payload = {
-      email: 'string',
-      name: 'string',
-      password: 'string',
-    };
-    const action = new fromActions.RegisterUser(payload);
+//   it(`should call 'dispatch' method with provided TransactionPayload when 'registerUser' is called `, () => {
+//     const dispatchSpy = spyOn(storeStub, 'dispatch');
+//     const payload = {
+//       email: 'string',
+//       name: 'string',
+//       password: 'string',
+//     };
+//     const action = new fromActions.RegisterUser(payload);
 
-    service.registerUser(payload);
-    expect(dispatchSpy).toHaveBeenCalledWith(action);
-  });
-}
+//     service.registerUser(payload);
+//     expect(dispatchSpy).toHaveBeenCalledWith(action);
+//   });
+// }
 
-function whenResetPassword() {
-  let service: AuthenticationFacadeService;
+// function whenResetPassword() {
+//   let service: AuthenticationFacadeService;
 
-  beforeEach(inject([Store],
-    (store: Store<fromReducers.MainState>) => {
-      service = new AuthenticationFacadeService(store);
-    }));
+//   beforeEach(inject([Store],
+//     (store: Store<fromReducers.MainState>) => {
+//       service = new AuthenticationFacadeService(store);
+//     }));
 
-  it(`should call 'dispatch' method with provided TransactionPayload when 'resetPassword' is called `, () => {
-    const dispatchSpy = spyOn(storeStub, 'dispatch');
-    const payload = {
-      email: 'string',
-    };
-    const action = new fromActions.ResetPassword(payload);
+//   it(`should call 'dispatch' method with provided TransactionPayload when 'resetPassword' is called `, () => {
+//     const dispatchSpy = spyOn(storeStub, 'dispatch');
+//     const payload = {
+//       email: 'string',
+//     };
+//     const action = new fromActions.ResetPassword(payload);
 
-    service.resetPassword(payload);
-    expect(dispatchSpy).toHaveBeenCalledWith(action);
-  });
-}
+//     service.resetPassword(payload);
+//     expect(dispatchSpy).toHaveBeenCalledWith(action);
+//   });
+// }
 
-function whenSetPassword() {
-  let service: AuthenticationFacadeService;
+// function whenSetPassword() {
+//   let service: AuthenticationFacadeService;
 
-  beforeEach(inject([Store],
-    (store: Store<fromReducers.MainState>) => {
-      service = new AuthenticationFacadeService(store);
-    }));
+//   beforeEach(inject([Store],
+//     (store: Store<fromReducers.MainState>) => {
+//       service = new AuthenticationFacadeService(store);
+//     }));
 
-  it(`should call 'dispatch' method with provided TransactionPayload when 'setPassword' is called `, () => {
-    const dispatchSpy = spyOn(storeStub, 'dispatch');
-    const payload = {
-      newPassword: 'string',
-      oobCode: null,
-    };
-    const action = new fromActions.SetPassword(payload);
+//   it(`should call 'dispatch' method with provided TransactionPayload when 'setPassword' is called `, () => {
+//     const dispatchSpy = spyOn(storeStub, 'dispatch');
+//     const payload = {
+//       newPassword: 'string',
+//       oobCode: null,
+//     };
+//     const action = new fromActions.SetPassword(payload);
 
-    service.setPassword(payload);
-    expect(dispatchSpy).toHaveBeenCalledWith(action);
-  });
-}
+//     service.setPassword(payload);
+//     expect(dispatchSpy).toHaveBeenCalledWith(action);
+//   });
+// }

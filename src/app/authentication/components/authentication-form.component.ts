@@ -11,7 +11,7 @@ export class AuthenticationFormComponent {
   hide = true;
 
   @Input() form: FormGroup;
-  @Output() onSubmitAction = new EventEmitter();
+  @Output() submitAction = new EventEmitter();
 
   constructor(
     private authenticationUtilsService: fromServices.AuthenticationUtilsService,
@@ -35,7 +35,7 @@ export class AuthenticationFormComponent {
 
   onSubmit() {
     this.form.valid
-      ? this.onSubmitAction.emit(this.form)
+      ? this.submitAction.emit(this.form)
       : this.form.markAllAsTouched();
   }
 
