@@ -1,3 +1,4 @@
+import { trigger, transition, style, animate } from '@angular/animations';
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -8,6 +9,20 @@ import { DataProperty } from '@home-budget/plans/models/plans.enum';
   templateUrl: './plan-edit-form.component.html',
   styleUrls: ['./plan-edit-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [
+    trigger(
+      'enterAnimation', [
+      transition(':enter', [
+        style({ height: '0', opacity: 0 }),
+        animate('350ms', style({ height: '264px', opacity: 1 }))
+      ]),
+      transition(':leave', [
+        style({ height: '264px', opacity: 1 }),
+        animate('350ms', style({ height: '0', opacity: 0 }))
+      ])
+    ]
+    )
+  ],
 })
 export class PlanEditFormComponent {
   public category: string;
