@@ -18,7 +18,7 @@ import { CommonWithAnimationComponent } from '@home-budget/shared/components/com
       <div class="o-grid">
         <div class="o-grid__cell u-1/1">
           <div class="o-block o-block--left">
-            <a role="button" mat-raised-button color="primary" [routerLink]="['../dashboard']">
+            <a role="button" mat-raised-button color="primary" [routerLink]="['../plans']">
               {{ 'PAGE_NOT_FOUND.Actions.GoToMainPage' | translate }}
             </a>
           </div>

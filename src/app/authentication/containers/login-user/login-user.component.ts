@@ -15,7 +15,7 @@ import { tap } from 'rxjs/operators';
 })
 export class LoginUserComponent extends CommonWithAnimationComponent implements OnDestroy, OnInit {
 
-  afterSuccessRouteUrl = './dashboard';
+  afterSuccessRouteUrl = './plans';
   loginForm: FormGroup;
 
   private subscription$ = new Subscription();

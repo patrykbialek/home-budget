@@ -14,7 +14,7 @@ import { tap } from 'rxjs/operators';
 })
 export class RegisterUserComponent extends CommonWithAnimationComponent implements OnInit {
 
-  afterSuccessRouteUrl = './dashboard';
+  afterSuccessRouteUrl = './plans';
   registerForm: FormGroup;
 
   constructor(

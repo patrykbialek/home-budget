@@ -8,13 +8,13 @@
           </a>
           <span style="flex-grow: 1;"></span>
           <ng-container *ngIf="windowSize === 'desktop'">
-            <button class="u-margin-left-tiny"
+            <!-- <button class="u-margin-left-tiny"
               mat-button
               [routerLink]="['dashboard']"
               routerLinkActive="u-router-link-active">
               <mat-icon class="u-margin-right-tiny">dashboard</mat-icon>
               {{ 'HEADER.Dashboard' | translate }}
-            </button>
+            </button> -->
             <button class="u-margin-left-tiny"
               mat-button
               [routerLink]="['plans']"
@@ -29,13 +29,13 @@
               <mat-icon class="u-margin-right-tiny">list_alt</mat-icon>
               {{ 'HEADER.Transactions' | translate }}
             </button>
-            <button class="u-margin-left-tiny"
+            <!-- <button class="u-margin-left-tiny"
               mat-button
               [routerLink]="['settings']"
               routerLinkActive="u-router-link-active">
               <mat-icon class="u-margin-right-tiny">tune</mat-icon>
               {{ 'HEADER.Settings' | translate }}
-            </button>
+            </button> -->
             <div class="u-border-left u-margin-left-tiny" style="width:1px">&nbsp;</div>
           </ng-container>
           <button class="u-margin-left-tiny" mat-icon-button color="accent" (click)="onChangeLanguage()">
