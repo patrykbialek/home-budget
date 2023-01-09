@@ -31,7 +31,7 @@
           </mat-slide-toggle>
         </div>
 
-        <ng-container *ngIf="isMoreShown">
+        <div *ngIf="isMoreShown" [@enterAnimation] class="c-plan-edit-form__more-data">
           <div class="o-grid">
             <div class="o-grid__cell u-5/7">
               <mat-form-field appearance="outline" class="o-block o-block--left u-margin-bottom-small">
@@ -56,11 +56,11 @@
             <textarea matInput
               formControlName="notes"></textarea>
           </mat-form-field>
-          <div class="o-block o-block--left u-margin-bottom u-padding-bottom">
+          <div class="o-block o-block--left u-margin-bottom">
             <mat-slide-toggle
               formControlName="isInTotal">Dodaj do sumy (razem)</mat-slide-toggle>
           </div>
-        </ng-container>
+        </div>
 
         <!-- <div formArrayName="entries">
           <ng-container *ngFor="let control of entries.controls let i = index;">

@@ -126,6 +126,7 @@ export class PlansService {
   private editDetails(form: FormGroup): void {
     const dialogRef: MatDialogRef<PlanEditFormComponent> = this.dialog.open(PlanEditFormComponent, {
       data: { form, dataLabels: this.dataLabels },
+      position: { top: '64px' },
     });
 
     dialogRef.afterClosed()
@@ -148,6 +149,7 @@ export class PlansService {
   private addColumn(form: FormGroup): void {
     const dialogRef = this.dialog.open(PlanAddColumnFormComponent, {
       data: { form },
+      position: { top: '64px' },
     });
 
     dialogRef.afterClosed()
