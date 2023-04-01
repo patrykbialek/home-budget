@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import * as fromContainers from '../plans/containers';
+import * as fromContainers from '../budgets/containers';
 
 import { BudgetsComponent } from './budgets.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'project', pathMatch: 'full' },
+  { path: '', redirectTo: 'execution', pathMatch: 'full' },
   {
     path: '',
     component: BudgetsComponent,
@@ -13,19 +13,19 @@ const routes: Routes = [
     children: [
       {
         path: 'project',
-        component: fromContainers.PlanSummaryComponent,
+        component: fromContainers.BudgetSummaryComponent,
       },
       {
         path: 'execution',
-        component: fromContainers.PlanSummaryComponent,
+        component: fromContainers.BudgetSummaryComponent,
       },
       {
         path: 'project/details',
-        component: fromContainers.PlanDetailsComponent,
+        component: fromContainers.BudgetDetailsComponent,
       },
       {
         path: 'execution/details',
-        component: fromContainers.PlanDetailsComponent,
+        component: fromContainers.BudgetDetailsComponent,
       },
     ]
   },

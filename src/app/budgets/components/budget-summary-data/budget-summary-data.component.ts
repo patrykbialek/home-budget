@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import * as fromModels from '@home-budget/plans/models';
+import * as fromModels from '@budgets/models';
 
 @Component({
   selector: 'hb-budget-summary-data',

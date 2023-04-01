@@ -26,29 +26,11 @@
               mat-button
               [routerLink]="['budgets']"
               routerLinkActive="u-router-link-active">
-              <mat-icon class="u-margin-right-tiny">analytics</mat-icon>
+              <mat-icon class="u-margin-right-tiny">account_balance_wallet</mat-icon>
               {{ 'HEADER.Budget' | translate }}
             </button>
-            <button class="u-margin-left-tiny"
-              mat-button
-              [routerLink]="['transactions']"
-              routerLinkActive="u-router-link-active">
-              <mat-icon class="u-margin-right-tiny">list_alt</mat-icon>
-              {{ 'HEADER.Transactions' | translate }}
-            </button>
-            <!-- <button class="u-margin-left-tiny"
-              mat-button
-              [routerLink]="['settings']"
-              routerLinkActive="u-router-link-active">
-              <mat-icon class="u-margin-right-tiny">tune</mat-icon>
-              {{ 'HEADER.Settings' | translate }}
-            </button> -->
             <div class="u-border-left u-margin-left-tiny" style="width:1px">&nbsp;</div>
           </ng-container>
-          <button class="u-margin-left-tiny" mat-icon-button color="accent" (click)="onChangeLanguage()">
-            {{ currentLang }}
-          </button>
-          <div class="u-border-left u-margin-left-tiny" style="width:1px">&nbsp;</div>
           <ng-container *ngIf="windowSize === 'mobile'; else noMobile">
             <button class="u-margin-left-tiny" mat-icon-button color="primary" [matMenuTriggerFor]="userMenu" >
               <mat-icon>menu</mat-icon>

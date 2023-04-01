@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 import { PlansFormService } from './plans-form.service';
 
 import * as _ from 'lodash';
-import * as fromModels from '@home-budget/plans/models';
+import * as fromModels from '@budgets/models';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { formatdNumber, formData, formDataFooter, formLabels, formPathForDeleteEntry } from './plan-details-former.utils';

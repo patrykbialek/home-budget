@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import * as fromModels from '@home-budget/plans/models';
+import * as fromModels from '@budgets/models';
 import { Observable } from 'rxjs';
 import { formData } from './plan-summary-former.utils';
 import { PlansBreadcrumbsService } from './plans-breadcrumbs.service';

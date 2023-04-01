@@ -72,7 +72,7 @@ export class PlanSummaryComponent implements OnDestroy, OnInit {
       this.authService.user$
         .pipe(
           map((response: fromAuthModels.User) => response.uid),
-          switchMap((uid: string) => this.plansFacadeService.readData(this.sourcePath, uid))
+          switchMap((uid: string) => this.plansFacadeService.readData(this.sourcePath))
         )
         .subscribe((data: fromModels.DataEntry[]) => this.formData(data))
     );

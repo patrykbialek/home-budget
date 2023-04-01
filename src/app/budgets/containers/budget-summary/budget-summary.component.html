@@ -2,21 +2,21 @@
   <div class="o-grid__cell u-1/2">
     <mat-card class="c-plan-project__card">
       <mat-card-content>
-        <hb-plan-summary-data
+        <hb-budget-summary-data
           [dataLabels]="dataLabels"
           [dataSource]="dataSource"
           [displayedColumns]="displayedColumns"
           [isLoading]="isLoading"
           [dataSourceTotal]="dataSourceTotal"
-          (goToDetails)="goToDetails($event)"></hb-plan-summary-data>
+          (goToDetails)="goToDetails($event)"></hb-budget-summary-data>
       </mat-card-content>
     </mat-card>
   </div>
   <div class="o-grid__cell u-1/2">
     <mat-card class="c-plan-project__card">
       <mat-card-content>
-        <hb-plan-graph *ngIf="!isLoading"
-          [dataSource]="dataSource"></hb-plan-graph>
+        <hb-budget-graph *ngIf="!isLoading"
+          [dataSource]="dataSource"></hb-budget-graph>
       </mat-card-content>
     </mat-card>
   </div>

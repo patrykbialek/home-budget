@@ -65,16 +65,16 @@ export class PlansService {
       })[0];
   }
 
-  public readData(sourcePath: string, uid: string): Observable<any> {
-    return this.plansHttpService.readData(uid, sourcePath);
+  public readData(sourcePath: string): Observable<any> {
+    return this.plansHttpService.readData(sourcePath);
   }
 
-  public readDataByTypeObject(sourcePath: string, uid: string): Observable<any> {
-    return this.plansHttpService.readDataByTypeObject(uid,sourcePath);
+  public readDataByTypeObject(sourcePath: string): Observable<any> {
+    return this.plansHttpService.readDataByTypeObject(sourcePath);
   }
 
-  public readDataByType(sourcePath: string, uid: string): Observable<any> {
-    return this.plansHttpService.readDataByType(uid,sourcePath);
+  public readDataByType(sourcePath: string): Observable<any> {
+    return this.plansHttpService.readDataByType(sourcePath);
   }
 
   private formDataLabelsAndColumns(data: fromModels.DataSourceDetails): void {
@@ -170,7 +170,7 @@ export class PlansService {
 
   private subscribeToReadData(uid: string, planEntry: fromModels.PlanEntry): void {
     // TODO: replace path with generic one
-    this.readData(`${'2023'}/entries`, uid)
+    this.readData(`${'2023'}/entries`)
       .subscribe((data: fromModels.DataItem[]) => {
         this.formDataSource(planEntry, data);
         this.formDataSourceFooter();
@@ -187,12 +187,12 @@ export class PlansService {
     this.dataSourceFooter = formDataFooter(this.dataSource);
   }
 
-  private deleteEntry(path: string, entry: fromModels.PlanEntry, uid: string): void {
+  private deleteEntry(path: string, entry: fromModels.PlanEntry): void {
     const updatedPath: string = formPathForDeleteEntry(path, entry);
     const subs$: Observable<any>[] = [];
     this.months.forEach((month: fromModels.DataLabel) => {
       const replacedPath: string = updatedPath.replace('month', month.key);
-      subs$.push(this.plansHttpService.deleteEntry(uid, replacedPath));
+      subs$.push(this.plansHttpService.deleteEntry(replacedPath));
     });
 
     forkJoin(subs$)
@@ -226,7 +226,7 @@ export class PlansService {
 
     this.months.forEach((month: fromModels.DataLabel) => {
       const replacedPath = path.replace('month', month.key);
-      subs$.push(this.plansHttpService.readEntriesObject(uid, replacedPath)
+      subs$.push(this.plansHttpService.readEntriesObject(replacedPath)
         .pipe(
           take(1),
           tap((entries: any) => {
@@ -253,7 +253,7 @@ export class PlansService {
               [key]: payload,
             };
 
-            this.plansHttpService.updateEntriesObject(uid, replacedPath, entries);
+            this.plansHttpService.updateEntriesObject(replacedPath, entries);
           }))
       );
     });
@@ -290,13 +290,13 @@ export class PlansService {
   }
 
   private updateEntryLabel(payload: fromModels.UpadatePayload): void {
-    this.plansHttpService.updateEntryLabel(uid, payload)
+    this.plansHttpService.updateEntryLabel(payload)
       .pipe(take(1))
       .subscribe();
   }
 
   private updateEntry(payload: fromModels.UpadatePayload): void {
-    this.plansHttpService.updateEntry(uid, payload)
+    this.plansHttpService.updateEntry(payload)
       .pipe(take(1))
       .subscribe(() => this.handleAfterUpdateEntry(payload));
   }
@@ -322,7 +322,7 @@ export class PlansService {
       if (newPath[newPath.length - 1] !== 'entries') {
         const formedPath = newPath.join('/').split('/').slice(0, -1).join('/');
         subs$.push(
-          this.readDataByTypeObject(uid, newPath.join('/'))
+          this.readDataByTypeObject(newPath.join('/'))
             .pipe(
               take(len / 2),
               tap((response: fromModels.DataItem) => {
@@ -353,7 +353,7 @@ export class PlansService {
   }
 
   private updateParentEntry(payload: fromModels.UpadatePayload): void {
-    this.plansHttpService.updateParentEntry(uid, payload)
+    this.plansHttpService.updateParentEntry(payload)
       .pipe(take(1))
       .subscribe();
   }

@@ -6,15 +6,16 @@ import { AngularFireDatabase, AngularFireList, AngularFireObject } from '@angula
 
 import * as fromModels from '@home-budget/plans/models';
 
-import { AuthenticationFacadeService } from '@authentication/store';
-
 @Injectable({ providedIn: 'root' })
 export class PlansHttpService {
 
+  private uid: string;
+
   constructor(
-    private authService: AuthenticationFacadeService,
     private db: AngularFireDatabase,
-  ) {  }
+  ) {
+    this.uid = localStorage.getItem('uid');
+  }
 
   // Create
 
@@ -38,17 +39,13 @@ export class PlansHttpService {
   // Read
 
   readEntriesObject(sourcePath: string): any {
-    const uid = localStorage.getItem('uid')
-
-    const path: string = `/workspaces/${uid}/plans/${sourcePath}`;
+    const path: string = `/workspaces/${this.uid}/plans/${sourcePath}`;
     const db: AngularFireObject<any> = this.db.object(path);
     return db.valueChanges();
   }
 
   readData(sourcePath?: string): Observable<fromModels.DataEntry[]> {
-    const uid = localStorage.getItem('uid')
-
-    const path: string = `/workspaces/${uid}/plans/${sourcePath}`;
+    const path: string = `/workspaces/${this.uid}/plans/${sourcePath}`;
     const db: AngularFireList<any> = this.db.list(path);
     return db.snapshotChanges().pipe(
       map((changes) =>
@@ -64,9 +61,7 @@ export class PlansHttpService {
   }
 
   readDataByType(sourcePath: string): Observable<any> {
-    const uid = localStorage.getItem('uid')
-
-    const path: string = `/workspaces/${uid}/plans/${sourcePath}`;
+    const path: string = `/workspaces/${this.uid}/plans/${sourcePath}`;
     const db: AngularFireList<any> = this.db.list(path);
     return db.snapshotChanges()
       .pipe(
@@ -83,9 +78,7 @@ export class PlansHttpService {
   }
 
   readDataByTypeObject(sourcePath: string): Observable<any> {
-    const uid = localStorage.getItem('uid')
-
-    const path: string = `/workspaces/${uid}/plans/${sourcePath}`;
+    const path: string = `/workspaces/${this.uid}/plans/${sourcePath}`;
     const db: AngularFireObject<any> = this.db.object(path);
     return db.snapshotChanges()
       .pipe(
@@ -101,36 +94,28 @@ export class PlansHttpService {
   // Update
 
   updateEntriesObject(updatePath: string, payload: any): void {
-    const uid = localStorage.getItem('uid')
-
-    const path: string = `/workspaces/${uid}/plans/${updatePath}`;
+    const path: string = `/workspaces/${this.uid}/plans/${updatePath}`;
     const db: AngularFireObject<any> = this.db.object(path);
     db.update(payload);
   }
 
   updateEntry(payload: fromModels.UpadatePayload): Observable<any> {
-    const uid = localStorage.getItem('uid')
-
     const { entry, isInTotal, label, notes, path, order, total } = payload;
-    const updatedPath: string = `/workspaces/${uid}/plans/${path}`;
+    const updatedPath: string = `/workspaces/${this.uid}/plans/${path}`;
     const db: AngularFireList<any> = this.db.list(updatedPath);
     return of(db.update(entry, { isInTotal, label, notes, order, total }));
   }
 
   updateEntryLabel(payload: fromModels.UpadatePayload): Observable<any> {
-    const uid = localStorage.getItem('uid')
-
     const { entry, label, path } = payload;
-    const updatedPath: string = `/workspaces/${uid}/plans/${path}`;
+    const updatedPath: string = `/workspaces/${this.uid}/plans/${path}`;
     const db: AngularFireList<any> = this.db.list(updatedPath);
     return of(db.update(entry, { label }));
   }
 
   updateParentEntry(payload: fromModels.UpadatePayload): Observable<any> {
-    const uid = localStorage.getItem('uid')
-
     const { entry, path, total } = payload;
-    const updatedPath: string = `/workspaces/${uid}/plans/${path}`;
+    const updatedPath: string = `/workspaces/${this.uid}/plans/${path}`;
     const db: AngularFireList<any> = this.db.list(updatedPath);
     return of(db.update(entry, { total }));
   }
@@ -138,13 +123,10 @@ export class PlansHttpService {
   // Delete
 
   deleteEntry(updatePath: string): Observable<any> {
-    const uid = localStorage.getItem('uid')
-
-    const path: string = `/workspaces/${uid}/plans/${updatePath}`;
+    const path: string = `/workspaces/${this.uid}/plans/${updatePath}`;
     const db: AngularFireObject<any> = this.db.object(path);
     return of(db.remove());
   }
-
 
   // Utils
 

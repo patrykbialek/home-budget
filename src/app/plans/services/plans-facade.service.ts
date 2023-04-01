@@ -49,8 +49,8 @@ export class PlansFacadeService {
     this.plansService.setCommonDataLables();
   }
 
-  public readData(path: string, uid: string): Observable<any> {
-    return this.plansService.readData(path, uid);
+  public readData(path: string): Observable<any> {
+    return this.plansService.readData(path);
   }
 
   public addPlanEntryColumn(): void {

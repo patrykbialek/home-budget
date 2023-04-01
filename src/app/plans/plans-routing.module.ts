@@ -5,7 +5,7 @@ import * as fromContainers from '../plans/containers';
 import { PlansComponent } from './plans.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'project', pathMatch: 'full' },
+  { path: '', redirectTo: 'execution', pathMatch: 'full' },
   {
     path: '',
     component: PlansComponent,

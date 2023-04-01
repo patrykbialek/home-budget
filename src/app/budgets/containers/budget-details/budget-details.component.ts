@@ -3,11 +3,11 @@ import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router, UrlSegment } from '@angular/router';
 
 import * as config from '../../shared/budgets.config';
-import * as fromModels from '@home-budget/plans/models';
+import * as fromModels from '@budgets/models';
 import { combineLatest } from 'rxjs';
 import { BreadcrumbsItem } from '../../models/plan-breadcrumbs.model';
 import { PlansService } from '../../services/plans.service';
-import { PlansFacadeService } from '@home-budget/plans/services/plans-facade.service';
+import { PlansFacadeService } from '@budgets/services/plans-facade.service';
 
 @Component({
   selector: 'hb-budget-details',
@@ -18,9 +18,11 @@ export class BudgetDetailsComponent implements OnDestroy, OnInit {
   public form: FormGroup;
   public month: string;
 
+
   private isDataLoaded: boolean;
   private readonly planType: fromModels.Item = config.planType[fromModels.DataProperty.project];
   private readonly planYear: string = '2023';
+  private readonly main: string = 'budgets';
 
   constructor(
     private readonly activatedRoute: ActivatedRoute,
@@ -105,7 +107,7 @@ export class BudgetDetailsComponent implements OnDestroy, OnInit {
       entry,
       label: this.dataLabels[entry],
       hasEntries: true,
-      href: `./plans/${entry}`,
+      href: `./${this.main}/${entry}`,
       isCurrent: false,
       path: null,
     };

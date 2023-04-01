@@ -1,5 +1,5 @@
-import * as fromModels from '@home-budget/plans/models';
-import { DataProperty } from '@home-budget/plans/models/plans.enum';
+import * as fromModels from '@budgets/models';
+import { DataProperty } from '@budgets/models/plans.enum';
 
 function formData(data: fromModels.DataEntry[], planConfig: fromModels.PlanConfig): fromModels.DataSourceSummary[] {
   return data

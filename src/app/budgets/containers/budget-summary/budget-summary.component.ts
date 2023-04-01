@@ -3,7 +3,7 @@ import { ActivatedRoute, Router, UrlSegment } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import * as config from '../../shared/budgets.config';
-import * as fromModels from '@home-budget/plans/models';
+import * as fromModels from '@budgets/models';
 import { PlansFacadeService } from '../../services/plans-facade.service';
 
 @Component({
@@ -19,7 +19,7 @@ export class BudgetSummaryComponent implements OnDestroy, OnInit {
   private planType: string;
   private subscription$: Subscription = new Subscription();
 
-  private readonly main: string = 'plans';
+  private readonly main: string = 'budgets';
   private readonly year: string = '2023';
   private readonly sourcePath: string = `${this.year}/entries`;
 

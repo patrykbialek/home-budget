@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import * as fromModels from '@home-budget/plans/models';
+import * as fromModels from '@budgets/models';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Injectable({ providedIn: 'root' })
