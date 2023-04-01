@@ -32,6 +32,7 @@ export class AppHeaderComponent {
   }
 
   onLogout() {
+    localStorage.removeItem('uid');
     this.router.navigate(['./login']);
   }
 }
