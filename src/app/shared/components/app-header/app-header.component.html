@@ -24,6 +24,13 @@
             </button>
             <button class="u-margin-left-tiny"
               mat-button
+              [routerLink]="['budgets']"
+              routerLinkActive="u-router-link-active">
+              <mat-icon class="u-margin-right-tiny">analytics</mat-icon>
+              {{ 'HEADER.Budget' | translate }}
+            </button>
+            <button class="u-margin-left-tiny"
+              mat-button
               [routerLink]="['transactions']"
               routerLinkActive="u-router-link-active">
               <mat-icon class="u-margin-right-tiny">list_alt</mat-icon>

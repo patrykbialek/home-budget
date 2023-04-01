@@ -1,0 +1,26 @@
+<app-main-component>
+
+  <div class="c-section-header">
+    <div class="o-wrapper">
+      <header class="c-section-header__title">
+        <h4>{{ 'PLAN.Title' | translate }}</h4>
+        <div class="u-margin-left u-border-left u-text-large">&nbsp;</div>
+        <nav  mat-tab-nav-bar mat-stretch-tabs="false" mat-align-tabs="end">
+          <a mat-tab-link
+            *ngFor="let link of navLinks"
+            routerLinkActive="u-router-link-active"
+            [routerLink]="link.href"
+          >{{ link.label }}
+          </a>
+        </nav>
+        <div class="u-padding-right-small u-margin-right-small u-border-right u-text-large">&nbsp;</div>
+        <hb-budget-breadcrumbs></hb-budget-breadcrumbs>
+      </header>
+    </div>
+  </div>
+
+  <div class="c-section-content" class="u-padding-bottom-huge" style="padding-top: 96px;">
+    <router-outlet></router-outlet>
+  </div>
+
+</app-main-component>

@@ -1,0 +1,35 @@
+<h2 mat-dialog-title>Dodaj kolumnę</h2>
+<form [formGroup]="form" (ngSubmit)="save()">
+  <mat-dialog-content>
+    <div class="o-grid o-grid--start u-text-normal">
+      <div class="o-grid__cell u-5/7">
+        <mat-form-field appearance="outline" class="o-block o-block--left u-margin-bottom-small">
+          <mat-label>{{ 'Eytkieta' | titlecase }}</mat-label>
+          <input matInput
+            formControlName="label"
+            onfocus="this.select()">
+          <mat-error *ngIf="form.get('label').hasError('required')">Pole wymagane.</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="o-grid__cell u-2/7">
+        <mat-form-field appearance="outline" class="o-block o-block--left u-margin-bottom-small">
+          <mat-label>{{ 'Kolejność' | titlecase }}</mat-label>
+          <input matInput
+            formControlName="order"
+            type="number">
+          <mat-error *ngIf="form.get('order').hasError('required')">Pole wymagane.</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="o-grid__cell">
+        <div class="o-block o-block--left u-margin-bottom">
+          <mat-checkbox
+            formControlName="hasEntries">Zawiera szczegóły</mat-checkbox>
+        </div>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" [mat-dialog-close]="null">ANULUJ</button>
+    <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid" (click)="save()">ZAPISZ</button>
+  </mat-dialog-actions>
+</form>

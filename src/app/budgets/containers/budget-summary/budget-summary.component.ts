@@ -2,20 +2,16 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, UrlSegment } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import * as config from '../../shared/plans.config';
+import * as config from '../../shared/budgets.config';
 import * as fromModels from '@home-budget/plans/models';
 import { PlansFacadeService } from '../../services/plans-facade.service';
-import { AuthenticationFacadeService } from '@authentication/store';
-import { map, switchMap } from 'rxjs/operators';
-
-import * as fromAuthModels from '@home-budget/authentication/models';
 
 @Component({
-  selector: 'hb-plan-summary',
-  templateUrl: './plan-summary.component.html',
-  styleUrls: ['./plan-summary.component.scss'],
+  selector: 'hb-budget-summary',
+  templateUrl: './budget-summary.component.html',
+  styleUrls: ['./budget-summary.component.scss'],
 })
-export class PlanSummaryComponent implements OnDestroy, OnInit {
+export class BudgetSummaryComponent implements OnDestroy, OnInit {
   public displayedColumns: string[] = config.planColumns;
   public dataSource: fromModels.DataSourceSummary[] = config.defaultDataSource;
   public isLoading: boolean;
@@ -29,7 +25,6 @@ export class PlanSummaryComponent implements OnDestroy, OnInit {
 
   constructor(
     private readonly activatedRoute: ActivatedRoute,
-    private readonly authService: AuthenticationFacadeService,
     private readonly plansFacadeService: PlansFacadeService,
     private readonly router: Router,
   ) { }
@@ -69,11 +64,7 @@ export class PlanSummaryComponent implements OnDestroy, OnInit {
 
   public readData(): void {
     this.subscription$.add(
-      this.authService.user$
-        .pipe(
-          map((response: fromAuthModels.User) => response.uid),
-          switchMap((uid: string) => this.plansFacadeService.readData(this.sourcePath, uid))
-        )
+      this.plansFacadeService.readData(this.sourcePath)
         .subscribe((data: fromModels.DataEntry[]) => this.formData(data))
     );
   }
