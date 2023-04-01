@@ -9,7 +9,7 @@ const routes: Routes = [
   {
     path: '',
     component: BudgetsComponent,
-    data: { title: 'Budzet | home_budget' },
+    data: { title: 'Budżet | home_budget' },
     children: [
       {
         path: 'project',

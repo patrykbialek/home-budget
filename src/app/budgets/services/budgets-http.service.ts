@@ -7,7 +7,7 @@ import { AngularFireDatabase, AngularFireList, AngularFireObject } from '@angula
 import * as fromModels from '@budgets/models';
 
 @Injectable({ providedIn: 'root' })
-export class PlansHttpService {
+export class BudgetsHttpService {
 
   private uid: string;
 

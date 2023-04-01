@@ -1,10 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, UrlSegment } from '@angular/router';
+
 import { Subscription } from 'rxjs';
 
-import * as config from '../../shared/budgets.config';
+import { BudgetsFacadeService } from '@budgets/services/budgets-facade.service';
+
+import * as config from '@budgets/shared/budgets.config';
 import * as fromModels from '@budgets/models';
-import { PlansFacadeService } from '../../services/plans-facade.service';
 
 @Component({
   selector: 'hb-budget-summary',
@@ -25,7 +27,7 @@ export class BudgetSummaryComponent implements OnDestroy, OnInit {
 
   constructor(
     private readonly activatedRoute: ActivatedRoute,
-    private readonly plansFacadeService: PlansFacadeService,
+    private readonly budgetsFacadeService: BudgetsFacadeService,
     private readonly router: Router,
   ) { }
 
@@ -50,7 +52,7 @@ export class BudgetSummaryComponent implements OnDestroy, OnInit {
   }
 
   public get dataLabels(): fromModels.DataLabels {
-    return this.plansFacadeService.dataLabels;
+    return this.budgetsFacadeService.dataLabels;
   }
 
   public get dataSourceTotal(): number {
@@ -64,13 +66,13 @@ export class BudgetSummaryComponent implements OnDestroy, OnInit {
 
   public readData(): void {
     this.subscription$.add(
-      this.plansFacadeService.readData(this.sourcePath)
+      this.budgetsFacadeService.readData(this.sourcePath)
         .subscribe((data: fromModels.DataEntry[]) => this.formData(data))
     );
   }
 
   private setCommonDataLables(): void {
-    this.plansFacadeService.setCommonDataLables();
+    this.budgetsFacadeService.setCommonDataLables();
   }
 
   private setPlanType(): void {
@@ -83,7 +85,7 @@ export class BudgetSummaryComponent implements OnDestroy, OnInit {
   }
 
   private formData(data: fromModels.DataEntry[]): void {
-    this.dataSource = this.plansFacadeService.formData(data, this.planConfig);
+    this.dataSource = this.budgetsFacadeService.formData(data, this.planConfig);
     setTimeout(() => {
       this.isLoading = false;
     });

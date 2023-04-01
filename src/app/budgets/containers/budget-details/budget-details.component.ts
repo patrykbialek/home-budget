@@ -2,12 +2,13 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router, UrlSegment } from '@angular/router';
 
+import { combineLatest } from 'rxjs';
+
+import { BudgetsFacadeService } from '@budgets/services/budgets-facade.service';
+
 import * as config from '../../shared/budgets.config';
 import * as fromModels from '@budgets/models';
-import { combineLatest } from 'rxjs';
-import { BreadcrumbsItem } from '../../models/plan-breadcrumbs.model';
-import { PlansService } from '../../services/plans.service';
-import { PlansFacadeService } from '@budgets/services/plans-facade.service';
+import { BreadcrumbsItem } from '@budgets/models/plan-breadcrumbs.model';
 
 @Component({
   selector: 'hb-budget-details',
@@ -26,7 +27,7 @@ export class BudgetDetailsComponent implements OnDestroy, OnInit {
 
   constructor(
     private readonly activatedRoute: ActivatedRoute,
-    private readonly plansFacadeService: PlansFacadeService,
+    private readonly budgetsFacadeService: BudgetsFacadeService,
     private readonly router: Router,
   ) { }
 
@@ -39,39 +40,39 @@ export class BudgetDetailsComponent implements OnDestroy, OnInit {
   }
 
   public get dataLabels(): fromModels.DataLabels {
-    return this.plansFacadeService.dataLabels;
+    return this.budgetsFacadeService.dataLabels;
   }
 
   public get breadcrumbs(): BreadcrumbsItem[] {
-    return this.plansFacadeService.breadcrumbs;
+    return this.budgetsFacadeService.breadcrumbs;
   }
 
   public get dataSource(): fromModels.DataSourceDetails[] {
-    return this.plansFacadeService.dataSource;
+    return this.budgetsFacadeService.dataSource;
   }
 
   public get dataSourceFooter(): fromModels.DataSourceDetails {
-    return this.plansFacadeService.dataSourceFooter;
+    return this.budgetsFacadeService.dataSourceFooter;
   }
 
   public get dataColumns(): string[] {
-    return this.plansFacadeService.dataColumns;
+    return this.budgetsFacadeService.dataColumns;
   }
 
   public get displayedColumns(): string[] {
-    return this.plansFacadeService.displayedColumns;
+    return this.budgetsFacadeService.displayedColumns;
   }
 
   public get isLoading(): boolean {
-    return this.plansFacadeService.isLoading;
+    return this.budgetsFacadeService.isLoading;
   }
 
   public editPlanEntry(event: fromModels.PlanEntry): void {
-    this.plansFacadeService.editPlanEntry(event);
+    this.budgetsFacadeService.editPlanEntry(event);
   }
 
   public goToDetails(event: fromModels.PlanEntry): void {
-    this.plansFacadeService.goToDetails(event);
+    this.budgetsFacadeService.goToDetails(event);
   }
 
   private subscribeToRouteChange(): void {
@@ -99,7 +100,7 @@ export class BudgetDetailsComponent implements OnDestroy, OnInit {
   }
 
   private addMainBreadcrumb(entry: string): void {
-    this.plansFacadeService.formBreadcrumbs(this.formPlanEntry(entry), this.dataLabels);
+    this.budgetsFacadeService.formBreadcrumbs(this.formPlanEntry(entry), this.dataLabels);
   }
 
   private formPlanEntry(entry: string): fromModels.PlanEntry {
@@ -130,6 +131,6 @@ export class BudgetDetailsComponent implements OnDestroy, OnInit {
   }
 
   private resetBreadcrumbs(): void {
-    this.plansFacadeService.resetBreadcrumbs();
+    this.budgetsFacadeService.resetBreadcrumbs();
   }
 }

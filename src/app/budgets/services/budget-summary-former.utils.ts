@@ -1,9 +1,9 @@
 import * as fromModels from '@budgets/models';
 import { DataProperty } from '@budgets/models/plans.enum';
 
-function formData(data: fromModels.DataEntry[], planConfig: fromModels.PlanConfig): fromModels.DataSourceSummary[] {
+function formData(data: fromModels.DataEntry[], config: fromModels.PlanConfig): fromModels.DataSourceSummary[] {
   return data
-    .map((entry: fromModels.DataEntry) => mapData(entry, planConfig))
+    .map((entry: fromModels.DataEntry) => mapData(entry, config))
     .sort((first: fromModels.DataSourceSummary, last: fromModels.DataSourceSummary) => first.order - last.order)
     .map((entry: fromModels.DataSourceSummary) => formRestTotal(entry))
     .reduce((array: fromModels.DataSourceSummary[], entry: fromModels.DataSourceSummary, index: number) => {
@@ -11,12 +11,12 @@ function formData(data: fromModels.DataEntry[], planConfig: fromModels.PlanConfi
     }, []);
 }
 
-function mapData(entry: fromModels.DataEntry, planConfig: fromModels.PlanConfig): fromModels.DataSourceSummary {
+function mapData(entry: fromModels.DataEntry, config: fromModels.PlanConfig): fromModels.DataSourceSummary {
   const expense: number = formTotal(
-    formEntry(entry, DataProperty.expense, planConfig)
+    formEntry(entry, DataProperty.expense, config)
   );
   const income: number = formTotal(
-    formEntry(entry, DataProperty.income, planConfig)
+    formEntry(entry, DataProperty.income, config)
   );
 
   return {
@@ -25,7 +25,7 @@ function mapData(entry: fromModels.DataEntry, planConfig: fromModels.PlanConfig)
     increase: 0,
     month: entry.key,
     order: entry.order,
-    path: `${planConfig.year}/entries/month/entries/${planConfig.type}`,
+    path: `${config.year}/entries/month/entries/${config.type}`,
     rest: 0,
   };
 }
@@ -49,8 +49,8 @@ function formRestTotal(entry: fromModels.DataSourceSummary): fromModels.DataSour
   };
 }
 
-function formEntry(entry: fromModels.DataEntry, node: string, planConfig: fromModels.PlanConfig): fromModels.DataEntryPlanEntry {
-  return entry.entries[planConfig.type].entries[node].entries;
+function formEntry(entry: fromModels.DataEntry, node: string, config: fromModels.PlanConfig): fromModels.DataEntryPlanEntry {
+  return entry.entries[config.type].entries[node].entries;
 }
 
 function formIncreaseTotal(

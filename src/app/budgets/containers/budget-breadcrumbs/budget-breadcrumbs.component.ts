@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 
 import * as fromModels from '@budgets/models';
-import { PlansFacadeService } from '@budgets/services/plans-facade.service';
+
+import { BudgetsFacadeService } from '@budgets/services/budgets-facade.service';
 
 @Component({
   selector: 'hb-budget-breadcrumbs',
@@ -11,11 +12,11 @@ import { PlansFacadeService } from '@budgets/services/plans-facade.service';
 export class BudgetBreadcrumbsComponent {
 
   constructor(
-    private readonly plansFacadeService: PlansFacadeService,
+    private readonly budgetsFacadeService: BudgetsFacadeService,
   ) { }
 
   public get breadcrumbs(): fromModels.BreadcrumbsItem[] {
-    return this.plansFacadeService.breadcrumbs;
+    return this.budgetsFacadeService.breadcrumbs;
   }
 
   public get isAddColumnButtonShown(): boolean {
@@ -24,7 +25,7 @@ export class BudgetBreadcrumbsComponent {
   }
 
   public addPlanEntryColumn(): void {
-    this.plansFacadeService.addPlanEntryColumn();
+    this.budgetsFacadeService.addPlanEntryColumn();
   }
 
   public goToDetails(event: fromModels.BreadcrumbsItem): void {
@@ -37,7 +38,7 @@ export class BudgetBreadcrumbsComponent {
       label,
       path,
     };
-    this.plansFacadeService.goToDetails(planEntry);
+    this.budgetsFacadeService.goToDetails(planEntry);
   }
 
 }

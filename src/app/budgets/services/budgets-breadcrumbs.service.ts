@@ -4,7 +4,7 @@ import { BreadcrumbsItem } from '../models/plan-breadcrumbs.model';
 import * as fromModels from '@budgets/models';
 
 @Injectable({ providedIn: 'root' })
-export class PlansBreadcrumbsService {
+export class BudgetsBreadcrumbsService {
   public breadcrumbs: BreadcrumbsItem[] = [];
 
   public resetBreadcrumbs(): void {

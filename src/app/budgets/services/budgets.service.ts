@@ -1,32 +1,33 @@
-import { forkJoin, Observable } from 'rxjs';
-
-import { BreadcrumbsItem } from '../models/plan-breadcrumbs.model';
-import { dataLabels, defaultDataSource, labels, monthLabel, months } from '../shared/budgets.config';
-import { DataProperty } from '../models/plans.enum';
-import { filter, take, tap } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
 import { Injectable } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { BudgetAddColumnFormComponent, BudgetEditFormComponent } from '../components';
-import { PlansBreadcrumbsService } from './plans-breadcrumbs.service';
-import { PlansHttpService } from './plans-http.service';
 import { Router } from '@angular/router';
 
-import { PlansFormService } from './plans-form.service';
-
-import * as _ from 'lodash';
-import * as fromModels from '@budgets/models';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { formatdNumber, formData, formDataFooter, formLabels, formPathForDeleteEntry } from './plan-details-former.utils';
+import { forkJoin, Observable } from 'rxjs';
+import { filter, take, tap } from 'rxjs/operators';
+
+import * as _ from 'lodash';
+
+import { BudgetsBreadcrumbsService } from '@budgets/services/budgets-breadcrumbs.service';
+import { BudgetsHttpService } from '@budgets/services/budgets-http.service';
+import { BugdetsFormService } from '@budgets/services/budgets-form.service';
+
+import { BudgetAddColumnFormComponent, BudgetEditFormComponent } from '../components';
+
+import * as fromModels from '@budgets/models';
+import * as fromUtils from '@budgets/services/budget-details-former.utils';
+import * as fromConfig from '@budgets/shared/budgets.config';
+import * as fromEnums from '@budgets/models/plans.enum';
 
 @Injectable({ providedIn: 'root' })
-export class PlansService {
+export class BudgetsService {
   public dataColumns: string[];
-  public dataLabels: fromModels.DataLabels = dataLabels;
+  public dataLabels: fromModels.DataLabels = fromConfig.dataLabels;
   public dataSource: fromModels.DataSourceDetails[] = [];
   public dataSourceFooter: fromModels.DataSourceDetails;
-  public defaultDataSource: fromModels.DataSourceSummary[] = defaultDataSource;
+  public defaultDataSource: fromModels.DataSourceSummary[] = fromConfig.defaultDataSource;
   public displayedColumns: string[] = [];
   public form: FormGroup;
 
@@ -36,28 +37,28 @@ export class PlansService {
   constructor(
     public dialog: MatDialog,
     private readonly snackBar: MatSnackBar,
-    private readonly plansBreadcrumbsService: PlansBreadcrumbsService,
-    private readonly plansFormService: PlansFormService,
-    private readonly plansHttpService: PlansHttpService,
+    private readonly budgetsBreadcrumbsService: BudgetsBreadcrumbsService,
+    private readonly budgetsFormService: BugdetsFormService,
+    private readonly budgetsHttpService: BudgetsHttpService,
     private readonly router: Router,
   ) { }
 
   public get months(): fromModels.DataLabel[] {
-    return months;
+    return fromConfig.months;
   }
 
   public get labels(): fromModels.DataLabel[] {
-    return labels;
+    return fromConfig.labels;
   }
 
   public get isLoading(): boolean {
     return this.isLoadingOn;
   }
 
-  public get currentEntries(): BreadcrumbsItem {
-    return this.plansBreadcrumbsService.breadcrumbs
-      .filter((breadcrumb: BreadcrumbsItem) => breadcrumb.isCurrent)
-      .map((breadcrumb: BreadcrumbsItem) => {
+  public get currentEntries(): fromModels.BreadcrumbsItem {
+    return this.budgetsBreadcrumbsService.breadcrumbs
+      .filter((breadcrumb: fromModels.BreadcrumbsItem) => breadcrumb.isCurrent)
+      .map((breadcrumb: fromModels.BreadcrumbsItem) => {
         return {
           entry: breadcrumb.entry,
           path: `${breadcrumb.path}/${breadcrumb.entry}/entries`,
@@ -66,20 +67,20 @@ export class PlansService {
   }
 
   public readData(sourcePath: string): Observable<any> {
-    return this.plansHttpService.readData(sourcePath);
+    return this.budgetsHttpService.readData(sourcePath);
   }
 
   public readDataByTypeObject(sourcePath: string): Observable<any> {
-    return this.plansHttpService.readDataByTypeObject(sourcePath);
+    return this.budgetsHttpService.readDataByTypeObject(sourcePath);
   }
 
   public readDataByType(sourcePath: string): Observable<any> {
-    return this.plansHttpService.readDataByType(sourcePath);
+    return this.budgetsHttpService.readDataByType(sourcePath);
   }
 
   private formDataLabelsAndColumns(data: fromModels.DataSourceDetails): void {
-    this.formDataColumns(formLabels(data));
-    this.formDataLabels(formLabels(data));
+    this.formDataColumns(fromUtils.formLabels(data));
+    this.formDataLabels(fromUtils.formLabels(data));
   }
 
   private setDataLabel(label: fromModels.DataLabel): void {
@@ -90,10 +91,10 @@ export class PlansService {
   }
 
   public setCommonDataLables(): void {
-    Object.keys(monthLabel).forEach((key: string) => {
+    Object.keys(fromConfig.monthLabel).forEach((key: string) => {
       this.setDataLabel({
-        key: monthLabel[key].id,
-        value: monthLabel[key].long,
+        key: fromConfig.monthLabel[key].id,
+        value: fromConfig.monthLabel[key].long,
       });
     });
 
@@ -103,12 +104,12 @@ export class PlansService {
   }
 
   public editPlanEntry(planEntry: fromModels.PlanEntry): void {
-    const form: FormGroup = this.plansFormService.buildEditForm(planEntry);
+    const form: FormGroup = this.budgetsFormService.buildEditForm(planEntry);
     this.editDetails(form);
   }
 
   public addPlanEntryColumn(): void {
-    const form: FormGroup = this.plansFormService.buildAddColumnForm();
+    const form: FormGroup = this.budgetsFormService.buildAddColumnForm();
     this.addColumn(form);
   }
 
@@ -165,7 +166,7 @@ export class PlansService {
   }
 
   private formBreadcrumbs(planEntry: fromModels.PlanEntry): void {
-    this.plansBreadcrumbsService.formBreadcrumbs(planEntry, this.dataLabels);
+    this.budgetsBreadcrumbsService.formBreadcrumbs(planEntry, this.dataLabels);
   }
 
   private subscribeToReadData(planEntry: fromModels.PlanEntry): void {
@@ -180,19 +181,19 @@ export class PlansService {
   }
 
   private formDataSource(planEntry: fromModels.PlanEntry, data: fromModels.DataItem[]): void {
-    this.dataSource = formData(planEntry, data);
+    this.dataSource = fromUtils.formData(planEntry, data);
   }
 
   private formDataSourceFooter(): void {
-    this.dataSourceFooter = formDataFooter(this.dataSource);
+    this.dataSourceFooter = fromUtils.formDataFooter(this.dataSource);
   }
 
   private deleteEntry(path: string, entry: fromModels.PlanEntry): void {
-    const updatedPath: string = formPathForDeleteEntry(path, entry);
+    const updatedPath: string = fromUtils.formPathForDeleteEntry(path, entry);
     const subs$: Observable<any>[] = [];
     this.months.forEach((month: fromModels.DataLabel) => {
       const replacedPath: string = updatedPath.replace('month', month.key);
-      subs$.push(this.plansHttpService.deleteEntry(replacedPath));
+      subs$.push(this.budgetsHttpService.deleteEntry(replacedPath));
     });
 
     forkJoin(subs$)
@@ -226,15 +227,15 @@ export class PlansService {
 
     this.months.forEach((month: fromModels.DataLabel) => {
       const replacedPath = path.replace('month', month.key);
-      subs$.push(this.plansHttpService.readEntriesObject(replacedPath)
+      subs$.push(this.budgetsHttpService.readEntriesObject(replacedPath)
         .pipe(
           take(1),
           tap((entries: any) => {
             const lastIndex: number = Object.keys(entries).length + 1;
-            const key: string = `${entry}${formatdNumber(lastIndex)}`;
+            const key: string = `${entry}${fromUtils.formatdNumber(lastIndex)}`;
 
             if (form.value.hasEntries) {
-              const childKey: string = `${key}${formatdNumber(1)}`;
+              const childKey: string = `${key}${fromUtils.formatdNumber(1)}`;
               payload = {
                 ...payload,
                 entries: {
@@ -253,7 +254,7 @@ export class PlansService {
               [key]: payload,
             };
 
-            this.plansHttpService.updateEntriesObject(replacedPath, entries);
+            this.budgetsHttpService.updateEntriesObject(replacedPath, entries);
           }))
       );
     });
@@ -290,13 +291,13 @@ export class PlansService {
   }
 
   private updateEntryLabel(payload: fromModels.UpadatePayload): void {
-    this.plansHttpService.updateEntryLabel(payload)
+    this.budgetsHttpService.updateEntryLabel(payload)
       .pipe(take(1))
       .subscribe();
   }
 
   private updateEntry(payload: fromModels.UpadatePayload): void {
-    this.plansHttpService.updateEntry(payload)
+    this.budgetsHttpService.updateEntry(payload)
       .pipe(take(1))
       .subscribe(() => this.handleAfterUpdateEntry(payload));
   }
@@ -353,15 +354,15 @@ export class PlansService {
   }
 
   private updateParentEntry(payload: fromModels.UpadatePayload): void {
-    this.plansHttpService.updateParentEntry(payload)
+    this.budgetsHttpService.updateParentEntry(payload)
       .pipe(take(1))
       .subscribe();
   }
 
   private setDisplayedColumns(): void {
     this.displayedColumns = [];
-    this.displayedColumns.push(DataProperty.month);
-    this.displayedColumns.push(DataProperty.total);
+    this.displayedColumns.push(fromEnums.DataProperty.month);
+    this.displayedColumns.push(fromEnums.DataProperty.total);
     this.displayedColumns = this.displayedColumns.concat([
       ...new Set(this.dataColumns),
     ]);

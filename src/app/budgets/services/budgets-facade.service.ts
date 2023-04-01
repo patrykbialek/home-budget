@@ -1,44 +1,44 @@
 import { Injectable } from '@angular/core';
 import * as fromModels from '@budgets/models';
 import { Observable } from 'rxjs';
-import { formData } from './plan-summary-former.utils';
-import { PlansBreadcrumbsService } from './plans-breadcrumbs.service';
-import { PlansService } from './plans.service';
+import { formData } from './budget-summary-former.utils';
+import { BudgetsBreadcrumbsService } from './budgets-breadcrumbs.service';
+import { BudgetsService } from './budgets.service';
 
 @Injectable({ providedIn: 'root' })
-export class PlansFacadeService {
+export class BudgetsFacadeService {
 
   constructor(
-    private readonly plansBreadcrumbsService: PlansBreadcrumbsService,
-    private readonly plansService: PlansService,
+    private readonly budgetsBreadcrumbsService: BudgetsBreadcrumbsService,
+    private readonly budgetsService: BudgetsService,
   ) { }
 
   public get dataLabels(): any {
-    return this.plansService.dataLabels;
+    return this.budgetsService.dataLabels;
   }
 
   public get dataSource(): fromModels.DataSourceDetails[] {
-    return this.plansService.dataSource;
+    return this.budgetsService.dataSource;
   }
 
   public get dataSourceFooter(): fromModels.DataSourceDetails {
-    return this.plansService.dataSourceFooter;
+    return this.budgetsService.dataSourceFooter;
   }
 
   public get dataColumns(): string[] {
-    return this.plansService.dataColumns;
+    return this.budgetsService.dataColumns;
   }
 
   public get displayedColumns(): string[] {
-    return this.plansService.displayedColumns;
+    return this.budgetsService.displayedColumns;
   }
 
   public get isLoading(): boolean {
-    return this.plansService.isLoading;
+    return this.budgetsService.isLoading;
   }
 
   public get breadcrumbs(): fromModels.BreadcrumbsItem[] {
-    return this.plansBreadcrumbsService.breadcrumbs;
+    return this.budgetsBreadcrumbsService.breadcrumbs;
   }
 
   public formData(data: fromModels.DataEntry[], planConfig: fromModels.PlanConfig): fromModels.DataSourceSummary[] {
@@ -46,31 +46,31 @@ export class PlansFacadeService {
   }
 
   public setCommonDataLables() {
-    this.plansService.setCommonDataLables();
+    this.budgetsService.setCommonDataLables();
   }
 
   public readData(path: string): Observable<any> {
-    return this.plansService.readData(path);
+    return this.budgetsService.readData(path);
   }
 
   public addPlanEntryColumn(): void {
-    this.plansService.addPlanEntryColumn();
+    this.budgetsService.addPlanEntryColumn();
   }
 
   public resetBreadcrumbs(): void {
-    this.plansBreadcrumbsService.resetBreadcrumbs();
+    this.budgetsBreadcrumbsService.resetBreadcrumbs();
   }
 
   public formBreadcrumbs(planEntry: fromModels.PlanEntry, dataLabels: fromModels.DataLabels): void {
-    this.plansBreadcrumbsService.formBreadcrumbs(planEntry, dataLabels);
+    this.budgetsBreadcrumbsService.formBreadcrumbs(planEntry, dataLabels);
   }
 
   public editPlanEntry(event: fromModels.PlanEntry): void {
-    this.plansService.editPlanEntry(event);
+    this.budgetsService.editPlanEntry(event);
   }
 
   public goToDetails(planEntry: fromModels.PlanEntry): void {
-    this.plansService.goToDetails(planEntry);
+    this.budgetsService.goToDetails(planEntry);
   }
 
 }
