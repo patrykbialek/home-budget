@@ -52,7 +52,7 @@ export const MY_FORMATS = {
     BrowserAnimationsModule,
     HttpClientModule,
 
-    AngularFireModule.initializeApp(environment.firebase, 'home-budget'),
+    AngularFireModule.initializeApp(environment.firebaseConfig, 'home-budget'),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
 

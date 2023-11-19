@@ -1,21 +1,19 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, UrlSegment } from '@angular/router';
+
 import { Subscription } from 'rxjs';
 
-import * as config from '../../shared/plans.config';
-import * as fromModels from '@home-budget/plans/models';
-import { PlansFacadeService } from '../../services/plans-facade.service';
-import { AuthenticationFacadeService } from '@authentication/store';
-import { map, switchMap } from 'rxjs/operators';
+import { BudgetsFacadeService } from '@budgets/services/budgets-facade.service';
 
-import * as fromAuthModels from '@home-budget/authentication/models';
+import * as config from '@budgets/shared/budgets.config';
+import * as fromModels from '@budgets/models';
 
 @Component({
-  selector: 'hb-plan-summary',
-  templateUrl: './plan-summary.component.html',
-  styleUrls: ['./plan-summary.component.scss'],
+  selector: 'hb-budget-summary',
+  templateUrl: './budget-summary.component.html',
+  styleUrls: ['./budget-summary.component.scss'],
 })
-export class PlanSummaryComponent implements OnDestroy, OnInit {
+export class BudgetSummaryComponent implements OnDestroy, OnInit {
   public displayedColumns: string[] = config.planColumns;
   public dataSource: fromModels.DataSourceSummary[] = config.defaultDataSource;
   public isLoading: boolean;
@@ -23,14 +21,13 @@ export class PlanSummaryComponent implements OnDestroy, OnInit {
   private planType: string;
   private subscription$: Subscription = new Subscription();
 
-  private readonly main: string = 'plans';
+  private readonly main: string = 'budgets';
   private readonly year: string = '2023';
   private readonly sourcePath: string = `${this.year}/entries`;
 
   constructor(
     private readonly activatedRoute: ActivatedRoute,
-    private readonly authService: AuthenticationFacadeService,
-    private readonly plansFacadeService: PlansFacadeService,
+    private readonly budgetsFacadeService: BudgetsFacadeService,
     private readonly router: Router,
   ) { }
 
@@ -55,7 +52,7 @@ export class PlanSummaryComponent implements OnDestroy, OnInit {
   }
 
   public get dataLabels(): fromModels.DataLabels {
-    return this.plansFacadeService.dataLabels;
+    return this.budgetsFacadeService.dataLabels;
   }
 
   public get dataSourceTotal(): number {
@@ -69,17 +66,13 @@ export class PlanSummaryComponent implements OnDestroy, OnInit {
 
   public readData(): void {
     this.subscription$.add(
-      this.authService.user$
-        .pipe(
-          map((response: fromAuthModels.User) => response.uid),
-          switchMap((uid: string) => this.plansFacadeService.readData(this.sourcePath))
-        )
+      this.budgetsFacadeService.readData(this.sourcePath)
         .subscribe((data: fromModels.DataEntry[]) => this.formData(data))
     );
   }
 
   private setCommonDataLables(): void {
-    this.plansFacadeService.setCommonDataLables();
+    this.budgetsFacadeService.setCommonDataLables();
   }
 
   private setPlanType(): void {
@@ -92,7 +85,7 @@ export class PlanSummaryComponent implements OnDestroy, OnInit {
   }
 
   private formData(data: fromModels.DataEntry[]): void {
-    this.dataSource = this.plansFacadeService.formData(data, this.planConfig);
+    this.dataSource = this.budgetsFacadeService.formData(data, this.planConfig);
     setTimeout(() => {
       this.isLoading = false;
     });

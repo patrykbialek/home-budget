@@ -52,6 +52,7 @@
     "Dashboard": "Dashboard",
     "Logout": "Wyloguj",
     "Plan": "Plan",
+    "Budget": "Budżet",
     "Settings": "Ustawienia",
     "Transactions": "Transakcje"
   },
@@ -112,6 +113,51 @@
   },
   "PLAN": {
     "Title": "Plan",
+    "Project": {
+      "Title": "Projekt",
+      "Details": {
+        "Expenses": "Wydatki",
+        "Incomes": "Przychody",
+        "Increase": "Przyrost",
+        "Month": "Miesiąc",
+        "Rest": "Reszta",
+        "Total": "Razem",
+        "other": "Inne",
+        "patryk": "Patryk",
+        "gosia": "Gosia",
+        "total": "Razem",
+        "month": "Miesiąc",
+        "loans": "Raty",
+        "budget": "Budżet",
+        "taxVat": "VAT",
+        "taxPit": "PIT"
+      },
+      "Graph": {
+        "Increase": "Przyrost",
+        "IncomesExpenses": "Przychody i wydatki"
+      }
+    },
+    "Month": {
+      "january": "Styczeń",
+      "february": "Luty",
+      "march": "Marzec",
+      "april": "Kwiecień",
+      "may": "Maj",
+      "june": "Czerwiec",
+      "july": "Lipiec",
+      "august": "Sierpień",
+      "september": "Wrzesień",
+      "october": "Październik",
+      "november": "Listopad",
+      "december": "Grudzień"
+    },
+    "Transaction": {
+      "incomes": "Przychody",
+      "expenses": "Wydatki"
+    }
+  },
+  "BUDGET": {
+    "Title": "Budżet",
     "Project": {
       "Title": "Projekt",
       "Details": {

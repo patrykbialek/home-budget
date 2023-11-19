@@ -1,0 +1,40 @@
+:host {
+  display: inline-flex;
+}
+
+.c-breadcrumbs {
+  position: absolute;
+  top: 39px;
+  left: 330px;
+  z-index: 1000;
+
+  &-list {
+    display: flex;
+    flex-direction: row;
+
+    &__item {
+      list-style-type: none;
+      display: flex;
+      align-items: center;
+
+      &-separator {
+        &-icon {
+          display: flex;
+          width: 12px;
+          height: 12px;
+        }
+      }
+
+      &--current {
+        color: #1E88E5;
+        cursor: default;
+        text-decoration: none;
+
+        &:hover {
+          cursor: default;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}

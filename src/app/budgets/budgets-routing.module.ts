@@ -1,31 +1,31 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import * as fromContainers from '../plans/containers';
+import * as fromContainers from '../budgets/containers';
 
-import { PlansComponent } from './plans.component';
+import { BudgetsComponent } from './budgets.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'execution', pathMatch: 'full' },
   {
     path: '',
-    component: PlansComponent,
-    data: { title: 'Plan | home_budget' },
+    component: BudgetsComponent,
+    data: { title: 'Budżet | home_budget' },
     children: [
       {
         path: 'project',
-        component: fromContainers.PlanSummaryComponent,
+        component: fromContainers.BudgetSummaryComponent,
       },
       {
         path: 'execution',
-        component: fromContainers.PlanSummaryComponent,
+        component: fromContainers.BudgetSummaryComponent,
       },
       {
         path: 'project/details',
-        component: fromContainers.PlanDetailsComponent,
+        component: fromContainers.BudgetDetailsComponent,
       },
       {
         path: 'execution/details',
-        component: fromContainers.PlanDetailsComponent,
+        component: fromContainers.BudgetDetailsComponent,
       },
     ]
   },
@@ -35,4 +35,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class PlanRoutingModule { }
+export class BudgetsRoutingModule { }

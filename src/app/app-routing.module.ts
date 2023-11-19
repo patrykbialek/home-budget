@@ -24,6 +24,11 @@ const routes: Routes = [
     canActivate: [AuthGuardService],
   },
   {
+    path: 'budgets',
+    loadChildren: () => import('./budgets/budgets.module').then(m => m.BudgetsModule),
+    canActivate: [AuthGuardService],
+  },
+  {
     path: 'transactions',
     loadChildren: () => import('./transactions/transactions.module').then(m => m.TransactionsModule),
     canActivate: [AuthGuardService],

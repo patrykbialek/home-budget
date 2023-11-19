@@ -1,0 +1,23 @@
+<div class="o-grid">
+  <div class="o-grid__cell u-1/2">
+    <mat-card class="c-plan-project__card">
+      <mat-card-content>
+        <hb-budget-summary-data
+          [dataLabels]="dataLabels"
+          [dataSource]="dataSource"
+          [displayedColumns]="displayedColumns"
+          [isLoading]="isLoading"
+          [dataSourceTotal]="dataSourceTotal"
+          (goToDetails)="goToDetails($event)"></hb-budget-summary-data>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="o-grid__cell u-1/2">
+    <mat-card class="c-plan-project__card">
+      <mat-card-content>
+        <hb-budget-graph *ngIf="!isLoading"
+          [dataSource]="dataSource"></hb-budget-graph>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

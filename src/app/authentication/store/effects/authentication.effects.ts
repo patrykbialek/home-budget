@@ -25,10 +25,12 @@ export class AuthenticationEffects {
         .loginUser(payload)
         .pipe(
           map((response: fromModels.User) => {
+            localStorage.setItem('uid', response.uid);
             return new fromActions.LoginUserSuccess(response);
           }),
           catchError((error: fromModels.ErrorMessage) => {
             const errorMessage = fromModels.ApiErrors.Parse(error.code);
+            console.log(error)
             this.openSnackBar(errorMessage, 7000);
             return of(new fromActions.LoginUserFailure());
           })

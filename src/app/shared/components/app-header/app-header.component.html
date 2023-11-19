@@ -3,7 +3,7 @@
     <ng-container *ngIf="windowSize$ | async as windowSize">
       <mat-toolbar color="default" class="c-app-header__toolbar">
         <mat-toolbar-row>
-          <a class="u-margin-right-huge" [routerLink]="['/dashboard']">
+          <a class="u-margin-right-huge" [routerLink]="['/plans']">
             <img src="../assets/images/home-budget-horizontal.svg" alt="logo" style="height: 36px;">
           </a>
           <span style="flex-grow: 1;"></span>
@@ -24,24 +24,13 @@
             </button>
             <button class="u-margin-left-tiny"
               mat-button
-              [routerLink]="['transactions']"
+              [routerLink]="['budgets']"
               routerLinkActive="u-router-link-active">
-              <mat-icon class="u-margin-right-tiny">list_alt</mat-icon>
-              {{ 'HEADER.Transactions' | translate }}
+              <mat-icon class="u-margin-right-tiny">account_balance_wallet</mat-icon>
+              {{ 'HEADER.Budget' | translate }}
             </button>
-            <!-- <button class="u-margin-left-tiny"
-              mat-button
-              [routerLink]="['settings']"
-              routerLinkActive="u-router-link-active">
-              <mat-icon class="u-margin-right-tiny">tune</mat-icon>
-              {{ 'HEADER.Settings' | translate }}
-            </button> -->
             <div class="u-border-left u-margin-left-tiny" style="width:1px">&nbsp;</div>
           </ng-container>
-          <button class="u-margin-left-tiny" mat-icon-button color="accent" (click)="onChangeLanguage()">
-            {{ currentLang }}
-          </button>
-          <div class="u-border-left u-margin-left-tiny" style="width:1px">&nbsp;</div>
           <ng-container *ngIf="windowSize === 'mobile'; else noMobile">
             <button class="u-margin-left-tiny" mat-icon-button color="primary" [matMenuTriggerFor]="userMenu" >
               <mat-icon>menu</mat-icon>
@@ -49,7 +38,7 @@
           </ng-container>
           <ng-template #noMobile>
             <button class="u-margin-left-tiny" mat-button color="primary" [matMenuTriggerFor]="userMenu" >
-              <mat-icon style="margin-right: 16px;" >account_circle</mat-icon>
+              <mat-icon class="u-margin-right-tiny" >account_circle</mat-icon>
               {{ user.displayName || user.email }}
             </button>
           </ng-template>

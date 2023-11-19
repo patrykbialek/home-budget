@@ -1,0 +1,14 @@
+::ng-deep .mat-tab-nav-bar,
+.mat-tab-header {
+  border: none;
+}
+
+.mat-tab-link {
+  min-width: 84px!important;
+  padding: 0 8px;
+  height: 32px;
+}
+
+.u-router-link-active {
+  color: #1E88E5;
+}
