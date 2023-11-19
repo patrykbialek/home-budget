@@ -6,9 +6,11 @@ import { combineLatest } from 'rxjs';
 
 import { BudgetsFacadeService } from '@budgets/services/budgets-facade.service';
 
-import * as config from '../../shared/budgets.config';
 import * as fromModels from '@budgets/models';
 import { BreadcrumbsItem } from '@budgets/models/plan-breadcrumbs.model';
+import { CoreService } from '@home-budget/core/core.service';
+import { tap } from 'rxjs/operators';
+import * as config from '../../shared/budgets.config';
 
 @Component({
   selector: 'hb-budget-details',
@@ -16,62 +18,66 @@ import { BreadcrumbsItem } from '@budgets/models/plan-breadcrumbs.model';
   styleUrls: ['./budget-details.component.scss'],
 })
 export class BudgetDetailsComponent implements OnDestroy, OnInit {
-  public form: FormGroup;
-  public month: string;
-
+  form: FormGroup;
+  month: string;
 
   private isDataLoaded: boolean;
+  private year: string;
   private readonly planType: fromModels.Item = config.planType[fromModels.DataProperty.project];
-  private readonly planYear: string = '2023';
   private readonly main: string = 'budgets';
+
+  year$ = this.coreService.year$.pipe(tap((year: string) => {
+    this.year = year;
+  }));
 
   constructor(
     private readonly activatedRoute: ActivatedRoute,
     private readonly budgetsFacadeService: BudgetsFacadeService,
     private readonly router: Router,
+    private readonly coreService: CoreService,
   ) { }
 
-  public ngOnDestroy(): void {
+  ngOnDestroy(): void {
     this.resetBreadcrumbs();
   }
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.subscribeToRouteChange();
   }
 
-  public get dataLabels(): fromModels.DataLabels {
+  get dataLabels(): fromModels.DataLabels {
     return this.budgetsFacadeService.dataLabels;
   }
 
-  public get breadcrumbs(): BreadcrumbsItem[] {
+  get breadcrumbs(): BreadcrumbsItem[] {
     return this.budgetsFacadeService.breadcrumbs;
   }
 
-  public get dataSource(): fromModels.DataSourceDetails[] {
+  get dataSource(): fromModels.DataSourceDetails[] {
     return this.budgetsFacadeService.dataSource;
   }
 
-  public get dataSourceFooter(): fromModels.DataSourceDetails {
+  get dataSourceFooter(): fromModels.DataSourceDetails {
     return this.budgetsFacadeService.dataSourceFooter;
   }
 
-  public get dataColumns(): string[] {
+  get dataColumns(): string[] {
     return this.budgetsFacadeService.dataColumns;
   }
 
-  public get displayedColumns(): string[] {
+  get displayedColumns(): string[] {
     return this.budgetsFacadeService.displayedColumns;
   }
 
-  public get isLoading(): boolean {
+  get isLoading(): boolean {
     return this.budgetsFacadeService.isLoading;
   }
 
-  public editPlanEntry(event: fromModels.PlanEntry): void {
+  editPlanEntry(event: fromModels.PlanEntry): void {
     this.budgetsFacadeService.editPlanEntry(event);
   }
 
-  public goToDetails(event: fromModels.PlanEntry): void {
+  goToDetails(event: fromModels.PlanEntry): void {
     this.budgetsFacadeService.goToDetails(event);
   }
 
@@ -115,6 +121,7 @@ export class BudgetDetailsComponent implements OnDestroy, OnInit {
   }
 
   private formMainEntry(params: fromModels.QueryParamsResponse): fromModels.PlanEntry {
+    console.log(params)
     return {
       entry: params.type,
       hasEntries: true,

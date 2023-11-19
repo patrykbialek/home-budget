@@ -10,20 +10,4 @@ import * as fromModels from '@home-budget/plans/models';
 })
 export class PlansComponent {
   public navLinks: fromModels.NavLink[] = config.navLinks;
-
-  // public initiatePlan(): void {
-  //   const year: string = '2023';
-  //   this.plansHttpService.initiatePlan(year);
-  // }
-
-  // public create(): void {
-  //   const uid: string = Math.random().toString(16).slice(2);
-  //   const payload = {
-  //     uid,
-  //     label: 'Projekt',
-  //     entries: {},
-  //     path: `/2023/${uid}`,
-  //   };
-  //   this.plansHttpService.createPlan(payload);
-  // }
 }

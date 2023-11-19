@@ -23,6 +23,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { CoreModule } from './core/core.module';
 
 registerLocaleData(localePl, 'pl');
 
@@ -65,6 +66,8 @@ export const MY_FORMATS = {
         deps: [HttpClient]
       }
     }),
+
+    CoreModule.forRoot({ year: '2023' }),
 
     StoreModule.forRoot(reducers, {
       runtimeChecks: {

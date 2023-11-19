@@ -6,7 +6,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { forkJoin, Observable } from 'rxjs';
-import { filter, take, tap } from 'rxjs/operators';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 
 import * as _ from 'lodash';
 
@@ -20,6 +20,7 @@ import * as fromModels from '@budgets/models';
 import * as fromUtils from '@budgets/services/budget-details-former.utils';
 import * as fromConfig from '@budgets/shared/budgets.config';
 import * as fromEnums from '@budgets/models/plans.enum';
+import { CoreService } from '@home-budget/core/core.service';
 
 @Injectable({ providedIn: 'root' })
 export class BudgetsService {
@@ -36,11 +37,12 @@ export class BudgetsService {
 
   constructor(
     public dialog: MatDialog,
-    private readonly snackBar: MatSnackBar,
     private readonly budgetsBreadcrumbsService: BudgetsBreadcrumbsService,
     private readonly budgetsFormService: BugdetsFormService,
     private readonly budgetsHttpService: BudgetsHttpService,
     private readonly router: Router,
+    private readonly snackBar: MatSnackBar,
+    private readonly coreService: CoreService,
   ) { }
 
   public get months(): fromModels.DataLabel[] {
@@ -170,14 +172,17 @@ export class BudgetsService {
   }
 
   private subscribeToReadData(planEntry: fromModels.PlanEntry): void {
-    // TODO: replace path with generic one
-    this.readData(`${'2023'}/entries`)
-      .subscribe((data: fromModels.DataItem[]) => {
-        this.formDataSource(planEntry, data);
-        this.formDataSourceFooter();
-        this.formDataLabelsAndColumns(this.dataSource[0]);
-        this.setDisplayedColumns();
-      });
+    this.coreService.year$
+      .pipe(
+        switchMap((year: string) => this.readData(`${year}/entries`)),
+        tap((data: fromModels.DataItem[]) => {
+          this.formDataSource(planEntry, data);
+          this.formDataSourceFooter();
+          this.formDataLabelsAndColumns(this.dataSource[0]);
+          this.setDisplayedColumns();
+        })
+      )
+      .subscribe();
   }
 
   private formDataSource(planEntry: fromModels.PlanEntry, data: fromModels.DataItem[]): void {

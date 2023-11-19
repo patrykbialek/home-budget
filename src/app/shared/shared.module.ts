@@ -22,6 +22,6 @@ import { TranslateModule } from '@ngx-translate/core';
     AngularMaterialModule,
     TranslateModule,
     ...fromComponents.components,
-  ]
+  ],
 })
 export class SharedModule { }
