@@ -3,18 +3,23 @@
     <ng-container *ngIf="windowSize$ | async as windowSize">
       <mat-toolbar color="default" class="c-app-header__toolbar">
         <mat-toolbar-row>
-          <a class="u-margin-right-huge" [routerLink]="['/plans']">
+          <a class="u-margin-right" [routerLink]="['/plans']">
             <img src="../assets/images/home-budget-horizontal.svg" alt="logo" style="height: 36px;">
           </a>
+          <ul class="c-year-menu" *ngIf="year$ | async as year">
+            <li>
+              <button mat-button [color]="year === '2023' ? 'primary' : 'default'"
+                type="button" [ngStyle]="{ 'pointer-events': year === '2023' ? 'none' : 'all' }"
+                (click)="setYear('2023')">2023</button>
+            </li>
+            <li>
+              <button mat-button [color]="year === '2024' ? 'primary' : 'default'"
+                type="button" [ngStyle]="{ 'pointer-events': year === '2024' ? 'none' : 'all' }"
+                (click)="setYear('2024')">2024</button>
+            </li>
+          </ul>
           <span style="flex-grow: 1;"></span>
           <ng-container *ngIf="windowSize === 'desktop'">
-            <!-- <button class="u-margin-left-tiny"
-              mat-button
-              [routerLink]="['dashboard']"
-              routerLinkActive="u-router-link-active">
-              <mat-icon class="u-margin-right-tiny">dashboard</mat-icon>
-              {{ 'HEADER.Dashboard' | translate }}
-            </button> -->
             <button class="u-margin-left-tiny"
               mat-button
               [routerLink]="['plans']"

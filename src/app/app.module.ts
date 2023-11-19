@@ -23,12 +23,15 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { CoreModule } from './core/core.module';
 
 registerLocaleData(localePl, 'pl');
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
+
+const DEFAULT_YEAR = '2023';
 
 export const MY_FORMATS = {
   parse: {
@@ -65,6 +68,8 @@ export const MY_FORMATS = {
         deps: [HttpClient]
       }
     }),
+
+    CoreModule.forRoot({ year: DEFAULT_YEAR }),
 
     StoreModule.forRoot(reducers, {
       runtimeChecks: {

@@ -1,8 +1,8 @@
-<div class="o-grid">
+<div *ngIf="year$ | async" class="o-grid">
   <div class="o-grid__cell u-1/2">
     <mat-card class="c-plan-project__card">
       <mat-card-content>
-        <hb-plan-summary-data
+        <hb-plan-summary-data *ngIf="!isLoading"
           [dataLabels]="dataLabels"
           [dataSource]="dataSource"
           [displayedColumns]="displayedColumns"

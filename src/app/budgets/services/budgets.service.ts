@@ -6,7 +6,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { forkJoin, Observable } from 'rxjs';
-import { filter, take, tap } from 'rxjs/operators';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 
 import * as _ from 'lodash';
 
@@ -20,42 +20,44 @@ import * as fromModels from '@budgets/models';
 import * as fromUtils from '@budgets/services/budget-details-former.utils';
 import * as fromConfig from '@budgets/shared/budgets.config';
 import * as fromEnums from '@budgets/models/plans.enum';
+import { CoreService } from '@home-budget/core/core.service';
 
 @Injectable({ providedIn: 'root' })
 export class BudgetsService {
-  public dataColumns: string[];
-  public dataLabels: fromModels.DataLabels = fromConfig.dataLabels;
-  public dataSource: fromModels.DataSourceDetails[] = [];
-  public dataSourceFooter: fromModels.DataSourceDetails;
-  public defaultDataSource: fromModels.DataSourceSummary[] = fromConfig.defaultDataSource;
-  public displayedColumns: string[] = [];
-  public form: FormGroup;
+  dataColumns: string[];
+  dataLabels: fromModels.DataLabels = fromConfig.dataLabels;
+  dataSource: fromModels.DataSourceDetails[] = [];
+  dataSourceFooter: fromModels.DataSourceDetails;
+  defaultDataSource: fromModels.DataSourceSummary[] = fromConfig.defaultDataSource;
+  displayedColumns: string[] = [];
+  form: FormGroup;
 
   private isLoadingOn: boolean = false;
   private parentPlanEntry: fromModels.PlanEntry;
 
   constructor(
     public dialog: MatDialog,
-    private readonly snackBar: MatSnackBar,
     private readonly budgetsBreadcrumbsService: BudgetsBreadcrumbsService,
     private readonly budgetsFormService: BugdetsFormService,
     private readonly budgetsHttpService: BudgetsHttpService,
+    private readonly coreService: CoreService,
     private readonly router: Router,
+    private readonly snackBar: MatSnackBar,
   ) { }
 
-  public get months(): fromModels.DataLabel[] {
+  get months(): fromModels.DataLabel[] {
     return fromConfig.months;
   }
 
-  public get labels(): fromModels.DataLabel[] {
+  get labels(): fromModels.DataLabel[] {
     return fromConfig.labels;
   }
 
-  public get isLoading(): boolean {
+  get isLoading(): boolean {
     return this.isLoadingOn;
   }
 
-  public get currentEntries(): fromModels.BreadcrumbsItem {
+  get currentEntries(): fromModels.BreadcrumbsItem {
     return this.budgetsBreadcrumbsService.breadcrumbs
       .filter((breadcrumb: fromModels.BreadcrumbsItem) => breadcrumb.isCurrent)
       .map((breadcrumb: fromModels.BreadcrumbsItem) => {
@@ -66,15 +68,15 @@ export class BudgetsService {
       })[0];
   }
 
-  public readData(sourcePath: string): Observable<any> {
+  readData(sourcePath: string): Observable<any> {
     return this.budgetsHttpService.readData(sourcePath);
   }
 
-  public readDataByTypeObject(sourcePath: string): Observable<any> {
+  readDataByTypeObject(sourcePath: string): Observable<any> {
     return this.budgetsHttpService.readDataByTypeObject(sourcePath);
   }
 
-  public readDataByType(sourcePath: string): Observable<any> {
+  readDataByType(sourcePath: string): Observable<any> {
     return this.budgetsHttpService.readDataByType(sourcePath);
   }
 
@@ -90,7 +92,7 @@ export class BudgetsService {
     };
   }
 
-  public setCommonDataLables(): void {
+  setCommonDataLables(): void {
     Object.keys(fromConfig.monthLabel).forEach((key: string) => {
       this.setDataLabel({
         key: fromConfig.monthLabel[key].id,
@@ -103,17 +105,17 @@ export class BudgetsService {
     });
   }
 
-  public editPlanEntry(planEntry: fromModels.PlanEntry): void {
+  editPlanEntry(planEntry: fromModels.PlanEntry): void {
     const form: FormGroup = this.budgetsFormService.buildEditForm(planEntry);
     this.editDetails(form);
   }
 
-  public addPlanEntryColumn(): void {
+  addPlanEntryColumn(): void {
     const form: FormGroup = this.budgetsFormService.buildAddColumnForm();
     this.addColumn(form);
   }
 
-  public goToDetails(planEntry: fromModels.PlanEntry): void {
+  goToDetails(planEntry: fromModels.PlanEntry): void {
     if (planEntry.href) {
       this.router.navigate([planEntry.href]);
       return;
@@ -170,14 +172,17 @@ export class BudgetsService {
   }
 
   private subscribeToReadData(planEntry: fromModels.PlanEntry): void {
-    // TODO: replace path with generic one
-    this.readData(`${'2023'}/entries`)
-      .subscribe((data: fromModels.DataItem[]) => {
-        this.formDataSource(planEntry, data);
-        this.formDataSourceFooter();
-        this.formDataLabelsAndColumns(this.dataSource[0]);
-        this.setDisplayedColumns();
-      });
+    this.coreService.year$
+      .pipe(
+        switchMap((year: string) => this.readData(`${year}/entries`)),
+        tap((data: fromModels.DataItem[]) => {
+          this.formDataSource(planEntry, data);
+          this.formDataSourceFooter();
+          this.formDataLabelsAndColumns(this.dataSource[0]);
+          this.setDisplayedColumns();
+        })
+      )
+      .subscribe();
   }
 
   private formDataSource(planEntry: fromModels.PlanEntry, data: fromModels.DataItem[]): void {
