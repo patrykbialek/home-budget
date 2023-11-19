@@ -8,9 +8,6 @@ import { BudgetsFacadeService } from '@budgets/services/budgets-facade.service';
 
 import * as fromModels from '@budgets/models';
 import { BreadcrumbsItem } from '@budgets/models/plan-breadcrumbs.model';
-import { CoreService } from '@home-budget/core/core.service';
-import { tap } from 'rxjs/operators';
-import * as config from '../../shared/budgets.config';
 
 @Component({
   selector: 'hb-budget-details',
@@ -22,19 +19,12 @@ export class BudgetDetailsComponent implements OnDestroy, OnInit {
   month: string;
 
   private isDataLoaded: boolean;
-  private year: string;
-  private readonly planType: fromModels.Item = config.planType[fromModels.DataProperty.project];
   private readonly main: string = 'budgets';
-
-  year$ = this.coreService.year$.pipe(tap((year: string) => {
-    this.year = year;
-  }));
 
   constructor(
     private readonly activatedRoute: ActivatedRoute,
     private readonly budgetsFacadeService: BudgetsFacadeService,
     private readonly router: Router,
-    private readonly coreService: CoreService,
   ) { }
 
   ngOnDestroy(): void {
@@ -121,7 +111,6 @@ export class BudgetDetailsComponent implements OnDestroy, OnInit {
   }
 
   private formMainEntry(params: fromModels.QueryParamsResponse): fromModels.PlanEntry {
-    console.log(params)
     return {
       entry: params.type,
       hasEntries: true,

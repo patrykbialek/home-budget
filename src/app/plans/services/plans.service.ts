@@ -3,7 +3,7 @@ import { forkJoin, Observable } from 'rxjs';
 import { BreadcrumbsItem } from '../models/plan-breadcrumbs.model';
 import { dataLabels, defaultDataSource, labels, monthLabel, months } from '../shared/plans.config';
 import { DataProperty } from '../models/plans.enum';
-import { filter, take, tap } from 'rxjs/operators';
+import { filter, switchMap, take, tap } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -19,6 +19,7 @@ import * as fromModels from '@home-budget/plans/models';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { formatdNumber, formData, formDataFooter, formLabels, formPathForDeleteEntry } from './plan-details-former.utils';
+import { CoreService } from '@home-budget/core/core.service';
 
 @Injectable({ providedIn: 'root' })
 export class PlansService {
@@ -35,11 +36,12 @@ export class PlansService {
 
   constructor(
     public dialog: MatDialog,
-    private readonly snackBar: MatSnackBar,
+    private readonly coreService: CoreService,
     private readonly plansBreadcrumbsService: PlansBreadcrumbsService,
     private readonly plansFormService: PlansFormService,
     private readonly plansHttpService: PlansHttpService,
     private readonly router: Router,
+    private readonly snackBar: MatSnackBar,
   ) { }
 
   public get months(): fromModels.DataLabel[] {
@@ -169,14 +171,17 @@ export class PlansService {
   }
 
   private subscribeToReadData(uid: string, planEntry: fromModels.PlanEntry): void {
-    // TODO: replace path with generic one
-    this.readData(`${'2023'}/entries`)
-      .subscribe((data: fromModels.DataItem[]) => {
-        this.formDataSource(planEntry, data);
-        this.formDataSourceFooter();
-        this.formDataLabelsAndColumns(this.dataSource[0]);
-        this.setDisplayedColumns();
-      });
+      this.coreService.year$
+      .pipe(
+        switchMap((year: string) => this.readData(`${year}/entries`)),
+        tap((data: fromModels.DataItem[]) => {
+          this.formDataSource(planEntry, data);
+          this.formDataSourceFooter();
+          this.formDataLabelsAndColumns(this.dataSource[0]);
+          this.setDisplayedColumns();
+        })
+      )
+      .subscribe();
   }
 
   private formDataSource(planEntry: fromModels.PlanEntry, data: fromModels.DataItem[]): void {

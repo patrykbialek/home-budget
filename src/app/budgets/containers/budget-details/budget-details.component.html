@@ -1,10 +1,8 @@
-<ng-container *ngIf="year$ | async">
-  <hb-budget-details-data
-    [dataLabels]="dataLabels"
-    [dataSource]="dataSource"
-    [dataSourceFooter]="dataSourceFooter"
-    [displayedColumns]="displayedColumns"
-    [isLoading]="isLoading"
-    (editPlanEntry)="editPlanEntry($event)"
-    (goToDetails)="goToDetails($event)"></hb-budget-details-data>
-</ng-container>
+<hb-budget-details-data
+  [dataLabels]="dataLabels"
+  [dataSource]="dataSource"
+  [dataSourceFooter]="dataSourceFooter"
+  [displayedColumns]="displayedColumns"
+  [isLoading]="isLoading"
+  (editPlanEntry)="editPlanEntry($event)"
+  (goToDetails)="goToDetails($event)"></hb-budget-details-data>

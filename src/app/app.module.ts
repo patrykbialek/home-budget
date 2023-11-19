@@ -31,6 +31,8 @@ export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
+const DEFAULT_YEAR = '2023';
+
 export const MY_FORMATS = {
   parse: {
     dateInput: 'LL'
@@ -67,7 +69,7 @@ export const MY_FORMATS = {
       }
     }),
 
-    CoreModule.forRoot({ year: '2023' }),
+    CoreModule.forRoot({ year: DEFAULT_YEAR }),
 
     StoreModule.forRoot(reducers, {
       runtimeChecks: {

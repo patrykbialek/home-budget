@@ -30,7 +30,6 @@ export class AuthenticationEffects {
           }),
           catchError((error: fromModels.ErrorMessage) => {
             const errorMessage = fromModels.ApiErrors.Parse(error.code);
-            console.log(error)
             this.openSnackBar(errorMessage, 7000);
             return of(new fromActions.LoginUserFailure());
           })

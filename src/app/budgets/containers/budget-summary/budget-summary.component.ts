@@ -22,7 +22,6 @@ export class BudgetSummaryComponent implements OnDestroy {
   isLoading: boolean;
 
   year$ = this.coreService.year$
-    .pipe(tap(console.log))
     .pipe(tap((year: string) => this.handleOnYearChange(year)));
 
   private planType: string;
@@ -39,15 +38,6 @@ export class BudgetSummaryComponent implements OnDestroy {
     private readonly sharedUtilsService: SharedUtilsService,
     private readonly coreService: CoreService,
   ) { }
-
-  private handleOnYearChange(year: string) {
-    this.year = year;
-    this.sourcePath = `${year}/entries`;
-    this.isLoading = true;
-    this.setCommonDataLables();
-    this.setPlanType();
-    this.readData();
-  }
 
   ngOnDestroy(): void {
     this.subscription$.unsubscribe();
@@ -104,5 +94,14 @@ export class BudgetSummaryComponent implements OnDestroy {
 
   private get planConfig(): fromModels.PlanConfig {
     return { year: this.year, type: this.planType };
+  }
+
+  private handleOnYearChange(year: string) {
+    this.year = year;
+    this.sourcePath = `${year}/entries`;
+    this.isLoading = true;
+    this.setCommonDataLables();
+    this.setPlanType();
+    this.readData();
   }
 }

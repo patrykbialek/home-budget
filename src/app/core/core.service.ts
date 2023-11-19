@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
+const DEFAULT_YEAR = '2023';
+
 export class CoreServiceConfig {
-  year = '2023';
+  year = DEFAULT_YEAR;
 }
 
 @Injectable()
-export class CoreService  {
-  private yearSource = new BehaviorSubject(localStorage.getItem('year') || '2023');
+export class CoreService {
+  private yearSource = new BehaviorSubject(localStorage.getItem('year') || DEFAULT_YEAR);
   year$ = this.yearSource.asObservable();
 
   setYear(year: string) {

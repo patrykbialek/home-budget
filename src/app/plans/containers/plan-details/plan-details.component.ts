@@ -2,12 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router, UrlSegment } from '@angular/router';
 
-import * as config from '../../shared/plans.config';
 import * as fromModels from '@home-budget/plans/models';
+import { PlansFacadeService } from '@home-budget/plans/services/plans-facade.service';
 import { combineLatest } from 'rxjs';
 import { BreadcrumbsItem } from '../../models/plan-breadcrumbs.model';
-import { PlansService } from '../../services/plans.service';
-import { PlansFacadeService } from '@home-budget/plans/services/plans-facade.service';
+import * as config from '../../shared/plans.config';
 
 @Component({
   selector: 'hb-plan-details',
@@ -15,12 +14,10 @@ import { PlansFacadeService } from '@home-budget/plans/services/plans-facade.ser
   styleUrls: ['./plan-details.component.scss'],
 })
 export class PlanDetailsComponent implements OnDestroy, OnInit {
-  public form: FormGroup;
-  public month: string;
+  form: FormGroup;
+  month: string;
 
   private isDataLoaded: boolean;
-  private readonly planType: fromModels.Item = config.planType[fromModels.DataProperty.project];
-  private readonly planYear: string = '2023';
 
   constructor(
     private readonly activatedRoute: ActivatedRoute,
@@ -28,47 +25,47 @@ export class PlanDetailsComponent implements OnDestroy, OnInit {
     private readonly router: Router,
   ) { }
 
-  public ngOnDestroy(): void {
+  ngOnDestroy(): void {
     this.resetBreadcrumbs();
   }
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.subscribeToRouteChange();
   }
 
-  public get dataLabels(): fromModels.DataLabels {
+  get dataLabels(): fromModels.DataLabels {
     return this.plansFacadeService.dataLabels;
   }
 
-  public get breadcrumbs(): BreadcrumbsItem[] {
+  get breadcrumbs(): BreadcrumbsItem[] {
     return this.plansFacadeService.breadcrumbs;
   }
 
-  public get dataSource(): fromModels.DataSourceDetails[] {
+  get dataSource(): fromModels.DataSourceDetails[] {
     return this.plansFacadeService.dataSource;
   }
 
-  public get dataSourceFooter(): fromModels.DataSourceDetails {
+  get dataSourceFooter(): fromModels.DataSourceDetails {
     return this.plansFacadeService.dataSourceFooter;
   }
 
-  public get dataColumns(): string[] {
+  get dataColumns(): string[] {
     return this.plansFacadeService.dataColumns;
   }
 
-  public get displayedColumns(): string[] {
+  get displayedColumns(): string[] {
     return this.plansFacadeService.displayedColumns;
   }
 
-  public get isLoading(): boolean {
+  get isLoading(): boolean {
     return this.plansFacadeService.isLoading;
   }
 
-  public editPlanEntry(event: fromModels.PlanEntry): void {
+  editPlanEntry(event: fromModels.PlanEntry): void {
     this.plansFacadeService.editPlanEntry(event);
   }
 
-  public goToDetails(event: fromModels.PlanEntry): void {
+  goToDetails(event: fromModels.PlanEntry): void {
     this.plansFacadeService.goToDetails(event);
   }
 
