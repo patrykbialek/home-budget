@@ -22,6 +22,11 @@
                 type="button" [ngStyle]="{ 'pointer-events': year === '2025' ? 'none' : 'all' }"
                 (click)="setYear('2025')">2025</button>
             </li>
+            <li>
+              <button mat-button [color]="year === '2026' ? 'primary' : 'default'"
+                type="button" [ngStyle]="{ 'pointer-events': year === '2026' ? 'none' : 'all' }"
+                (click)="setYear('2026')">2026</button>
+            </li>
           </ul>
           <span style="flex-grow: 1;"></span>
           <ng-container *ngIf="windowSize === 'desktop'">
