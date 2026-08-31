@@ -1,4 +1,4 @@
-const firebase = {
+const firebaseConfig = {
   apiKey: "AIzaSyCLCtXr5x8lU6zR62v1_4SizsaDPlq_aBk",
   authDomain: "plan-and-budget.firebaseapp.com",
   databaseURL: "https://plan-and-budget-default-rtdb.europe-west1.firebasedatabase.app",
@@ -11,5 +11,5 @@ const firebase = {
 
 export const environment = {
   production: true,
-  firebase,
+  firebaseConfig,
 };
