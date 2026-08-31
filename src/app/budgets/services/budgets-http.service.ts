@@ -24,8 +24,8 @@ export class BudgetsHttpService {
     return runInInjectionContext(this.injector, () => objectVal(ref(this.db, path)));
   }
 
-  readData(sourcePath?: string): Observable<fromModels.DataEntry[]> {
-    const path = `/workspaces/${this.uid()}/budgets/${sourcePath}`;
+  readData(sourcePath?: string, uid = this.uid()): Observable<fromModels.DataEntry[]> {
+    const path = `/workspaces/${uid}/budgets/${sourcePath}`;
     return runInInjectionContext(this.injector, () => list(ref(this.db, path))).pipe(
       map(changes => changes.map(change => ({
         key: change.snapshot.key,

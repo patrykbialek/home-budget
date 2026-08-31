@@ -1,14 +1,13 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router, UrlSegment } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
-import { filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { filter, switchMap, takeUntil, tap } from 'rxjs/operators';
 
 import * as config from '../../shared/plans.config';
 import * as fromModels from '@home-budget/plans/models';
 import { PlansFacadeService } from '../../services/plans-facade.service';
 import { AuthenticationFacadeService } from '@authentication/store';
 
-import * as fromAuthModels from '@home-budget/authentication/models';
 import { CoreService } from '@home-budget/core/core.service';
 
 @Component({
@@ -81,8 +80,7 @@ export class PlanSummaryComponent implements OnDestroy, OnInit {
     this.dataSubscription = this.authService.user$
       .pipe(
         filter(Boolean),
-        map((response: fromAuthModels.User) => response.uid),
-        switchMap(() => this.plansFacadeService.readData(this.sourcePath)),
+        switchMap((user) => this.plansFacadeService.readData(this.sourcePath, user.uid)),
         takeUntil(this.destroy$),
       )
       .subscribe((data: fromModels.DataEntry[]) => this.formData(data));

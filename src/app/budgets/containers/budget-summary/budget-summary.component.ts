@@ -2,9 +2,10 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router, UrlSegment } from '@angular/router';
 
 import { Subject, Subscription } from 'rxjs';
-import { takeUntil, tap } from 'rxjs/operators';
+import { filter, switchMap, takeUntil, tap } from 'rxjs/operators';
 
 import { BudgetsFacadeService } from '@budgets/services/budgets-facade.service';
+import { AuthenticationFacadeService } from '@home-budget/authentication/store';
 
 import * as fromModels from '@budgets/models';
 import * as config from '@budgets/shared/budgets.config';
@@ -22,6 +23,7 @@ export class BudgetSummaryComponent implements OnDestroy, OnInit {
   isLoading = false;
 
   private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly authService = inject(AuthenticationFacadeService);
   private readonly budgetsFacadeService = inject(BudgetsFacadeService);
   private readonly router = inject(Router);
   private readonly coreService = inject(CoreService);
@@ -74,8 +76,12 @@ export class BudgetSummaryComponent implements OnDestroy, OnInit {
 
   readData(): void {
     this.dataSubscription?.unsubscribe();
-    this.dataSubscription = this.budgetsFacadeService.readData(this.sourcePath)
-      .pipe(takeUntil(this.destroy$))
+    this.dataSubscription = this.authService.user$
+      .pipe(
+        filter(Boolean),
+        switchMap((user) => this.budgetsFacadeService.readData(this.sourcePath, user.uid)),
+        takeUntil(this.destroy$),
+      )
       .subscribe((data: fromModels.DataEntry[]) => this.formData(data));
   }
 
