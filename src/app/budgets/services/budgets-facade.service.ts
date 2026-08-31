@@ -47,8 +47,8 @@ export class BudgetsFacadeService {
     this.budgetsService.setCommonDataLables();
   }
 
-  readData(path: string): Observable<fromModels.DataEntry[]> {
-    return this.budgetsService.readData(path);
+  readData(path: string, uid?: string): Observable<fromModels.DataEntry[]> {
+    return this.budgetsService.readData(path, uid);
   }
 
   addPlanEntryColumn(): void {

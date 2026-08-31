@@ -67,8 +67,8 @@ export class BudgetsService {
       })[0];
   }
 
-  readData(sourcePath: string): Observable<any> {
-    return this.budgetsHttpService.readData(sourcePath);
+  readData(sourcePath: string, uid?: string): Observable<any> {
+    return this.budgetsHttpService.readData(sourcePath, uid);
   }
 
   readDataByTypeObject(sourcePath: string): Observable<unknown> {

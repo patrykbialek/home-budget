@@ -66,8 +66,8 @@ export class PlansService {
       })[0];
   }
 
-  readData(sourcePath: string): Observable<any> {
-    return this.plansHttpService.readData(sourcePath);
+  readData(sourcePath: string, uid?: string): Observable<any> {
+    return this.plansHttpService.readData(sourcePath, uid);
   }
 
   readDataByTypeObject(sourcePath: string): Observable<unknown> {
