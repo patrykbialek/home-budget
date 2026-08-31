@@ -9,18 +9,6 @@ export const chartOption: fromModels.ChartOption = {
   },
 };
 
-// TODO: to be deleted
-export const planType: any = {
-  project: {
-    id: 'project',
-    long: 'Projekt',
-  },
-  execution: {
-    id: 'execution',
-    long: 'Wykonanie',
-  },
-};
-
 export const months: fromModels.DataLabel[] = [
   {
     key: 'jan',
@@ -161,19 +149,19 @@ export const navLinks: fromModels.NavLink[] = [
   },
 ];
 
-export const defaultDataSource: any[] = [
-  { month: 'jan', total: 0 },
-  { month: 'feb', total: 0 },
-  { month: 'mar', total: 0 },
-  { month: 'apr', total: 0 },
-  { month: 'may', total: 0 },
-  { month: 'jun', total: 0 },
-  { month: 'jul', total: 0 },
-  { month: 'aug', total: 0 },
-  { month: 'sep', total: 0 },
-  { month: 'oct', total: 0 },
-  { month: 'nov', total: 0 },
-  { month: 'dec', total: 0 },
+export const defaultDataSource: fromModels.DataSourceSummary[] = [
+  { month: 'jan', expense: 0, income: 0, increase: 0, path: '', rest: 0 },
+  { month: 'feb', expense: 0, income: 0, increase: 0, path: '', rest: 0 },
+  { month: 'mar', expense: 0, income: 0, increase: 0, path: '', rest: 0 },
+  { month: 'apr', expense: 0, income: 0, increase: 0, path: '', rest: 0 },
+  { month: 'may', expense: 0, income: 0, increase: 0, path: '', rest: 0 },
+  { month: 'jun', expense: 0, income: 0, increase: 0, path: '', rest: 0 },
+  { month: 'jul', expense: 0, income: 0, increase: 0, path: '', rest: 0 },
+  { month: 'aug', expense: 0, income: 0, increase: 0, path: '', rest: 0 },
+  { month: 'sep', expense: 0, income: 0, increase: 0, path: '', rest: 0 },
+  { month: 'oct', expense: 0, income: 0, increase: 0, path: '', rest: 0 },
+  { month: 'nov', expense: 0, income: 0, increase: 0, path: '', rest: 0 },
+  { month: 'dec', expense: 0, income: 0, increase: 0, path: '', rest: 0 },
 ];
 
 export const dataLabels = {

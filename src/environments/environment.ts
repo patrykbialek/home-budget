@@ -3,14 +3,13 @@
 // The list of file replacements can be found in `angular.json`.
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCLCtXr5x8lU6zR62v1_4SizsaDPlq_aBk",
-  authDomain: "plan-and-budget.firebaseapp.com",
-  databaseURL: "https://plan-and-budget-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "plan-and-budget",
-  storageBucket: "plan-and-budget.appspot.com",
-  messagingSenderId: "778760946828",
-  appId: "1:778760946828:web:a53eedaf1f3249373227a9",
-  measurementId: "G-KS8KJF6ZQ5"
+  apiKey: "AIzaSyDPggFGuBgZNMACQAPFM5JcFHdqN4D4G1g",
+  authDomain: "plan-budget-test.firebaseapp.com",
+  databaseURL: "https://plan-budget-test-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "plan-budget-test",
+  storageBucket: "plan-budget-test.firebasestorage.app",
+  messagingSenderId: "55060819408",
+  appId: "1:55060819408:web:843921f59399c8c34c9dd5"
 };
 
 export const environment = {
@@ -25,4 +24,4 @@ export const environment = {
  * This import should be commented out in production mode because it will have a negative impact
  * on performance if an error is thrown.
  */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.
+// import 'zone.js/plugins/zone-error';  // Included with Angular CLI.

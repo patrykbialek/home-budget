@@ -1,11 +1,11 @@
-import { forkJoin, Observable } from 'rxjs';
+import { forkJoin, Observable, Subscription } from 'rxjs';
 
 import { BreadcrumbsItem } from '../models/plan-breadcrumbs.model';
 import { dataLabels, defaultDataSource, labels, monthLabel, months } from '../shared/plans.config';
 import { DataProperty } from '../models/plans.enum';
 import { filter, switchMap, take, tap } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { PlanAddColumnFormComponent, PlanEditFormComponent } from '../components';
 import { PlansBreadcrumbsService } from './plans-breadcrumbs.service';
@@ -23,40 +23,39 @@ import { CoreService } from '@home-budget/core/core.service';
 
 @Injectable({ providedIn: 'root' })
 export class PlansService {
-  public dataColumns: string[];
-  public dataLabels: fromModels.DataLabels = dataLabels;
-  public dataSource: fromModels.DataSourceDetails[] = [];
-  public dataSourceFooter: fromModels.DataSourceDetails;
-  public defaultDataSource: fromModels.DataSourceSummary[] = defaultDataSource;
-  public displayedColumns: string[] = [];
-  public form: FormGroup;
+  dialog = inject(MatDialog);
+  private readonly coreService = inject(CoreService);
+  private readonly plansBreadcrumbsService = inject(PlansBreadcrumbsService);
+  private readonly plansFormService = inject(PlansFormService);
+  private readonly plansHttpService = inject(PlansHttpService);
+  private readonly router = inject(Router);
+  private readonly snackBar = inject(MatSnackBar);
+
+  dataColumns: string[];
+  dataLabels: fromModels.DataLabels = dataLabels;
+  dataSource: fromModels.DataSourceDetails[] = [];
+  dataSourceFooter: fromModels.DataSourceDetails;
+  defaultDataSource: fromModels.DataSourceSummary[] = defaultDataSource;
+  displayedColumns: string[] = [];
+  form: FormGroup;
 
   private isLoadingOn: boolean = false;
   private parentPlanEntry: fromModels.PlanEntry;
+  private dataSubscription: Subscription | undefined;
 
-  constructor(
-    public dialog: MatDialog,
-    private readonly coreService: CoreService,
-    private readonly plansBreadcrumbsService: PlansBreadcrumbsService,
-    private readonly plansFormService: PlansFormService,
-    private readonly plansHttpService: PlansHttpService,
-    private readonly router: Router,
-    private readonly snackBar: MatSnackBar,
-  ) { }
-
-  public get months(): fromModels.DataLabel[] {
+  get months(): fromModels.DataLabel[] {
     return months;
   }
 
-  public get labels(): fromModels.DataLabel[] {
+  get labels(): fromModels.DataLabel[] {
     return labels;
   }
 
-  public get isLoading(): boolean {
+  get isLoading(): boolean {
     return this.isLoadingOn;
   }
 
-  public get currentEntries(): BreadcrumbsItem {
+  get currentEntries(): BreadcrumbsItem {
     return this.plansBreadcrumbsService.breadcrumbs
       .filter((breadcrumb: BreadcrumbsItem) => breadcrumb.isCurrent)
       .map((breadcrumb: BreadcrumbsItem) => {
@@ -67,15 +66,15 @@ export class PlansService {
       })[0];
   }
 
-  public readData(sourcePath: string): Observable<any> {
+  readData(sourcePath: string): Observable<any> {
     return this.plansHttpService.readData(sourcePath);
   }
 
-  public readDataByTypeObject(sourcePath: string): Observable<any> {
+  readDataByTypeObject(sourcePath: string): Observable<unknown> {
     return this.plansHttpService.readDataByTypeObject(sourcePath);
   }
 
-  public readDataByType(sourcePath: string): Observable<any> {
+  readDataByType(sourcePath: string): Observable<unknown> {
     return this.plansHttpService.readDataByType(sourcePath);
   }
 
@@ -91,7 +90,7 @@ export class PlansService {
     };
   }
 
-  public setCommonDataLables(): void {
+  setCommonDataLables(): void {
     Object.keys(monthLabel).forEach((key: string) => {
       this.setDataLabel({
         key: monthLabel[key].id,
@@ -104,24 +103,24 @@ export class PlansService {
     });
   }
 
-  public editPlanEntry(planEntry: fromModels.PlanEntry): void {
+  editPlanEntry(planEntry: fromModels.PlanEntry): void {
     const form: FormGroup = this.plansFormService.buildEditForm(planEntry);
     this.editDetails(form);
   }
 
-  public addPlanEntryColumn(): void {
+  addPlanEntryColumn(): void {
     const form: FormGroup = this.plansFormService.buildAddColumnForm();
     this.addColumn(form);
   }
 
-  public goToDetails(planEntry: fromModels.PlanEntry): void {
+  goToDetails(planEntry: fromModels.PlanEntry): void {
     if (planEntry.href) {
       this.router.navigate([planEntry.href]);
       return;
     }
 
     this.formBreadcrumbs(planEntry);
-    this.subscribeToReadData(null, planEntry);
+    this.subscribeToReadData(planEntry);
     this.parentPlanEntry = planEntry;
   }
 
@@ -129,6 +128,7 @@ export class PlansService {
     const dialogRef: MatDialogRef<PlanEditFormComponent> = this.dialog.open(PlanEditFormComponent, {
       data: { form, dataLabels: this.dataLabels },
       position: { top: '64px' },
+      width: '400px',
     });
 
     dialogRef.afterClosed()
@@ -152,6 +152,7 @@ export class PlansService {
     const dialogRef = this.dialog.open(PlanAddColumnFormComponent, {
       data: { form },
       position: { top: '64px' },
+      width: '400px',
     });
 
     dialogRef.afterClosed()
@@ -170,8 +171,9 @@ export class PlansService {
     this.plansBreadcrumbsService.formBreadcrumbs(planEntry, this.dataLabels);
   }
 
-  private subscribeToReadData(uid: string, planEntry: fromModels.PlanEntry): void {
-      this.coreService.year$
+  private subscribeToReadData(planEntry: fromModels.PlanEntry): void {
+    this.dataSubscription?.unsubscribe();
+    this.dataSubscription = this.coreService.year$
       .pipe(
         switchMap((year: string) => this.readData(`${year}/entries`)),
         tap((data: fromModels.DataItem[]) => {
@@ -217,7 +219,7 @@ export class PlansService {
     const entry: string = this.currentEntries.entry;
     const subs$: Observable<any>[] = [];
 
-    let payload: any = {
+    let payload: Record<string, unknown> = {
       isInTotal: true,
       label: form.value.label,
       notes: null,
@@ -234,7 +236,8 @@ export class PlansService {
       subs$.push(this.plansHttpService.readEntriesObject(replacedPath)
         .pipe(
           take(1),
-          tap((entries: any) => {
+          tap((raw) => {
+            let entries = raw as Record<string, unknown>;
             const lastIndex: number = Object.keys(entries).length + 1;
             const key: string = `${entry}${formatdNumber(lastIndex)}`;
 
@@ -330,10 +333,11 @@ export class PlansService {
           this.readDataByTypeObject(newPath.join('/'))
             .pipe(
               take(len / 2),
-              tap((response: fromModels.DataItem) => {
-                if (response.key !== 'entries') {
+              tap((response) => {
+                const item = response as { key: string | null; value: { entries?: Record<string, { isInTotal: boolean; total: number }> } };
+                if (item.key !== 'entries') {
                   let total: number = 0;
-                  const entries = response.value.entries;
+                  const entries = item.value?.entries ?? {};
                   Object.keys(entries)
                     .forEach((entryKey: string) => {
                       if (entries[entryKey].isInTotal) {
@@ -343,7 +347,7 @@ export class PlansService {
 
                   const updatePayload: fromModels.UpadatePayload = {
                     path: formedPath,
-                    entry: response.key,
+                    entry: item.key ?? '',
                     total: parseFloat(total.toFixed(2)),
                   };
                   this.updateParentEntry(updatePayload);

@@ -1,4 +1,4 @@
-import { ChartsModule } from 'ng2-charts';
+import { BaseChartDirective } from 'ng2-charts';
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
@@ -29,7 +29,7 @@ import * as fromContainers from './containers';
     BudgetsRoutingModule,
     AuthenticationStoreModule,
 
-    ChartsModule,
+    BaseChartDirective,
   ],
   exports: [
     ...fromComponents.components,

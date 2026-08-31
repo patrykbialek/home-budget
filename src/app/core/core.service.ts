@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
-const DEFAULT_YEAR = '2023';
+const DEFAULT_YEAR = new Date().getFullYear().toString();
 
 export class CoreServiceConfig {
   year = DEFAULT_YEAR;

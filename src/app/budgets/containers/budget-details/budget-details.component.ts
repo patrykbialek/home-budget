@@ -1,8 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router, UrlSegment } from '@angular/router';
 
-import { combineLatest } from 'rxjs';
+import { Subject, combineLatest } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { BudgetsFacadeService } from '@budgets/services/budgets-facade.service';
 
@@ -13,21 +14,23 @@ import { BreadcrumbsItem } from '@budgets/models/plan-breadcrumbs.model';
   selector: 'hb-budget-details',
   templateUrl: './budget-details.component.html',
   styleUrls: ['./budget-details.component.scss'],
+  standalone: false
 })
 export class BudgetDetailsComponent implements OnDestroy, OnInit {
-  form: FormGroup;
-  month: string;
+  form!: FormGroup;
+  month: string | undefined;
 
-  private isDataLoaded: boolean;
+  private isDataLoaded = false;
+  private readonly destroy$ = new Subject<void>();
   private readonly main: string = 'budgets';
 
-  constructor(
-    private readonly activatedRoute: ActivatedRoute,
-    private readonly budgetsFacadeService: BudgetsFacadeService,
-    private readonly router: Router,
-  ) { }
+  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly budgetsFacadeService = inject(BudgetsFacadeService);
+  private readonly router = inject(Router);
 
   ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
     this.resetBreadcrumbs();
   }
 
@@ -76,9 +79,11 @@ export class BudgetDetailsComponent implements OnDestroy, OnInit {
       this.activatedRoute.url,
       this.activatedRoute.queryParams,
     ])
-      .subscribe((response: [UrlSegment[], fromModels.QueryParamsResponse]) => {
-        if (response && response[1].path) {
-          this.handleWhenPathIsPassed(response);
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((response) => {
+        const typed = response as [UrlSegment[], fromModels.QueryParamsResponse];
+        if (typed && typed[1].path) {
+          this.handleWhenPathIsPassed(typed);
           return;
         }
 

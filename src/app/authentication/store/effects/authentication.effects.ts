@@ -1,31 +1,26 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import * as fromModels from '@home-budget/authentication/models';
 import * as fromServices from '@home-budget/authentication/services';
 import * as fromActions from '@home-budget/authentication/store/actions';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 
 @Injectable()
 export class AuthenticationEffects {
 
-  constructor(
-    private actions$: Actions,
-    private authenticationService: fromServices.AuthenticationHttpService,
-    private snackBar: MatSnackBar,
-  ) { }
+  private readonly actions$ = inject(Actions);
+  private readonly authenticationService = inject(fromServices.AuthenticationHttpService);
+  private readonly snackBar = inject(MatSnackBar);
 
-
-  @Effect()
-  loginUser$ = this.actions$.pipe(ofType(fromActions.LOGIN_USER),
+  loginUser$ = createEffect(() => this.actions$.pipe(ofType(fromActions.LOGIN_USER),
     map((action: fromActions.LoginUser) => action.payload),
     mergeMap((payload: fromModels.UserLogin) => {
       return this.authenticationService
         .loginUser(payload)
         .pipe(
           map((response: fromModels.User) => {
-            localStorage.setItem('uid', response.uid);
             return new fromActions.LoginUserSuccess(response);
           }),
           catchError((error: fromModels.ErrorMessage) => {
@@ -35,10 +30,9 @@ export class AuthenticationEffects {
           })
         );
     })
-  );
+  ));
 
-  @Effect()
-  logoutUser$ = this.actions$.pipe(
+  logoutUser$ = createEffect(() => this.actions$.pipe(
     ofType(
       fromActions.LOGOUT_USER_FROM_CONTAINER,
     ),
@@ -54,10 +48,9 @@ export class AuthenticationEffects {
           })
         );
     })
-  );
+  ));
 
-  @Effect()
-  registerUser$ = this.actions$.pipe(ofType(fromActions.REGISTER_USER),
+  registerUser$ = createEffect(() => this.actions$.pipe(ofType(fromActions.REGISTER_USER),
     map((action: fromActions.RegisterUser) => action.payload),
     mergeMap((payload: fromModels.UserRegister) => {
       return this.authenticationService
@@ -74,10 +67,9 @@ export class AuthenticationEffects {
           })
         );
     })
-  );
+  ));
 
-  @Effect()
-  resetPassword$ = this.actions$.pipe(ofType(fromActions.RESET_PASSWORD),
+  resetPassword$ = createEffect(() => this.actions$.pipe(ofType(fromActions.RESET_PASSWORD),
     map((action: fromActions.ResetPassword) => action.payload),
     mergeMap((payload: fromModels.PasswordReset) => {
       return this.authenticationService
@@ -94,10 +86,9 @@ export class AuthenticationEffects {
           })
         );
     })
-  );
+  ));
 
-  @Effect()
-  setPassword$ = this.actions$.pipe(ofType(fromActions.SET_PASSWORD),
+  setPassword$ = createEffect(() => this.actions$.pipe(ofType(fromActions.SET_PASSWORD),
     map((action: fromActions.SetPassword) => action.payload),
     mergeMap((payload: fromModels.PasswordSet) => {
       return this.authenticationService
@@ -114,10 +105,9 @@ export class AuthenticationEffects {
           })
         );
     })
-  );
+  ));
 
-  @Effect()
-  setUser$ = this.actions$.pipe(ofType(fromActions.SET_USER),
+  setUser$ = createEffect(() => this.actions$.pipe(ofType(fromActions.SET_USER),
     map((action: fromActions.SetUser) => action.payload),
     mergeMap((payload: fromModels.User) => {
       return this.authenticationService
@@ -131,7 +121,7 @@ export class AuthenticationEffects {
           })
         );
     })
-  );
+  ));
 
   openSnackBar(message: string, duration = 5000) {
     this.snackBar.open(message, 'Zamknij', {

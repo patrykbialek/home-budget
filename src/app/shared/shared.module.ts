@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { AuthenticationStoreModule } from '@home-budget/authentication/store/authentication-store.module';
 import * as fromComponents from '@home-budget/shared/components';
 import { AngularMaterialModule } from '@home-budget/shared/modules/angular-material.module';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -15,12 +15,14 @@ import { TranslateModule } from '@ngx-translate/core';
     RouterModule,
     AngularMaterialModule,
 
-    TranslateModule.forChild(),
+    TranslateDirective,
+    TranslatePipe,
     AuthenticationStoreModule,
   ],
   exports: [
     AngularMaterialModule,
-    TranslateModule,
+    TranslateDirective,
+    TranslatePipe,
     ...fromComponents.components,
   ],
 })

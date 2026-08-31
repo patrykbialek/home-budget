@@ -1,30 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as fromModels from '@home-budget/authentication/models';
 import * as fromServices from '@home-budget/authentication/services';
 import * as fromStoreServices from '@home-budget/authentication/store/services';
 import { CommonWithAnimationComponent } from '@home-budget/shared/components';
-import { tap } from 'rxjs/operators';
+import { filter, skip, take, tap } from 'rxjs/operators';
 
 @Component({
-  selector: 'hb-register-user',
-  templateUrl: './register-user.component.html',
-  styleUrls: ['./register-user.component.scss']
+    selector: 'hb-register-user',
+    templateUrl: './register-user.component.html',
+    styleUrls: ['./register-user.component.scss'],
+    standalone: false
 })
 export class RegisterUserComponent extends CommonWithAnimationComponent implements OnInit {
 
+  private authenticationService = inject(fromStoreServices.AuthenticationFacadeService);
+  private authenticationUtilsService = inject(fromServices.AuthenticationUtilsService);
+  private formBuilder = inject(FormBuilder);
+  private router = inject(Router);
+
   afterSuccessRouteUrl = './plans';
   registerForm: FormGroup;
-
-  constructor(
-    private authenticationService: fromStoreServices.AuthenticationFacadeService,
-    private authenticationUtilsService: fromServices.AuthenticationUtilsService,
-    private formBuilder: FormBuilder,
-    private router: Router,
-  ) {
-    super();
-  }
 
   ngOnInit(): void {
     this.createForm();
@@ -51,11 +48,10 @@ export class RegisterUserComponent extends CommonWithAnimationComponent implemen
     this.authenticationService.registerUser(payload);
     this.authenticationService.isSuccess$
       .pipe(
-        tap(response => {
-          if (response) {
-            this.router.navigate([this.afterSuccessRouteUrl]);
-          }
-        }),
+        skip(1),
+        filter(Boolean),
+        take(1),
+        tap(() => this.router.navigate([this.afterSuccessRouteUrl])),
       ).subscribe();
   }
 

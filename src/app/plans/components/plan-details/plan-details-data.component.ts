@@ -1,10 +1,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   HostListener,
-  Input,
-  Output,
+  input,
+  output,
 } from '@angular/core';
 import * as fromModels from '@home-budget/plans/models';
 
@@ -13,23 +12,24 @@ import * as fromModels from '@home-budget/plans/models';
   templateUrl: './plan-details-data.component.html',
   styleUrls: ['./plan-details-data.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class PlanDetailsDataComponent {
-  @Input() public readonly dataLabels: fromModels.DataLabels;
-  @Input() public readonly dataSource: fromModels.DataSourceDetails[];
-  @Input() public readonly dataSourceFooter: fromModels.DataSourceDetails;
-  @Input() public readonly displayedColumns: string[];
-  @Input() public readonly isLoading: boolean;
+  dataLabels = input.required<fromModels.DataLabels>();
+  dataSource = input.required<fromModels.DataSourceDetails[]>();
+  dataSourceFooter = input.required<fromModels.DataSourceDetails>();
+  displayedColumns = input.required<string[]>();
+  isLoading = input.required<boolean>();
 
-  @Output() public editPlanEntry: EventEmitter<fromModels.PlanEntry> = new EventEmitter();
-  @Output() public goToDetails: EventEmitter<fromModels.PlanEntry> = new EventEmitter();
+  editPlanEntry = output<fromModels.PlanEntry>();
+  goToDetails = output<fromModels.PlanEntry>();
 
   @HostListener('contextmenu', ['$event'])
   onRightClick(event) {
     event.preventDefault();
   }
 
-  public onGoToDetails(element: fromModels.DataSourceDetails, elementValue: fromModels.DataSourceDetailsEntry): void {
+  onGoToDetails(element: fromModels.DataSourceDetails, elementValue: fromModels.DataSourceDetailsEntry): void {
     let entry: string;
     Object.keys(element).forEach((key: string) => {
       if (element[key] === elementValue) {
@@ -53,7 +53,7 @@ export class PlanDetailsDataComponent {
       : this.editPlanEntry.emit(planEntry);
   }
 
-  public onEditPlanEntry(element: fromModels.DataSourceDetails, elementValue: fromModels.DataSourceDetailsEntry): void {
+  onEditPlanEntry(element: fromModels.DataSourceDetails, elementValue: fromModels.DataSourceDetailsEntry): void {
     let entry: string;
     Object.keys(element).forEach((key: string) => {
       if (element[key] === elementValue) {

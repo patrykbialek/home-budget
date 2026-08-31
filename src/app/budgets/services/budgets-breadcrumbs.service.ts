@@ -5,13 +5,13 @@ import * as fromModels from '@budgets/models';
 
 @Injectable({ providedIn: 'root' })
 export class BudgetsBreadcrumbsService {
-  public breadcrumbs: BreadcrumbsItem[] = [];
+  breadcrumbs: BreadcrumbsItem[] = [];
 
-  public resetBreadcrumbs(): void {
+  resetBreadcrumbs(): void {
     this.breadcrumbs = [];
   }
 
-  public formBreadcrumbs(planEntry: fromModels.PlanEntry, dataLabels: fromModels.DataLabels): void {
+  formBreadcrumbs(planEntry: fromModels.PlanEntry, dataLabels: fromModels.DataLabels): void {
     const item: BreadcrumbsItem = {
       entry: planEntry.entry,
       hasEntries: planEntry.hasEntries,

@@ -7,7 +7,8 @@ import * as fromModels from '@home-budget/plans/models';
   selector: 'hb-plans',
   templateUrl: './plans.component.html',
   styleUrls: ['./plans.component.scss'],
+  standalone: false
 })
 export class PlansComponent {
-  public navLinks: fromModels.NavLink[] = config.navLinks;
+  navLinks: fromModels.NavLink[] = config.navLinks;
 }

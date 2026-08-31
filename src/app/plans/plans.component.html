@@ -5,13 +5,15 @@
       <header class="c-section-header__title">
         <h4>{{ 'PLAN.Title' | translate }}</h4>
         <div class="u-margin-left u-border-left u-text-large">&nbsp;</div>
-        <nav  mat-tab-nav-bar mat-stretch-tabs="false" mat-align-tabs="end">
-          <a mat-tab-link
-            *ngFor="let link of navLinks"
-            routerLinkActive="u-router-link-active"
-            [routerLink]="link.href"
-          >{{ link.label }}
-          </a>
+        <nav mat-tab-nav-bar [tabPanel]="tabPanel" mat-stretch-tabs="false" mat-align-tabs="end">
+          @for (link of navLinks; track link.index) {
+            <a mat-tab-link
+              routerLinkActive
+              #rla="routerLinkActive"
+              [active]="rla.isActive"
+              [routerLink]="link.href"
+            >{{ link.label }}</a>
+          }
         </nav>
         <div class="u-padding-right-small u-margin-right-small u-border-right u-text-large">&nbsp;</div>
         <hb-plan-breadcrumbs></hb-plan-breadcrumbs>
@@ -19,8 +21,10 @@
     </div>
   </div>
 
-  <div class="c-section-content" class="u-padding-top-huge">
-    <router-outlet></router-outlet>
-  </div>
+  <mat-tab-nav-panel #tabPanel>
+    <div class="c-section-content" class="u-padding-top-huge">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-tab-nav-panel>
 
 </app-main-component>

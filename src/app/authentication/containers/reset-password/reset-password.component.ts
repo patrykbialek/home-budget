@@ -1,27 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as fromModels from '@home-budget/authentication/models';
 import * as fromServices from '@home-budget/authentication/services';
 import * as fromStoreServices from '@home-budget/authentication/store/services';
 import { CommonWithAnimationComponent } from '@home-budget/shared/components';
-import { take, tap } from 'rxjs/operators';
+import { filter, skip, take, tap } from 'rxjs/operators';
 
 @Component({
-  selector: 'hb-reset-password',
-  templateUrl: './reset-password.component.html',
-  styleUrls: ['./reset-password.component.scss']
+    selector: 'hb-reset-password',
+    templateUrl: './reset-password.component.html',
+    styleUrls: ['./reset-password.component.scss'],
+    standalone: false
 })
 export class ResetPasswordComponent extends CommonWithAnimationComponent implements OnInit {
 
-  resetForm: FormGroup;
+  private authenticationService = inject(fromStoreServices.AuthenticationFacadeService);
+  private authenticationUtilsService = inject(fromServices.AuthenticationUtilsService);
+  private formBuilder = inject(FormBuilder);
 
-  constructor(
-    private authenticationService: fromStoreServices.AuthenticationFacadeService,
-    private authenticationUtilsService: fromServices.AuthenticationUtilsService,
-    private formBuilder: FormBuilder,
-  ) {
-    super();
-  }
+  resetForm: FormGroup;
 
   get emailControl() { return this.resetForm.get('email'); }
 
@@ -47,12 +44,10 @@ export class ResetPasswordComponent extends CommonWithAnimationComponent impleme
     this.authenticationService.resetPassword(payload);
     this.authenticationService.isSuccess$
       .pipe(
+        skip(1),
+        filter(Boolean),
         take(1),
-        tap(response => {
-          if (response) {
-            this.emailControl.setValue('', { emitEvent: false });
-          }
-        }),
+        tap(() => this.emailControl.setValue('', { emitEvent: false })),
       ).subscribe();
   }
 

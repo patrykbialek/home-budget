@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import * as fromModels from '@home-budget/plans/models';
 import { PlansFacadeService } from '@home-budget/plans/services/plans-facade.service';
 
@@ -6,27 +6,25 @@ import { PlansFacadeService } from '@home-budget/plans/services/plans-facade.ser
   selector: 'hb-plan-breadcrumbs',
   templateUrl: './plan-breadcrumbs.component.html',
   styleUrls: ['./plan-breadcrumbs.component.scss'],
+  standalone: false
 })
 export class PlanBreadcrumbsComponent {
+  private readonly plansFacadeService = inject(PlansFacadeService);
 
-  constructor(
-    private readonly plansFacadeService: PlansFacadeService,
-  ) { }
-
-  public get breadcrumbs(): fromModels.BreadcrumbsItem[] {
+  get breadcrumbs(): fromModels.BreadcrumbsItem[] {
     return this.plansFacadeService.breadcrumbs;
   }
 
-  public get isAddColumnButtonShown(): boolean {
+  get isAddColumnButtonShown(): boolean {
     // NOTE: to use in the future, based on roles, etc.
     return true;
   }
 
-  public addPlanEntryColumn(): void {
+  addPlanEntryColumn(): void {
     this.plansFacadeService.addPlanEntryColumn();
   }
 
-  public goToDetails(event: fromModels.BreadcrumbsItem): void {
+  goToDetails(event: fromModels.BreadcrumbsItem): void {
     const { entry, hasEntries, label, isCurrent, href, path } = event;
     const planEntry: fromModels.PlanEntry = {
       entry,

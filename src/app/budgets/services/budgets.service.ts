@@ -1,11 +1,11 @@
 import { FormGroup } from '@angular/forms';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { forkJoin, Observable } from 'rxjs';
+import { forkJoin, Observable, Subscription } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 
 import * as _ from 'lodash';
@@ -24,6 +24,14 @@ import { CoreService } from '@home-budget/core/core.service';
 
 @Injectable({ providedIn: 'root' })
 export class BudgetsService {
+  dialog = inject(MatDialog);
+  private readonly budgetsBreadcrumbsService = inject(BudgetsBreadcrumbsService);
+  private readonly budgetsFormService = inject(BugdetsFormService);
+  private readonly budgetsHttpService = inject(BudgetsHttpService);
+  private readonly coreService = inject(CoreService);
+  private readonly router = inject(Router);
+  private readonly snackBar = inject(MatSnackBar);
+
   dataColumns: string[];
   dataLabels: fromModels.DataLabels = fromConfig.dataLabels;
   dataSource: fromModels.DataSourceDetails[] = [];
@@ -34,16 +42,7 @@ export class BudgetsService {
 
   private isLoadingOn: boolean = false;
   private parentPlanEntry: fromModels.PlanEntry;
-
-  constructor(
-    public dialog: MatDialog,
-    private readonly budgetsBreadcrumbsService: BudgetsBreadcrumbsService,
-    private readonly budgetsFormService: BugdetsFormService,
-    private readonly budgetsHttpService: BudgetsHttpService,
-    private readonly coreService: CoreService,
-    private readonly router: Router,
-    private readonly snackBar: MatSnackBar,
-  ) { }
+  private dataSubscription: Subscription | undefined;
 
   get months(): fromModels.DataLabel[] {
     return fromConfig.months;
@@ -72,11 +71,11 @@ export class BudgetsService {
     return this.budgetsHttpService.readData(sourcePath);
   }
 
-  readDataByTypeObject(sourcePath: string): Observable<any> {
+  readDataByTypeObject(sourcePath: string): Observable<unknown> {
     return this.budgetsHttpService.readDataByTypeObject(sourcePath);
   }
 
-  readDataByType(sourcePath: string): Observable<any> {
+  readDataByType(sourcePath: string): Observable<unknown> {
     return this.budgetsHttpService.readDataByType(sourcePath);
   }
 
@@ -130,6 +129,7 @@ export class BudgetsService {
     const dialogRef: MatDialogRef<BudgetEditFormComponent> = this.dialog.open(BudgetEditFormComponent, {
       data: { form, dataLabels: this.dataLabels },
       position: { top: '64px' },
+      width: '400px',
     });
 
     dialogRef.afterClosed()
@@ -153,6 +153,7 @@ export class BudgetsService {
     const dialogRef = this.dialog.open(BudgetAddColumnFormComponent, {
       data: { form },
       position: { top: '64px' },
+      width: '400px',
     });
 
     dialogRef.afterClosed()
@@ -172,7 +173,8 @@ export class BudgetsService {
   }
 
   private subscribeToReadData(planEntry: fromModels.PlanEntry): void {
-    this.coreService.year$
+    this.dataSubscription?.unsubscribe();
+    this.dataSubscription = this.coreService.year$
       .pipe(
         switchMap((year: string) => this.readData(`${year}/entries`)),
         tap((data: fromModels.DataItem[]) => {
@@ -218,7 +220,7 @@ export class BudgetsService {
     const entry: string = this.currentEntries.entry;
     const subs$: Observable<any>[] = [];
 
-    let payload: any = {
+    let payload: Record<string, unknown> = {
       isInTotal: true,
       label: form.value.label,
       notes: null,
@@ -235,7 +237,8 @@ export class BudgetsService {
       subs$.push(this.budgetsHttpService.readEntriesObject(replacedPath)
         .pipe(
           take(1),
-          tap((entries: any) => {
+          tap((raw) => {
+            let entries = raw as Record<string, unknown>;
             const lastIndex: number = Object.keys(entries).length + 1;
             const key: string = `${entry}${fromUtils.formatdNumber(lastIndex)}`;
 
@@ -331,10 +334,11 @@ export class BudgetsService {
           this.readDataByTypeObject(newPath.join('/'))
             .pipe(
               take(len / 2),
-              tap((response: fromModels.DataItem) => {
-                if (response.key !== 'entries') {
+              tap((response) => {
+                const item = response as { key: string | null; value: { entries?: Record<string, { isInTotal: boolean; total: number }> } };
+                if (item.key !== 'entries') {
                   let total: number = 0;
-                  const entries = response.value.entries;
+                  const entries = item.value?.entries ?? {};
                   Object.keys(entries)
                     .forEach((entryKey: string) => {
                       if (entries[entryKey].isInTotal) {
@@ -344,7 +348,7 @@ export class BudgetsService {
 
                   const updatePayload: fromModels.UpadatePayload = {
                     path: formedPath,
-                    entry: response.key,
+                    entry: item.key ?? '',
                     total: parseFloat(total.toFixed(2)),
                   };
                   this.updateParentEntry(updatePayload);

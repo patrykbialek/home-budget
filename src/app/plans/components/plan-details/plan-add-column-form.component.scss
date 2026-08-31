@@ -1,4 +1,4 @@
-table {
+table.mat-mdc-table {
   width: 100%;
 }
 
@@ -12,10 +12,10 @@ table {
   }
 }
 
-tr.mat-header-row{
+tr.mat-mdc-header-row{
   height: 32px;
 }
-tr.mat-row {
+tr.mat-mdc-row {
   height: 28px;
 
   &:hover {
@@ -28,7 +28,7 @@ tr.mat-row {
 }
 
 .u-no-border {
-  .mat-cell {
+  .mat-mdc-cell {
     border-bottom-color: transparent;
   }
 }
@@ -52,20 +52,10 @@ input.u-type-number {
   -moz-appearance: textfield;
 }
 
-::ng-deep .mat-form-field.c-custom-suffix .mat-form-field-suffix {
-  top: 0 !important;
-}
-::ng-deep .mat-form-field-appearance-outline .mat-form-field-suffix {
+::ng-deep .mat-mdc-form-field.c-custom-suffix .mat-mdc-form-field-text-suffix {
   margin-left: 8px;
 }
 
-::ng-deep .mat-dialog-container {
-  width: 400px!important;
-}
-
-.mat-dialog-actions {
-  margin-bottom: -12px;
-}
 
 .c-title__separator {
   width: 12px;

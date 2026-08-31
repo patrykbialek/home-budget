@@ -1,145 +1,94 @@
-import { Observable, of } from 'rxjs';
+import { Observable, from, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { Injectable } from '@angular/core';
-import { AngularFireDatabase, AngularFireList, AngularFireObject } from '@angular/fire/database';
+import { Injectable, Injector, inject, runInInjectionContext } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { Auth, authState } from '@angular/fire/auth';
+import { Database, list, object, objectVal, ref, remove, update } from '@angular/fire/database';
 
 import * as fromModels from '@budgets/models';
 
 @Injectable({ providedIn: 'root' })
 export class BudgetsHttpService {
 
-  private uid: string;
+  private readonly auth = inject(Auth);
+  private readonly db = inject(Database);
+  private readonly injector = inject(Injector);
+  private readonly uid = toSignal(
+    authState(this.auth).pipe(map(user => user?.uid ?? '')),
+    { initialValue: '' },
+  );
 
-  constructor(
-    private db: AngularFireDatabase,
-  ) {
-    this.uid = localStorage.getItem('uid');
-  }
-
-  // Create
-
-  // initiatePlan(year: string) {
-  //   const path: string = `/workspaces/${this.uid}/plans`;
-  //   const db: AngularFireList<any> = this.db.list(path);
-  //   const value = this.initialDataEntry(year);
-  //   return of(db.update(year, value));
-  // }
-
-  // createPlan(payload: any) {
-  //   const path: string = `/workspaces/${this.uid}/plans`;
-  //   const db: AngularFireList<any> = this.db.list(path);
-  //   const value = {
-  //     label: payload.label,
-  //     path: payload.path,
-  //   };
-  //   return of(db.update(payload.uid, value));
-  // }
-
-  // Read
-
-  readEntriesObject(sourcePath: string): any {
-    const path: string = `/workspaces/${this.uid}/budgets/${sourcePath}`;
-    const db: AngularFireObject<any> = this.db.object(path);
-    return db.valueChanges();
+  readEntriesObject(sourcePath: string): Observable<unknown> {
+    const path = `/workspaces/${this.uid()}/budgets/${sourcePath}`;
+    return runInInjectionContext(this.injector, () => objectVal(ref(this.db, path)));
   }
 
   readData(sourcePath?: string): Observable<fromModels.DataEntry[]> {
-    const path: string = `/workspaces/${this.uid}/budgets/${sourcePath}`;
-    const db: AngularFireList<any> = this.db.list(path);
-    return db.snapshotChanges().pipe(
-      map((changes) =>
-        changes.map((change) => ({
-          key: change.payload.key,
-          ...change.payload.val(),
-        }))
-      ),
-      map((items) => {
-        return items.sort(this.compare);
-      })
+    const path = `/workspaces/${this.uid()}/budgets/${sourcePath}`;
+    return runInInjectionContext(this.injector, () => list(ref(this.db, path))).pipe(
+      map(changes => changes.map(change => ({
+        key: change.snapshot.key,
+        ...change.snapshot.val(),
+      }))),
+      map(items => items.sort(this.compare)),
     );
   }
 
-  readDataByType(sourcePath: string): Observable<any> {
-    const path: string = `/workspaces/${this.uid}/budgets/${sourcePath}`;
-    const db: AngularFireList<any> = this.db.list(path);
-    return db.snapshotChanges()
-      .pipe(
-        map((changes) =>
-          changes.map((change) => ({
-            key: change.payload.key,
-            ...change.payload.val(),
-          }))
-        ),
-        map((items) => {
-          return items.sort(this.compare);
-        })
-      );
+  readDataByType(sourcePath: string): Observable<unknown> {
+    const path = `/workspaces/${this.uid()}/budgets/${sourcePath}`;
+    return runInInjectionContext(this.injector, () => list(ref(this.db, path))).pipe(
+      map(changes => changes.map(change => ({
+        key: change.snapshot.key,
+        ...change.snapshot.val(),
+      }))),
+      map(items => items.sort(this.compare)),
+    );
   }
 
-  readDataByTypeObject(sourcePath: string): Observable<any> {
-    const path: string = `/workspaces/${this.uid}/budgets/${sourcePath}`;
-    const db: AngularFireObject<any> = this.db.object(path);
-    return db.snapshotChanges()
-      .pipe(
-        map((changes) => {
-          return {
-            key: changes.payload.key,
-            value: changes.payload.val(),
-          };
-        }),
-      );
+  readDataByTypeObject(sourcePath: string): Observable<unknown> {
+    const path = `/workspaces/${this.uid()}/budgets/${sourcePath}`;
+    return runInInjectionContext(this.injector, () => object(ref(this.db, path))).pipe(
+      map(change => ({
+        key: change.snapshot.key,
+        value: change.snapshot.val(),
+      })),
+    );
   }
 
-  // Update
-
-  updateEntriesObject(updatePath: string, payload: any): void {
-    const path: string = `/workspaces/${this.uid}/budgets/${updatePath}`;
-    const db: AngularFireObject<any> = this.db.object(path);
-    db.update(payload);
+  updateEntriesObject(updatePath: string, payload: Record<string, unknown>): void {
+    const path = `/workspaces/${this.uid()}/budgets/${updatePath}`;
+    update(ref(this.db, path), payload);
   }
 
-  updateEntry(payload: fromModels.UpadatePayload): Observable<any> {
+  updateEntry(payload: fromModels.UpadatePayload): Observable<void> {
     const { entry, isInTotal, label, notes, path, order, total } = payload;
-    const updatedPath: string = `/workspaces/${this.uid}/budgets/${path}`;
-    const db: AngularFireList<any> = this.db.list(updatedPath);
-    return of(db.update(entry, { isInTotal, label, notes, order, total }));
+    const updatedPath = `/workspaces/${this.uid()}/budgets/${path}/${entry}`;
+    return from(update(ref(this.db, updatedPath), { isInTotal, label, notes, order, total }));
   }
 
-  updateEntryLabel(payload: fromModels.UpadatePayload): Observable<any> {
+  updateEntryLabel(payload: fromModels.UpadatePayload): Observable<void> {
     const { entry, label, path } = payload;
-    const updatedPath: string = `/workspaces/${this.uid}/budgets/${path}`;
-    const db: AngularFireList<any> = this.db.list(updatedPath);
-    return of(db.update(entry, { label }));
+    const updatedPath = `/workspaces/${this.uid()}/budgets/${path}/${entry}`;
+    return from(update(ref(this.db, updatedPath), { label }));
   }
 
-  updateParentEntry(payload: fromModels.UpadatePayload): Observable<any> {
+  updateParentEntry(payload: fromModels.UpadatePayload): Observable<void> {
     const { entry, path, total } = payload;
-    const updatedPath: string = `/workspaces/${this.uid}/budgets/${path}`;
-    const db: AngularFireList<any> = this.db.list(updatedPath);
-    return of(db.update(entry, { total }));
+    const updatedPath = `/workspaces/${this.uid()}/budgets/${path}/${entry}`;
+    return from(update(ref(this.db, updatedPath), { total }));
   }
 
-  // Delete
-
-  deleteEntry(updatePath: string): Observable<any> {
-    const path: string = `/workspaces/${this.uid}/budgets/${updatePath}`;
-    const db: AngularFireObject<any> = this.db.object(path);
-    return of(db.remove());
+  deleteEntry(updatePath: string): Observable<void> {
+    const path = `/workspaces/${this.uid()}/budgets/${updatePath}`;
+    return from(remove(ref(this.db, path)));
   }
-
-  // Utils
 
   private compare(first, second) {
     const orderFirst = first.date;
     const orderSecond = second.date;
-
-    let comparison = 0;
-    if (orderFirst < orderSecond) {
-      comparison = 1;
-    } else if (orderFirst > orderSecond) {
-      comparison = -1;
-    }
-    return comparison;
+    if (orderFirst < orderSecond) return 1;
+    if (orderFirst > orderSecond) return -1;
+    return 0;
   }
 }

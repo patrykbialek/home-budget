@@ -3,14 +3,13 @@
     <div class="o-grid__cell u-1/1@mobile u-1/3@tablet">
 
       <div class="o-grid">
-        <!-- <div class="o-grid__cell u-1/1 u-margin-bottom-small" *ngIf="errorMessage"> -->
-          <!-- <div class="u-text-error">{{ errorMessage }}</div> -->
-        <!-- </div> -->
         <div class="o-grid__cell u-1/1 u-margin-bottom-small">
           <mat-form-field appearance="outline" style="width: 100%;">
             <mat-label>{{ 'AUTHENTICATION.Form.Name' |  translate }}</mat-label>
             <input formControlName="name" matInput type="text" class="u-type-number u-text-right-align" #nameHTML>
-            <mat-error *ngIf="nameControl.invalid && nameControl.touched">{{ getErrorMessageForName() | translate }}</mat-error>
+            @if (nameControl.invalid && nameControl.touched) {
+              <mat-error>{{ getErrorMessageForName() | translate }}</mat-error>
+            }
           </mat-form-field>
         </div>
 
@@ -18,29 +17,23 @@
           <mat-form-field appearance="outline" style="width: 100%;">
             <mat-label>{{ 'AUTHENTICATION.Form.Email' |  translate }}</mat-label>
             <input formControlName="email" matInput type="email" class="u-type-number u-text-right-align">
-            <mat-error *ngIf="emailControl.invalid && emailControl.touched">{{ getErrorMessageForEmail() | translate }}</mat-error>
+            @if (emailControl.invalid && emailControl.touched) {
+              <mat-error>{{ getErrorMessageForEmail() | translate }}</mat-error>
+            }
           </mat-form-field>
         </div>
 
         <div class="o-grid__cell u-1/1 u-margin-bottom-small">
           <mat-form-field appearance="outline" style="width: 100%;">
             <mat-label>{{ 'AUTHENTICATION.Form.Password' |  translate }}</mat-label>
-            <input
-              formControlName="password"
-              matInput [type]="hide ? 'password' : 'text'"
-              #passwordHTML
-            >
-            <button
-              type="button"
-              mat-icon-button
-              matSuffix
-              (click)="hide = !hide"
-              [attr.aria-label]="'Ukryj hasło'"
-              [attr.aria-pressed]="'Hasło ukryte'"
-            >
+            <input formControlName="password" matInput [type]="hide ? 'password' : 'text'" #passwordHTML>
+            <button type="button" mat-icon-button matSuffix (click)="hide = !hide"
+              [attr.aria-label]="'Ukryj hasło'" [attr.aria-pressed]="'Hasło ukryte'">
               <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
             </button>
-            <mat-error *ngIf="passwordControl.invalid && passwordControl.touched">{{ getErrorMessageForPassword() | translate }}</mat-error>
+            @if (passwordControl.invalid && passwordControl.touched) {
+              <mat-error>{{ getErrorMessageForPassword() | translate }}</mat-error>
+            }
           </mat-form-field>
         </div>
 

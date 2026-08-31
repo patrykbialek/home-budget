@@ -1,29 +1,26 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import * as fromModels from '@budgets/models';
 
 @Component({
   selector: 'hb-budget-add-column-details-form',
   templateUrl: './budget-add-column-form.component.html',
   styleUrls: ['./budget-add-column-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class BudgetAddColumnFormComponent {
-  public category: string;
-  public dataLabels: any;
-  public form: FormGroup;
-  public monthLabel: string;
+  dialogRef = inject(MatDialogRef<BudgetAddColumnFormComponent>);
+  data: { form: FormGroup; } = inject(MAT_DIALOG_DATA);
 
-  constructor(
-    public dialogRef: MatDialogRef<BudgetAddColumnFormComponent>,
-    @Inject(MAT_DIALOG_DATA)
-    public data: { form: FormGroup; },
-  ) {
-    this.form = this.data.form;
-  }
+  category: string | undefined;
+  dataLabels: fromModels.DataLabels | undefined;
+  form: FormGroup = this.data.form;
+  monthLabel: string | undefined;
 
-  public save(): void {
+  save(): void {
     this.dialogRef.close({ form: this.form });
   }
 

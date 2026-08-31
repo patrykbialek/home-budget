@@ -1,6 +1,4 @@
-///* ========================================================================
-//   #GLOBAL
-//   ======================================================================== */
+//__<<ngM2ThemingMigrationEscapedComment0>>__
 
 // The global settings file contains any project-wide variables; things that
 // need to be made available to the entire codebase.
@@ -20,36 +18,11 @@ html {
   overflow-y: unset !important;
 }
 
-$global-radius: 0.3rem !default;
+$global-radius: 3px !default;
 $global-transition: (1/3) + s !default;
 $btn-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
 $btn-box-shadow-active: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
 
-// Angular Material
-
-@import "~@angular/material/theming";
-
-$custom-typography: mat-typography-config(
-  $font-family: '"Nunito Sans", sans-serif;',
-);
-// Override typography CSS classes (e.g., mat-h1, mat-display-1, mat-typography, etc.).
-@include mat-base-typography($custom-typography);
-
-// Override typography for a specific Angular Material components.
-@include mat-checkbox-typography($custom-typography);
-
-// Override typography for all Angular Material, including mat-base-typography and all components.
-@include angular-material-typography($custom-typography);
-
-@include mat-core($custom-typography);
-
-$candy-app-primary: mat-palette($mat-indigo);
-$candy-app-accent: mat-palette($mat-purple, 300, 200, 400);
-$candy-app-warn: mat-palette($mat-red);
-
-$candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-app-warn);
-
-@include angular-material-theme($candy-app-theme);
 
 //
 
@@ -152,47 +125,122 @@ $mq-breakpoints: (
 
 @import "./settings.colors";
 
-.mat-form-field.mat-focused .mat-form-field-label {
-  color: $color--primary;
+// Material M3 component overrides
+
+// Override M3 primary color to #1E88E5 using correct compiled token names.
+// Angular Material M3 sets these in html{} (specificity 0,0,1).
+// Our :root{} has specificity 0,1,0 and comes later → wins.
+:root {
+  // Tabs: active label = blue, inactive = grey
+  --mat-tab-active-label-text-color: #{$blue_600};
+  --mat-tab-active-focus-label-text-color: #{$blue_600};
+  --mat-tab-active-hover-label-text-color: #{$blue_600};
+  --mat-tab-inactive-label-text-color: rgba(0, 0, 0, 0.54);
+  --mat-tab-inactive-focus-label-text-color: rgba(0, 0, 0, 0.54);
+  --mat-tab-inactive-hover-label-text-color: rgba(0, 0, 0, 0.54);
+
+  // Buttons
+  --mat-button-text-label-text-color: #{$blue_600};
+  --mat-button-text-state-layer-color: #{$blue_600};
+  --mat-button-filled-container-color: #{$blue_600};
+  --mat-button-outlined-label-text-color: #{$blue_600};
+  --mat-button-outlined-state-layer-color: #{$blue_600};
+  --mat-button-protected-label-text-color: #{$blue_600};
+  --mat-button-protected-state-layer-color: #{$blue_600};
+
+  // Form fields
+  --mat-form-field-outlined-focus-outline-color: #{$blue_600};
+  --mat-form-field-outlined-focus-label-text-color: #{$blue_600};
+  --mat-form-field-outlined-caret-color: #{$blue_600};
+  --mat-form-field-filled-caret-color: #{$blue_600};
+  --mat-form-field-filled-focus-active-indicator-color: #{$blue_600};
+  --mat-form-field-filled-focus-label-text-color: #{$blue_600};
+  --mat-form-field-focus-select-arrow-color: #{$blue_600};
+
+  // Slide toggle
+  --mat-slide-toggle-selected-track-color: #{$blue_600};
+  --mat-slide-toggle-selected-hover-track-color: #{$blue_600};
+  --mat-slide-toggle-selected-focus-track-color: #{$blue_600};
+  --mat-slide-toggle-selected-pressed-track-color: #{$blue_600};
+  --mat-slide-toggle-selected-handle-color: #fff;
+  --mat-slide-toggle-selected-focus-handle-color: #fff;
+  --mat-slide-toggle-selected-hover-handle-color: #fff;
+  --mat-slide-toggle-selected-pressed-handle-color: #fff;
+  --mat-slide-toggle-selected-icon-color: #{$blue_600};
+  --mat-slide-toggle-selected-focus-state-layer-color: #{$blue_600};
+  --mat-slide-toggle-selected-hover-state-layer-color: #{$blue_600};
+  --mat-slide-toggle-selected-pressed-state-layer-color: #{$blue_600};
+
+  // Checkbox, radio
+  --mat-pseudo-checkbox-full-selected-icon-color: #{$blue_600};
+  --mat-pseudo-checkbox-minimal-selected-checkmark-color: #{$blue_600};
+  --mat-radio-selected-icon-color: #{$blue_600};
+  --mat-radio-selected-focus-icon-color: #{$blue_600};
+  --mat-radio-selected-hover-icon-color: #{$blue_600};
+  --mat-radio-checked-ripple-color: #{$blue_600};
+
+  // Select, progress
+  --mat-select-focused-arrow-color: #{$blue_600};
+  --mat-progress-bar-active-indicator-color: #{$blue_600};
+  --mat-progress-spinner-active-indicator-color: #{$blue_600};
 }
-.mat-form-field.mat-form-field-invalid .mat-form-field-label {
-  color: $red_600;
+
+
+// Table: transparent background + smaller grey header + matching border color
+.mat-mdc-table {
+  background: transparent;
+  --mat-table-background-color: transparent;
+  --mat-table-header-headline-size: 12px;
+  --mat-table-header-headline-color: rgba(0, 0, 0, 0.54);
+  --mat-table-row-item-outline-color: #{$grey_300};
 }
-.mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
-  color: $color--primary;
+
+// M3 removes border-bottom from last data row by default — restore it
+.mat-mdc-table tr.mat-mdc-row:last-of-type td.mat-mdc-cell {
+  border-bottom-color: #{$grey_300};
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
 }
-.mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
-  caret-color: $color--primary!important;
+
+// Dialog: reduce title to match M2 size
+.mat-mdc-dialog-title {
+  font-size: 16px !important;
+  line-height: 24px !important;
+  font-weight: 500 !important;
 }
-.mat-input-element {
-  caret-color: $color--primary;
+
+
+// Form field suffix (PLN): add space from input value and from right outline border
+.mat-mdc-form-field .mat-mdc-form-field-text-suffix {
+  padding-left: 6px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
-.mat-flat-button.mat-primary,
-.mat-raised-button.mat-primary {
-  background-color: $color--primary;
+
+// Year header buttons: inactive years should be dark, not primary blue
+.c-year-menu .mat-mdc-button:not(.mat-primary) {
+  --mat-button-text-label-text-color: rgba(0, 0, 0, 0.87);
+  color: rgba(0, 0, 0, 0.87);
 }
-.mat-button.mat-primary,
-.mat-icon-button.mat-primary,
-.mat-stroked-button.mat-primary {
-  color: $color--primary;
-}
-.mat-button.mat-green,
-.mat-icon-button.mat-green,
-.mat-stroked-button.mat-green {
+
+// Custom green/red button color classes (M3 class names)
+.mat-mdc-button.mat-green,
+.mat-mdc-icon-button.mat-green,
+.mat-mdc-outlined-button.mat-green {
   color: $green_600;
 }
-.mat-button.mat-red,
-.mat-icon-button.mat-red,
-.mat-stroked-button.mat-red {
+.mat-mdc-button.mat-red,
+.mat-mdc-icon-button.mat-red,
+.mat-mdc-outlined-button.mat-red {
   color: $red_600;
 }
-.mat-mat-button.mat-green,
-.mat-raised-button.mat-green {
+.mat-mdc-raised-button.mat-green,
+.mat-mdc-unelevated-button.mat-green {
   background-color: $green_500;
   color: $grey_50;
 }
-.mat-flat-button.mat-red,
-.mat-raised-button.mat-red {
+.mat-mdc-raised-button.mat-red,
+.mat-mdc-unelevated-button.mat-red {
   background-color: $red_500;
   color: $grey_50;
 }

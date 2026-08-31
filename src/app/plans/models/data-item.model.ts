@@ -1,10 +1,8 @@
 export interface DataItem {
-  entries: {
-    [key: string]: any;
-  };
+  entries: Record<string, unknown>;
   isInTotal: boolean;
   key: string;
   label: string;
   order: number;
-  value: any;
+  value: unknown;
 }

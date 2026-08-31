@@ -1,107 +1,73 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
-  AngularFireDatabase,
-  AngularFireObject
-} from '@angular/fire/database';
+  Auth,
+  User,
+  UserCredential,
+  authState,
+  confirmPasswordReset,
+  createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+  signOut,
+  updateProfile,
+} from '@angular/fire/auth';
+import { Database, objectVal, ref, set } from '@angular/fire/database';
 import * as fromModels from '@home-budget/authentication/models';
-import { AngularFireAuth } from 'angularfire2/auth';
-import { from, Observable, of } from 'rxjs';
+import { Observable, from, of } from 'rxjs';
 
 export interface Credentials {
-  email: string;
-  password: string;
+  email: string | undefined;
+  password: string | undefined;
 }
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationHttpService {
 
-  readonly authState$: Observable<any | null> = this.fireAuth.authState;
+  private db = inject(Database);
+  private fireAuth = inject(Auth);
 
-  constructor(
-    private db: AngularFireDatabase,
-    private fireAuth: AngularFireAuth,
-  ) { }
-
-
-  // Set
+  readonly authState$: Observable<User | null> = authState(this.fireAuth);
 
   setUser(payload: fromModels.User) {
     return of(payload);
   }
 
-  // Login
-
   loginUser({ email, password }: fromModels.UserLogin) {
-    const callback = this.fireAuth.auth
-      .signInWithEmailAndPassword(email, password)
-      .then((response: any) => {
+    const callback = signInWithEmailAndPassword(this.fireAuth, email, password)
+      .then((response: UserCredential) => {
         const user: fromModels.User = response.user;
-        const value = {
+        return {
           displayName: user.displayName,
           email: user.email,
           uid: user.uid,
         };
-        return value;
       });
-
     return from(callback);
   }
-
-  // Logout
 
   logoutUser() {
-    const callback = this.fireAuth.auth
-      .signOut();
-
-    return from(callback);
+    return from(signOut(this.fireAuth));
   }
-
-  // Register
 
   registerUser({ email, name, password }: fromModels.UserRegister) {
-    const callback = this.fireAuth.auth
-      .createUserWithEmailAndPassword(email, password)
-      .then(response => {
+    const callback = createUserWithEmailAndPassword(this.fireAuth, email, password)
+      .then(async response => {
         const uid = response.user.uid;
-        const db: AngularFireObject<any> = this.db.object(`/workspaces/${uid}/user`);
-        const value = { email, uid, };
-        db.set(value);
-
-        this.setUserDisplayName(name);
-
+        const value = { email, uid };
+        await set(ref(this.db, `/workspaces/${uid}/user`), value);
+        await updateProfile(response.user, { displayName: name });
         return value;
       });
-
     return from(callback);
   }
-
-  private setUserDisplayName(displayName: string) {
-    const user = this.fireAuth.auth.currentUser;
-    user.updateProfile({ displayName });
-  }
-
-  // Reset
 
   resetPassword({ email }: fromModels.PasswordReset) {
-    const callback = this.fireAuth.auth
-      .sendPasswordResetEmail(email);
-
-    return from(callback);
+    return from(sendPasswordResetEmail(this.fireAuth, email));
   }
 
-  // Set
-
   setPassword({ oobCode, newPassword }: fromModels.PasswordSet) {
-    const callback = this.fireAuth.auth
-      .confirmPasswordReset(
-        oobCode,
-        newPassword,
-      )
-      .then(response => {
-        return response;
-      });
-
-    return from(callback);
+    return from(confirmPasswordReset(this.fireAuth, oobCode, newPassword));
   }
 }

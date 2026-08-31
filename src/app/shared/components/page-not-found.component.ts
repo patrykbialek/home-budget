@@ -28,9 +28,7 @@ import { CommonWithAnimationComponent } from '@home-budget/shared/components/com
 
     </app-main-component>
   `,
+  standalone: false
 })
 export class PageNotFoundComponent extends CommonWithAnimationComponent {
-  constructor() {
-    super();
-  }
 }

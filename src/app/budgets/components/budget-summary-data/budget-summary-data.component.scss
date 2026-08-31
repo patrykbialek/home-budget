@@ -1,4 +1,4 @@
-table {
+table.mat-mdc-table {
   width: 100%;
 }
 
@@ -22,10 +22,10 @@ table {
   width: 108px;
 }
 
-tr.mat-header-row {
+tr.mat-mdc-header-row {
   height: 32px;
 }
-tr.mat-row {
+tr.mat-mdc-row {
   height: 28px;
 
   &:hover {
@@ -38,7 +38,7 @@ tr.mat-row {
 }
 
 .u-no-border {
-  .mat-cell {
+  .mat-mdc-cell {
     border-bottom-color: transparent;
   }
 }
@@ -74,7 +74,7 @@ input.u-type-number {
 }
 
 .c-plan-summary__total.u-is-loading,
-::ng-deep.mat-cell.u-is-loading {
+::ng-deep .mat-mdc-cell.u-is-loading {
   position: relative;
   transition: all 250ms ease-in-out;
   &:after {

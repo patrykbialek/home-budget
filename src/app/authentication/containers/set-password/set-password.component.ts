@@ -1,30 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as fromModels from '@home-budget/authentication/models';
 import * as fromServices from '@home-budget/authentication/store/services';
 import { CommonWithAnimationComponent } from '@home-budget/shared/components';
-import { tap } from 'rxjs/operators';
+import { filter, skip, take, tap } from 'rxjs/operators';
 
 @Component({
-  selector: 'hb-set-password',
-  templateUrl: './set-password.component.html',
-  styleUrls: ['./set-password.component.scss']
+    selector: 'hb-set-password',
+    templateUrl: './set-password.component.html',
+    styleUrls: ['./set-password.component.scss'],
+    standalone: false
 })
 export class SetPasswordComponent extends CommonWithAnimationComponent implements OnInit {
 
-  loginRouteUrl = '../login';
-  code: string;
-  setForm: FormGroup;
+  private activatedRoute = inject(ActivatedRoute);
+  private authenticationService = inject(fromServices.AuthenticationFacadeService);
+  private formBuilder = inject(FormBuilder);
+  private router = inject(Router);
 
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private authenticationService: fromServices.AuthenticationFacadeService,
-    private formBuilder: FormBuilder,
-    private router: Router,
-  ) {
-    super();
-  }
+  loginRouteUrl = '../login';
+  code: string | undefined;
+  setForm: FormGroup;
 
   ngOnInit(): void {
     this.createForm();
@@ -56,11 +53,10 @@ export class SetPasswordComponent extends CommonWithAnimationComponent implement
     this.authenticationService.setPassword(payload);
     this.authenticationService.isSuccess$
       .pipe(
-        tap(response => {
-          if (response) {
-            this.router.navigate([this.loginRouteUrl]);
-          }
-        }),
+        skip(1),
+        filter(Boolean),
+        take(1),
+        tap(() => this.router.navigate([this.loginRouteUrl])),
       ).subscribe();
   }
 }

@@ -9,7 +9,7 @@
  *
  *  Examples:
 
-      <span class="c-loader" *ngIf="loading"></span>  
+      @if (loading) { <span class="c-loader"></span> }
 
  */
 

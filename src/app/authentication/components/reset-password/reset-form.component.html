@@ -8,7 +8,9 @@
           <mat-form-field appearance="outline" style="width: 100%;">
             <mat-label>{{ 'AUTHENTICATION.Form.Email' |  translate }}</mat-label>
             <input formControlName="email" matInput type="email" #emailHTML>
-            <mat-error *ngIf="emailControl.invalid && emailControl.touched">{{ getErrorMessageForEmail() | translate }}</mat-error>
+            @if (emailControl.invalid && emailControl.touched) {
+              <mat-error>{{ getErrorMessageForEmail() | translate }}</mat-error>
+            }
           </mat-form-field>
         </div>
 

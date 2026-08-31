@@ -8,6 +8,7 @@ export interface PlanGraphConfig {
   pointHoverRadius: number;
   pointRadius: number;
   pointStyle: string;
+  tension: number;
 }
 
 export interface ChartOption {

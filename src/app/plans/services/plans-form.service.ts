@@ -4,7 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Injectable({ providedIn: 'root' })
 export class PlansFormService {
-  public buildEditForm(planEntry: fromModels.PlanEntry): FormGroup {
+  buildEditForm(planEntry: fromModels.PlanEntry): FormGroup {
     const numberRegEx: RegExp = /^\d+([.,]\d{0,2})?$/;
 
     return new FormGroup({
@@ -15,12 +15,12 @@ export class PlansFormService {
       month: new FormControl(planEntry.month),
       notes: new FormControl(planEntry.notes),
       order: new FormControl(planEntry.order, [Validators.required]),
-      path: new FormControl(planEntry.path.replace('month', planEntry.month)),
+      path: new FormControl((planEntry.path ?? '').replace('month', planEntry.month ?? '')),
       total: new FormControl(planEntry.total, [Validators.required, Validators.pattern(numberRegEx)]),
     });
   }
 
-  public buildAddColumnForm(): FormGroup {
+  buildAddColumnForm(): FormGroup {
     return new FormGroup({
       hasEntries: new FormControl(null),
       label: new FormControl(null, [Validators.required]),

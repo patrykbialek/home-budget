@@ -1,8 +1,9 @@
 import { trigger, transition, style, animate } from '@angular/animations';
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import * as fromModels from '@budgets/models';
 
 import { DataProperty } from '@budgets/models/plans.enum';
 
@@ -12,8 +13,7 @@ import { DataProperty } from '@budgets/models/plans.enum';
   styleUrls: ['./budget-edit-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
-    trigger(
-      'enterAnimation', [
+    trigger('enterAnimation', [
       transition(':enter', [
         style({ height: '0', opacity: 0 }),
         animate('350ms', style({ height: '264px', opacity: 1 }))
@@ -22,56 +22,50 @@ import { DataProperty } from '@budgets/models/plans.enum';
         style({ height: '264px', opacity: 1 }),
         animate('350ms', style({ height: '0', opacity: 0 }))
       ])
-    ]
-    )
+    ])
   ],
+  standalone: false
 })
 export class BudgetEditFormComponent {
-  public category: string;
-  public dataLabels: any;
-  public form: FormGroup;
-  public isDeleteButtonShown: boolean;
-  public isMoreShown: boolean = false;
-  public monthLabel: string;
+  dialogRef = inject(MatDialogRef<BudgetEditFormComponent>);
+  data: { form: FormGroup; dataLabels: fromModels.DataLabels; } = inject(MAT_DIALOG_DATA);
 
-  constructor(
-    public dialogRef: MatDialogRef<BudgetEditFormComponent>,
-    @Inject(MAT_DIALOG_DATA)
-    public data: { form: FormGroup; dataLabels: any; },
-  ) {
-    this.form = this.data.form;
-    this.dataLabels = this.data.dataLabels;
-  }
+  category: string | undefined;
+  dataLabels: fromModels.DataLabels = this.data.dataLabels;
+  form: FormGroup = this.data.form;
+  isDeleteButtonShown = false;
+  isMoreShown: boolean = false;
+  monthLabel: string | undefined;
 
-  public getEntries(control: string): FormArray {
+  getEntries(control: string): FormArray {
     return this.form.get(control).get('entries') as FormArray;
   }
 
-  public save(): void {
+  save(): void {
     this.dialogRef.close({ form: this.form });
   }
 
-  public delete(): void {
+  delete(): void {
     this.dialogRef.close({ form: this.form, isToDelete: true });
   }
 
-  public get entries(): FormArray {
+  get entries(): FormArray {
     return this.form.get(DataProperty.entries) as FormArray;
   }
 
-  public get entryControl(): FormControl {
+  get entryControl(): FormControl {
     return this.form.get('entry') as FormControl;
   }
 
-  public get monthControl(): FormControl {
+  get monthControl(): FormControl {
     return this.form.get(DataProperty.month) as FormControl;
   }
 
-  public toggleIsDeleteButtonShown(): void {
+  toggleIsDeleteButtonShown(): void {
     this.isDeleteButtonShown = !this.isDeleteButtonShown;
   }
 
-  public toggleIsMoreShown(): void {
+  toggleIsMoreShown(): void {
     this.isMoreShown = !this.isMoreShown;
   }
 }

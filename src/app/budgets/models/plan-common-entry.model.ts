@@ -12,7 +12,7 @@ export interface PlanCommonEntryEntry {
 
 export interface PlanEntry {
   entry: string;
-  path: string;
+  path: string | null;
   hasEntries?: boolean;
   href?: string;
   isCurrent?: boolean;

@@ -1,49 +1,56 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router, UrlSegment } from '@angular/router';
 
-import { Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Subject, Subscription } from 'rxjs';
+import { takeUntil, tap } from 'rxjs/operators';
 
 import { BudgetsFacadeService } from '@budgets/services/budgets-facade.service';
 
 import * as fromModels from '@budgets/models';
 import * as config from '@budgets/shared/budgets.config';
-import { SharedUtilsService } from '@shared/services/shared-utils.service';
 import { CoreService } from '@home-budget/core/core.service';
 
 @Component({
   selector: 'hb-budget-summary',
   templateUrl: './budget-summary.component.html',
   styleUrls: ['./budget-summary.component.scss'],
+  standalone: false
 })
-export class BudgetSummaryComponent implements OnDestroy {
+export class BudgetSummaryComponent implements OnDestroy, OnInit {
   displayedColumns: string[] = config.planColumns;
   dataSource: fromModels.DataSourceSummary[] = config.defaultDataSource;
-  isLoading: boolean;
+  isLoading = false;
+
+  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly budgetsFacadeService = inject(BudgetsFacadeService);
+  private readonly router = inject(Router);
+  private readonly coreService = inject(CoreService);
 
   year$ = this.coreService.year$
     .pipe(tap((year: string) => this.handleOnYearChange(year)));
 
-  private planType: string;
-  private subscription$: Subscription = new Subscription();
+  private planType: string | undefined;
+  private readonly destroy$ = new Subject<void>();
+  private dataSubscription: Subscription | undefined;
 
   private readonly main: string = 'budgets';
-  private year: string;
-  private sourcePath: string;
+  private year: string | undefined;
+  private sourcePath = '';
 
-  constructor(
-    private readonly activatedRoute: ActivatedRoute,
-    private readonly budgetsFacadeService: BudgetsFacadeService,
-    private readonly router: Router,
-    private readonly sharedUtilsService: SharedUtilsService,
-    private readonly coreService: CoreService,
-  ) { }
-
-  ngOnDestroy(): void {
-    this.subscription$.unsubscribe();
+  ngOnInit(): void {
+    this.activatedRoute.url.pipe(
+      takeUntil(this.destroy$),
+    ).subscribe((segments: UrlSegment[]) => {
+      this.planType = segments[0]?.path;
+    });
   }
 
-  goToDetails(event: any): void {
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  goToDetails(event: fromModels.QueryParamsResponse): void {
     this.router.navigate([`./${this.main}/${this.planType}/details`], {
       queryParams: {
         path: `${event.path}`,
@@ -66,23 +73,14 @@ export class BudgetSummaryComponent implements OnDestroy {
   }
 
   readData(): void {
-    this.subscription$.add(
-      this.budgetsFacadeService.readData(this.sourcePath)
-        .subscribe((data: fromModels.DataEntry[]) => this.formData(data))
-    );
+    this.dataSubscription?.unsubscribe();
+    this.dataSubscription = this.budgetsFacadeService.readData(this.sourcePath)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: fromModels.DataEntry[]) => this.formData(data));
   }
 
   private setCommonDataLables(): void {
     this.budgetsFacadeService.setCommonDataLables();
-  }
-
-  private setPlanType(): void {
-    this.subscription$.add(
-      this.activatedRoute.url
-        .subscribe((response: UrlSegment[]) => {
-          this.planType = response[0].path;
-        })
-    );
   }
 
   private formData(data: fromModels.DataEntry[]): void {
@@ -93,7 +91,7 @@ export class BudgetSummaryComponent implements OnDestroy {
   }
 
   private get planConfig(): fromModels.PlanConfig {
-    return { year: this.year, type: this.planType };
+    return { year: this.year ?? '', type: this.planType ?? '' };
   }
 
   private handleOnYearChange(year: string) {
@@ -101,7 +99,6 @@ export class BudgetSummaryComponent implements OnDestroy {
     this.sourcePath = `${year}/entries`;
     this.isLoading = true;
     this.setCommonDataLables();
-    this.setPlanType();
     this.readData();
   }
 }

@@ -1,23 +1,28 @@
-<div *ngIf="year$ | async" class="o-grid">
-  <div class="o-grid__cell u-1/2">
-    <mat-card class="c-plan-project__card">
-      <mat-card-content>
-        <hb-plan-summary-data *ngIf="!isLoading"
-          [dataLabels]="dataLabels"
-          [dataSource]="dataSource"
-          [displayedColumns]="displayedColumns"
-          [isLoading]="isLoading"
-          [dataSourceTotal]="dataSourceTotal"
-          (goToDetails)="goToDetails($event)"></hb-plan-summary-data>
-      </mat-card-content>
-    </mat-card>
+@if (year$ | async) {
+  <div class="o-grid">
+    <div class="o-grid__cell u-1/1 u-1/2@desktop">
+      <mat-card class="c-plan-project__card">
+        <mat-card-content>
+          @if (!isLoading) {
+            <hb-plan-summary-data
+              [dataLabels]="dataLabels"
+              [dataSource]="dataSource"
+              [displayedColumns]="displayedColumns"
+              [isLoading]="isLoading"
+              [dataSourceTotal]="dataSourceTotal"
+              (goToDetails)="goToDetails($event)"></hb-plan-summary-data>
+          }
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="o-grid__cell u-1/1 u-1/2@desktop">
+      <mat-card class="c-plan-project__card">
+        <mat-card-content>
+          @if (!isLoading) {
+            <hb-plan-graph [dataSource]="dataSource"></hb-plan-graph>
+          }
+        </mat-card-content>
+      </mat-card>
+    </div>
   </div>
-  <div class="o-grid__cell u-1/2">
-    <mat-card class="c-plan-project__card">
-      <mat-card-content>
-        <hb-plan-graph *ngIf="!isLoading"
-          [dataSource]="dataSource"></hb-plan-graph>
-      </mat-card-content>
-    </mat-card>
-  </div>
-</div>
+}

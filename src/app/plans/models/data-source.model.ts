@@ -19,7 +19,7 @@ export interface DataSourceDetails {
 }
 
 export interface DataSourceDetailsEntry {
-  entries: any;
+  entries: unknown;
   hasEntries: boolean;
   isInTotal: boolean;
   label: string;

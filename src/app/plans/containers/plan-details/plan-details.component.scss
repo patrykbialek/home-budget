@@ -2,7 +2,7 @@
   position: relative;
 }
 
-table {
+table.mat-mdc-table {
   width: auto;
 }
 
@@ -16,10 +16,10 @@ table {
   width: 108px;
 }
 
-tr.mat-header-row{
+tr.mat-mdc-header-row{
   height: 32px;
 }
-tr.mat-row {
+tr.mat-mdc-row {
   height: 28px;
 
   &:hover {
@@ -32,7 +32,7 @@ tr.mat-row {
 }
 
 .u-no-border {
-  .mat-cell {
+  .mat-mdc-cell {
     border-bottom-color: transparent;
   }
 }

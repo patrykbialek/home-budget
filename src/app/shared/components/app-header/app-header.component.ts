@@ -1,31 +1,35 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+
 import { AuthenticationFacadeService } from '@home-budget/authentication/store';
 import { CoreService } from '../../../core/core.service';
-import { TranslateService } from '@ngx-translate/core';
 import { SharedUtilsService } from '@shared/services/shared-utils.service';
+import { PlansHttpService } from '@home-budget/plans/services/plans-http.service';
+import { filter, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
   templateUrl: './app-header.component.html',
   styleUrls: ['./app-header.component.scss'],
+  standalone: false
 })
 export class AppHeaderComponent {
+  private readonly authService = inject(AuthenticationFacadeService);
+  private readonly coreService = inject(CoreService);
+  private readonly plansHttpService = inject(PlansHttpService);
+  private readonly sharedUtilsService = inject(SharedUtilsService);
+  private readonly translateService = inject(TranslateService);
 
   currentLang = 'EN';
-  planYear: string;
+  planYear: string | undefined;
 
   windowSize$ = this.sharedUtilsService.windowSize$;
   user$ = this.authService.user$;
   year$ = this.coreService.year$;
-
-  constructor(
-    private readonly authService: AuthenticationFacadeService,
-    private readonly coreService: CoreService,
-    private readonly router: Router,
-    private readonly sharedUtilsService: SharedUtilsService,
-    private readonly translateService: TranslateService,
-  ) {   }
+  years$ = this.user$.pipe(
+    filter(Boolean),
+    switchMap((user) => this.plansHttpService.readYears(user.uid)),
+  );
 
   onChangeLanguage() {
     this.translateService.use(this.currentLang.toLocaleLowerCase());
@@ -36,8 +40,7 @@ export class AppHeaderComponent {
   }
 
   onLogout() {
-    localStorage.removeItem('uid');
-    this.router.navigate(['./login']);
+    this.authService.logoutUserFromContainer();
   }
 
   setYear(year: string) {

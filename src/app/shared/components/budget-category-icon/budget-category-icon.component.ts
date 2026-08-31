@@ -1,11 +1,10 @@
-
-import { Component, Input, } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'bh-category-icon',
   templateUrl: 'budget-category-icon.component.html',
+  standalone: false
 })
 export class BudgetCategoryIconComponent {
-
-  @Input() category: string;
+  category = input.required<string>();
 }

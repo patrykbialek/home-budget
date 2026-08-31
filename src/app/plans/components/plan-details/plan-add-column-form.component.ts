@@ -1,28 +1,25 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import * as fromModels from '@home-budget/plans/models';
 
 @Component({
   selector: 'hb-plan-add-column-details-form',
   templateUrl: './plan-add-column-form.component.html',
   styleUrls: ['./plan-add-column-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class PlanAddColumnFormComponent {
-  public category: string;
-  public dataLabels: any;
-  public form: FormGroup;
-  public monthLabel: string;
+  dialogRef = inject(MatDialogRef<PlanAddColumnFormComponent>);
+  data: { form: FormGroup; } = inject(MAT_DIALOG_DATA);
 
-  constructor(
-    public dialogRef: MatDialogRef<PlanAddColumnFormComponent>,
-    @Inject(MAT_DIALOG_DATA)
-    public data: { form: FormGroup; },
-  ) {
-    this.form = this.data.form;
-  }
+  category: string | undefined;
+  dataLabels: fromModels.DataLabels | undefined;
+  form: FormGroup = this.data.form;
+  monthLabel: string | undefined;
 
-  public save(): void {
+  save(): void {
     this.dialogRef.close({ form: this.form });
   }
 

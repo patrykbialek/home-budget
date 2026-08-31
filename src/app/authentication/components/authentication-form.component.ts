@@ -1,25 +1,24 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, inject, input, output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import * as fromServices from '@home-budget/authentication/services';
 
 @Component({
-  selector: 'hb-authentication-form',
-  template: '',
+    selector: 'hb-authentication-form',
+    template: '',
+    standalone: false
 })
 export class AuthenticationFormComponent {
 
   hide = true;
 
-  @Input() form: FormGroup;
-  @Output() submitAction = new EventEmitter();
+  form = input.required<FormGroup>();
+  submitAction = output<FormGroup>();
 
-  constructor(
-    private authenticationUtilsService: fromServices.AuthenticationUtilsService,
-  ) { }
+  protected authenticationUtilsService = inject(fromServices.AuthenticationUtilsService);
 
-  get emailControl(): FormControl { return this.form.get('email') as FormControl; }
-  get nameControl(): FormControl { return this.form.get('name') as FormControl; }
-  get passwordControl(): FormControl { return this.form.get('password') as FormControl; }
+  get emailControl(): FormControl { return this.form().get('email') as FormControl; }
+  get nameControl(): FormControl { return this.form().get('name') as FormControl; }
+  get passwordControl(): FormControl { return this.form().get('password') as FormControl; }
 
   getErrorMessageForEmail() {
     return this.authenticationUtilsService.getErrorMessageForEmail(this.emailControl);
@@ -34,9 +33,9 @@ export class AuthenticationFormComponent {
   }
 
   onSubmit() {
-    this.form.valid
-      ? this.submitAction.emit(this.form)
-      : this.form.markAllAsTouched();
+    this.form().valid
+      ? this.submitAction.emit(this.form())
+      : this.form().markAllAsTouched();
   }
 
 }

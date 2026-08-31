@@ -1,35 +1,26 @@
-<ng-container *ngIf="user$ | async as user">
+@if (user$ | async; as user) {
   <nav class="c-app-header">
-    <ng-container *ngIf="windowSize$ | async as windowSize">
+    @if (windowSize$ | async; as windowSize) {
       <mat-toolbar color="default" class="c-app-header__toolbar">
         <mat-toolbar-row>
           <a class="u-margin-right" [routerLink]="['/plans']">
             <img src="../assets/images/home-budget-horizontal.svg" alt="logo" style="height: 36px;">
           </a>
-          <ul class="c-year-menu" *ngIf="year$ | async as year">
-            <li>
-              <button mat-button [color]="year === '2023' ? 'primary' : 'default'"
-                type="button" [ngStyle]="{ 'pointer-events': year === '2023' ? 'none' : 'all' }"
-                (click)="setYear('2023')">2023</button>
-            </li>
-            <li>
-              <button mat-button [color]="year === '2024' ? 'primary' : 'default'"
-                type="button" [ngStyle]="{ 'pointer-events': year === '2024' ? 'none' : 'all' }"
-                (click)="setYear('2024')">2024</button>
-            </li>
-            <li>
-              <button mat-button [color]="year === '2025' ? 'primary' : 'default'"
-                type="button" [ngStyle]="{ 'pointer-events': year === '2025' ? 'none' : 'all' }"
-                (click)="setYear('2025')">2025</button>
-            </li>
-            <li>
-              <button mat-button [color]="year === '2026' ? 'primary' : 'default'"
-                type="button" [ngStyle]="{ 'pointer-events': year === '2026' ? 'none' : 'all' }"
-                (click)="setYear('2026')">2026</button>
-            </li>
-          </ul>
+          @if (year$ | async; as year) {
+            @if (years$ | async; as years) {
+              <ul class="c-year-menu">
+                @for (y of years; track y) {
+                  <li>
+                    <button mat-button [color]="year === y ? 'primary' : 'default'"
+                      type="button" [ngStyle]="{ 'pointer-events': year === y ? 'none' : 'all' }"
+                      (click)="setYear(y)">{{ y }}</button>
+                  </li>
+                }
+              </ul>
+            }
+          }
           <span style="flex-grow: 1;"></span>
-          <ng-container *ngIf="windowSize === 'desktop'">
+          @if (windowSize === 'desktop') {
             <button class="u-margin-left-tiny"
               mat-button
               [routerLink]="['plans']"
@@ -44,44 +35,33 @@
               <mat-icon class="u-margin-right-tiny">account_balance_wallet</mat-icon>
               {{ 'HEADER.Budget' | translate }}
             </button>
-            <div class="u-border-left u-margin-left-tiny" style="width:1px">&nbsp;</div>
-          </ng-container>
-          <ng-container *ngIf="windowSize === 'mobile'; else noMobile">
-            <button class="u-margin-left-tiny" mat-icon-button color="primary" [matMenuTriggerFor]="userMenu" >
+            <div class="u-border-left u-margin-left u-margin-right-tiny" style="height:24px; width:1px;">&nbsp;</div>
+            <mat-icon class="u-margin-right-tiny" style="color: rgba(0,0,0,0.54);">account_circle</mat-icon>
+            <span class="u-text-small" style="color: rgba(0,0,0,0.54);">{{ user.displayName || user.email }}</span>
+            <button class="u-margin-left-tiny" mat-button (click)="onLogout()">
+              <mat-icon class="u-margin-right-tiny">lock</mat-icon>
+              {{ 'HEADER.Logout' | translate }}
+            </button>
+          }
+          @if (windowSize === 'mobile') {
+            <button class="u-margin-left-tiny" mat-icon-button color="primary" [matMenuTriggerFor]="userMenu">
               <mat-icon>menu</mat-icon>
             </button>
-          </ng-container>
-          <ng-template #noMobile>
-            <button class="u-margin-left-tiny" mat-button color="primary" [matMenuTriggerFor]="userMenu" >
-              <mat-icon class="u-margin-right-tiny" >account_circle</mat-icon>
+          }
+          <mat-menu #userMenu="matMenu">
+            <button mat-menu-item [routerLink]="['plans']" routerLinkActive="u-router-link-active">
+              <mat-icon>analytics</mat-icon>
+              {{ 'HEADER.Plan' | translate }}
+            </button>
+            <button mat-menu-item [routerLink]="['budgets']" routerLinkActive="u-router-link-active">
+              <mat-icon>account_balance_wallet</mat-icon>
+              {{ 'HEADER.Budget' | translate }}
+            </button>
+            <mat-divider></mat-divider>
+            <button mat-menu-item style="pointer-events: none;">
+              <mat-icon>account_circle</mat-icon>
               {{ user.displayName || user.email }}
             </button>
-          </ng-template>
-          <mat-menu #userMenu="matMenu">
-            <ng-container *ngIf="windowSize === 'mobile'">
-              <button
-                mat-menu-item
-                [routerLink]="['dashboard']"
-                routerLinkActive="u-router-link-active">
-                <mat-icon>dashboard</mat-icon>
-                {{ 'HEADER.Dashboard' | translate }}
-              </button>
-              <button
-                mat-menu-item
-                [routerLink]="['transactions']"
-                routerLinkActive="u-router-link-active">
-                <mat-icon >list_alt</mat-icon>
-                {{ 'HEADER.Transactions' | translate }}
-              </button>
-              <button
-                mat-menu-item
-                [routerLink]="['settings']"
-                routerLinkActive="u-router-link-active">
-                <mat-icon>tune</mat-icon>
-                {{ 'HEADER.Settings' | translate }}
-              </button>
-              <mat-divider></mat-divider>
-            </ng-container>
             <button mat-menu-item (click)="onLogout()">
               <mat-icon>lock</mat-icon>
               <span>{{ 'HEADER.Logout' | translate }}</span>
@@ -89,6 +69,6 @@
           </mat-menu>
         </mat-toolbar-row>
       </mat-toolbar>
-    </ng-container>
+    }
   </nav>
-</ng-container>
+}

@@ -5,25 +5,24 @@
       <div class="o-grid__cell u-5/7">
         <mat-form-field appearance="outline" class="o-block o-block--left u-margin-bottom-small">
           <mat-label>{{ 'Eytkieta' | titlecase }}</mat-label>
-          <input matInput
-            formControlName="label"
-            onfocus="this.select()">
-          <mat-error *ngIf="form.get('label').hasError('required')">Pole wymagane.</mat-error>
+          <input matInput formControlName="label" onfocus="this.select()">
+          @if (form.get('label').hasError('required')) {
+            <mat-error>Pole wymagane.</mat-error>
+          }
         </mat-form-field>
       </div>
       <div class="o-grid__cell u-2/7">
         <mat-form-field appearance="outline" class="o-block o-block--left u-margin-bottom-small">
           <mat-label>{{ 'Kolejność' | titlecase }}</mat-label>
-          <input matInput
-            formControlName="order"
-            type="number">
-          <mat-error *ngIf="form.get('order').hasError('required')">Pole wymagane.</mat-error>
+          <input matInput formControlName="order" type="number">
+          @if (form.get('order').hasError('required')) {
+            <mat-error>Pole wymagane.</mat-error>
+          }
         </mat-form-field>
       </div>
       <div class="o-grid__cell">
         <div class="o-block o-block--left u-margin-bottom">
-          <mat-checkbox
-            formControlName="hasEntries">Zawiera szczegóły</mat-checkbox>
+          <mat-checkbox formControlName="hasEntries">Zawiera szczegóły</mat-checkbox>
         </div>
       </div>
     </div>

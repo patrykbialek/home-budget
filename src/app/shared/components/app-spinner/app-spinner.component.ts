@@ -7,6 +7,7 @@ import { Component } from '@angular/core';
       <mat-spinner [diameter]="64" [strokeWidth]="5"></mat-spinner>
     </section>
   `,
-  styleUrls: ['./app-spinner.component.scss']
+  styleUrls: ['./app-spinner.component.scss'],
+  standalone: false
 })
 export class AppSpinnerComponent { }

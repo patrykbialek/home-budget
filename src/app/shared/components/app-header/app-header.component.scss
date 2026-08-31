@@ -1,4 +1,8 @@
-::ng-deep .mat-menu-panel {
+@import '../../../../assets/styles/settings/settings.colors';
+
+$color--primary: $blue_600;
+
+::ng-deep .mat-mdc-menu-panel {
   max-width: none !important;
 }
 
@@ -19,4 +23,10 @@
   li {
     list-style-type: none;
   }
+}
+
+button.u-router-link-active {
+  --mat-button-text-label-text-color: #{$color--primary};
+  --mat-button-text-state-layer-color: #{$color--primary};
+  color: $color--primary;
 }

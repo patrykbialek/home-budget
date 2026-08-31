@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import * as fromModels from '@budgets/models';
 import { Observable } from 'rxjs';
 import { formData } from './budget-summary-former.utils';
@@ -8,68 +8,66 @@ import { BudgetsService } from './budgets.service';
 @Injectable({ providedIn: 'root' })
 export class BudgetsFacadeService {
 
-  constructor(
-    private readonly budgetsBreadcrumbsService: BudgetsBreadcrumbsService,
-    private readonly budgetsService: BudgetsService,
-  ) { }
+  private readonly budgetsBreadcrumbsService = inject(BudgetsBreadcrumbsService);
+  private readonly budgetsService = inject(BudgetsService);
 
-  public get dataLabels(): any {
+  get dataLabels(): fromModels.DataLabels {
     return this.budgetsService.dataLabels;
   }
 
-  public get dataSource(): fromModels.DataSourceDetails[] {
+  get dataSource(): fromModels.DataSourceDetails[] {
     return this.budgetsService.dataSource;
   }
 
-  public get dataSourceFooter(): fromModels.DataSourceDetails {
+  get dataSourceFooter(): fromModels.DataSourceDetails {
     return this.budgetsService.dataSourceFooter;
   }
 
-  public get dataColumns(): string[] {
+  get dataColumns(): string[] {
     return this.budgetsService.dataColumns;
   }
 
-  public get displayedColumns(): string[] {
+  get displayedColumns(): string[] {
     return this.budgetsService.displayedColumns;
   }
 
-  public get isLoading(): boolean {
+  get isLoading(): boolean {
     return this.budgetsService.isLoading;
   }
 
-  public get breadcrumbs(): fromModels.BreadcrumbsItem[] {
+  get breadcrumbs(): fromModels.BreadcrumbsItem[] {
     return this.budgetsBreadcrumbsService.breadcrumbs;
   }
 
-  public formData(data: fromModels.DataEntry[], planConfig: fromModels.PlanConfig): fromModels.DataSourceSummary[] {
+  formData(data: fromModels.DataEntry[], planConfig: fromModels.PlanConfig): fromModels.DataSourceSummary[] {
     return formData(data, planConfig);
   }
 
-  public setCommonDataLables() {
+  setCommonDataLables() {
     this.budgetsService.setCommonDataLables();
   }
 
-  public readData(path: string): Observable<any> {
+  readData(path: string): Observable<fromModels.DataEntry[]> {
     return this.budgetsService.readData(path);
   }
 
-  public addPlanEntryColumn(): void {
+  addPlanEntryColumn(): void {
     this.budgetsService.addPlanEntryColumn();
   }
 
-  public resetBreadcrumbs(): void {
+  resetBreadcrumbs(): void {
     this.budgetsBreadcrumbsService.resetBreadcrumbs();
   }
 
-  public formBreadcrumbs(planEntry: fromModels.PlanEntry, dataLabels: fromModels.DataLabels): void {
+  formBreadcrumbs(planEntry: fromModels.PlanEntry, dataLabels: fromModels.DataLabels): void {
     this.budgetsBreadcrumbsService.formBreadcrumbs(planEntry, dataLabels);
   }
 
-  public editPlanEntry(event: fromModels.PlanEntry): void {
+  editPlanEntry(event: fromModels.PlanEntry): void {
     this.budgetsService.editPlanEntry(event);
   }
 
-  public goToDetails(planEntry: fromModels.PlanEntry): void {
+  goToDetails(planEntry: fromModels.PlanEntry): void {
     this.budgetsService.goToDetails(planEntry);
   }
 

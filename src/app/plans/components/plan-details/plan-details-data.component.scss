@@ -1,7 +1,8 @@
 @import '../../../../assets/styles/settings/settings.colors';
 
-table {
+table.mat-mdc-table {
   width: auto;
+  min-width: 0;
 }
 
 .c-column-text {
@@ -14,12 +15,12 @@ table {
   width: 108px;
 }
 
-tr.mat-footer-row,
-tr.mat-header-row {
+tr.mat-mdc-footer-row,
+tr.mat-mdc-header-row {
   height: 32px;
 }
 
-tr.mat-row {
+tr.mat-mdc-row {
   height: 28px;
 
   &:hover {
@@ -32,7 +33,7 @@ tr.mat-row {
 }
 
 .u-no-border {
-  .mat-cell {
+  .mat-mdc-cell {
     border-bottom-color: transparent;
   }
 }
@@ -62,7 +63,7 @@ input.u-type-number {
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-suffix {
   margin-left: 8px;
 }
-::ng-deep .mat-card-content {
+::ng-deep .mat-mdc-card-content {
   min-height: 420px;
 }
 

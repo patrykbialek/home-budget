@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit, input } from '@angular/core';
+import { ChartOptions } from 'chart.js';
 
 import * as config from '../../shared/budgets.config';
 import * as fromModels from '@budgets/models';
@@ -9,33 +10,40 @@ const planChartOption: Partial<fromModels.PlanGraphConfig> = {
   pointHoverRadius: 7,
   pointRadius: 1,
   pointStyle: 'circle',
+  tension: 0.4,
 };
 
+
+interface GraphData {
+  expenses: number[];
+  incomes: number[];
+  increase: number[];
+}
 @Component({
   selector: 'hb-budget-graph',
   templateUrl: './budget-graph.component.html',
-  styleUrls: ['./budget-graph.component.scss']
+  styleUrls: ['./budget-graph.component.scss'],
+  standalone: false
 })
 export class BudgetGraphComponent implements OnInit {
+  chartLabels: Array<string> = [];
+  chartType: string = 'line';
+  data: GraphData | undefined;
+  incomesExpensesDatasets: Array<Partial<fromModels.PlanGraphConfig>> = [];
+  incomesExpensesOptions: ChartOptions | undefined;
+  increaseDatasets: Array<Partial<fromModels.PlanGraphConfig>> = [];
+  increaseOptions: ChartOptions | undefined;
 
-  public chartLabels: Array<string>;
-  public chartType: string = 'line';
-  public data: any;
-  public incomesExpensesDatasets: Array<Partial<fromModels.PlanGraphConfig>> = [];
-  public incomesExpensesOptions: any;
-  public increaseDatasets: Array<Partial<fromModels.PlanGraphConfig>> = [];
-  public increaseOptions: any;
+  dataSource = input.required<fromModels.DataSourceSummary[]>();
 
-  @Input() public readonly dataSource: any[];
-
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.data = {
-      expenses: this.dataSource.map((data: any) => data.expense),
-      incomes: this.dataSource.map((data: any) => data.income),
-      increase: this.dataSource.map((data: any) => data.increase),
+      expenses: this.dataSource().map((data: fromModels.DataSourceSummary) => data.expense),
+      incomes: this.dataSource().map((data: fromModels.DataSourceSummary) => data.income),
+      increase: this.dataSource().map((data: fromModels.DataSourceSummary) => data.increase),
     };
     this.chartLabels = Object.keys(config.monthLabel)
-      .map((key: string) => config.monthLabel[key].short);
+      .map((key: string) => config.monthLabel[key as keyof fromModels.MonthLabel].short ?? '');
     this.setGraphData();
   }
 
@@ -47,26 +55,13 @@ export class BudgetGraphComponent implements OnInit {
   private setIncreaseData(): void {
     this.increaseOptions = {
       responsive: true,
-      defaultFontFamily: 'Nunito Sans',
-      legend: {
-        display: false,
-      },
-      title: {
-        display: true,
-        text: 'Przyrost',
-        fontFamily: 'Nunito Sans',
+      plugins: {
+        legend: { display: false },
+        title: { display: true, text: 'Przyrost' },
       },
       scales: {
-        yAxes: [{
-          ticks: {
-            min: 0,
-          },
-          fontFamily: 'Nunito Sans',
-        }],
-        xAxes: [{
-          fontFamily: 'Nunito Sans',
-        }]
-      }
+        y: { min: 0 },
+      },
     };
     this.increaseDatasets = [
       {
@@ -82,21 +77,13 @@ export class BudgetGraphComponent implements OnInit {
   private setIncomesExpensesData(): void {
     this.incomesExpensesOptions = {
       responsive: true,
-      legend: {
-        display: false,
-      },
-      title: {
-        display: true,
-        text: 'Przychody i wydatki',
-        fontFamily: 'Nunito Sans',
+      plugins: {
+        legend: { display: false },
+        title: { display: true, text: 'Przychody i wydatki' },
       },
       scales: {
-        yAxes: [{
-          ticks: {
-            min: 10000,
-          }
-        }]
-      }
+        y: { min: 10000 },
+      },
     };
     this.incomesExpensesDatasets = [
       {
@@ -117,10 +104,10 @@ export class BudgetGraphComponent implements OnInit {
   }
 
   // events
-  public chartClicked(e: any): void {
+  chartClicked(e: unknown): void {
   }
 
-  public chartHovered(e: any): void {
+  chartHovered(e: unknown): void {
   }
 
 }

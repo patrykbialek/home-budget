@@ -1,10 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router, UrlSegment } from '@angular/router';
 
 import * as fromModels from '@home-budget/plans/models';
 import { PlansFacadeService } from '@home-budget/plans/services/plans-facade.service';
-import { combineLatest } from 'rxjs';
+import { Subject, combineLatest } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { BreadcrumbsItem } from '../../models/plan-breadcrumbs.model';
 import * as config from '../../shared/plans.config';
 
@@ -12,20 +13,22 @@ import * as config from '../../shared/plans.config';
   selector: 'hb-plan-details',
   templateUrl: './plan-details.component.html',
   styleUrls: ['./plan-details.component.scss'],
+  standalone: false
 })
 export class PlanDetailsComponent implements OnDestroy, OnInit {
-  form: FormGroup;
-  month: string;
+  form!: FormGroup;
+  month: string | undefined;
 
-  private isDataLoaded: boolean;
+  private isDataLoaded = false;
+  private readonly destroy$ = new Subject<void>();
 
-  constructor(
-    private readonly activatedRoute: ActivatedRoute,
-    private readonly plansFacadeService: PlansFacadeService,
-    private readonly router: Router,
-  ) { }
+  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly plansFacadeService = inject(PlansFacadeService);
+  private readonly router = inject(Router);
 
   ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
     this.resetBreadcrumbs();
   }
 
@@ -74,9 +77,11 @@ export class PlanDetailsComponent implements OnDestroy, OnInit {
       this.activatedRoute.url,
       this.activatedRoute.queryParams,
     ])
-      .subscribe((response: [UrlSegment[], fromModels.QueryParamsResponse]) => {
-        if (response && response[1].path) {
-          this.handleWhenPathIsPassed(response);
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((response) => {
+        const typed = response as [UrlSegment[], fromModels.QueryParamsResponse];
+        if (typed && typed[1].path) {
+          this.handleWhenPathIsPassed(typed);
           return;
         }
 

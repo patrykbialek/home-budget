@@ -1,33 +1,29 @@
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
-@import "~@angular/material/theming";
-// Plus imports for other components in your app.
+@use '@angular/material' as mat;
 
-// Include the common styles for Angular Material. We include this here so that you only
-// have to load a single css file for Angular Material in your app.
-// Be sure that you only ever include this mixin once!
-@include mat-core();
+@include mat.core();
 
-// Define the palettes for your theme using the Material Design palettes available in palette.scss
-// (imported above). For each palette, you can optionally specify a default, lighter, and darker
-// hue. Available color palettes: https://material.io/design/color/
-$app-admin-primary: mat-palette($mat-indigo);
-$app-admin-accent: mat-palette($mat-pink, A200, A100, A400);
+$app-admin-theme: mat.define-theme((
+  color: (
+    theme-type: light,
+    primary: mat.$azure-palette,
+    tertiary: mat.$cyan-palette,
+  ),
+  typography: (
+    plain-family: '"Nunito Sans", sans-serif',
+    brand-family: '"Nunito Sans", cursive',
+  ),
+  density: (scale: -1),
+));
 
-// The warn palette is optional (defaults to red).
-$app-admin-warn: mat-palette($mat-red);
+@include mat.all-component-themes($app-admin-theme);
 
-// Create the theme object (a Sass map containing all of the palettes).
-$app-admin-theme: mat-light-theme(
-  $app-admin-primary,
-  $app-admin-accent,
-  $app-admin-warn
-);
-
-// Include theme styles for core and each component used in your app.
-// Alternatively, you can import and @include the theme mixins for each component
-// that you are using.
-@include angular-material-theme($app-admin-theme);
+@include mat.tabs-overrides((
+  divider-height: 0px,
+  divider-color: transparent,
+  active-indicator-height: 0px,
+));
 
 /* ==========================================================================
    INUITCSS
@@ -110,8 +106,8 @@ $app-admin-theme: mat-light-theme(
 @import "settings/settings.config";
 @import "settings/settings.animations";
 
-$inuit-global-font-size: 10px;
-$inuit-global-line-height: 16px;
+$inuit-global-font-size: 16px;
+$inuit-global-line-height: 24px;
 @import "node_modules/inuitcss/settings/settings.core";
 
 @import "settings/settings.global";

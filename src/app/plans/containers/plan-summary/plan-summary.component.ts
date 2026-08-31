@@ -1,12 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router, UrlSegment } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
+import { map, switchMap, takeUntil, tap } from 'rxjs/operators';
 
 import * as config from '../../shared/plans.config';
 import * as fromModels from '@home-budget/plans/models';
 import { PlansFacadeService } from '../../services/plans-facade.service';
 import { AuthenticationFacadeService } from '@authentication/store';
-import { map, switchMap, tap } from 'rxjs/operators';
 
 import * as fromAuthModels from '@home-budget/authentication/models';
 import { CoreService } from '@home-budget/core/core.service';
@@ -15,41 +15,46 @@ import { CoreService } from '@home-budget/core/core.service';
   selector: 'hb-plan-summary',
   templateUrl: './plan-summary.component.html',
   styleUrls: ['./plan-summary.component.scss'],
+  standalone: false
 })
 export class PlanSummaryComponent implements OnDestroy, OnInit {
   displayedColumns: string[] = config.planColumns;
   dataSource: fromModels.DataSourceSummary[] = config.defaultDataSource;
-  isLoading: boolean;
+  isLoading = false;
+
+  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly authService = inject(AuthenticationFacadeService);
+  private readonly coreService = inject(CoreService);
+  private readonly plansFacadeService = inject(PlansFacadeService);
+  private readonly router = inject(Router);
 
   year$ = this.coreService.year$
     .pipe(
       tap((year: string) => this.handleOnYearChange(year)),
     );
 
-  private planType: string;
-  private subscription$: Subscription = new Subscription();
+  private planType: string | undefined;
+  private readonly destroy$ = new Subject<void>();
+  private dataSubscription: Subscription | undefined;
 
   private readonly main: string = 'plans';
-  private year: string;
-  private sourcePath: string;
-
-  constructor(
-    private readonly activatedRoute: ActivatedRoute,
-    private readonly authService: AuthenticationFacadeService,
-    private readonly coreService: CoreService,
-    private readonly plansFacadeService: PlansFacadeService,
-    private readonly router: Router,
-  ) { }
-
-  ngOnDestroy(): void {
-    this.subscription$.unsubscribe();
-  }
+  private year: string | undefined;
+  private sourcePath = '';
 
   ngOnInit(): void {
-
+    this.activatedRoute.url.pipe(
+      takeUntil(this.destroy$),
+    ).subscribe((segments: UrlSegment[]) => {
+      this.planType = segments[0]?.path;
+    });
   }
 
-  goToDetails(event: any): void {
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  goToDetails(event: fromModels.QueryParamsResponse): void {
     this.router.navigate([`./${this.main}/${this.planType}/details`], {
       queryParams: {
         path: `${event.path}`,
@@ -72,27 +77,18 @@ export class PlanSummaryComponent implements OnDestroy, OnInit {
   }
 
   readData(): void {
-    this.subscription$.add(
-      this.authService.user$
-        .pipe(
-          map((response: fromAuthModels.User) => response.uid),
-          switchMap((uid: string) => this.plansFacadeService.readData(this.sourcePath))
-        )
-        .subscribe((data: fromModels.DataEntry[]) => this.formData(data))
-    );
+    this.dataSubscription?.unsubscribe();
+    this.dataSubscription = this.authService.user$
+      .pipe(
+        map((response: fromAuthModels.User) => response.uid),
+        switchMap(() => this.plansFacadeService.readData(this.sourcePath)),
+        takeUntil(this.destroy$),
+      )
+      .subscribe((data: fromModels.DataEntry[]) => this.formData(data));
   }
 
   private setCommonDataLables(): void {
     this.plansFacadeService.setCommonDataLables();
-  }
-
-  private setPlanType(): void {
-    this.subscription$.add(
-      this.activatedRoute.url
-        .subscribe((response: UrlSegment[]) => {
-          this.planType = response[0].path;
-        })
-    );
   }
 
   private formData(data: fromModels.DataEntry[]): void {
@@ -103,7 +99,7 @@ export class PlanSummaryComponent implements OnDestroy, OnInit {
   }
 
   private get planConfig(): fromModels.PlanConfig {
-    return { year: this.year, type: this.planType };
+    return { year: this.year ?? '', type: this.planType ?? '' };
   }
 
   private handleOnYearChange(year: string) {
@@ -111,7 +107,6 @@ export class PlanSummaryComponent implements OnDestroy, OnInit {
     this.year = year;
     this.sourcePath = `${this.year}/entries`;
     this.setCommonDataLables();
-    this.setPlanType();
     this.readData();
   }
 }
