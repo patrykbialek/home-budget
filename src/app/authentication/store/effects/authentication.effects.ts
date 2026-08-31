@@ -1,4 +1,5 @@
 import { Injectable, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import * as fromModels from '@home-budget/authentication/models';
 import * as fromServices from '@home-budget/authentication/services';
@@ -12,6 +13,7 @@ export class AuthenticationEffects {
 
   private readonly actions$ = inject(Actions);
   private readonly authenticationService = inject(fromServices.AuthenticationHttpService);
+  private readonly router = inject(Router);
   private readonly snackBar = inject(MatSnackBar);
 
   loginUser$ = createEffect(() => this.actions$.pipe(ofType(fromActions.LOGIN_USER),
@@ -41,6 +43,7 @@ export class AuthenticationEffects {
         .logoutUser()
         .pipe(
           map(() => {
+            this.router.navigate(['/login']);
             return new fromActions.LogoutUserSuccess();
           }),
           catchError((error: fromModels.ErrorMessage) => {
