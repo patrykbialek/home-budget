@@ -1,10 +1,8 @@
 
-.mat-tab-link {
-  min-width: 84px!important;
-  padding: 0 8px;
-  height: 32px;
+button[mat-button] {
+  color: rgba(0, 0, 0, 0.87);
 }
 
-.u-router-link-active {
+button[mat-button].u-router-link-active {
   color: #1E88E5;
 }
