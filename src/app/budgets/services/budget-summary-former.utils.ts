@@ -41,6 +41,18 @@ function formTotal(data: fromModels.DataEntryPlanEntry): number {
   return total;
 }
 
+function formTotalAll(data: fromModels.DataEntryPlanEntry): number {
+  return Object.keys(data).reduce((total: number, key: string) => total + data[key].total, 0);
+}
+
+function formProjectTotal(data: fromModels.DataEntry[], config: fromModels.PlanConfig): number {
+  return data.reduce((total: number, entry: fromModels.DataEntry) => {
+    const incomeAll = formTotalAll(formEntry(entry, DataProperty.income, config));
+    const expenseAll = formTotalAll(formEntry(entry, DataProperty.expense, config));
+    return total + incomeAll - expenseAll;
+  }, 0);
+}
+
 function formRestTotal(entry: fromModels.DataSourceSummary): fromModels.DataSourceSummary {
   delete entry.order;
   return {
@@ -70,4 +82,5 @@ function formIncreaseTotal(
 
 export {
   formData,
+  formProjectTotal,
 };

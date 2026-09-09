@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import * as fromModels from '@home-budget/plans/models';
 import { Observable } from 'rxjs';
-import { formData } from './plan-summary-former.utils';
+import { formData, formProjectTotal } from './plan-summary-former.utils';
 import { PlansBreadcrumbsService } from './plans-breadcrumbs.service';
 import { PlansService } from './plans.service';
 
@@ -41,6 +41,10 @@ export class PlansFacadeService {
 
   formData(data: fromModels.DataEntry[], planConfig: fromModels.PlanConfig): fromModels.DataSourceSummary[] {
     return formData(data, planConfig);
+  }
+
+  formProjectTotal(data: fromModels.DataEntry[], planConfig: fromModels.PlanConfig): number {
+    return formProjectTotal(data, planConfig);
   }
 
   setCommonDataLables() {

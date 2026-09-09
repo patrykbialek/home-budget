@@ -21,6 +21,8 @@ export class PlanSummaryComponent implements OnDestroy, OnInit {
   dataSource: fromModels.DataSourceSummary[] = config.defaultDataSource;
   isLoading = false;
 
+  private rawData: fromModels.DataEntry[] = [];
+
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly authService = inject(AuthenticationFacadeService);
   private readonly coreService = inject(CoreService);
@@ -75,6 +77,14 @@ export class PlanSummaryComponent implements OnDestroy, OnInit {
     );
   }
 
+  get isExecutionTab(): boolean {
+    return this.planType === 'execution';
+  }
+
+  get dataSourceProjectTotal(): number {
+    return this.plansFacadeService.formProjectTotal(this.rawData, this.planConfig);
+  }
+
   readData(): void {
     this.dataSubscription?.unsubscribe();
     this.dataSubscription = this.authService.user$
@@ -91,6 +101,7 @@ export class PlanSummaryComponent implements OnDestroy, OnInit {
   }
 
   private formData(data: fromModels.DataEntry[]): void {
+    this.rawData = data;
     this.dataSource = this.plansFacadeService.formData(data, this.planConfig);
     setTimeout(() => {
       this.isLoading = false;

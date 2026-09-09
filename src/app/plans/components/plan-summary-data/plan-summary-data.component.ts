@@ -12,6 +12,8 @@ export class PlanSummaryDataComponent {
   dataLabels = input.required<{ [key: string]: string; }>();
   dataSource = input.required<fromModels.DataSourceSummary[]>();
   dataSourceTotal = input<number>(0);
+  dataSourceProjectTotal = input<number>(0);
+  isExecutionTab = input<boolean>(false);
   displayedColumns = input.required<string[]>();
   isLoading = input.required<boolean>();
 

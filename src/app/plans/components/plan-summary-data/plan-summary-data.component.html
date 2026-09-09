@@ -39,7 +39,22 @@
 </table>
 
 <div class="c-total o-grid u-margin-bottom">
-  <div class="o-grid__cell u-3/5"></div>
+  <div [class]="isExecutionTab() ? 'o-grid__cell u-1/5' : 'o-grid__cell u-3/5'"></div>
+  @if (isExecutionTab()) {
+    <div class="o-grid__cell u-2/5">
+      <div class="o-grid o-grid--flush o-block o-block--right u-border">
+        <div class="o-grid__cell u-border-bottom">
+          <span class="c-total__label u-text-large o-block u-padding-tiny">
+            <strong>Planowane</strong></span>
+        </div>
+        <div class="o-grid__cell">
+          <span class="c-plan-summary__total u-text-large u-text-bold o-block u-padding-tiny"
+            [ngClass]="{ 'u-is-loading': isLoading() }">
+            <strong>{{ dataSourceProjectTotal() | number: '.2-2' }}</strong></span>
+        </div>
+      </div>
+    </div>
+  }
   <div class="o-grid__cell u-2/5">
     <div class="o-grid o-grid--flush o-block o-block--right u-border">
       <div class="o-grid__cell u-border-bottom">
