@@ -126,7 +126,7 @@ function formLabels(data: fromModels.DataSourceDetails): fromModels.DataLabel[] 
       };
     })
     .sort((first: fromModels.DataLabel, last: fromModels.DataLabel) => first.order - last.order)
-    .filter((entry: fromModels.DataLabel) => !commonLabels.includes(entry.key))
+    .filter((entry: fromModels.DataLabel) => !commonLabels.includes(entry.key) && Boolean(entry.value))
     .map((entry: fromModels.DataLabel) => entry);
 }
 
