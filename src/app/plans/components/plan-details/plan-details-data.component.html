@@ -15,7 +15,7 @@
                 'c-column-number': column !== 'month',
                 'u-border-right': column === 'month' || column === 'total',
                 'u-is-loading': isLoading(),
-                'u-is-not-in-total': element[column].isInTotal === false
+                'u-is-not-in-total': element[column]?.isInTotal === false
               }">
               @if (column === 'month') {
                 <span>{{ dataLabels()[element[column]] }}</span>
