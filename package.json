@@ -28,7 +28,6 @@
     "@ngrx/store-devtools": "^20.1.0",
     "@ngx-translate/core": "^18.0.0",
     "@ngx-translate/http-loader": "^18.0.0",
-    "angularfire2": "^5.4.2",
     "chart.js": "^4.5.1",
     "firebase": "^11.10.0",
     "inuit-flexgrid": "^0.4.0",
