@@ -1,6 +1,6 @@
 import * as fromRouter from './router.actions';
 
-fdescribe('Router Actions', () => {
+describe('Router Actions', () => {
 
   describe('Go', () => {
     it('should create an action', () => {

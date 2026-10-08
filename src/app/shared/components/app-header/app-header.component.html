@@ -3,7 +3,7 @@
     @if (windowSize$ | async; as windowSize) {
       <mat-toolbar color="default" class="c-app-header__toolbar">
         <mat-toolbar-row>
-          <a class="u-margin-right" [routerLink]="['/plans']">
+          <a class="u-margin-right" [routerLink]="['/', year, 'plans']">
             <img src="../assets/images/home-budget-horizontal.svg" alt="logo" style="height: 36px;">
           </a>
           @if (year$ | async; as year) {
@@ -23,14 +23,14 @@
           @if (windowSize === 'desktop') {
             <button class="u-margin-left-tiny"
               mat-button
-              [routerLink]="['plans']"
+              [routerLink]="['/', year, 'plans']"
               routerLinkActive="u-router-link-active">
               <mat-icon class="u-margin-right-tiny">analytics</mat-icon>
               {{ 'HEADER.Plan' | translate }}
             </button>
             <button class="u-margin-left-tiny"
               mat-button
-              [routerLink]="['budgets']"
+              [routerLink]="['/', year, 'budgets']"
               routerLinkActive="u-router-link-active">
               <mat-icon class="u-margin-right-tiny">account_balance_wallet</mat-icon>
               {{ 'HEADER.Budget' | translate }}
@@ -49,11 +49,11 @@
             </button>
           }
           <mat-menu #userMenu="matMenu">
-            <button mat-menu-item [routerLink]="['plans']" routerLinkActive="u-router-link-active">
+            <button mat-menu-item [routerLink]="['/', year, 'plans']" routerLinkActive="u-router-link-active">
               <mat-icon>analytics</mat-icon>
               {{ 'HEADER.Plan' | translate }}
             </button>
-            <button mat-menu-item [routerLink]="['budgets']" routerLinkActive="u-router-link-active">
+            <button mat-menu-item [routerLink]="['/', year, 'budgets']" routerLinkActive="u-router-link-active">
               <mat-icon>account_balance_wallet</mat-icon>
               {{ 'HEADER.Budget' | translate }}
             </button>

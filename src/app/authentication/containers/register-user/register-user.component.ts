@@ -20,7 +20,6 @@ export class RegisterUserComponent extends CommonWithAnimationComponent implemen
   private formBuilder = inject(FormBuilder);
   private router = inject(Router);
 
-  afterSuccessRouteUrl = './plans';
   registerForm: FormGroup;
 
   ngOnInit(): void {
@@ -51,7 +50,7 @@ export class RegisterUserComponent extends CommonWithAnimationComponent implemen
         skip(1),
         filter(Boolean),
         take(1),
-        tap(() => this.router.navigate([this.afterSuccessRouteUrl])),
+        tap(() => this.router.navigate(['/', new Date().getFullYear().toString(), 'plans'])),
       ).subscribe();
   }
 

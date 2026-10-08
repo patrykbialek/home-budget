@@ -7,7 +7,7 @@
 // import * as fromSelectors from '../selectors/authentication.selector';
 // import { User } from '@authentication/models';
 
-// fdescribe('Authentication Selectors', () => {
+// describe('Authentication Selectors', () => {
 //   let store: Store<fromReducers.MainState>;
 
 //   const user: User = {

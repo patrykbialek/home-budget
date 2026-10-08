@@ -27,8 +27,6 @@ import { CoreModule } from './core/core.module';
 
 registerLocaleData(localePl, 'pl');
 
-const DEFAULT_YEAR = new Date().getFullYear().toString();
-
 export const MY_FORMATS = {
   parse: {
     dateInput: 'LL'
@@ -51,7 +49,7 @@ export const MY_FORMATS = {
     AppRoutingModule,
     BrowserAnimationsModule,
     BaseChartDirective,
-    CoreModule.forRoot({ year: DEFAULT_YEAR }),
+    CoreModule,
     StoreModule.forRoot(reducers, {
       runtimeChecks: {
         strictStateImmutability: false,

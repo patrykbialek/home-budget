@@ -46,7 +46,7 @@
 //   navigate: jasmine.createSpy('navigate'),
 // };
 
-// fdescribe('SetPasswordComponent', () => {
+// describe('SetPasswordComponent', () => {
 //   let component: SetPasswordComponent;
 //   let fixture: ComponentFixture<SetPasswordComponent>;
 

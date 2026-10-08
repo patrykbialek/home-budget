@@ -16,7 +16,7 @@
 //   uid: '',
 // };
 
-// fdescribe('Authentication Effects', () => {
+// describe('Authentication Effects', () => {
 //   let scheduler: TestScheduler;
 //   let authenticationEffects: AuthenticationEffects;
 //   let actions$: Observable<Action>;

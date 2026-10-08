@@ -1,46 +1,34 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { AngularFireModule } from '@angular/fire';
-import { AngularFireDatabaseModule } from '@angular/fire/database';
-import { ReactiveFormsModule } from '@angular/forms';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { getAuth, provideAuth } from '@angular/fire/auth';
+import { getDatabase, provideDatabase } from '@angular/fire/database';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AuthenticationStoreModule } from '@authentication/store/authentication-store.module';
+import { RouterTestingModule } from '@angular/router/testing';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { TranslateFakeLoader, TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
-import { CommonWithAnimationComponent, PageNotFoundComponent } from '@shared/components';
+import { provideTranslateService } from '@ngx-translate/core';
+import { PageNotFoundComponent } from '@shared/components';
 import { SharedModule } from '@shared/shared.module';
-import { AngularFireAuthModule } from 'angularfire2/auth';
 import { environment } from 'src/environments/environment';
-import { RouterTestingModule } from '@angular/router/testing';
 
-fdescribe('PageNotFoundComponent', () => {
+describe('PageNotFoundComponent', () => {
   let component: PageNotFoundComponent;
   let fixture: ComponentFixture<PageNotFoundComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ PageNotFoundComponent, CommonWithAnimationComponent ],
       imports: [
-        ReactiveFormsModule,
-        AngularFireModule.initializeApp(environment.firebase, 'home-budget'),
-        AngularFireDatabaseModule,
-        AngularFireAuthModule,
-        AuthenticationStoreModule,
-        EffectsModule.forRoot(),
-        StoreModule.forRoot({}),
-        SharedModule,
-
-        RouterTestingModule,
         BrowserAnimationsModule,
-        TranslateModule.forRoot({
-          loader: {
-            provide: TranslateLoader,
-            useClass: TranslateFakeLoader
-          }
-        }),
+        RouterTestingModule,
+        StoreModule.forRoot({}),
+        EffectsModule.forRoot(),
+        SharedModule,
       ],
       providers: [
-        TranslateService,
+        provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+        provideAuth(() => getAuth()),
+        provideDatabase(() => getDatabase()),
+        provideTranslateService(),
       ],
     })
     .compileComponents();

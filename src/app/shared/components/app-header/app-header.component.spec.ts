@@ -31,7 +31,7 @@
 //   }
 // }
 
-// fdescribe('AppHeaderComponent', () => {
+// describe('AppHeaderComponent', () => {
 //   let component: AppHeaderComponent;
 //   let fixture: ComponentFixture<AppHeaderComponent>;
 

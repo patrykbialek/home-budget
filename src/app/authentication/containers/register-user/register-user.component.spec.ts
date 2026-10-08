@@ -45,7 +45,7 @@
 //   navigate: jasmine.createSpy('navigate'),
 // };
 
-// fdescribe('RegisterUserComponent', () => {
+// describe('RegisterUserComponent', () => {
 //   let component: RegisterUserComponent;
 //   let fixture: ComponentFixture<RegisterUserComponent>;
 

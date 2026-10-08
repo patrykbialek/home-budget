@@ -2,7 +2,7 @@ import { TestBed, inject } from '@angular/core/testing';
 import { SharedUtilsService } from './shared-utils.service';
 import { WindowSize } from '@shared/models';
 
-fdescribe('SharedUtilsService', () => {
+describe('SharedUtilsService', () => {
   let service: SharedUtilsService;
 
   beforeEach(() => {

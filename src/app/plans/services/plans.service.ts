@@ -61,9 +61,18 @@ export class PlansService {
       .map((breadcrumb: BreadcrumbsItem) => {
         return {
           entry: breadcrumb.entry,
-          path: `${breadcrumb.path}/${breadcrumb.entry}/entries`,
+          path: this.withCurrentYear(`${breadcrumb.path}/${breadcrumb.entry}/entries`),
         };
       })[0];
+  }
+
+  // NOTE: data paths carry the year as their first segment; it is captured when
+  // entering the details view. When the year is switched (header) while staying
+  // on details, the write path must follow the current (URL) year, not the stale one.
+  private withCurrentYear(path: string): string {
+    const segments: string[] = path.split('/');
+    segments[0] = this.coreService.year;
+    return segments.join('/');
   }
 
   readData(sourcePath: string, uid?: string): Observable<any> {
@@ -139,7 +148,8 @@ export class PlansService {
   }
 
   private handleAfterEditDialogClose(form: FormGroup, isToDelete: boolean): void {
-    const { entry, isInTotal, label, notes, order, path, total } = form.value;
+    const { entry, isInTotal, label, notes, order, total } = form.value;
+    const path: string = this.withCurrentYear(form.value.path);
     this.setIsLoadingOn(true);
     if (isToDelete) {
       this.deleteEntry(path, entry);
@@ -214,6 +224,17 @@ export class PlansService {
     }, 450);
   }
 
+  // NOTE: new column keys are `${entry}NN`; derive the next index from the
+  // highest existing suffix (not the count) so a key is not reused after a
+  // column in the middle has been deleted.
+  private nextEntryIndex(entries: Record<string, unknown>, entry: string): number {
+    const indices: number[] = Object.keys(entries)
+      .filter((key: string) => key.startsWith(entry))
+      .map((key: string) => Number(key.slice(entry.length)))
+      .filter((index: number) => Number.isInteger(index));
+    return (indices.length ? Math.max(...indices) : 0) + 1;
+  }
+
   private addColumnToAllMonths(form: FormGroup): void {
     let path: string = this.currentEntries.path;
     const entry: string = this.currentEntries.entry;
@@ -238,7 +259,7 @@ export class PlansService {
           take(1),
           tap((raw) => {
             let entries = raw as Record<string, unknown>;
-            const lastIndex: number = Object.keys(entries).length + 1;
+            const lastIndex: number = this.nextEntryIndex(entries, entry);
             const key: string = `${entry}${formatdNumber(lastIndex)}`;
 
             if (form.value.hasEntries) {

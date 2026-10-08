@@ -1,6 +1,6 @@
 import { ApiErrors } from './api-errors.data';
 
-fdescribe('ApiErrors', () => {
+describe('ApiErrors', () => {
   const errorClass = ApiErrors;
 
   const messages = [

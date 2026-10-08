@@ -2,7 +2,7 @@ import * as fromAuthentication from './authentication.reducer';
 import * as fromActions from '../actions/authentication.actions';
 import { User } from '@authentication/models';
 
-fdescribe('AuthenticationReducer', () => {
+describe('AuthenticationReducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromAuthentication;

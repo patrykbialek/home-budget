@@ -12,7 +12,7 @@
 // import { AngularFireAuthModule } from 'angularfire2/auth';
 // import { environment } from 'src/environments/environment';
 
-// fdescribe('AuthenticationFormComponent', () => {
+// describe('AuthenticationFormComponent', () => {
 //   let component: AuthenticationFormComponent;
 //   let fixture: ComponentFixture<AuthenticationFormComponent>;
 

@@ -1,7 +1,7 @@
 import * as fromAuthentication from './authentication.actions';
 import { UserPayload } from '@authentication/models';
 
-fdescribe('Authentication Actions', () => {
+describe('Authentication Actions', () => {
 
   describe('SetUser Actions', () => {
     describe('SetUser', () => {

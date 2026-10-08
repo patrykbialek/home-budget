@@ -1,19 +1,32 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Injectable, inject } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { distinctUntilChanged, filter, map, startWith, shareReplay } from 'rxjs/operators';
 
-const DEFAULT_YEAR = new Date().getFullYear().toString();
+const YEAR_PATTERN = /^\d{4}$/;
 
-export class CoreServiceConfig {
-  year = DEFAULT_YEAR;
+function defaultYear(): string {
+  return new Date().getFullYear().toString();
 }
 
 @Injectable()
 export class CoreService {
-  private yearSource = new BehaviorSubject(localStorage.getItem('year') || DEFAULT_YEAR);
-  year$ = this.yearSource.asObservable();
+  private readonly router = inject(Router);
 
-  setYear(year: string) {
-    this.yearSource.next(year);
-    localStorage.setItem('year', year);
+  year$: Observable<string> = this.router.events.pipe(
+    filter((event) => event instanceof NavigationEnd),
+    startWith(null),
+    map(() => this.extractYear(this.router.url)),
+    distinctUntilChanged(),
+    shareReplay(1),
+  );
+
+  get year(): string {
+    return this.extractYear(this.router.url);
+  }
+
+  private extractYear(url: string): string {
+    const firstSegment = url.split('?')[0].split('/').filter(Boolean)[0];
+    return YEAR_PATTERN.test(firstSegment) ? firstSegment : defaultYear();
   }
 }

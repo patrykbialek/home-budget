@@ -21,7 +21,6 @@ export class LoginUserComponent extends CommonWithAnimationComponent implements 
   private readonly formBuilder = inject(FormBuilder);
   private readonly router = inject(Router);
 
-  afterSuccessRouteUrl = './plans';
   loginForm: FormGroup;
 
   private readonly destroy$ = new Subject<void>();
@@ -37,7 +36,7 @@ export class LoginUserComponent extends CommonWithAnimationComponent implements 
       .pipe(
         skip(1),
         filter(Boolean),
-        tap(() => this.router.navigate([this.afterSuccessRouteUrl])),
+        tap(() => this.router.navigate(['/', new Date().getFullYear().toString(), 'plans'])),
         takeUntil(this.destroy$),
       )
       .subscribe();

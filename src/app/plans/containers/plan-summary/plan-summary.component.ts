@@ -56,7 +56,7 @@ export class PlanSummaryComponent implements OnDestroy, OnInit {
   }
 
   goToDetails(event: fromModels.QueryParamsResponse): void {
-    this.router.navigate([`./${this.main}/${this.planType}/details`], {
+    this.router.navigate(['/', this.year, this.main, this.planType, 'details'], {
       queryParams: {
         path: `${event.path}`,
         type: event.type,

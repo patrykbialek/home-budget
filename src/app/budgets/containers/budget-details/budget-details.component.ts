@@ -6,6 +6,7 @@ import { Subject, combineLatest } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { BudgetsFacadeService } from '@budgets/services/budgets-facade.service';
+import { CoreService } from '@home-budget/core/core.service';
 
 import * as fromModels from '@budgets/models';
 import { BreadcrumbsItem } from '@budgets/models/plan-breadcrumbs.model';
@@ -26,6 +27,7 @@ export class BudgetDetailsComponent implements OnDestroy, OnInit {
 
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly budgetsFacadeService = inject(BudgetsFacadeService);
+  private readonly coreService = inject(CoreService);
   private readonly router = inject(Router);
 
   ngOnDestroy(): void {
@@ -109,7 +111,7 @@ export class BudgetDetailsComponent implements OnDestroy, OnInit {
       entry,
       label: this.dataLabels[entry],
       hasEntries: true,
-      href: `./${this.main}/${entry}`,
+      href: `/${this.coreService.year}/${this.main}/${entry}`,
       isCurrent: false,
       path: null,
     };

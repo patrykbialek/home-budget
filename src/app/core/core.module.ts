@@ -1,8 +1,8 @@
-import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
+import { NgModule, Optional, SkipSelf } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 
-import { CoreService, CoreServiceConfig } from './core.service';
+import { CoreService } from './core.service';
 
 @NgModule({
   imports: [CommonModule],
@@ -14,14 +14,5 @@ export class CoreModule {
       throw new Error(
         'CoreModule is already loaded. Import it in the AppModule only');
     }
-  }
-
-  static forRoot(config: CoreServiceConfig): ModuleWithProviders<CoreModule> {
-    return {
-      ngModule: CoreModule,
-      providers: [
-        { provide: CoreServiceConfig, useValue: config }
-      ]
-    };
   }
 }

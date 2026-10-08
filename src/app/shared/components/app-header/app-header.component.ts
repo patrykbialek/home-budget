@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
 import { AuthenticationFacadeService } from '@home-budget/authentication/store';
@@ -17,6 +18,7 @@ export class AppHeaderComponent {
   private readonly authService = inject(AuthenticationFacadeService);
   private readonly coreService = inject(CoreService);
   private readonly plansHttpService = inject(PlansHttpService);
+  private readonly router = inject(Router);
   private readonly sharedUtilsService = inject(SharedUtilsService);
   private readonly translateService = inject(TranslateService);
 
@@ -39,11 +41,16 @@ export class AppHeaderComponent {
         : 'PL';
   }
 
+  get year(): string {
+    return this.coreService.year;
+  }
+
   onLogout() {
     this.authService.logoutUserFromContainer();
   }
 
   setYear(year: string) {
-    this.coreService.setYear(year);
+    const rest = this.router.url.split('?')[0].split('/').filter(Boolean).slice(1);
+    this.router.navigate(['/', year, ...rest]);
   }
 }

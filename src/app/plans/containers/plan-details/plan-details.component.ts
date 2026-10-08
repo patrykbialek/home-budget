@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router, UrlSegment } from '@angular/router';
 
+import { CoreService } from '@home-budget/core/core.service';
 import * as fromModels from '@home-budget/plans/models';
 import { PlansFacadeService } from '@home-budget/plans/services/plans-facade.service';
 import { Subject, combineLatest } from 'rxjs';
@@ -23,6 +24,7 @@ export class PlanDetailsComponent implements OnDestroy, OnInit {
   private readonly destroy$ = new Subject<void>();
 
   private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly coreService = inject(CoreService);
   private readonly plansFacadeService = inject(PlansFacadeService);
   private readonly router = inject(Router);
 
@@ -107,7 +109,7 @@ export class PlanDetailsComponent implements OnDestroy, OnInit {
       entry,
       label: this.dataLabels[entry],
       hasEntries: true,
-      href: `./plans/${entry}`,
+      href: `/${this.coreService.year}/plans/${entry}`,
       isCurrent: false,
       path: null,
     };

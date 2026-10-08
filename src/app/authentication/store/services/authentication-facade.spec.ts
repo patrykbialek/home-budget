@@ -13,7 +13,7 @@
 //   StoreModule.forRoot({})
 // ];
 
-// fdescribe('AuthenticationFacadeService', () => {
+// describe('AuthenticationFacadeService', () => {
 //   let service: AuthenticationFacadeService;
 
 //   beforeEach(() => {
