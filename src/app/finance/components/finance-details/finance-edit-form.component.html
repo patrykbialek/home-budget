@@ -1,0 +1,83 @@
+<h2 mat-dialog-title>
+  Edytuj
+  <span class="u-margin-left-tiny u-margin-right-tiny">
+    <mat-icon class="c-title__separator u-text-tiny">keyboard_arrow_right</mat-icon>
+  </span>
+  {{ dataLabels[monthControl.value] | titlecase }}
+  <span class="u-margin-left-tiny u-margin-right-tiny">
+    <mat-icon class="c-title__separator u-text-tiny">keyboard_arrow_right</mat-icon>
+  </span>
+  {{ dataLabels[entryControl.value] | titlecase }}</h2>
+<form [formGroup]="form" (ngSubmit)="save()">
+  <mat-dialog-content>
+    <div class="o-grid o-grid--auto o-grid--start u-text-normal">
+      <div class="o-grid__cell">
+        <mat-form-field appearance="outline" class="o-block o-block--left u-margin-bottom-small c-custom-suffix">
+          <mat-label>{{ 'Razem' | titlecase }}</mat-label>
+          <input matInput formControlName="total" type="number" min="0" onfocus="this.select();" class="u-type-number u-text-right-align">
+          <span matTextSuffix>PLN</span>
+          @if (form.get('total').hasError('required')) {
+            <mat-error>Pole wymagane.</mat-error>
+          }
+          @if (form.get('total').hasError('pattern')) {
+            <mat-error>Nieprawidłowa wartość.</mat-error>
+          }
+        </mat-form-field>
+
+        <div class="u-margin-top-small u-margin-bottom">
+          <mat-slide-toggle [checked]="isMoreShown" (change)="toggleIsMoreShown()" tabindex="-1">
+            <ng-container>Więcej danych</ng-container>
+          </mat-slide-toggle>
+        </div>
+
+        @if (isMoreShown) {
+          <div [@enterAnimation] class="c-finance-edit-form__more-data">
+            <div class="o-grid">
+              <div class="o-grid__cell u-5/7">
+                <mat-form-field appearance="outline" class="o-block o-block--left u-margin-bottom-small">
+                  <mat-label>{{ 'Etykieta' | titlecase }}</mat-label>
+                  <input matInput formControlName="label">
+                  @if (form.get('label').hasError('required')) {
+                    <mat-error>Pole wymagane.</mat-error>
+                  }
+                </mat-form-field>
+              </div>
+              <div class="o-grid__cell u-2/7">
+                <mat-form-field appearance="outline" class="o-block o-block--left u-margin-bottom-small">
+                  <mat-label>{{ 'Kolejność' | titlecase }}</mat-label>
+                  <input matInput formControlName="order" type="number">
+                  @if (form.get('order').hasError('required')) {
+                    <mat-error>Pole wymagane.</mat-error>
+                  }
+                </mat-form-field>
+              </div>
+            </div>
+            <mat-form-field appearance="outline" class="o-block o-block--left">
+              <mat-label>{{ 'Notatki' | titlecase }}</mat-label>
+              <textarea matInput formControlName="notes"></textarea>
+            </mat-form-field>
+            <div class="o-block o-block--left u-margin-bottom">
+              <mat-slide-toggle formControlName="isInTotal">Dodaj do sumy (razem)</mat-slide-toggle>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end" style="display: flex;">
+    <button mat-button type="button" (click)="toggleIsDeleteButtonShown()" tabindex="-1">
+      @if (!isDeleteButtonShown) {
+        <span class="u-text-error">USUŃ</span>
+      } @else {
+        <span>ANULUJ</span>
+      }
+    </button>
+    @if (isDeleteButtonShown) {
+      <button mat-flat-button color="red" type="button" (click)="delete()">USUŃ</button>
+    } @else {
+      <div class="c-actions-separator u-border-right u-margin-right-tiny u-padding-right-tiny">&nbsp;</div>
+      <button mat-button type="button" [mat-dialog-close]="null">ANULUJ</button>
+      <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid" (click)="save()">ZAPISZ</button>
+    }
+  </mat-dialog-actions>
+</form>

@@ -24,7 +24,7 @@
       "@authentication/*": ["src/app/authentication/*"],
       "@shared/*": ["src/app/shared/*"],
       "@home-budget/*": ["src/app/*"],
-      "@budget/*": ["src/app/budget/*"]
+      "@finance/*": ["src/app/finance/*"]
     }
   },
   "angularCompilerOptions": {

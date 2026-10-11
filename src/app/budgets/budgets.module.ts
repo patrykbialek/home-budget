@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
 
-import { BUDGET_FEATURE_CONFIG } from '@home-budget/budget/budget-feature.config';
-import { BudgetFeatureModule } from '@home-budget/budget/budget-feature.module';
+import { FINANCE_FEATURE_CONFIG } from '@home-budget/finance/finance-feature.config';
+import { FinanceFeatureModule } from '@home-budget/finance/finance-feature.module';
 
 import { BudgetsRoutingModule } from './budgets-routing.module';
 
 @NgModule({
   imports: [
-    BudgetFeatureModule,
+    FinanceFeatureModule,
     BudgetsRoutingModule,
   ],
   providers: [
-    { provide: BUDGET_FEATURE_CONFIG, useValue: { collection: 'budgets', i18nPrefix: 'BUDGET' } },
+    { provide: FINANCE_FEATURE_CONFIG, useValue: { collection: 'budgets', i18nPrefix: 'BUDGET' } },
   ],
 })
 export class BudgetsModule { }
