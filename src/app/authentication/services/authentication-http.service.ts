@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import {
   Auth,
-  User,
+  User as FirebaseUser,
   UserCredential,
   authState,
   confirmPasswordReset,
@@ -11,8 +11,8 @@ import {
   signOut,
   updateProfile,
 } from '@angular/fire/auth';
-import { Database, objectVal, ref, set } from '@angular/fire/database';
-import * as fromModels from '@home-budget/authentication/models';
+import { Database, ref, set } from '@angular/fire/database';
+import { PasswordReset, PasswordSet, User, UserLogin, UserRegister } from '@home-budget/authentication/models';
 import { Observable, from, of } from 'rxjs';
 
 export interface Credentials {
@@ -28,16 +28,16 @@ export class AuthenticationHttpService {
   private db = inject(Database);
   private fireAuth = inject(Auth);
 
-  readonly authState$: Observable<User | null> = authState(this.fireAuth);
+  readonly authState$: Observable<FirebaseUser | null> = authState(this.fireAuth);
 
-  setUser(payload: fromModels.User) {
+  setUser(payload: User) {
     return of(payload);
   }
 
-  loginUser({ email, password }: fromModels.UserLogin) {
+  loginUser({ email, password }: UserLogin) {
     const callback = signInWithEmailAndPassword(this.fireAuth, email, password)
       .then((response: UserCredential) => {
-        const user: fromModels.User = response.user;
+        const user: FirebaseUser = response.user;
         return {
           displayName: user.displayName,
           email: user.email,
@@ -51,7 +51,7 @@ export class AuthenticationHttpService {
     return from(signOut(this.fireAuth));
   }
 
-  registerUser({ email, name, password }: fromModels.UserRegister) {
+  registerUser({ email, name, password }: UserRegister) {
     const callback = createUserWithEmailAndPassword(this.fireAuth, email, password)
       .then(async response => {
         const uid = response.user.uid;
@@ -63,11 +63,11 @@ export class AuthenticationHttpService {
     return from(callback);
   }
 
-  resetPassword({ email }: fromModels.PasswordReset) {
+  resetPassword({ email }: PasswordReset) {
     return from(sendPasswordResetEmail(this.fireAuth, email));
   }
 
-  setPassword({ oobCode, newPassword }: fromModels.PasswordSet) {
+  setPassword({ oobCode, newPassword }: PasswordSet) {
     return from(confirmPasswordReset(this.fireAuth, oobCode, newPassword));
   }
 }

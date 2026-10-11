@@ -5,7 +5,7 @@ import {
   input,
   output,
 } from '@angular/core';
-import * as fromModels from '@home-budget/finance/models';
+import { DataLabels, DataSourceDetails, DataSourceDetailsEntry, FinanceEntry } from '@home-budget/finance/models';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatFooterCellDef, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatFooterRowDef, MatFooterRow } from '@angular/material/table';
 import { NgClass, DecimalPipe } from '@angular/common';
@@ -20,28 +20,28 @@ import { AppSpinnerComponent } from '../../../shared/components/app-spinner/app-
   imports: [MatCard, MatCardContent, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, NgClass, MatCellDef, MatCell, MatTooltip, MatFooterCellDef, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatFooterRowDef, MatFooterRow, AppSpinnerComponent, DecimalPipe]
 })
 export class FinanceDetailsDataComponent {
-  dataLabels = input.required<fromModels.DataLabels>();
-  dataSource = input.required<fromModels.DataSourceDetails[]>();
-  dataSourceFooter = input.required<fromModels.DataSourceDetails>();
+  dataLabels = input.required<DataLabels>();
+  dataSource = input.required<DataSourceDetails[]>();
+  dataSourceFooter = input.required<DataSourceDetails>();
   displayedColumns = input.required<string[]>();
   isLoading = input.required<boolean>();
 
-  editFinanceEntry = output<fromModels.FinanceEntry>();
-  goToDetails = output<fromModels.FinanceEntry>();
+  editFinanceEntry = output<FinanceEntry>();
+  goToDetails = output<FinanceEntry>();
 
   @HostListener('contextmenu', ['$event'])
   onRightClick(event) {
     event.preventDefault();
   }
 
-  onGoToDetails(element: fromModels.DataSourceDetails, elementValue: fromModels.DataSourceDetailsEntry): void {
+  onGoToDetails(element: DataSourceDetails, elementValue: DataSourceDetailsEntry): void {
     let entry: string;
     Object.keys(element).forEach((key: string) => {
       if (element[key] === elementValue) {
         entry = key;
       }
     });
-    const financeEntry: fromModels.FinanceEntry = {
+    const financeEntry: FinanceEntry = {
       entry,
       hasEntries: elementValue.hasEntries,
       isInTotal: elementValue.isInTotal,
@@ -58,14 +58,14 @@ export class FinanceDetailsDataComponent {
       : this.editFinanceEntry.emit(financeEntry);
   }
 
-  onEditFinanceEntry(element: fromModels.DataSourceDetails, elementValue: fromModels.DataSourceDetailsEntry): void {
+  onEditFinanceEntry(element: DataSourceDetails, elementValue: DataSourceDetailsEntry): void {
     let entry: string;
     Object.keys(element).forEach((key: string) => {
       if (element[key] === elementValue) {
         entry = key;
       }
     });
-    const financeEntry: fromModels.FinanceEntry = {
+    const financeEntry: FinanceEntry = {
       entry,
       hasEntries: elementValue.hasEntries,
       isInTotal: elementValue.isInTotal,

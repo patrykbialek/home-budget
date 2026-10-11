@@ -1,8 +1,8 @@
-import * as fromModels from '@home-budget/authentication/models';
+import { User } from '@home-budget/authentication/models';
 import * as fromAuthentication from '@home-budget/authentication/store/actions/authentication.actions';
 
 export interface AuthenticationState {
-  entity: fromModels.User;
+  entity: User;
   isFailed: boolean;
   isLoading: boolean;
   isSuccess: boolean;

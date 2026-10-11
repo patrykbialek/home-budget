@@ -2,10 +2,10 @@ import { Component, OnInit, input } from '@angular/core';
 import { ChartOptions } from 'chart.js';
 
 import * as config from '../../shared/finance.config';
-import * as fromModels from '@home-budget/finance/models';
+import { DataSourceSummary, FinanceGraphConfig, MonthLabel } from '@home-budget/finance/models';
 import { BaseChartDirective } from 'ng2-charts';
 
-const financeChartOption: Partial<fromModels.FinanceGraphConfig> = {
+const financeChartOption: Partial<FinanceGraphConfig> = {
   backgroundColor: config.chartOption.color.transparent,
   label: '',
   pointHoverRadius: 7,
@@ -30,21 +30,21 @@ export class FinanceGraphComponent implements OnInit {
   chartLabels: Array<string> = [];
   chartType: string = 'line';
   data: GraphData | undefined;
-  incomesExpensesDatasets: Array<Partial<fromModels.FinanceGraphConfig>> = [];
+  incomesExpensesDatasets: Array<Partial<FinanceGraphConfig>> = [];
   incomesExpensesOptions: ChartOptions | undefined;
-  increaseDatasets: Array<Partial<fromModels.FinanceGraphConfig>> = [];
+  increaseDatasets: Array<Partial<FinanceGraphConfig>> = [];
   increaseOptions: ChartOptions | undefined;
 
-  dataSource = input.required<fromModels.DataSourceSummary[]>();
+  dataSource = input.required<DataSourceSummary[]>();
 
   ngOnInit(): void {
     this.data = {
-      expenses: this.dataSource().map((data: fromModels.DataSourceSummary) => data.expense),
-      incomes: this.dataSource().map((data: fromModels.DataSourceSummary) => data.income),
-      increase: this.dataSource().map((data: fromModels.DataSourceSummary) => data.increase),
+      expenses: this.dataSource().map((data: DataSourceSummary) => data.expense),
+      incomes: this.dataSource().map((data: DataSourceSummary) => data.income),
+      increase: this.dataSource().map((data: DataSourceSummary) => data.increase),
     };
     this.chartLabels = Object.keys(config.monthLabel)
-      .map((key: string) => config.monthLabel[key as keyof fromModels.MonthLabel].short ?? '');
+      .map((key: string) => config.monthLabel[key as keyof MonthLabel].short ?? '');
     this.setGraphData();
   }
 

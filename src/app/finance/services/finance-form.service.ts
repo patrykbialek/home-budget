@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import * as fromModels from '@home-budget/finance/models';
+import { FinanceEntry } from '@home-budget/finance/models';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Injectable()
 export class FinanceFormService {
-  buildEditForm(financeEntry: fromModels.FinanceEntry): FormGroup {
+  buildEditForm(financeEntry: FinanceEntry): FormGroup {
     const numberRegEx: RegExp = /^\d+([.,]\d{0,2})?$/;
 
     return new FormGroup({

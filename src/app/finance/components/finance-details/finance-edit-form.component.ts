@@ -2,7 +2,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose } from '@angular/material/dialog';
-import * as fromModels from '@home-budget/finance/models';
+import { DataLabels } from '@home-budget/finance/models';
 import { DataProperty } from '@home-budget/finance/models/finance.enum';
 import { MatIcon } from '@angular/material/icon';
 import { CdkScrollable } from '@angular/cdk/scrolling';
@@ -33,10 +33,10 @@ import { TitleCasePipe } from '@angular/common';
 })
 export class FinanceEditFormComponent {
   dialogRef = inject(MatDialogRef<FinanceEditFormComponent>);
-  data: { form: FormGroup; dataLabels: fromModels.DataLabels; } = inject(MAT_DIALOG_DATA);
+  data: { form: FormGroup; dataLabels: DataLabels; } = inject(MAT_DIALOG_DATA);
 
   category: string | undefined;
-  dataLabels: fromModels.DataLabels = this.data.dataLabels;
+  dataLabels: DataLabels = this.data.dataLabels;
   form: FormGroup = this.data.form;
   isDeleteButtonShown = false;
   isMoreShown: boolean = false;

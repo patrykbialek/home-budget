@@ -1,6 +1,6 @@
 import { Component, inject, input, output } from '@angular/core';
 
-import * as fromModels from '@home-budget/finance/models';
+import { DataSourceSummary, QueryParamsResponse } from '@home-budget/finance/models';
 import { FINANCE_FEATURE_CONFIG } from '@home-budget/finance/finance-feature.config';
 import { MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
 import { NgClass, DecimalPipe } from '@angular/common';
@@ -16,16 +16,16 @@ export class FinanceSummaryDataComponent {
   readonly i18nPrefix = inject(FINANCE_FEATURE_CONFIG).i18nPrefix;
 
   dataLabels = input.required<{ [key: string]: string; }>();
-  dataSource = input.required<fromModels.DataSourceSummary[]>();
+  dataSource = input.required<DataSourceSummary[]>();
   dataSourceTotal = input<number>(0);
   dataSourceProjectTotal = input<number>(0);
   isExecutionTab = input<boolean>(false);
   displayedColumns = input.required<string[]>();
   isLoading = input.required<boolean>();
 
-  goToDetails = output<fromModels.QueryParamsResponse>();
+  goToDetails = output<QueryParamsResponse>();
 
-  onGoToDetails(element: fromModels.DataSourceSummary, type: string): void {
+  onGoToDetails(element: DataSourceSummary, type: string): void {
     const month: string = element.month;
     const path: string = element.path;
     this.goToDetails.emit({ month, path, type, });

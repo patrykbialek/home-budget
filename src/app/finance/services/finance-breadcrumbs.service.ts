@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { BreadcrumbsItem } from '../models/finance-breadcrumbs.model';
-import * as fromModels from '@home-budget/finance/models';
+import { DataLabels, FinanceEntry } from '@home-budget/finance/models';
 
 @Injectable()
 export class FinanceBreadcrumbsService {
@@ -11,7 +11,7 @@ export class FinanceBreadcrumbsService {
     this.breadcrumbs = [];
   }
 
-  formBreadcrumbs(financeEntry: fromModels.FinanceEntry, dataLabels: fromModels.DataLabels): void {
+  formBreadcrumbs(financeEntry: FinanceEntry, dataLabels: DataLabels): void {
     const item: BreadcrumbsItem = {
       entry: financeEntry.entry,
       hasEntries: financeEntry.hasEntries,

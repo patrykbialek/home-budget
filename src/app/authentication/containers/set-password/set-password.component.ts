@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import * as fromModels from '@home-budget/authentication/models';
+import { PasswordSet } from '@home-budget/authentication/models';
 import * as fromServices from '@home-budget/authentication/store/services';
 import { CommonWithAnimationComponent } from '@home-budget/shared/components';
 import { filter, skip, take, tap } from 'rxjs/operators';
@@ -48,7 +48,7 @@ export class SetPasswordComponent extends CommonWithAnimationComponent implement
   }
 
   setPassword(event: FormGroup) {
-    const payload: fromModels.PasswordSet = {
+    const payload: PasswordSet = {
       newPassword: event.value.password,
       oobCode: this.code,
     };

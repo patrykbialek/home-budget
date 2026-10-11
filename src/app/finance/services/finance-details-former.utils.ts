@@ -1,18 +1,18 @@
-import * as fromModels from '@home-budget/finance/models';
+import { DataItem, DataLabel, DataSourceDetails, DataSourceDetailsEntry, FinanceEntry } from '@home-budget/finance/models';
 import * as _ from 'lodash';
 import { months } from '../shared/finance.config';
 const commonLabels: string[] = ['month', 'monthId', 'order', 'path', 'parentPath', 'total'];
 
-function formData(financeEntry: fromModels.FinanceEntry, data: fromModels.DataItem[]): fromModels.DataSourceDetails[] {
+function formData(financeEntry: FinanceEntry, data: DataItem[]): DataSourceDetails[] {
   return data
-    .sort((first: fromModels.DataItem, last: fromModels.DataItem) => first.order - last.order)
-    .map((entry: fromModels.DataItem) => mapData(entry, financeEntry));
+    .sort((first: DataItem, last: DataItem) => first.order - last.order)
+    .map((entry: DataItem) => mapData(entry, financeEntry));
 }
 
-function mapData(entry: fromModels.DataItem, financeEntry: fromModels.FinanceEntry): fromModels.DataSourceDetails {
+function mapData(entry: DataItem, financeEntry: FinanceEntry): DataSourceDetails {
   const dataSourceEntryPath: string = `${financeEntry.path}/${financeEntry.entry}/entries`;
   const total: number = 0;
-  let dataItem: fromModels.DataSourceDetails = {
+  let dataItem: DataSourceDetails = {
     month: entry.key,
     order: entry.order,
     path: dataSourceEntryPath,
@@ -20,7 +20,7 @@ function mapData(entry: fromModels.DataItem, financeEntry: fromModels.FinanceEnt
   };
 
   const dataItemEntries: {
-    dataItem: fromModels.DataSourceDetails; total: number;
+    dataItem: DataSourceDetails; total: number;
   } = formDataItemEntries(total, dataItem, financeEntry, entry, dataSourceEntryPath);
   dataItem = {
     ...dataItemEntries.dataItem,
@@ -31,12 +31,12 @@ function mapData(entry: fromModels.DataItem, financeEntry: fromModels.FinanceEnt
 
 function formDataItemEntries(
   total: number,
-  dataItem: fromModels.DataSourceDetails,
-  financeEntry: fromModels.FinanceEntry,
-  entry: fromModels.DataItem,
+  dataItem: DataSourceDetails,
+  financeEntry: FinanceEntry,
+  entry: DataItem,
   dataSourceEntryPath: string,
-): { dataItem: fromModels.DataSourceDetails; total: number; } {
-  const entries: { [key: string]: fromModels.DataSourceDetailsEntry; } = formEntries(financeEntry, entry);
+): { dataItem: DataSourceDetails; total: number; } {
+  const entries: { [key: string]: DataSourceDetailsEntry; } = formEntries(financeEntry, entry);
   Object.keys(entries)
     .forEach((key: string) => {
       if (entries[key].isInTotal) {
@@ -59,18 +59,18 @@ function formDataItemEntries(
 }
 
 function formEntries(
-  financeEntry: fromModels.FinanceEntry,
-  entry: fromModels.DataItem,
-): { [key: string]: fromModels.DataSourceDetailsEntry; } {
+  financeEntry: FinanceEntry,
+  entry: DataItem,
+): { [key: string]: DataSourceDetailsEntry; } {
   const path1: string[] = financeEntry.path.substring(18, financeEntry.path.length).split('/');
   const path2: string = path1.join('.').concat(`.${financeEntry.entry}.entries`);
   const path3: string = path2.substring(1, path2.length);
   return _.get(entry, path3);
 }
 
-function formDataFooter(dataSource: fromModels.DataSourceDetails[]): fromModels.DataSourceDetails {
+function formDataFooter(dataSource: DataSourceDetails[]): DataSourceDetails {
   const commonColumns: string[] = ['month', 'order', 'path', 'parentPath'];
-  let rowTotals: fromModels.DataSourceDetails = {
+  let rowTotals: DataSourceDetails = {
     isInTotal: false,
     month: 'total',
     total: 0,
@@ -88,7 +88,7 @@ function formDataFooter(dataSource: fromModels.DataSourceDetails[]): fromModels.
     });
 
   // NOTE: calculate totals
-  dataSource.forEach((entry: fromModels.DataSourceDetails) => {
+  dataSource.forEach((entry: DataSourceDetails) => {
     Object.keys(entry).forEach((key: string) => {
       if (key !== 'isInTotal' && entry[key].total >= 0 && entry[key] && rowTotals[key]) {
         const total: number = rowTotals[key].total + entry[key].total;
@@ -116,7 +116,7 @@ function formDataFooter(dataSource: fromModels.DataSourceDetails[]): fromModels.
   return rowTotals;
 }
 
-function formLabels(data: fromModels.DataSourceDetails): fromModels.DataLabel[] {
+function formLabels(data: DataSourceDetails): DataLabel[] {
   return Object.keys(data)
     .map((key: string) => {
       return {
@@ -125,18 +125,18 @@ function formLabels(data: fromModels.DataSourceDetails): fromModels.DataLabel[] 
         value: data[key].label as string,
       };
     })
-    .sort((first: fromModels.DataLabel, last: fromModels.DataLabel) => first.order - last.order)
-    .filter((entry: fromModels.DataLabel) => !commonLabels.includes(entry.key) && Boolean(entry.value))
-    .map((entry: fromModels.DataLabel) => entry);
+    .sort((first: DataLabel, last: DataLabel) => first.order - last.order)
+    .filter((entry: DataLabel) => !commonLabels.includes(entry.key) && Boolean(entry.value))
+    .map((entry: DataLabel) => entry);
 }
 
 function formatNumber(index: number): string {
   return ('0' + index).slice(-2);
 }
 
-function formPathForDeleteEntry(path: string, entry: fromModels.FinanceEntry): string {
+function formPathForDeleteEntry(path: string, entry: FinanceEntry): string {
   let updatedPath: string = `${path}/${entry}`;
-  months.forEach((month: fromModels.DataLabel) => {
+  months.forEach((month: DataLabel) => {
     updatedPath = updatedPath.replace(month.key, 'month');
   });
   return updatedPath;

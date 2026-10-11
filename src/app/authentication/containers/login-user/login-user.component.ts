@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import * as fromModels from '@home-budget/authentication/models';
+import { UserLogin } from '@home-budget/authentication/models';
 import * as fromServices from '@home-budget/authentication/services';
 import * as fromStoreServices from '@home-budget/authentication/store/services';
 import { CommonWithAnimationComponent } from '@home-budget/shared/components';
@@ -57,7 +57,7 @@ export class LoginUserComponent extends CommonWithAnimationComponent implements 
   }
 
   loginUser(event: FormGroup) {
-    const payload: fromModels.UserLogin = event.value;
+    const payload: UserLogin = event.value;
     this.authenticationService.loginUser(payload);
   }
 }

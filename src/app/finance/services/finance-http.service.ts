@@ -6,7 +6,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { Auth, authState } from '@angular/fire/auth';
 import { Database, list, object, objectVal, ref, remove, update } from '@angular/fire/database';
 
-import * as fromModels from '@home-budget/finance/models';
+import { DataEntry, UpdatePayload } from '@home-budget/finance/models';
 
 /**
  * Stateless Firebase I/O for the finance feature. Provided in root so the global
@@ -42,7 +42,7 @@ export class FinanceHttpService {
     return runInInjectionContext(this.injector, () => objectVal(ref(this.db, path)));
   }
 
-  readData(collection: string, sourcePath?: string, uid = this.uid()): Observable<fromModels.DataEntry[]> {
+  readData(collection: string, sourcePath?: string, uid = this.uid()): Observable<DataEntry[]> {
     const path = `/workspaces/${uid}/${collection}/${sourcePath}`;
     return runInInjectionContext(this.injector, () => list(ref(this.db, path))).pipe(
       map(changes => changes.map(change => ({
@@ -79,19 +79,19 @@ export class FinanceHttpService {
     return from(update(ref(this.db, path), payload));
   }
 
-  updateEntry(collection: string, payload: fromModels.UpdatePayload): Observable<void> {
+  updateEntry(collection: string, payload: UpdatePayload): Observable<void> {
     const { entry, isInTotal, label, notes, path, order, total } = payload;
     const updatedPath = `/workspaces/${this.uid()}/${collection}/${path}/${entry}`;
     return from(update(ref(this.db, updatedPath), { isInTotal, label, notes, order, total }));
   }
 
-  updateEntryLabel(collection: string, payload: fromModels.UpdatePayload): Observable<void> {
+  updateEntryLabel(collection: string, payload: UpdatePayload): Observable<void> {
     const { entry, label, path } = payload;
     const updatedPath = `/workspaces/${this.uid()}/${collection}/${path}/${entry}`;
     return from(update(ref(this.db, updatedPath), { label }));
   }
 
-  updateParentEntry(collection: string, payload: fromModels.UpdatePayload): Observable<void> {
+  updateParentEntry(collection: string, payload: UpdatePayload): Observable<void> {
     const { entry, path, total } = payload;
     const updatedPath = `/workspaces/${this.uid()}/${collection}/${path}/${entry}`;
     return from(update(ref(this.db, updatedPath), { total }));
@@ -102,7 +102,7 @@ export class FinanceHttpService {
     return from(remove(ref(this.db, path)));
   }
 
-  private compare(first: fromModels.DataEntry, second: fromModels.DataEntry): number {
+  private compare(first: DataEntry, second: DataEntry): number {
     const orderFirst = (first as { date?: string | number }).date ?? '';
     const orderSecond = (second as { date?: string | number }).date ?? '';
     if (orderFirst < orderSecond) return 1;

@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import * as fromModels from '@home-budget/finance/models';
+import { BreadcrumbsItem, DataEntry, DataLabels, DataSourceDetails, DataSourceSummary, FinanceConfig, FinanceEntry } from '@home-budget/finance/models';
 import { Observable } from 'rxjs';
 import { formData, formProjectTotal } from './finance-summary-former.utils';
 import { FinanceBreadcrumbsService } from './finance-breadcrumbs.service';
@@ -11,15 +11,15 @@ export class FinanceFacadeService {
   private readonly financeBreadcrumbsService = inject(FinanceBreadcrumbsService);
   private readonly financeService = inject(FinanceService);
 
-  get dataLabels(): fromModels.DataLabels {
+  get dataLabels(): DataLabels {
     return this.financeService.dataLabels;
   }
 
-  get dataSource(): fromModels.DataSourceDetails[] {
+  get dataSource(): DataSourceDetails[] {
     return this.financeService.dataSource;
   }
 
-  get dataSourceFooter(): fromModels.DataSourceDetails {
+  get dataSourceFooter(): DataSourceDetails {
     return this.financeService.dataSourceFooter;
   }
 
@@ -35,15 +35,15 @@ export class FinanceFacadeService {
     return this.financeService.isLoading;
   }
 
-  get breadcrumbs(): fromModels.BreadcrumbsItem[] {
+  get breadcrumbs(): BreadcrumbsItem[] {
     return this.financeBreadcrumbsService.breadcrumbs;
   }
 
-  formData(data: fromModels.DataEntry[], financeConfig: fromModels.FinanceConfig): fromModels.DataSourceSummary[] {
+  formData(data: DataEntry[], financeConfig: FinanceConfig): DataSourceSummary[] {
     return formData(data, financeConfig);
   }
 
-  formProjectTotal(data: fromModels.DataEntry[], financeConfig: fromModels.FinanceConfig): number {
+  formProjectTotal(data: DataEntry[], financeConfig: FinanceConfig): number {
     return formProjectTotal(data, financeConfig);
   }
 
@@ -51,7 +51,7 @@ export class FinanceFacadeService {
     this.financeService.setCommonDataLabels();
   }
 
-  readData(path: string, uid?: string): Observable<fromModels.DataEntry[]> {
+  readData(path: string, uid?: string): Observable<DataEntry[]> {
     return this.financeService.readData(path, uid);
   }
 
@@ -63,15 +63,15 @@ export class FinanceFacadeService {
     this.financeBreadcrumbsService.resetBreadcrumbs();
   }
 
-  formBreadcrumbs(financeEntry: fromModels.FinanceEntry, dataLabels: fromModels.DataLabels): void {
+  formBreadcrumbs(financeEntry: FinanceEntry, dataLabels: DataLabels): void {
     this.financeBreadcrumbsService.formBreadcrumbs(financeEntry, dataLabels);
   }
 
-  editFinanceEntry(event: fromModels.FinanceEntry): void {
+  editFinanceEntry(event: FinanceEntry): void {
     this.financeService.editFinanceEntry(event);
   }
 
-  goToDetails(financeEntry: fromModels.FinanceEntry): void {
+  goToDetails(financeEntry: FinanceEntry): void {
     this.financeService.goToDetails(financeEntry);
   }
 

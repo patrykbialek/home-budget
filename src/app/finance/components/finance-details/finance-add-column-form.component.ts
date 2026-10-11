@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose } from '@angular/material/dialog';
-import * as fromModels from '@home-budget/finance/models';
+import { DataLabels } from '@home-budget/finance/models';
 import { CdkScrollable } from '@angular/cdk/scrolling';
 import { MatFormField, MatLabel, MatError } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
@@ -21,7 +21,7 @@ export class FinanceAddColumnFormComponent {
   data: { form: FormGroup; } = inject(MAT_DIALOG_DATA);
 
   category: string | undefined;
-  dataLabels: fromModels.DataLabels | undefined;
+  dataLabels: DataLabels | undefined;
   form: FormGroup = this.data.form;
   monthLabel: string | undefined;
 

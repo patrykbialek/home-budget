@@ -1,4 +1,4 @@
-import * as fromModels from '@home-budget/authentication/models';
+import { ErrorMessage, PasswordReset, PasswordSet, User, UserLogin, UserRegister } from '@home-budget/authentication/models';
 import { Action } from '@ngrx/store';
 
 // Set
@@ -13,12 +13,12 @@ export class SetUser implements Action {
 
 export class SetUserSuccess implements Action {
   readonly type = SET_USER_SUCCESS;
-  constructor(public payload: fromModels.User, ) { }
+  constructor(public payload: User, ) { }
 }
 
 export class SetUserFailure implements Action {
   readonly type = SET_USER_FAILURE;
-  constructor(public payload: fromModels.ErrorMessage, ) { }
+  constructor(public payload: ErrorMessage, ) { }
 }
 
 // Login
@@ -28,12 +28,12 @@ export const LOGIN_USER_FAILURE  = '[Auth API] Login user failure';
 
 export class LoginUser implements Action {
   readonly type = LOGIN_USER;
-  constructor(public payload: fromModels.UserLogin, ) { }
+  constructor(public payload: UserLogin, ) { }
 }
 
 export class LoginUserSuccess implements Action {
   readonly type = LOGIN_USER_SUCCESS;
-  constructor(public payload: fromModels.User, ) { }
+  constructor(public payload: User, ) { }
 }
 
 export class LoginUserFailure implements Action {
@@ -64,12 +64,12 @@ export const REGISTER_USER_FAILURE  = '[Auth API] Register user failure';
 
 export class RegisterUser implements Action {
   readonly type = REGISTER_USER;
-  constructor(public payload?: fromModels.UserRegister, ) { }
+  constructor(public payload?: UserRegister, ) { }
 }
 
 export class RegisterUserSuccess implements Action {
   readonly type = REGISTER_USER_SUCCESS;
-  constructor(public payload: fromModels.User, ) { }
+  constructor(public payload: User, ) { }
 }
 
 export class RegisterUserFailure implements Action {
@@ -83,7 +83,7 @@ export const RESET_PASSWORD_FAILURE  = '[Auth API] Reset password failure';
 
 export class ResetPassword implements Action {
   readonly type = RESET_PASSWORD;
-  constructor(public payload?: fromModels.PasswordReset, ) { }
+  constructor(public payload?: PasswordReset, ) { }
 }
 
 export class ResetPasswordSuccess implements Action {
@@ -101,7 +101,7 @@ export const SET_PASSWORD_FAILURE  = '[Auth API] Set password failure';
 
 export class SetPassword implements Action {
   readonly type = SET_PASSWORD;
-  constructor(public payload?: fromModels.PasswordSet, ) { }
+  constructor(public payload?: PasswordSet, ) { }
 }
 
 export class SetPasswordSuccess implements Action {

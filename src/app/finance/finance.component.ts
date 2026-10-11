@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 
 import * as config from './shared/finance.config';
-import * as fromModels from '@home-budget/finance/models';
+import { NavLink } from '@home-budget/finance/models';
 import { FINANCE_FEATURE_CONFIG } from './finance-feature.config';
 import { CommonWithAnimationComponent } from '../shared/components/common-with-animation.component';
 import { MatButton } from '@angular/material/button';
@@ -21,6 +21,6 @@ import { TranslatePipe } from '@ngx-translate/core';
   ]
 })
 export class FinanceComponent {
-  navLinks: fromModels.NavLink[] = config.navLinks;
+  navLinks: NavLink[] = config.navLinks;
   readonly i18nPrefix = inject(FINANCE_FEATURE_CONFIG).i18nPrefix;
 }

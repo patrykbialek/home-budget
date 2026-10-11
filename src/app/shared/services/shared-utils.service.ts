@@ -2,16 +2,16 @@ import { Injectable } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs';
 
-import * as fromModels from '@home-budget/shared/models';
+import { WindowSize } from '@home-budget/shared/models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SharedUtilsService  {
-  private resizeSource = new BehaviorSubject(fromModels.WindowSize.Desktop);
+  private resizeSource = new BehaviorSubject(WindowSize.Desktop);
   windowSize$ = this.resizeSource.asObservable();
 
-  setIsMobileSize(size: fromModels.WindowSize) {
+  setIsMobileSize(size: WindowSize) {
     this.resizeSource.next(size);
   }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import * as fromModels from '@home-budget/authentication/models';
+import { UserRegister } from '@home-budget/authentication/models';
 import * as fromServices from '@home-budget/authentication/services';
 import * as fromStoreServices from '@home-budget/authentication/store/services';
 import { CommonWithAnimationComponent } from '@home-budget/shared/components';
@@ -45,7 +45,7 @@ export class RegisterUserComponent extends CommonWithAnimationComponent implemen
   }
 
   registerUser(event: FormGroup) {
-    const payload: fromModels.UserRegister = event.value;
+    const payload: UserRegister = event.value;
 
     this.authenticationService.registerUser(payload);
     this.authenticationService.isSuccess$

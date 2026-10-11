@@ -2,7 +2,7 @@ import { Component, HostListener, OnInit, inject } from '@angular/core';
 import { Auth, authState } from '@angular/fire/auth';
 import { filter, mergeMap, take, tap } from 'rxjs/operators';
 
-import * as fromModels from '@home-budget/authentication/models';
+import { User } from '@home-budget/authentication/models';
 import { AuthenticationFacadeService } from '@home-budget/authentication/store';
 import { WindowSize } from '@home-budget/shared/models';
 import { SharedUtilsService } from '@home-budget/shared/services/shared-utils.service';
@@ -31,16 +31,16 @@ export class AppComponent implements OnInit {
   }
 
   private setUserIfAuthenticated() {
-    const setUser = (payload: fromModels.User) => this.authenticationService.setUser(payload);
+    const setUser = (payload: User) => this.authenticationService.setUser(payload);
     const user$ = this.authenticationService.user$;
     const authState$ = authState(this.fireAuth)
       .pipe(
         take(1),
         filter(response => Boolean(response)),
         tap(response => setUser({
-          displayName: (response as fromModels.User).displayName,
-          email: (response as fromModels.User).email,
-          uid: (response as fromModels.User).uid
+          displayName: (response as User).displayName,
+          email: (response as User).email,
+          uid: (response as User).uid
         })),
       );
 

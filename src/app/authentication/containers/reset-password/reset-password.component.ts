@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import * as fromModels from '@home-budget/authentication/models';
+import { PasswordReset } from '@home-budget/authentication/models';
 import * as fromServices from '@home-budget/authentication/services';
 import * as fromStoreServices from '@home-budget/authentication/store/services';
 import { CommonWithAnimationComponent } from '@home-budget/shared/components';
@@ -40,7 +40,7 @@ export class ResetPasswordComponent extends CommonWithAnimationComponent impleme
   }
 
   resetPassword(event: FormGroup) {
-    const payload: fromModels.PasswordReset = {
+    const payload: PasswordReset = {
       email: event.value.email
     };
 

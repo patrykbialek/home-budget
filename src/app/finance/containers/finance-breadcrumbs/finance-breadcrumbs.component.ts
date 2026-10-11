@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 
-import * as fromModels from '@home-budget/finance/models';
+import { BreadcrumbsItem, FinanceEntry } from '@home-budget/finance/models';
 import { FinanceFacadeService } from '@home-budget/finance/services/finance-facade.service';
 import { FinanceBreadcrumbsDataComponent } from '../../components/finance-breadcrumbs/finance-breadcrumbs-data.component';
 
@@ -13,7 +13,7 @@ import { FinanceBreadcrumbsDataComponent } from '../../components/finance-breadc
 export class FinanceBreadcrumbsComponent {
   private readonly financeFacadeService = inject(FinanceFacadeService);
 
-  get breadcrumbs(): fromModels.BreadcrumbsItem[] {
+  get breadcrumbs(): BreadcrumbsItem[] {
     return this.financeFacadeService.breadcrumbs;
   }
 
@@ -26,9 +26,9 @@ export class FinanceBreadcrumbsComponent {
     this.financeFacadeService.addFinanceEntryColumn();
   }
 
-  goToDetails(event: fromModels.BreadcrumbsItem): void {
+  goToDetails(event: BreadcrumbsItem): void {
     const { entry, hasEntries, label, isCurrent, href, path } = event;
-    const financeEntry: fromModels.FinanceEntry = {
+    const financeEntry: FinanceEntry = {
       entry,
       hasEntries,
       href,
