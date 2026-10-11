@@ -12,9 +12,9 @@ Polish.
 
 ## Tech stack
 
-- **Angular 20.3.30** — classic **NgModule** architecture (components are explicitly
-  `standalone: false`; this is deliberate, not a pending migration). Uses modern DI
-  (`inject()`) and signals (`toSignal`) within that NgModule structure. zone.js still in use.
+- **Angular 20.3.30** — **standalone** architecture (no NgModules; migrated from the classic
+  NgModule setup). Bootstrapped via `bootstrapApplication(AppComponent, appConfig)` in
+  `main.ts` + `app/app.config.ts`. Uses modern DI (`inject()`) and signals. zone.js still in use.
 - **Build**: classic webpack builder `@angular-devkit/build-angular:browser` (NOT the
   esbuild/`application` builder). Requires `NODE_OPTIONS=--openssl-legacy-provider`.
 - **NgRx 20** — store, effects, router-store, store-devtools.
@@ -53,14 +53,14 @@ usually target `develop`.
 
 ## Architecture
 
-By-feature structure under `src/app`. Three lazy-loaded feature modules:
-`authentication`, `plans`, `budgets`. Plus `core` (singleton guard module) and
-`shared`.
+By-feature structure under `src/app`. Three lazy-loaded feature route sets:
+`authentication`, `plans`, `budgets` (each a `*.routes.ts` exporting `Routes`). Plus `core`
+(`CoreService`) and `shared`.
 
-### Routing (`app-routing.module.ts`)
-- `''` → redirect to `login`; auth routes loaded from `AuthenticationModule`.
-- `:year` → guarded by `AuthGuardService` + `YearGuard`, children: `plans`, `budgets`
-  (default `plans`).
+### Routing (`app/app.routes.ts`)
+- `''` → redirect to `login`; auth routes lazy-loaded (`loadChildren` → `authentication.routes`).
+- `:year` → guarded by `AuthGuardService` + `YearGuard`, children `plans`/`budgets`
+  (default `plans`), each lazy-loaded (`loadChildren` → `plans.routes` / `budgets.routes`).
 - `**` → `PageNotFoundComponent`.
 
 The **year is a URL path segment** (4-digit), not store state (moved to URL in commit
@@ -69,12 +69,12 @@ The **year is a URL path segment** (4-digit), not store state (moved to URL in c
 
 ### Shared finance feature (`src/app/finance/`)
 `plans` and `budgets` are structurally identical (a yearly income/expense sheet), so they
-share one implementation in `src/app/finance/` (`FinanceFeatureModule`). The feature is
-named `finance` deliberately — the umbrella domain — to avoid confusion with the `budgets`
-route. The two differ only by a config token `FINANCE_FEATURE_CONFIG`
-({ `collection`: `plans`|`budgets`, `i18nPrefix`: `PLAN`|`BUDGET` }). `src/app/plans` and
-`src/app/budgets` are now **thin modules**: each imports `FinanceFeatureModule`, provides
-its config, and defines routing to the shared containers.
+share one implementation in `src/app/finance/`. The feature is named `finance` deliberately —
+the umbrella domain — to avoid confusion with the `budgets` route. The two differ only by a
+config token `FINANCE_FEATURE_CONFIG` ({ `collection`: `plans`|`budgets`, `i18nPrefix`:
+`PLAN`|`BUDGET` }). `src/app/plans` and `src/app/budgets` are now **thin route files**
+(`plans.routes.ts` / `budgets.routes.ts`): each declares a parent route whose `providers`
+supply its config + the stateful finance services, with children pointing at the shared containers.
 
 > Note: `collection` values stay `plans`/`budgets` — they are the Firebase path segments
 > and route segments, independent of the `finance` feature name.
@@ -91,9 +91,11 @@ DI rules that make the sharing work:
 - `FinanceHttpService` is **providedIn root** (stateless); the `collection` is passed as a
   method argument, so the global app-header (year selector) can use it too.
 - The **stateful** services (`FinanceService`, `FinanceFacadeService`, `FinanceBreadcrumbsService`,
-  `FinanceFormService`) are provided in `FinanceFeatureModule`, **not** root — each lazy host
-  module (plans/budgets) gets its own isolated instance + state. They read the `collection`
-  from `FINANCE_FEATURE_CONFIG` and pass it to the http service.
+  `FinanceFormService`) are provided at the **lazy route level** in `plans.routes.ts` /
+  `budgets.routes.ts` (route `providers`), **not** root — each lazy route tree gets its own
+  environment injector → isolated instance + state. They read the `collection` from
+  `FINANCE_FEATURE_CONFIG` and pass it to the http service. (Naive `providedIn: 'root'` would
+  break this isolation — plans and budgets would share one instance.)
 - The shell and summary-data components read `i18nPrefix` from the same token to pick the
   `PLAN.*` vs `BUDGET.*` translation namespace (namespaces are identical except `Title`).
 
@@ -101,10 +103,13 @@ Firebase paths: `/workspaces/$uid/{collection}/...`. Write flows react to write 
 (no `setTimeout` propagation hacks); failures reset the loader and show an error snackbar.
 
 ### State
-- `authentication` has a full NgRx feature store (actions/effects/reducers/selectors/
-  facade). `AppComponent` hydrates the NgRx user from Firebase `authState` on load.
-- `shared/store` holds router store + a `RouterEffects` (GO/BACK/FORWARD) and a
-  `CustomSerializer`.
+- NgRx is wired functionally in `app/app.config.ts`: `provideStore`/`provideEffects` (root
+  router reducer + `RouterEffects`), `provideRouterStore({ serializer: CustomSerializer })`,
+  `provideStoreDevtools` (dev), plus `provideState('authentication', …)` + `provideEffects` for
+  the authentication feature — registered at **root** (not the lazy auth route) because
+  `AppComponent` hydrates the user from Firebase `authState` on load and the app-header reads it.
+- `authentication` has a full NgRx feature store (actions/effects/reducers/selectors/facade).
+- `shared/store` holds the router store + a `RouterEffects` (GO/BACK/FORWARD) and a `CustomSerializer`.
 - Plans/budgets domain state is held in plain injectable services (not NgRx).
 
 ### Data model (Realtime DB)

@@ -15,7 +15,6 @@ export class CommonWithAnimationComponent implements AfterViewInit {
     setTimeout(() => {
       if (this.mainHTML) {
         this.mainHTML.nativeElement.style.opacity = '1';
-        // this.mainHTML.nativeElement.style.paddingTop = '96px';
       }
     }, 300);
   }

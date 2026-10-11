@@ -18,7 +18,6 @@ export class FinanceBreadcrumbsComponent {
   }
 
   get isAddColumnButtonShown(): boolean {
-    // NOTE: to use in the future, based on roles, etc.
     return true;
   }
 

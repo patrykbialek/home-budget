@@ -66,9 +66,6 @@ export class FinanceService {
       })[0];
   }
 
-  // NOTE: data paths carry the year as their first segment; it is captured when
-  // entering the details view. When the year is switched (header) while staying
-  // on details, the write path must follow the current (URL) year, not the stale one.
   private withCurrentYear(path: string): string {
     const segments: string[] = path.split('/');
     segments[0] = this.coreService.year;
@@ -225,9 +222,6 @@ export class FinanceService {
     this.openSnackBar('Dane zapisane.');
   }
 
-  // NOTE: new column keys are `${entry}NN`; derive the next index from the
-  // highest existing suffix (not the count) so a key is not reused after a
-  // column in the middle has been deleted.
   private nextEntryIndex(entries: Record<string, unknown>, entry: string): number {
     const indices: number[] = Object.keys(entries)
       .filter((key: string) => key.startsWith(entry))

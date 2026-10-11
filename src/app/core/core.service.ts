@@ -10,7 +10,7 @@ function defaultYear(): string {
   return new Date().getFullYear().toString();
 }
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class CoreService {
   private readonly router = inject(Router);
 

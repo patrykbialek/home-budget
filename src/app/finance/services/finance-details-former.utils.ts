@@ -78,7 +78,6 @@ function formDataFooter(dataSource: DataSourceDetails[]): DataSourceDetails {
     total: 0,
   };
 
-  // NOTE: build rowTotals object
   Object.keys(dataSource[0])
     .forEach((key: string) => {
       if (!commonColumns.includes(key)) {
@@ -89,7 +88,6 @@ function formDataFooter(dataSource: DataSourceDetails[]): DataSourceDetails {
       }
     });
 
-  // NOTE: calculate totals
   dataSource.forEach((entry: DataSourceDetails) => {
     Object.keys(entry).forEach((key: string) => {
       const cell = (entry as unknown as Record<string, DataSourceDetailsEntry>)[key];
@@ -104,7 +102,6 @@ function formDataFooter(dataSource: DataSourceDetails[]): DataSourceDetails {
     });
   });
 
-  // NOTE: caclulate total of totals
   Object.keys(rowTotals)
     .forEach((key: string) => {
       const cell = (rowTotals as unknown as Record<string, DataSourceDetailsEntry>)[key];

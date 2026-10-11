@@ -2,7 +2,6 @@ import { Action } from '@ngrx/store';
 
 import { ErrorMessage, PasswordReset, PasswordSet, User, UserLogin, UserRegister } from '@home-budget/authentication/models';
 
-// Set
 export const SET_USER          = '[App Component] Set user';
 export const SET_USER_SUCCESS  = '[AngularFireAuth API] Set user success';
 export const SET_USER_FAILURE  = '[AngularFireAuth API] Set user failure';
@@ -22,7 +21,6 @@ export class SetUserFailure implements Action {
   constructor(public payload: ErrorMessage, ) { }
 }
 
-// Login
 export const LOGIN_USER          = '[Login Page] Login user';
 export const LOGIN_USER_SUCCESS  = '[Auth API] Login user success';
 export const LOGIN_USER_FAILURE  = '[Auth API] Login user failure';
@@ -41,7 +39,6 @@ export class LoginUserFailure implements Action {
   readonly type = LOGIN_USER_FAILURE;
 }
 
-// Logout
 export const LOGOUT_USER_FROM_CONTAINER  = '[Auth Container] Logout user';
 export const LOGOUT_USER_SUCCESS         = '[Auth API] Logout user success';
 export const LOGOUT_USER_FAILURE         = '[Auth API] Logout user failure';
@@ -58,7 +55,6 @@ export class LogoutUserFailure implements Action {
   readonly type = LOGOUT_USER_FAILURE;
 }
 
-// Register
 export const REGISTER_USER          = '[Register User Page] Register user';
 export const REGISTER_USER_SUCCESS  = '[Auth API] Register user success';
 export const REGISTER_USER_FAILURE  = '[Auth API] Register user failure';
@@ -77,7 +73,6 @@ export class RegisterUserFailure implements Action {
   readonly type = REGISTER_USER_FAILURE;
 }
 
-// Reset
 export const RESET_PASSWORD          = '[Reset Password Page] Reset password';
 export const RESET_PASSWORD_SUCCESS  = '[Auth API] Reset password success';
 export const RESET_PASSWORD_FAILURE  = '[Auth API] Reset password failure';
@@ -95,7 +90,6 @@ export class ResetPasswordFailure implements Action {
   readonly type = RESET_PASSWORD_FAILURE;
 }
 
-// Set
 export const SET_PASSWORD          = '[Set Password Page] Set password';
 export const SET_PASSWORD_SUCCESS  = '[Auth API] Set password success';
 export const SET_PASSWORD_FAILURE  = '[Auth API] Set password failure';

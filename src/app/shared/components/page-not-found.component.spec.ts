@@ -8,7 +8,6 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { provideTranslateService } from '@ngx-translate/core';
 import { PageNotFoundComponent } from '@shared/components';
-import { SharedModule } from '@shared/shared.module';
 import { environment } from 'src/environments/environment';
 
 describe('PageNotFoundComponent', () => {
@@ -22,7 +21,7 @@ describe('PageNotFoundComponent', () => {
         RouterTestingModule,
         StoreModule.forRoot({}),
         EffectsModule.forRoot(),
-        SharedModule,
+        PageNotFoundComponent,
       ],
       providers: [
         provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),

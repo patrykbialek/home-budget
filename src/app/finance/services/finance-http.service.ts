@@ -8,12 +8,6 @@ import { Observable, from } from 'rxjs';
 
 import { DataEntry, UpdatePayload } from '@home-budget/finance/models';
 
-/**
- * Stateless Firebase I/O for the finance feature. Provided in root so the global
- * app-header (year selector) can use it too. The `collection` (`plans` | `finances`)
- * is passed per call by the collection-scoped {@link FinanceService}, rather than
- * injected, so a single root instance serves both feature instances.
- */
 @Injectable({ providedIn: 'root' })
 export class FinanceHttpService {
 

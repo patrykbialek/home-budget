@@ -105,7 +105,6 @@ export class FinanceGraphComponent implements OnInit {
     ];
   }
 
-  // events
   chartClicked(e: unknown): void {
   }
 

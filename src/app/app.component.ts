@@ -1,8 +1,10 @@
 import { Auth, authState } from '@angular/fire/auth';
 import { Component, HostListener, OnInit, inject } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 
 import { filter, mergeMap, take, tap } from 'rxjs/operators';
 
+import { AppHeaderComponent } from '@home-budget/shared/components';
 import { AuthenticationFacadeService } from '@home-budget/authentication/store';
 import { SharedUtilsService } from '@home-budget/shared/services/shared-utils.service';
 import { User } from '@home-budget/authentication/models';
@@ -14,7 +16,7 @@ const mobileBreakPoint = 840;
   selector: 'hb-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  standalone: false
+  imports: [AppHeaderComponent, RouterOutlet]
 })
 export class AppComponent implements OnInit {
   private authenticationService = inject(AuthenticationFacadeService);

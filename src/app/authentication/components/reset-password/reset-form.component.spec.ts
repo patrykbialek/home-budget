@@ -8,7 +8,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { provideTranslateService } from '@ngx-translate/core';
-import { SharedModule } from '@shared/shared.module';
 import { environment } from 'src/environments/environment';
 import { AuthenticationFormComponent } from '../authentication-form.component';
 import { ResetFormComponent } from './reset-form.component';
@@ -27,7 +26,6 @@ describe('ResetFormComponent', () => {
         ReactiveFormsModule,
         StoreModule.forRoot({}),
         EffectsModule.forRoot(),
-        SharedModule,
         ResetFormComponent,
         AuthenticationFormComponent,
     ],
