@@ -6,7 +6,6 @@ import { AuthenticationUtilsService } from '@home-budget/authentication/services
 import { AuthenticationFacadeService } from '@home-budget/authentication/store/services';
 import { CommonWithAnimationComponent } from '@home-budget/shared/components';
 import { filter, skip, take, tap } from 'rxjs/operators';
-import { CommonWithAnimationComponent as CommonWithAnimationComponent_1 } from '../../../shared/components/common-with-animation.component';
 import { RegisterFormComponent } from '../../components/register-user/register-form.component';
 import { TranslatePipe } from '@ngx-translate/core';
 
@@ -14,7 +13,7 @@ import { TranslatePipe } from '@ngx-translate/core';
   selector: 'hb-register-user',
   templateUrl: './register-user.component.html',
   styleUrls: ['./register-user.component.scss'],
-  imports: [CommonWithAnimationComponent_1, RegisterFormComponent, TranslatePipe]
+  imports: [CommonWithAnimationComponent, RegisterFormComponent, TranslatePipe]
 })
 export class RegisterUserComponent extends CommonWithAnimationComponent implements OnInit {
   private authenticationService = inject(AuthenticationFacadeService);

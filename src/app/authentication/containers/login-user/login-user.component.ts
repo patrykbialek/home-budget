@@ -7,7 +7,6 @@ import { AuthenticationFacadeService } from '@home-budget/authentication/store/s
 import { CommonWithAnimationComponent } from '@home-budget/shared/components';
 import { Subject } from 'rxjs';
 import { filter, skip, takeUntil, tap } from 'rxjs/operators';
-import { CommonWithAnimationComponent as CommonWithAnimationComponent_1 } from '../../../shared/components/common-with-animation.component';
 import { LoginFormComponent } from '../../components/login-user/login-form.component';
 import { TranslatePipe } from '@ngx-translate/core';
 
@@ -15,7 +14,7 @@ import { TranslatePipe } from '@ngx-translate/core';
   selector: 'hb-login-user',
   templateUrl: './login-user.component.html',
   styleUrls: ['./login-user.component.scss'],
-  imports: [CommonWithAnimationComponent_1, LoginFormComponent, TranslatePipe]
+  imports: [CommonWithAnimationComponent, LoginFormComponent, TranslatePipe]
 })
 export class LoginUserComponent extends CommonWithAnimationComponent implements OnDestroy, OnInit {
   private readonly authenticationService = inject(AuthenticationFacadeService);

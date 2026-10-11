@@ -5,7 +5,6 @@ import { PasswordSet } from '@home-budget/authentication/models';
 import { AuthenticationFacadeService } from '@home-budget/authentication/store/services';
 import { CommonWithAnimationComponent } from '@home-budget/shared/components';
 import { filter, skip, take, tap } from 'rxjs/operators';
-import { CommonWithAnimationComponent as CommonWithAnimationComponent_1 } from '../../../shared/components/common-with-animation.component';
 import { SetFormComponent } from '../../components/set-password/set-form.component';
 import { TranslatePipe } from '@ngx-translate/core';
 
@@ -13,7 +12,7 @@ import { TranslatePipe } from '@ngx-translate/core';
   selector: 'hb-set-password',
   templateUrl: './set-password.component.html',
   styleUrls: ['./set-password.component.scss'],
-  imports: [CommonWithAnimationComponent_1, SetFormComponent, TranslatePipe]
+  imports: [CommonWithAnimationComponent, SetFormComponent, TranslatePipe]
 })
 export class SetPasswordComponent extends CommonWithAnimationComponent implements OnInit {
   private activatedRoute = inject(ActivatedRoute);
