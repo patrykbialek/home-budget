@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { AuthenticationStoreModule } from '@home-budget/authentication/store/authentication-store.module';
-import * as fromComponents from '@home-budget/shared/components';
+import { components } from '@home-budget/shared/components';
 import { AngularMaterialModule } from '@home-budget/shared/modules/angular-material.module';
 import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 
@@ -10,13 +10,13 @@ import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
     TranslateDirective,
     TranslatePipe,
     AuthenticationStoreModule,
-    ...fromComponents.components,
+    ...components,
   ],
   exports: [
     AngularMaterialModule,
     TranslateDirective,
     TranslatePipe,
-    ...fromComponents.components,
+    ...components,
   ],
 })
 export class SharedModule { }

@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { AuthenticationRoutingModule } from '@home-budget/authentication/authentication-routing.module';
 import { AuthenticationComponent } from '@home-budget/authentication/authentication.component';
-import * as fromComponents from '@home-budget/authentication/components';
-import * as fromContainers from '@home-budget/authentication/containers';
+import { components as authComponents } from '@home-budget/authentication/components';
+import { components as authContainers } from '@home-budget/authentication/containers';
 import { AuthenticationStoreModule } from '@home-budget/authentication/store/authentication-store.module';
 
 @NgModule({
@@ -10,12 +10,12 @@ import { AuthenticationStoreModule } from '@home-budget/authentication/store/aut
     AuthenticationRoutingModule,
     AuthenticationStoreModule,
     AuthenticationComponent,
-    ...fromContainers.components,
-    ...fromComponents.components,
+    ...authContainers,
+    ...authComponents,
   ],
   exports: [
-    ...fromContainers.components,
-    ...fromComponents.components,
+    ...authContainers,
+    ...authComponents,
   ]
 })
 export class AuthenticationModule { }

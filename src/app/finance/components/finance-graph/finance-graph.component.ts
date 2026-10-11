@@ -1,12 +1,12 @@
 import { Component, OnInit, input } from '@angular/core';
 import { ChartOptions } from 'chart.js';
 
-import * as config from '../../shared/finance.config';
+import { chartOption, monthLabel } from '../../shared/finance.config';
 import { DataSourceSummary, FinanceGraphConfig, MonthLabel } from '@home-budget/finance/models';
 import { BaseChartDirective } from 'ng2-charts';
 
 const financeChartOption: Partial<FinanceGraphConfig> = {
-  backgroundColor: config.chartOption.color.transparent,
+  backgroundColor: chartOption.color.transparent,
   label: '',
   pointHoverRadius: 7,
   pointRadius: 1,
@@ -43,8 +43,8 @@ export class FinanceGraphComponent implements OnInit {
       incomes: this.dataSource().map((data: DataSourceSummary) => data.income),
       increase: this.dataSource().map((data: DataSourceSummary) => data.increase),
     };
-    this.chartLabels = Object.keys(config.monthLabel)
-      .map((key: string) => config.monthLabel[key as keyof MonthLabel].short ?? '');
+    this.chartLabels = Object.keys(monthLabel)
+      .map((key: string) => monthLabel[key as keyof MonthLabel].short ?? '');
     this.setGraphData();
   }
 
@@ -67,10 +67,10 @@ export class FinanceGraphComponent implements OnInit {
     this.increaseDatasets = [
       {
         ...financeChartOption,
-        borderColor: config.chartOption.color.blue,
+        borderColor: chartOption.color.blue,
         data: this.data?.increase ?? [],
-        pointBackgroundColor: config.chartOption.color.blue,
-        pointBorderColor: config.chartOption.color.blue,
+        pointBackgroundColor: chartOption.color.blue,
+        pointBorderColor: chartOption.color.blue,
       },
     ];
   }
@@ -89,17 +89,17 @@ export class FinanceGraphComponent implements OnInit {
     this.incomesExpensesDatasets = [
       {
         ...financeChartOption,
-        borderColor: config.chartOption.color.green,
+        borderColor: chartOption.color.green,
         data: this.data?.incomes ?? [],
-        pointBackgroundColor: config.chartOption.color.green,
-        pointBorderColor: config.chartOption.color.green,
+        pointBackgroundColor: chartOption.color.green,
+        pointBorderColor: chartOption.color.green,
       },
       {
         ...financeChartOption,
-        borderColor: config.chartOption.color.red,
+        borderColor: chartOption.color.red,
         data: this.data?.expenses ?? [],
-        pointBackgroundColor: config.chartOption.color.red,
-        pointBorderColor: config.chartOption.color.red,
+        pointBackgroundColor: chartOption.color.red,
+        pointBorderColor: chartOption.color.red,
       },
     ];
   }

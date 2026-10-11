@@ -3,7 +3,7 @@ import { ActivatedRoute, Router, UrlSegment } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
 import { filter, switchMap, takeUntil, tap } from 'rxjs/operators';
 
-import * as config from '../../shared/finance.config';
+import { defaultDataSource, financeColumns } from '../../shared/finance.config';
 import { DataEntry, DataLabels, DataSourceSummary, FinanceConfig, QueryParamsResponse } from '@home-budget/finance/models';
 import { FinanceFacadeService } from '../../services/finance-facade.service';
 import { AuthenticationFacadeService } from '@authentication/store';
@@ -22,8 +22,8 @@ import { AsyncPipe } from '@angular/common';
   imports: [MatCard, MatCardContent, FinanceSummaryDataComponent, FinanceGraphComponent, AsyncPipe]
 })
 export class FinanceSummaryComponent implements OnDestroy, OnInit {
-  displayedColumns: string[] = config.financeColumns;
-  dataSource: DataSourceSummary[] = config.defaultDataSource;
+  displayedColumns: string[] = financeColumns;
+  dataSource: DataSourceSummary[] = defaultDataSource;
   isLoading = false;
 
   private rawData: DataEntry[] = [];

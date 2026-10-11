@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 
-import * as config from './shared/finance.config';
+import { navLinks } from './shared/finance.config';
 import { NavLink } from '@home-budget/finance/models';
 import { FINANCE_FEATURE_CONFIG } from './finance-feature.config';
 import { CommonWithAnimationComponent } from '../shared/components/common-with-animation.component';
@@ -21,6 +21,6 @@ import { TranslatePipe } from '@ngx-translate/core';
   ]
 })
 export class FinanceComponent {
-  navLinks: NavLink[] = config.navLinks;
+  navLinks: NavLink[] = navLinks;
   readonly i18nPrefix = inject(FINANCE_FEATURE_CONFIG).i18nPrefix;
 }

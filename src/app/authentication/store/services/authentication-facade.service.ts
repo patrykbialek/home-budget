@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import * as fromActions from '@home-budget/authentication/store/actions';
-import * as fromReducers from '@home-budget/authentication/store/reducers';
-import * as fromSelectors from '@home-budget/authentication/store/selectors';
+import { MainState } from '@home-budget/authentication/store/reducers';
+import { getIsSuccess, getUser } from '@home-budget/authentication/store/selectors';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { PasswordReset, PasswordSet, User, UserLogin, UserRegister } from '../../models';
@@ -11,10 +11,10 @@ import { PasswordReset, PasswordSet, User, UserLogin, UserRegister } from '../..
 })
 export class AuthenticationFacadeService {
 
-  private readonly store: Store<fromReducers.MainState> = inject(Store);
+  private readonly store: Store<MainState> = inject(Store);
 
-  readonly isSuccess$: Observable<boolean> = this.store.pipe(select(fromSelectors.getIsSuccess));
-  readonly user$: Observable<User | null> = this.store.pipe(select(fromSelectors.getUser));
+  readonly isSuccess$: Observable<boolean> = this.store.pipe(select(getIsSuccess));
+  readonly user$: Observable<User | null> = this.store.pipe(select(getUser));
 
   setUser(payload: User) {
     this.store.dispatch(new fromActions.SetUser(payload));
