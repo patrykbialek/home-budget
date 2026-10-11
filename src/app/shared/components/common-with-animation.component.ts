@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 
 @Component({
-  selector: 'app-main-component',
+  selector: 'hb-main-component',
   template: `
     <main class="o-wrapper c-main" #main>
       <ng-content></ng-content>

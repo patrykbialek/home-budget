@@ -4,7 +4,7 @@ import { CommonWithAnimationComponent } from '@home-budget/shared/components/com
 @Component({
   selector: 'hb-page-not-found',
   template: `
-    <app-main-component>
+    <hb-main-component>
 
     <div class="c-section-header">
       <div class="o-wrapper">
@@ -26,7 +26,7 @@ import { CommonWithAnimationComponent } from '@home-budget/shared/components/com
       </div>
     </section>
 
-    </app-main-component>
+    </hb-main-component>
   `,
   standalone: false
 })
