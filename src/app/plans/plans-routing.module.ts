@@ -1,20 +1,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { BudgetComponent } from '@home-budget/budget/budget.component';
-import { BudgetDetailsComponent, BudgetSummaryComponent } from '@home-budget/budget/containers';
+import { FinanceComponent } from '@home-budget/finance/finance.component';
+import { FinanceDetailsComponent, FinanceSummaryComponent } from '@home-budget/finance/containers';
 
 const routes: Routes = [
   { path: '', redirectTo: 'execution', pathMatch: 'full' },
   {
     path: '',
-    component: BudgetComponent,
+    component: FinanceComponent,
     data: { title: 'Plan | home_budget' },
     children: [
-      { path: 'project', component: BudgetSummaryComponent },
-      { path: 'execution', component: BudgetSummaryComponent },
-      { path: 'project/details', component: BudgetDetailsComponent },
-      { path: 'execution/details', component: BudgetDetailsComponent },
+      { path: 'project', component: FinanceSummaryComponent },
+      { path: 'execution', component: FinanceSummaryComponent },
+      { path: 'project/details', component: FinanceDetailsComponent },
+      { path: 'execution/details', component: FinanceDetailsComponent },
     ],
   },
 ];

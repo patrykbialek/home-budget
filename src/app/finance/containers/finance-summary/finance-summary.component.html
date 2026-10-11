@@ -1,0 +1,30 @@
+@if (year$ | async) {
+  <div class="o-grid">
+    <div class="o-grid__cell u-1/1 u-1/2@desktop">
+      <mat-card class="c-finance-project__card">
+        <mat-card-content>
+          @if (!isLoading) {
+            <hb-finance-summary-data
+              [dataLabels]="dataLabels"
+              [dataSource]="dataSource"
+              [displayedColumns]="displayedColumns"
+              [isLoading]="isLoading"
+              [dataSourceTotal]="dataSourceTotal"
+              [dataSourceProjectTotal]="dataSourceProjectTotal"
+              [isExecutionTab]="isExecutionTab"
+              (goToDetails)="goToDetails($event)"></hb-finance-summary-data>
+          }
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="o-grid__cell u-1/1 u-1/2@desktop">
+      <mat-card class="c-finance-project__card">
+        <mat-card-content>
+          @if (!isLoading) {
+            <hb-finance-graph [dataSource]="dataSource"></hb-finance-graph>
+          }
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+}

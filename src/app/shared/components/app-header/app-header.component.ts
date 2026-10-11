@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AuthenticationFacadeService } from '@home-budget/authentication/store';
 import { CoreService } from '../../../core/core.service';
 import { SharedUtilsService } from '@shared/services/shared-utils.service';
-import { BudgetHttpService } from '@home-budget/budget/services/budget-http.service';
+import { FinanceHttpService } from '@home-budget/finance/services/finance-http.service';
 import { filter, switchMap } from 'rxjs/operators';
 
 @Component({
@@ -17,7 +17,7 @@ import { filter, switchMap } from 'rxjs/operators';
 export class AppHeaderComponent {
   private readonly authService = inject(AuthenticationFacadeService);
   private readonly coreService = inject(CoreService);
-  private readonly budgetHttpService = inject(BudgetHttpService);
+  private readonly financeHttpService = inject(FinanceHttpService);
   private readonly router = inject(Router);
   private readonly sharedUtilsService = inject(SharedUtilsService);
   private readonly translateService = inject(TranslateService);
@@ -30,7 +30,7 @@ export class AppHeaderComponent {
   year$ = this.coreService.year$;
   years$ = this.user$.pipe(
     filter(Boolean),
-    switchMap((user) => this.budgetHttpService.readYears(user.uid)),
+    switchMap((user) => this.financeHttpService.readYears(user.uid)),
   );
 
   onChangeLanguage() {

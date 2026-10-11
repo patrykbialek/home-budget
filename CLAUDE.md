@@ -67,28 +67,33 @@ The **year is a URL path segment** (4-digit), not store state (moved to URL in c
 `8b6b227`). `YearGuard` validates it and redirects to the current year if missing/invalid.
 `CoreService` is the single source of truth: it derives `year`/`year$` from the router URL.
 
-### Shared budget feature (`src/app/budget/`)
-`plans` and `budgets` are structurally identical, so they share one implementation in
-`src/app/budget/` (`BudgetFeatureModule`). The two differ only by a config token
-`BUDGET_FEATURE_CONFIG` ({ `collection`: `plans`|`budgets`, `i18nPrefix`: `PLAN`|`BUDGET` }).
-`src/app/plans` and `src/app/budgets` are now **thin modules**: each imports
-`BudgetFeatureModule`, provides its config, and defines routing to the shared containers.
+### Shared finance feature (`src/app/finance/`)
+`plans` and `budgets` are structurally identical (a yearly income/expense sheet), so they
+share one implementation in `src/app/finance/` (`FinanceFeatureModule`). The feature is
+named `finance` deliberately — the umbrella domain — to avoid confusion with the `budgets`
+route. The two differ only by a config token `FINANCE_FEATURE_CONFIG`
+({ `collection`: `plans`|`budgets`, `i18nPrefix`: `PLAN`|`BUDGET` }). `src/app/plans` and
+`src/app/budgets` are now **thin modules**: each imports `FinanceFeatureModule`, provides
+its config, and defines routing to the shared containers.
+
+> Note: `collection` values stay `plans`/`budgets` — they are the Firebase path segments
+> and route segments, independent of the `finance` feature name.
 
 The shared feature splits into:
-- `models/` — interfaces + `budget.enum.ts`, re-exported via `index.ts` barrel.
-- `services/` — `budget-http.service` (Firebase I/O), `budget.service` (domain logic),
-  `budget-facade.service` (thin API for components), `budget-breadcrumbs.service`,
-  `budget-form.service`, and `*-former.utils` (pure data shaping).
-- `components/` — presentational. `containers/` — routed smart components. `budget.component` — shell.
-- `shared/budget.config.ts` — months, labels, nav links, defaults (Polish strings).
+- `models/` — interfaces + `finance.enum.ts`, re-exported via `index.ts` barrel.
+- `services/` — `finance-http.service` (Firebase I/O), `finance.service` (domain logic),
+  `finance-facade.service` (thin API for components), `finance-breadcrumbs.service`,
+  `finance-form.service`, and `*-former.utils` (pure data shaping).
+- `components/` — presentational. `containers/` — routed smart components. `finance.component` — shell.
+- `shared/finance.config.ts` — months, labels, nav links, defaults (Polish strings).
 
 DI rules that make the sharing work:
-- `BudgetHttpService` is **providedIn root** (stateless); the `collection` is passed as a
+- `FinanceHttpService` is **providedIn root** (stateless); the `collection` is passed as a
   method argument, so the global app-header (year selector) can use it too.
-- The **stateful** services (`BudgetService`, `BudgetFacadeService`, `BudgetBreadcrumbsService`,
-  `BudgetFormService`) are provided in `BudgetFeatureModule`, **not** root — each lazy host
+- The **stateful** services (`FinanceService`, `FinanceFacadeService`, `FinanceBreadcrumbsService`,
+  `FinanceFormService`) are provided in `FinanceFeatureModule`, **not** root — each lazy host
   module (plans/budgets) gets its own isolated instance + state. They read the `collection`
-  from `BUDGET_FEATURE_CONFIG` and pass it to the http service.
+  from `FINANCE_FEATURE_CONFIG` and pass it to the http service.
 - The shell and summary-data components read `i18nPrefix` from the same token to pick the
   `PLAN.*` vs `BUDGET.*` translation namespace (namespaces are identical except `Title`).
 
@@ -116,7 +121,8 @@ keyed by month (`jan`..`dec`). Parent totals are re-aggregated from children on 
 
 - Component selector prefix `hb`; styles are SCSS.
 - Path aliases (`tsconfig.json`): `@home-budget/*`, `@shared/*`, `@authentication/*`,
-  `@budgets/*`. **Note:** plans has no dedicated alias — reference it as `@home-budget/plans/*`.
+  `@finance/*` (the shared feature). `@home-budget/*` maps to `src/app/*`, so
+  `@home-budget/finance/*` also resolves the feature.
 - New plan/budget column keys are `${entry}NN`, derived from the **highest existing
   suffix** (not the count) so keys are not reused after a middle column is deleted
   (`nextEntryIndex`).
