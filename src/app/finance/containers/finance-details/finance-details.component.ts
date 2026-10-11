@@ -3,20 +3,19 @@ import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router, UrlSegment } from '@angular/router';
 
 import { CoreService } from '@home-budget/core/core.service';
+import { FINANCE_FEATURE_CONFIG } from '@home-budget/finance/finance-feature.config';
 import * as fromModels from '@home-budget/finance/models';
 import { FinanceFacadeService } from '@home-budget/finance/services/finance-facade.service';
 import { Subject, combineLatest } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { BreadcrumbsItem } from '../../models/finance-breadcrumbs.model';
-import * as config from '../../shared/finance.config';
-import { FINANCE_FEATURE_CONFIG } from '@home-budget/finance/finance-feature.config';
 import { FinanceDetailsDataComponent } from '../../components/finance-details/finance-details-data.component';
+import { BreadcrumbsItem } from '../../models/finance-breadcrumbs.model';
 
 @Component({
-    selector: 'hb-finance-details',
-    templateUrl: './finance-details.component.html',
-    styleUrls: ['./finance-details.component.scss'],
-    imports: [FinanceDetailsDataComponent]
+  selector: 'hb-finance-details',
+  templateUrl: './finance-details.component.html',
+  styleUrls: ['./finance-details.component.scss'],
+  imports: [FinanceDetailsDataComponent]
 })
 export class FinanceDetailsComponent implements OnDestroy, OnInit {
   form!: FormGroup;

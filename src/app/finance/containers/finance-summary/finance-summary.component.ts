@@ -16,10 +16,10 @@ import { FinanceGraphComponent } from '../../components/finance-graph/finance-gr
 import { AsyncPipe } from '@angular/common';
 
 @Component({
-    selector: 'hb-finance-summary',
-    templateUrl: './finance-summary.component.html',
-    styleUrls: ['./finance-summary.component.scss'],
-    imports: [MatCard, MatCardContent, FinanceSummaryDataComponent, FinanceGraphComponent, AsyncPipe]
+  selector: 'hb-finance-summary',
+  templateUrl: './finance-summary.component.html',
+  styleUrls: ['./finance-summary.component.scss'],
+  imports: [MatCard, MatCardContent, FinanceSummaryDataComponent, FinanceGraphComponent, AsyncPipe]
 })
 export class FinanceSummaryComponent implements OnDestroy, OnInit {
   displayedColumns: string[] = config.financeColumns;

@@ -1,13 +1,14 @@
 import { Component, inject } from '@angular/core';
+
 import * as fromModels from '@home-budget/finance/models';
 import { FinanceFacadeService } from '@home-budget/finance/services/finance-facade.service';
 import { FinanceBreadcrumbsDataComponent } from '../../components/finance-breadcrumbs/finance-breadcrumbs-data.component';
 
 @Component({
-    selector: 'hb-finance-breadcrumbs',
-    templateUrl: './finance-breadcrumbs.component.html',
-    styleUrls: ['./finance-breadcrumbs.component.scss'],
-    imports: [FinanceBreadcrumbsDataComponent]
+  selector: 'hb-finance-breadcrumbs',
+  templateUrl: './finance-breadcrumbs.component.html',
+  styleUrls: ['./finance-breadcrumbs.component.scss'],
+  imports: [FinanceBreadcrumbsDataComponent]
 })
 export class FinanceBreadcrumbsComponent {
   private readonly financeFacadeService = inject(FinanceFacadeService);

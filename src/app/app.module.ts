@@ -19,7 +19,7 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
-import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -48,7 +48,6 @@ export const MY_FORMATS = {
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    BaseChartDirective,
     CoreModule,
     StoreModule.forRoot(reducers, {
       runtimeChecks: {

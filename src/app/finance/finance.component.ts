@@ -10,10 +10,15 @@ import { FinanceBreadcrumbsComponent } from './containers/finance-breadcrumbs/fi
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
-    selector: 'hb-finance-shell',
-    templateUrl: './finance.component.html',
-    styleUrls: ['./finance.component.scss'],
-    imports: [CommonWithAnimationComponent, MatButton, RouterLinkActive, RouterLink, FinanceBreadcrumbsComponent, RouterOutlet, TranslatePipe]
+  selector: 'hb-finance-shell',
+  templateUrl: './finance.component.html',
+  styleUrls: ['./finance.component.scss'],
+  imports: [
+    CommonWithAnimationComponent,
+    MatButton, RouterLinkActive,
+    RouterLink, FinanceBreadcrumbsComponent,
+    RouterOutlet, TranslatePipe
+  ]
 })
 export class FinanceComponent {
   navLinks: fromModels.NavLink[] = config.navLinks;
