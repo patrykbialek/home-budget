@@ -68,7 +68,7 @@ export class FinanceGraphComponent implements OnInit {
       {
         ...financeChartOption,
         borderColor: config.chartOption.color.blue,
-        data: this.data.increase,
+        data: this.data?.increase ?? [],
         pointBackgroundColor: config.chartOption.color.blue,
         pointBorderColor: config.chartOption.color.blue,
       },
@@ -90,14 +90,14 @@ export class FinanceGraphComponent implements OnInit {
       {
         ...financeChartOption,
         borderColor: config.chartOption.color.green,
-        data: this.data.incomes,
+        data: this.data?.incomes ?? [],
         pointBackgroundColor: config.chartOption.color.green,
         pointBorderColor: config.chartOption.color.green,
       },
       {
         ...financeChartOption,
         borderColor: config.chartOption.color.red,
-        data: this.data.expenses,
+        data: this.data?.expenses ?? [],
         pointBackgroundColor: config.chartOption.color.red,
         pointBorderColor: config.chartOption.color.red,
       },

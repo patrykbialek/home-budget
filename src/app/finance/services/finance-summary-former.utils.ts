@@ -4,7 +4,7 @@ import { DataProperty } from '@home-budget/finance/models/finance.enum';
 function formData(data: DataEntry[], financeConfig: FinanceConfig): DataSourceSummary[] {
   return data
     .map((entry: DataEntry) => mapData(entry, financeConfig))
-    .sort((first: DataSourceSummary, last: DataSourceSummary) => first.order - last.order)
+    .sort((first: DataSourceSummary, last: DataSourceSummary) => (first.order ?? 0) - (last.order ?? 0))
     .map((entry: DataSourceSummary) => formRestTotal(entry))
     .reduce((array: DataSourceSummary[], entry: DataSourceSummary, index: number) => {
       return formIncreaseTotal(array, entry, index);
@@ -30,7 +30,7 @@ function mapData(entry: DataEntry, financeConfig: FinanceConfig): DataSourceSumm
   };
 }
 
-function formTotal(data: DataEntryFinanceEntry): number {
+function formTotal(data: Record<string, DataEntryFinanceEntry>): number {
   let total: number = 0;
   Object.keys(data)
     .forEach((key: string) => {
@@ -41,7 +41,7 @@ function formTotal(data: DataEntryFinanceEntry): number {
   return total;
 }
 
-function formTotalAll(data: DataEntryFinanceEntry): number {
+function formTotalAll(data: Record<string, DataEntryFinanceEntry>): number {
   return Object.keys(data).reduce((total: number, key: string) => total + data[key].total, 0);
 }
 
@@ -61,8 +61,8 @@ function formRestTotal(entry: DataSourceSummary): DataSourceSummary {
   };
 }
 
-function formEntry(entry: DataEntry, node: string, financeConfig: FinanceConfig): DataEntryFinanceEntry {
-  return entry.entries[financeConfig.type].entries[node].entries;
+function formEntry(entry: DataEntry, node: string, financeConfig: FinanceConfig): Record<string, DataEntryFinanceEntry> {
+  return entry.entries[financeConfig.type as 'execution' | 'project'].entries[node as 'expense' | 'income'].entries ?? {};
 }
 
 function formIncreaseTotal(

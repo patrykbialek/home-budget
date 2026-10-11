@@ -12,19 +12,18 @@ import { LoginFormComponent } from '../../components/login-user/login-form.compo
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
-    selector: 'hb-login-user',
-    templateUrl: './login-user.component.html',
-    styleUrls: ['./login-user.component.scss'],
-    imports: [CommonWithAnimationComponent_1, LoginFormComponent, TranslatePipe]
+  selector: 'hb-login-user',
+  templateUrl: './login-user.component.html',
+  styleUrls: ['./login-user.component.scss'],
+  imports: [CommonWithAnimationComponent_1, LoginFormComponent, TranslatePipe]
 })
 export class LoginUserComponent extends CommonWithAnimationComponent implements OnDestroy, OnInit {
-
   private readonly authenticationService = inject(fromStoreServices.AuthenticationFacadeService);
   private readonly authenticationUtilsService = inject(fromServices.AuthenticationUtilsService);
   private readonly formBuilder = inject(FormBuilder);
   private readonly router = inject(Router);
 
-  loginForm: FormGroup;
+  loginForm!: FormGroup;
 
   private readonly destroy$ = new Subject<void>();
 

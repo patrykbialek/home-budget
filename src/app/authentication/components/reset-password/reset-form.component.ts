@@ -8,14 +8,13 @@ import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
-    selector: 'hb-reset-form',
-    templateUrl: './reset-form.component.html',
-    styleUrls: ['./reset-form.component.scss'],
-    imports: [ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatError, MatButton, RouterLink, TranslatePipe]
+  selector: 'hb-reset-form',
+  templateUrl: './reset-form.component.html',
+  styleUrls: ['./reset-form.component.scss'],
+  imports: [ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatError, MatButton, RouterLink, TranslatePipe]
 })
 export class ResetFormComponent extends AuthenticationFormComponent implements OnInit {
-
-  @ViewChild('emailHTML') emailHTML: ElementRef;
+  @ViewChild('emailHTML') emailHTML!: ElementRef;
 
   ngOnInit(): void {
     setTimeout(() => {

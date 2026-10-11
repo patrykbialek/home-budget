@@ -24,7 +24,6 @@ export interface Credentials {
   providedIn: 'root'
 })
 export class AuthenticationHttpService {
-
   private db = inject(Database);
   private fireAuth = inject(Auth);
 
@@ -35,12 +34,12 @@ export class AuthenticationHttpService {
   }
 
   loginUser({ email, password }: UserLogin) {
-    const callback = signInWithEmailAndPassword(this.fireAuth, email, password)
+    const callback = signInWithEmailAndPassword(this.fireAuth, email, password ?? '')
       .then((response: UserCredential) => {
         const user: FirebaseUser = response.user;
         return {
-          displayName: user.displayName,
-          email: user.email,
+          displayName: user.displayName ?? '',
+          email: user.email ?? '',
           uid: user.uid,
         };
       });
@@ -58,7 +57,7 @@ export class AuthenticationHttpService {
         const value = { email, uid };
         await set(ref(this.db, `/workspaces/${uid}/user`), value);
         await updateProfile(response.user, { displayName: name });
-        return value;
+        return { displayName: name, email, uid };
       });
     return from(callback);
   }

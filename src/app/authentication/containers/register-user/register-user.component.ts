@@ -11,19 +11,18 @@ import { RegisterFormComponent } from '../../components/register-user/register-f
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
-    selector: 'hb-register-user',
-    templateUrl: './register-user.component.html',
-    styleUrls: ['./register-user.component.scss'],
-    imports: [CommonWithAnimationComponent_1, RegisterFormComponent, TranslatePipe]
+  selector: 'hb-register-user',
+  templateUrl: './register-user.component.html',
+  styleUrls: ['./register-user.component.scss'],
+  imports: [CommonWithAnimationComponent_1, RegisterFormComponent, TranslatePipe]
 })
 export class RegisterUserComponent extends CommonWithAnimationComponent implements OnInit {
-
   private authenticationService = inject(fromStoreServices.AuthenticationFacadeService);
   private authenticationUtilsService = inject(fromServices.AuthenticationUtilsService);
   private formBuilder = inject(FormBuilder);
   private router = inject(Router);
 
-  registerForm: FormGroup;
+  registerForm!: FormGroup;
 
   ngOnInit(): void {
     this.createForm();

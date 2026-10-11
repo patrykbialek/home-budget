@@ -21,7 +21,7 @@ export class ResetPasswordComponent extends CommonWithAnimationComponent impleme
   private authenticationUtilsService = inject(fromServices.AuthenticationUtilsService);
   private formBuilder = inject(FormBuilder);
 
-  resetForm: FormGroup;
+  resetForm!: FormGroup;
 
   get emailControl() { return this.resetForm.get('email'); }
 
@@ -50,7 +50,7 @@ export class ResetPasswordComponent extends CommonWithAnimationComponent impleme
         skip(1),
         filter(Boolean),
         take(1),
-        tap(() => this.emailControl.setValue('', { emitEvent: false })),
+        tap(() => this.emailControl?.setValue('', { emitEvent: false })),
       ).subscribe();
   }
 

@@ -9,14 +9,13 @@ import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
-    selector: 'hb-set-form',
-    templateUrl: './set-form.component.html',
-    styleUrls: ['./set-form.component.scss'],
-    imports: [ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatIconButton, MatSuffix, MatIcon, MatError, MatButton, RouterLink, TranslatePipe]
+  selector: 'hb-set-form',
+  templateUrl: './set-form.component.html',
+  styleUrls: ['./set-form.component.scss'],
+  imports: [ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatIconButton, MatSuffix, MatIcon, MatError, MatButton, RouterLink, TranslatePipe]
 })
 export class SetFormComponent extends AuthenticationFormComponent implements OnInit {
-
-  @ViewChild('passwordHTML') passwordHTML: ElementRef;
+  @ViewChild('passwordHTML') passwordHTML!: ElementRef;
 
   ngOnInit(): void {
     setTimeout(() => {

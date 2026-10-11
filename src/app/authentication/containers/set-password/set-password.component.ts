@@ -10,13 +10,12 @@ import { SetFormComponent } from '../../components/set-password/set-form.compone
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
-    selector: 'hb-set-password',
-    templateUrl: './set-password.component.html',
-    styleUrls: ['./set-password.component.scss'],
-    imports: [CommonWithAnimationComponent_1, SetFormComponent, TranslatePipe]
+  selector: 'hb-set-password',
+  templateUrl: './set-password.component.html',
+  styleUrls: ['./set-password.component.scss'],
+  imports: [CommonWithAnimationComponent_1, SetFormComponent, TranslatePipe]
 })
 export class SetPasswordComponent extends CommonWithAnimationComponent implements OnInit {
-
   private activatedRoute = inject(ActivatedRoute);
   private authenticationService = inject(fromServices.AuthenticationFacadeService);
   private formBuilder = inject(FormBuilder);
@@ -24,7 +23,7 @@ export class SetPasswordComponent extends CommonWithAnimationComponent implement
 
   loginRouteUrl = '../login';
   code: string | undefined;
-  setForm: FormGroup;
+  setForm!: FormGroup;
 
   ngOnInit(): void {
     this.createForm();
@@ -50,7 +49,7 @@ export class SetPasswordComponent extends CommonWithAnimationComponent implement
   setPassword(event: FormGroup) {
     const payload: PasswordSet = {
       newPassword: event.value.password,
-      oobCode: this.code,
+      oobCode: this.code ?? '',
     };
 
     this.authenticationService.setPassword(payload);

@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 import { FinanceFormService } from './finance-form.service';
 
 import * as _ from 'lodash';
-import { DataItem, DataLabel, DataLabels, DataSourceDetails, DataSourceSummary, FinanceEntry, UpdatePayload } from '@home-budget/finance/models';
+import { DataItem, DataLabel, DataLabels, DataSourceDetails, DataSourceSummary, FinanceEntry, MonthLabel, UpdatePayload } from '@home-budget/finance/models';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { formatNumber, formData, formDataFooter, formLabels, formPathForDeleteEntry } from './finance-details-former.utils';
@@ -33,16 +33,16 @@ export class FinanceService {
   private readonly snackBar = inject(MatSnackBar);
   private readonly collection = inject(FINANCE_FEATURE_CONFIG).collection;
 
-  dataColumns: string[];
+  dataColumns!: string[];
   dataLabels: DataLabels = dataLabels;
   dataSource: DataSourceDetails[] = [];
-  dataSourceFooter: DataSourceDetails;
+  dataSourceFooter!: DataSourceDetails;
   defaultDataSource: DataSourceSummary[] = defaultDataSource;
   displayedColumns: string[] = [];
-  form: FormGroup;
+  form!: FormGroup;
 
   private isLoadingOn: boolean = false;
-  private parentFinanceEntry: FinanceEntry;
+  private parentFinanceEntry!: FinanceEntry;
   private dataSubscription: Subscription | undefined;
 
   get months(): DataLabel[] {
@@ -104,8 +104,8 @@ export class FinanceService {
   setCommonDataLabels(): void {
     Object.keys(monthLabel).forEach((key: string) => {
       this.setDataLabel({
-        key: monthLabel[key].id,
-        value: monthLabel[key].long,
+        key: monthLabel[key as keyof MonthLabel].id,
+        value: monthLabel[key as keyof MonthLabel].long,
       });
     });
 
@@ -143,7 +143,7 @@ export class FinanceService {
     });
 
     dialogRef.afterClosed()
-      .pipe(filter((callback: { form: FormGroup; }) => Boolean(callback)))
+      .pipe(filter((callback: { form: FormGroup; isToDelete: boolean; }) => Boolean(callback)))
       .subscribe((callback: { form: FormGroup; isToDelete: boolean; }) => {
         this.handleAfterEditDialogClose(callback.form, callback.isToDelete);
       });
@@ -239,7 +239,7 @@ export class FinanceService {
   }
 
   private addColumnToAllMonths(form: FormGroup): void {
-    let path: string = this.currentEntries.path;
+    let path: string = this.currentEntries.path ?? '';
     const entry: string = this.currentEntries.entry;
     const subs$: Observable<any>[] = [];
 
@@ -304,9 +304,9 @@ export class FinanceService {
 
   private updateEntryLabelToAllMonths(payload: UpdatePayload): void {
     const entry: string = payload.entry;
-    const label: string = payload.label;
+    const label: string = payload.label ?? '';
 
-    let path: string = this.currentEntries.path;
+    let path: string = this.currentEntries.path ?? '';
     this.months.forEach((month: DataLabel) => {
       path = path.replace(month.key, 'month');
     });

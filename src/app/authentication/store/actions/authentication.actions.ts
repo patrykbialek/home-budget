@@ -8,7 +8,7 @@ export const SET_USER_FAILURE  = '[AngularFireAuth API] Set user failure';
 
 export class SetUser implements Action {
   readonly type = SET_USER;
-  constructor(public payload: { uid: string }, ) { }
+  constructor(public payload: User, ) { }
 }
 
 export class SetUserSuccess implements Action {
@@ -64,7 +64,7 @@ export const REGISTER_USER_FAILURE  = '[Auth API] Register user failure';
 
 export class RegisterUser implements Action {
   readonly type = REGISTER_USER;
-  constructor(public payload?: UserRegister, ) { }
+  constructor(public payload: UserRegister, ) { }
 }
 
 export class RegisterUserSuccess implements Action {
@@ -83,7 +83,7 @@ export const RESET_PASSWORD_FAILURE  = '[Auth API] Reset password failure';
 
 export class ResetPassword implements Action {
   readonly type = RESET_PASSWORD;
-  constructor(public payload?: PasswordReset, ) { }
+  constructor(public payload: PasswordReset, ) { }
 }
 
 export class ResetPasswordSuccess implements Action {
@@ -101,7 +101,7 @@ export const SET_PASSWORD_FAILURE  = '[Auth API] Set password failure';
 
 export class SetPassword implements Action {
   readonly type = SET_PASSWORD;
-  constructor(public payload?: PasswordSet, ) { }
+  constructor(public payload: PasswordSet, ) { }
 }
 
 export class SetPasswordSuccess implements Action {

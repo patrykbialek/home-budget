@@ -2,7 +2,7 @@ import { User } from '@home-budget/authentication/models';
 import * as fromAuthentication from '@home-budget/authentication/store/actions/authentication.actions';
 
 export interface AuthenticationState {
-  entity: User;
+  entity: User | null;
   isFailed: boolean;
   isLoading: boolean;
   isSuccess: boolean;

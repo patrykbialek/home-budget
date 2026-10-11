@@ -11,7 +11,6 @@ const messages = {
   providedIn: 'root'
 })
 export class AuthenticationUtilsService {
-
   private validators = {
     email: '^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'
   };
@@ -24,6 +23,8 @@ export class AuthenticationUtilsService {
     if (formControl.hasError('required')) {
       return messages.required;
     }
+
+    return '';
   }
 
   getErrorMessageForEmail(formControl: FormControl): string {
@@ -34,6 +35,8 @@ export class AuthenticationUtilsService {
     if (formControl.hasError('email') || formControl.hasError('pattern')) {
       return messages.email;
     }
+
+    return '';
   }
 
   getErrorMessageForPassword(formControl: FormControl): string {
@@ -44,6 +47,8 @@ export class AuthenticationUtilsService {
     if (formControl.hasError('minlength')) {
       return messages.minlength;
     }
+
+    return '';
   }
 
 }

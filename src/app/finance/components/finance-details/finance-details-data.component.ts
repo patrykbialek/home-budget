@@ -30,14 +30,14 @@ export class FinanceDetailsDataComponent {
   goToDetails = output<FinanceEntry>();
 
   @HostListener('contextmenu', ['$event'])
-  onRightClick(event) {
+  onRightClick(event: Event) {
     event.preventDefault();
   }
 
   onGoToDetails(element: DataSourceDetails, elementValue: DataSourceDetailsEntry): void {
-    let entry: string;
+    let entry: string = '';
     Object.keys(element).forEach((key: string) => {
-      if (element[key] === elementValue) {
+      if ((element as unknown as Record<string, unknown>)[key] === elementValue) {
         entry = key;
       }
     });
@@ -59,9 +59,9 @@ export class FinanceDetailsDataComponent {
   }
 
   onEditFinanceEntry(element: DataSourceDetails, elementValue: DataSourceDetailsEntry): void {
-    let entry: string;
+    let entry: string = '';
     Object.keys(element).forEach((key: string) => {
-      if (element[key] === elementValue) {
+      if ((element as unknown as Record<string, unknown>)[key] === elementValue) {
         entry = key;
       }
     });

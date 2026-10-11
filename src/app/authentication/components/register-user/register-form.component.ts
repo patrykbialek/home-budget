@@ -9,14 +9,13 @@ import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
-    selector: 'hb-register-form',
-    templateUrl: './register-form.component.html',
-    styleUrls: ['./register-form.component.scss'],
-    imports: [ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatError, MatIconButton, MatSuffix, MatIcon, MatButton, RouterLink, TranslatePipe]
+  selector: 'hb-register-form',
+  templateUrl: './register-form.component.html',
+  styleUrls: ['./register-form.component.scss'],
+  imports: [ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatError, MatIconButton, MatSuffix, MatIcon, MatButton, RouterLink, TranslatePipe]
 })
 export class RegisterFormComponent extends AuthenticationFormComponent implements OnInit {
-
-  @ViewChild('nameHTML') nameHTML: ElementRef;
+  @ViewChild('nameHTML') nameHTML!: ElementRef;
 
   ngOnInit(): void {
     setTimeout(() => {

@@ -91,8 +91,10 @@ function formDataFooter(dataSource: DataSourceDetails[]): DataSourceDetails {
   // NOTE: calculate totals
   dataSource.forEach((entry: DataSourceDetails) => {
     Object.keys(entry).forEach((key: string) => {
-      if (key !== 'isInTotal' && entry[key].total >= 0 && entry[key] && rowTotals[key]) {
-        const total: number = rowTotals[key].total + entry[key].total;
+      const cell = (entry as unknown as Record<string, DataSourceDetailsEntry>)[key];
+      const totalCell = (rowTotals as unknown as Record<string, DataSourceDetailsEntry>)[key];
+      if (key !== 'isInTotal' && cell.total >= 0 && cell && totalCell) {
+        const total: number = totalCell.total + cell.total;
         rowTotals = {
           ...rowTotals,
           [key]: { total },
@@ -104,12 +106,13 @@ function formDataFooter(dataSource: DataSourceDetails[]): DataSourceDetails {
   // NOTE: caclulate total of totals
   Object.keys(rowTotals)
     .forEach((key: string) => {
+      const cell = (rowTotals as unknown as Record<string, DataSourceDetailsEntry>)[key];
       const total = !['isInTotal', 'month', 'total'].includes(key)
-        ? rowTotals.total + rowTotals[key].total
+        ? rowTotals.total + cell.total
         : 0;
       rowTotals = {
         ...rowTotals,
-        isInTotal: rowTotals[key].isInTotal,
+        isInTotal: cell.isInTotal,
         total,
       };
     });
@@ -120,13 +123,14 @@ function formDataFooter(dataSource: DataSourceDetails[]): DataSourceDetails {
 function formLabels(data: DataSourceDetails): DataLabel[] {
   return Object.keys(data)
     .map((key: string) => {
+      const cell = (data as unknown as Record<string, DataSourceDetailsEntry>)[key];
       return {
         key,
-        order: data[key].order,
-        value: data[key].label as string,
+        order: cell.order,
+        value: cell.label as string,
       };
     })
-    .sort((first: DataLabel, last: DataLabel) => first.order - last.order)
+    .sort((first: DataLabel, last: DataLabel) => (first.order ?? 0) - (last.order ?? 0))
     .filter((entry: DataLabel) => !commonLabels.includes(entry.key) && Boolean(entry.value))
     .map((entry: DataLabel) => entry);
 }
