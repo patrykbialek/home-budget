@@ -18,7 +18,7 @@ export class FinanceBreadcrumbsService {
       href: financeEntry.href,
       isCurrent: true,
       label: dataLabels[financeEntry.entry],
-      path: financeEntry.path,
+      path: financeEntry.path ?? undefined,
     };
     this.breadcrumbs = this.breadcrumbs
       .map((breadcrumb: BreadcrumbsItem) => {
@@ -27,10 +27,11 @@ export class FinanceBreadcrumbsService {
           isCurrent: breadcrumb.entry === item.entry,
         };
       });
-    const foundBreadcrumb: BreadcrumbsItem = this.breadcrumbs
+    const foundBreadcrumb: BreadcrumbsItem | undefined = this.breadcrumbs
       .find((breadcrumb: BreadcrumbsItem) => breadcrumb.entry === item.entry);
-    const selectedBreadcrumbIndex: number = this.breadcrumbs
-      .indexOf(foundBreadcrumb);
+    const selectedBreadcrumbIndex: number = foundBreadcrumb
+      ? this.breadcrumbs.indexOf(foundBreadcrumb)
+      : -1;
 
     if (selectedBreadcrumbIndex > 0) {
       this.breadcrumbs.length = selectedBreadcrumbIndex + 1;

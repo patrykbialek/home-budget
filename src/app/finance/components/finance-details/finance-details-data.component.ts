@@ -49,7 +49,7 @@ export class FinanceDetailsDataComponent {
       month: element.month,
       notes: elementValue.notes,
       order: elementValue.order,
-      path: element.path,
+      path: element.path ?? null,
       total: elementValue.total,
     };
 
@@ -73,7 +73,7 @@ export class FinanceDetailsDataComponent {
       month: element.month,
       notes: elementValue.notes,
       order: elementValue.order,
-      path: element.path,
+      path: element.path ?? null,
       total: elementValue.total,
     };
 

@@ -34,7 +34,7 @@ export class FinanceBreadcrumbsComponent {
       href,
       isCurrent,
       label,
-      path,
+      path: path ?? null,
     };
     this.financeFacadeService.goToDetails(financeEntry);
   }
