@@ -61,19 +61,19 @@ export class BudgetsHttpService {
     update(ref(this.db, path), payload);
   }
 
-  updateEntry(payload: fromModels.UpadatePayload): Observable<void> {
+  updateEntry(payload: fromModels.UpdatePayload): Observable<void> {
     const { entry, isInTotal, label, notes, path, order, total } = payload;
     const updatedPath = `/workspaces/${this.uid()}/budgets/${path}/${entry}`;
     return from(update(ref(this.db, updatedPath), { isInTotal, label, notes, order, total }));
   }
 
-  updateEntryLabel(payload: fromModels.UpadatePayload): Observable<void> {
+  updateEntryLabel(payload: fromModels.UpdatePayload): Observable<void> {
     const { entry, label, path } = payload;
     const updatedPath = `/workspaces/${this.uid()}/budgets/${path}/${entry}`;
     return from(update(ref(this.db, updatedPath), { label }));
   }
 
-  updateParentEntry(payload: fromModels.UpadatePayload): Observable<void> {
+  updateParentEntry(payload: fromModels.UpdatePayload): Observable<void> {
     const { entry, path, total } = payload;
     const updatedPath = `/workspaces/${this.uid()}/budgets/${path}/${entry}`;
     return from(update(ref(this.db, updatedPath), { total }));

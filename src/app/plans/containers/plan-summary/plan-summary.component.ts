@@ -96,8 +96,8 @@ export class PlanSummaryComponent implements OnDestroy, OnInit {
       .subscribe((data: fromModels.DataEntry[]) => this.formData(data));
   }
 
-  private setCommonDataLables(): void {
-    this.plansFacadeService.setCommonDataLables();
+  private setCommonDataLabels(): void {
+    this.plansFacadeService.setCommonDataLabels();
   }
 
   private formData(data: fromModels.DataEntry[]): void {
@@ -116,7 +116,7 @@ export class PlanSummaryComponent implements OnDestroy, OnInit {
     this.isLoading = true;
     this.year = year;
     this.sourcePath = `${this.year}/entries`;
-    this.setCommonDataLables();
+    this.setCommonDataLabels();
     this.readData();
   }
 }
