@@ -9,6 +9,7 @@ import { FinanceDetailsComponent, FinanceSummaryComponent } from '@home-budget/f
 import { FinanceFacadeService } from '@home-budget/finance/services/finance-facade.service';
 import { FinanceFormService } from '@home-budget/finance/services/finance-form.service';
 import { FinanceService } from '@home-budget/finance/services/finance.service';
+import { FinanceWriteService } from '@home-budget/finance/services/finance-write.service';
 
 export const BUDGETS_ROUTES: Routes = [
   {
@@ -16,6 +17,7 @@ export const BUDGETS_ROUTES: Routes = [
     providers: [
       { provide: FINANCE_FEATURE_CONFIG, useValue: { collection: 'budgets', i18nPrefix: 'BUDGET' } },
       FinanceService,
+      FinanceWriteService,
       FinanceFacadeService,
       FinanceBreadcrumbsService,
       FinanceFormService,

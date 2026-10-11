@@ -4,13 +4,12 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
-import * as _ from 'lodash';
-import { filter, switchMap, take, tap } from 'rxjs/operators';
-import { forkJoin, Observable, Subscription } from 'rxjs';
+import { filter, switchMap, tap } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
 
 import { BreadcrumbsItem } from '../models/finance-breadcrumbs.model';
 import { CoreService } from '@home-budget/core/core.service';
-import { DataItem, DataLabel, DataLabels, DataSourceDetails, DataSourceSummary, FinanceEntry, MonthLabel, UpdatePayload } from '@home-budget/finance/models';
+import { DataItem, DataLabel, DataLabels, DataSourceDetails, DataSourceSummary, FinanceEntry, MonthLabel } from '@home-budget/finance/models';
 import { dataLabels, defaultDataSource, labels, monthLabel, months } from '../shared/finance.config';
 import { DataProperty } from '../models/finance.enum';
 import { FINANCE_FEATURE_CONFIG } from '@home-budget/finance/finance-feature.config';
@@ -18,7 +17,8 @@ import { FinanceAddColumnFormComponent, FinanceEditFormComponent } from '../comp
 import { FinanceBreadcrumbsService } from './finance-breadcrumbs.service';
 import { FinanceFormService } from './finance-form.service';
 import { FinanceHttpService } from './finance-http.service';
-import { formatNumber, formData, formDataFooter, formLabels, formPathForDeleteEntry } from './finance-details-former.utils';
+import { FinanceWriteService } from './finance-write.service';
+import { formData, formDataFooter, formLabels } from './finance-details-former.utils';
 
 @Injectable()
 export class FinanceService {
@@ -27,6 +27,7 @@ export class FinanceService {
   private readonly financeBreadcrumbsService = inject(FinanceBreadcrumbsService);
   private readonly financeFormService = inject(FinanceFormService);
   private readonly financeHttpService = inject(FinanceHttpService);
+  private readonly financeWriteService = inject(FinanceWriteService);
   private readonly router = inject(Router);
   private readonly snackBar = inject(MatSnackBar);
   private readonly collection = inject(FINANCE_FEATURE_CONFIG).collection;
@@ -74,14 +75,6 @@ export class FinanceService {
 
   readData(sourcePath: string, uid?: string): Observable<any> {
     return this.financeHttpService.readData(this.collection, sourcePath, uid);
-  }
-
-  readDataByTypeObject(sourcePath: string): Observable<unknown> {
-    return this.financeHttpService.readDataByTypeObject(this.collection, sourcePath);
-  }
-
-  readDataByType(sourcePath: string): Observable<unknown> {
-    return this.financeHttpService.readDataByType(this.collection, sourcePath);
   }
 
   private formDataLabelsAndColumns(data: DataSourceDetails): void {
@@ -148,11 +141,15 @@ export class FinanceService {
     const { entry, isInTotal, label, notes, order, total } = form.value;
     const path: string = this.withCurrentYear(form.value.path);
     this.setIsLoadingOn(true);
-    if (isToDelete) {
-      this.deleteEntry(path, entry);
-      return;
-    }
-    this.updateEntry({ entry, isInTotal, label, notes, order, path, total });
+
+    const write$ = isToDelete
+      ? this.financeWriteService.deleteEntry(path, entry)
+      : this.financeWriteService.updateEntry({ entry, isInTotal, label, notes, order, path, total }, this.currentEntries.path ?? '');
+
+    write$.subscribe({
+      next: () => this.handleAfterWrite(true),
+      error: () => this.handleWriteError(),
+    });
   }
 
   private addColumn(form: FormGroup): void {
@@ -171,7 +168,19 @@ export class FinanceService {
 
   private handleAfterAddColumnDialogClose(form: FormGroup): void {
     this.setIsLoadingOn(true);
-    this.addColumnToAllMonths(form);
+    this.financeWriteService.addColumn(form, this.currentEntries)
+      .subscribe({
+        next: () => this.handleAfterWrite(false),
+        error: () => this.handleWriteError(),
+      });
+  }
+
+  private handleAfterWrite(reload: boolean): void {
+    if (reload) {
+      this.goToDetails(this.parentFinanceEntry);
+    }
+    this.setIsLoadingOn(false);
+    this.openSnackBar('Dane zapisane.');
   }
 
   private formBreadcrumbs(financeEntry: FinanceEntry): void {
@@ -199,190 +208,6 @@ export class FinanceService {
 
   private formDataSourceFooter(): void {
     this.dataSourceFooter = formDataFooter(this.dataSource);
-  }
-
-  private deleteEntry(path: string, entry: FinanceEntry): void {
-    const updatedPath: string = formPathForDeleteEntry(path, entry);
-    const subs$: Observable<any>[] = [];
-    this.months.forEach((month: DataLabel) => {
-      const replacedPath: string = updatedPath.replace('month', month.key);
-      subs$.push(this.financeHttpService.deleteEntry(this.collection, replacedPath));
-    });
-
-    forkJoin(subs$)
-      .subscribe({
-        next: () => this.handleAfterDeleteEntry(),
-        error: () => this.handleWriteError(),
-      });
-  }
-
-  private handleAfterDeleteEntry(): void {
-    this.goToDetails(this.parentFinanceEntry);
-    this.setIsLoadingOn(false);
-    this.openSnackBar('Dane zapisane.');
-  }
-
-  private nextEntryIndex(entries: Record<string, unknown>, entry: string): number {
-    const indices: number[] = Object.keys(entries)
-      .filter((key: string) => key.startsWith(entry))
-      .map((key: string) => Number(key.slice(entry.length)))
-      .filter((index: number) => Number.isInteger(index));
-    return (indices.length ? Math.max(...indices) : 0) + 1;
-  }
-
-  private addColumnToAllMonths(form: FormGroup): void {
-    let path: string = this.currentEntries.path ?? '';
-    const entry: string = this.currentEntries.entry;
-    const subs$: Observable<any>[] = [];
-
-    let payload: Record<string, unknown> = {
-      isInTotal: true,
-      label: form.value.label,
-      notes: null,
-      order: form.value.order,
-      total: 0,
-    };
-
-    this.months.forEach((month: DataLabel) => {
-      path = path.replace(month.key, 'month');
-    });
-
-    this.months.forEach((month: DataLabel) => {
-      const replacedPath = path.replace('month', month.key);
-      subs$.push(this.financeHttpService.readEntriesObject(this.collection, replacedPath)
-        .pipe(
-          take(1),
-          switchMap((raw) => {
-            let entries = raw as Record<string, unknown>;
-            const lastIndex: number = this.nextEntryIndex(entries, entry);
-            const key: string = `${entry}${formatNumber(lastIndex)}`;
-
-            if (form.value.hasEntries) {
-              const childKey: string = `${key}${formatNumber(1)}`;
-              payload = {
-                ...payload,
-                entries: {
-                  [childKey]: {
-                    isInTotal: true,
-                    label: `${form.value.label} 1`,
-                    order: 1,
-                    total: 0,
-                  }
-                }
-              };
-            }
-
-            entries = {
-              ...entries,
-              [key]: payload,
-            };
-
-            return this.financeHttpService.updateEntriesObject(this.collection, replacedPath, entries);
-          }))
-      );
-    });
-
-    forkJoin(subs$)
-      .subscribe({
-        next: () => this.handleAfterAddColumnToAllMonths(),
-        error: () => this.handleWriteError(),
-      });
-  }
-
-  private handleAfterAddColumnToAllMonths(): void {
-    this.setIsLoadingOn(false);
-    this.openSnackBar('Dane zapisane.');
-  }
-
-  private updateEntryLabelToAllMonths(payload: UpdatePayload): void {
-    const entry: string = payload.entry;
-    const label: string = payload.label ?? '';
-
-    let path: string = this.currentEntries.path ?? '';
-    this.months.forEach((month: DataLabel) => {
-      path = path.replace(month.key, 'month');
-    });
-
-    this.months.forEach((month: DataLabel) => {
-      const replacedPath: string = path.replace('month', month.key);
-      const updatedPayload: UpdatePayload = {
-        entry,
-        label,
-        path: replacedPath,
-      };
-      this.updateEntryLabel(updatedPayload);
-    });
-  }
-
-  private updateEntryLabel(payload: UpdatePayload): void {
-    this.financeHttpService.updateEntryLabel(this.collection, payload)
-      .pipe(take(1))
-      .subscribe();
-  }
-
-  private updateEntry(payload: UpdatePayload): void {
-    this.financeHttpService.updateEntry(this.collection, payload)
-      .pipe(take(1))
-      .subscribe({
-        next: () => this.handleAfterUpdateEntry(payload),
-        error: () => this.handleWriteError(),
-      });
-  }
-
-  private handleAfterUpdateEntry(payload: UpdatePayload): void {
-    this.updateParentTotals(payload.path);
-    this.updateEntryLabelToAllMonths(payload);
-
-    this.goToDetails(this.parentFinanceEntry);
-    this.setIsLoadingOn(false);
-    this.openSnackBar('Dane zapisane.');
-  }
-
-  private updateParentTotals(path: string): void {
-    let newPath: string[] = path.split('/');
-    const len: number = ((newPath.length - 6));
-    const subs$ = [];
-    for (let i = 0; i < len; i++) {
-      newPath = newPath.slice(0, -1);
-
-      if (newPath[newPath.length - 1] !== 'entries') {
-        const formedPath = newPath.join('/').split('/').slice(0, -1).join('/');
-        subs$.push(
-          this.readDataByTypeObject(newPath.join('/'))
-            .pipe(
-              take(len / 2),
-              tap((response) => {
-                const item = response as { key: string | null; value: { entries?: Record<string, { isInTotal: boolean; total: number }> } };
-                if (item.key !== 'entries') {
-                  let total: number = 0;
-                  const entries = item.value?.entries ?? {};
-                  Object.keys(entries)
-                    .forEach((entryKey: string) => {
-                      if (entries[entryKey].isInTotal) {
-                        total += entries[entryKey].total;
-                      }
-                    });
-
-                  const updatePayload: UpdatePayload = {
-                    path: formedPath,
-                    entry: item.key ?? '',
-                    total: parseFloat(total.toFixed(2)),
-                  };
-                  this.updateParentEntry(updatePayload);
-                }
-              })
-            )
-        );
-      }
-    }
-    forkJoin(subs$)
-      .subscribe();
-  }
-
-  private updateParentEntry(payload: UpdatePayload): void {
-    this.financeHttpService.updateParentEntry(this.collection, payload)
-      .pipe(take(1))
-      .subscribe();
   }
 
   private setDisplayedColumns(): void {
