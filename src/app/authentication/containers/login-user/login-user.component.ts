@@ -2,8 +2,8 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserLogin } from '@home-budget/authentication/models';
-import * as fromServices from '@home-budget/authentication/services';
-import * as fromStoreServices from '@home-budget/authentication/store/services';
+import { AuthenticationUtilsService } from '@home-budget/authentication/services';
+import { AuthenticationFacadeService } from '@home-budget/authentication/store/services';
 import { CommonWithAnimationComponent } from '@home-budget/shared/components';
 import { Subject } from 'rxjs';
 import { filter, skip, takeUntil, tap } from 'rxjs/operators';
@@ -18,8 +18,8 @@ import { TranslatePipe } from '@ngx-translate/core';
   imports: [CommonWithAnimationComponent_1, LoginFormComponent, TranslatePipe]
 })
 export class LoginUserComponent extends CommonWithAnimationComponent implements OnDestroy, OnInit {
-  private readonly authenticationService = inject(fromStoreServices.AuthenticationFacadeService);
-  private readonly authenticationUtilsService = inject(fromServices.AuthenticationUtilsService);
+  private readonly authenticationService = inject(AuthenticationFacadeService);
+  private readonly authenticationUtilsService = inject(AuthenticationUtilsService);
   private readonly formBuilder = inject(FormBuilder);
   private readonly router = inject(Router);
 

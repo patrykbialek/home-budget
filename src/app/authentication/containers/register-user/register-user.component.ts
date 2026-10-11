@@ -2,8 +2,8 @@ import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserRegister } from '@home-budget/authentication/models';
-import * as fromServices from '@home-budget/authentication/services';
-import * as fromStoreServices from '@home-budget/authentication/store/services';
+import { AuthenticationUtilsService } from '@home-budget/authentication/services';
+import { AuthenticationFacadeService } from '@home-budget/authentication/store/services';
 import { CommonWithAnimationComponent } from '@home-budget/shared/components';
 import { filter, skip, take, tap } from 'rxjs/operators';
 import { CommonWithAnimationComponent as CommonWithAnimationComponent_1 } from '../../../shared/components/common-with-animation.component';
@@ -17,8 +17,8 @@ import { TranslatePipe } from '@ngx-translate/core';
   imports: [CommonWithAnimationComponent_1, RegisterFormComponent, TranslatePipe]
 })
 export class RegisterUserComponent extends CommonWithAnimationComponent implements OnInit {
-  private authenticationService = inject(fromStoreServices.AuthenticationFacadeService);
-  private authenticationUtilsService = inject(fromServices.AuthenticationUtilsService);
+  private authenticationService = inject(AuthenticationFacadeService);
+  private authenticationUtilsService = inject(AuthenticationUtilsService);
   private formBuilder = inject(FormBuilder);
   private router = inject(Router);
 

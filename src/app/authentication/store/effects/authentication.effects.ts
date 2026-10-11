@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ApiErrors, ErrorMessage, PasswordReset, PasswordSet, User, UserLogin, UserRegister } from '@home-budget/authentication/models';
-import * as fromServices from '@home-budget/authentication/services';
+import { AuthenticationHttpService } from '@home-budget/authentication/services';
 import * as fromActions from '@home-budget/authentication/store/actions';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
@@ -12,7 +12,7 @@ import { catchError, map, mergeMap } from 'rxjs/operators';
 export class AuthenticationEffects {
 
   private readonly actions$ = inject(Actions);
-  private readonly authenticationService = inject(fromServices.AuthenticationHttpService);
+  private readonly authenticationService = inject(AuthenticationHttpService);
   private readonly router = inject(Router);
   private readonly snackBar = inject(MatSnackBar);
 
