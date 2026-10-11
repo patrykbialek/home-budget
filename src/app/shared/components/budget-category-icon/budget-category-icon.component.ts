@@ -1,7 +1,7 @@
 import { Component, input } from '@angular/core';
 
 @Component({
-  selector: 'bh-category-icon',
+  selector: 'hb-category-icon',
   templateUrl: 'budget-category-icon.component.html',
   standalone: false
 })

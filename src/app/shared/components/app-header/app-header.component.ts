@@ -9,7 +9,7 @@ import { FinanceHttpService } from '@home-budget/finance/services/finance-http.s
 import { filter, switchMap } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-header',
+  selector: 'hb-header',
   templateUrl: './app-header.component.html',
   styleUrls: ['./app-header.component.scss'],
   standalone: false

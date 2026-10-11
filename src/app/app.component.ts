@@ -10,7 +10,7 @@ import { SharedUtilsService } from '@home-budget/shared/services/shared-utils.se
 const mobileBreakPoint = 840;
 
 @Component({
-  selector: 'app-root',
+  selector: 'hb-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   standalone: false
