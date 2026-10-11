@@ -7,23 +7,20 @@ import { AngularMaterialModule } from '@home-budget/shared/modules/angular-mater
 import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 
 @NgModule({
-  declarations: [
-    ...fromComponents.components,
-  ],
-  imports: [
-    CommonModule,
-    RouterModule,
-    AngularMaterialModule,
-
-    TranslateDirective,
-    TranslatePipe,
-    AuthenticationStoreModule,
-  ],
-  exports: [
-    AngularMaterialModule,
-    TranslateDirective,
-    TranslatePipe,
-    ...fromComponents.components,
-  ],
+    imports: [
+        CommonModule,
+        RouterModule,
+        AngularMaterialModule,
+        TranslateDirective,
+        TranslatePipe,
+        AuthenticationStoreModule,
+        ...fromComponents.components,
+    ],
+    exports: [
+        AngularMaterialModule,
+        TranslateDirective,
+        TranslatePipe,
+        ...fromComponents.components,
+    ],
 })
 export class SharedModule { }

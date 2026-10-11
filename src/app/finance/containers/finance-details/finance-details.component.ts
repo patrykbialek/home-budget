@@ -10,12 +10,13 @@ import { takeUntil } from 'rxjs/operators';
 import { BreadcrumbsItem } from '../../models/finance-breadcrumbs.model';
 import * as config from '../../shared/finance.config';
 import { FINANCE_FEATURE_CONFIG } from '@home-budget/finance/finance-feature.config';
+import { FinanceDetailsDataComponent } from '../../components/finance-details/finance-details-data.component';
 
 @Component({
-  selector: 'hb-finance-details',
-  templateUrl: './finance-details.component.html',
-  styleUrls: ['./finance-details.component.scss'],
-  standalone: false
+    selector: 'hb-finance-details',
+    templateUrl: './finance-details.component.html',
+    styleUrls: ['./finance-details.component.scss'],
+    imports: [FinanceDetailsDataComponent]
 })
 export class FinanceDetailsComponent implements OnDestroy, OnInit {
   form!: FormGroup;

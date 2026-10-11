@@ -7,12 +7,15 @@ import * as fromStoreServices from '@home-budget/authentication/store/services';
 import { CommonWithAnimationComponent } from '@home-budget/shared/components';
 import { Subject } from 'rxjs';
 import { filter, skip, takeUntil, tap } from 'rxjs/operators';
+import { CommonWithAnimationComponent as CommonWithAnimationComponent_1 } from '../../../shared/components/common-with-animation.component';
+import { LoginFormComponent } from '../../components/login-user/login-form.component';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'hb-login-user',
     templateUrl: './login-user.component.html',
     styleUrls: ['./login-user.component.scss'],
-    standalone: false
+    imports: [CommonWithAnimationComponent_1, LoginFormComponent, TranslatePipe]
 })
 export class LoginUserComponent extends CommonWithAnimationComponent implements OnDestroy, OnInit {
 

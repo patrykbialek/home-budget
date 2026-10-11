@@ -10,12 +10,16 @@ import { AuthenticationFacadeService } from '@authentication/store';
 
 import { CoreService } from '@home-budget/core/core.service';
 import { FINANCE_FEATURE_CONFIG } from '@home-budget/finance/finance-feature.config';
+import { MatCard, MatCardContent } from '@angular/material/card';
+import { FinanceSummaryDataComponent } from '../../components/finance-summary-data/finance-summary-data.component';
+import { FinanceGraphComponent } from '../../components/finance-graph/finance-graph.component';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'hb-finance-summary',
-  templateUrl: './finance-summary.component.html',
-  styleUrls: ['./finance-summary.component.scss'],
-  standalone: false
+    selector: 'hb-finance-summary',
+    templateUrl: './finance-summary.component.html',
+    styleUrls: ['./finance-summary.component.scss'],
+    imports: [MatCard, MatCardContent, FinanceSummaryDataComponent, FinanceGraphComponent, AsyncPipe]
 })
 export class FinanceSummaryComponent implements OnDestroy, OnInit {
   displayedColumns: string[] = config.financeColumns;

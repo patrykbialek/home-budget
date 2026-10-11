@@ -6,13 +6,18 @@ import {
   output,
 } from '@angular/core';
 import * as fromModels from '@home-budget/finance/models';
+import { MatCard, MatCardContent } from '@angular/material/card';
+import { MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatFooterCellDef, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatFooterRowDef, MatFooterRow } from '@angular/material/table';
+import { NgClass, DecimalPipe } from '@angular/common';
+import { MatTooltip } from '@angular/material/tooltip';
+import { AppSpinnerComponent } from '../../../shared/components/app-spinner/app-spinner.component';
 
 @Component({
   selector: 'hb-finance-details-data',
   templateUrl: './finance-details-data.component.html',
   styleUrls: ['./finance-details-data.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false
+  imports: [MatCard, MatCardContent, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, NgClass, MatCellDef, MatCell, MatTooltip, MatFooterCellDef, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatFooterRowDef, MatFooterRow, AppSpinnerComponent, DecimalPipe]
 })
 export class FinanceDetailsDataComponent {
   dataLabels = input.required<fromModels.DataLabels>();

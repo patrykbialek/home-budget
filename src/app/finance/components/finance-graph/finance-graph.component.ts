@@ -3,6 +3,7 @@ import { ChartOptions } from 'chart.js';
 
 import * as config from '../../shared/finance.config';
 import * as fromModels from '@home-budget/finance/models';
+import { BaseChartDirective } from 'ng2-charts';
 
 const financeChartOption: Partial<fromModels.FinanceGraphConfig> = {
   backgroundColor: config.chartOption.color.transparent,
@@ -23,7 +24,7 @@ interface GraphData {
   selector: 'hb-finance-graph',
   templateUrl: './finance-graph.component.html',
   styleUrls: ['./finance-graph.component.scss'],
-  standalone: false
+  imports: [BaseChartDirective]
 })
 export class FinanceGraphComponent implements OnInit {
   chartLabels: Array<string> = [];

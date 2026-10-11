@@ -10,23 +10,20 @@ import { AuthenticationStoreModule } from '@home-budget/authentication/store/aut
 import { SharedModule } from '@home-budget/shared/shared.module';
 
 @NgModule({
-  declarations: [
-    AuthenticationComponent,
-    ...fromContainers.components,
-    ...fromComponents.components,
-  ],
-  imports: [
-    CommonModule,
-    RouterModule,
-    ReactiveFormsModule,
-    SharedModule,
-    AuthenticationRoutingModule,
-
-    AuthenticationStoreModule,
-  ],
-  exports: [
-    ...fromContainers.components,
-    ...fromComponents.components,
-  ]
+    imports: [
+        CommonModule,
+        RouterModule,
+        ReactiveFormsModule,
+        SharedModule,
+        AuthenticationRoutingModule,
+        AuthenticationStoreModule,
+        AuthenticationComponent,
+        ...fromContainers.components,
+        ...fromComponents.components,
+    ],
+    exports: [
+        ...fromContainers.components,
+        ...fromComponents.components,
+    ]
 })
 export class AuthenticationModule { }

@@ -25,32 +25,28 @@ import { FinanceService } from './services/finance.service';
  * lazy-loaded host module gets its own isolated instance and state.
  */
 @NgModule({
-  declarations: [
-    FinanceComponent,
-    ...fromComponents.components,
-    ...fromContainers.components,
-  ],
-  imports: [
-    CommonModule,
-    RouterModule,
-    ReactiveFormsModule,
-
-    SharedModule,
-    AuthenticationStoreModule,
-
-    BaseChartDirective,
-  ],
-  exports: [
-    FinanceComponent,
-    ...fromComponents.components,
-    ...fromContainers.components,
-  ],
-  providers: [
-    FinanceService,
-    FinanceFacadeService,
-    FinanceBreadcrumbsService,
-    FinanceFormService,
-    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
-  ],
+    imports: [
+        CommonModule,
+        RouterModule,
+        ReactiveFormsModule,
+        SharedModule,
+        AuthenticationStoreModule,
+        BaseChartDirective,
+        FinanceComponent,
+        ...fromComponents.components,
+        ...fromContainers.components,
+    ],
+    exports: [
+        FinanceComponent,
+        ...fromComponents.components,
+        ...fromContainers.components,
+    ],
+    providers: [
+        FinanceService,
+        FinanceFacadeService,
+        FinanceBreadcrumbsService,
+        FinanceFormService,
+        { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    ],
 })
 export class FinanceFeatureModule { }

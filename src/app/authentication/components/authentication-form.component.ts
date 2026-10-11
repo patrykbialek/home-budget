@@ -4,8 +4,7 @@ import * as fromServices from '@home-budget/authentication/services';
 
 @Component({
     selector: 'hb-authentication-form',
-    template: '',
-    standalone: false
+    template: ''
 })
 export class AuthenticationFormComponent {
 

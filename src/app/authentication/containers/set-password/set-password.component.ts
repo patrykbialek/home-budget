@@ -5,12 +5,15 @@ import * as fromModels from '@home-budget/authentication/models';
 import * as fromServices from '@home-budget/authentication/store/services';
 import { CommonWithAnimationComponent } from '@home-budget/shared/components';
 import { filter, skip, take, tap } from 'rxjs/operators';
+import { CommonWithAnimationComponent as CommonWithAnimationComponent_1 } from '../../../shared/components/common-with-animation.component';
+import { SetFormComponent } from '../../components/set-password/set-form.component';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'hb-set-password',
     templateUrl: './set-password.component.html',
     styleUrls: ['./set-password.component.scss'],
-    standalone: false
+    imports: [CommonWithAnimationComponent_1, SetFormComponent, TranslatePipe]
 })
 export class SetPasswordComponent extends CommonWithAnimationComponent implements OnInit {
 

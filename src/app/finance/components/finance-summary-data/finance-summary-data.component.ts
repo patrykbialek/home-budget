@@ -2,12 +2,15 @@ import { Component, inject, input, output } from '@angular/core';
 
 import * as fromModels from '@home-budget/finance/models';
 import { FINANCE_FEATURE_CONFIG } from '@home-budget/finance/finance-feature.config';
+import { MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
+import { NgClass, DecimalPipe } from '@angular/common';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'hb-finance-summary-data',
   templateUrl: './finance-summary-data.component.html',
   styleUrls: ['./finance-summary-data.component.scss'],
-  standalone: false
+  imports: [MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, NgClass, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, DecimalPipe, TranslatePipe]
 })
 export class FinanceSummaryDataComponent {
   readonly i18nPrefix = inject(FINANCE_FEATURE_CONFIG).i18nPrefix;

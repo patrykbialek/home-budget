@@ -5,12 +5,15 @@ import * as fromServices from '@home-budget/authentication/services';
 import * as fromStoreServices from '@home-budget/authentication/store/services';
 import { CommonWithAnimationComponent } from '@home-budget/shared/components';
 import { filter, skip, take, tap } from 'rxjs/operators';
+import { CommonWithAnimationComponent as CommonWithAnimationComponent_1 } from '../../../shared/components/common-with-animation.component';
+import { ResetFormComponent } from '../../components/reset-password/reset-form.component';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'hb-reset-password',
     templateUrl: './reset-password.component.html',
     styleUrls: ['./reset-password.component.scss'],
-    standalone: false
+    imports: [CommonWithAnimationComponent_1, ResetFormComponent, TranslatePipe]
 })
 export class ResetPasswordComponent extends CommonWithAnimationComponent implements OnInit {
 

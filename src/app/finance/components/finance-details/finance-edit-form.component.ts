@@ -1,9 +1,16 @@
 import { trigger, transition, style, animate } from '@angular/animations';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose } from '@angular/material/dialog';
 import * as fromModels from '@home-budget/finance/models';
 import { DataProperty } from '@home-budget/finance/models/finance.enum';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatFormField, MatLabel, MatSuffix, MatError } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { MatButton } from '@angular/material/button';
+import { TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'hb-finance-edit-form',
@@ -22,7 +29,7 @@ import { DataProperty } from '@home-budget/finance/models/finance.enum';
       ])
     ])
   ],
-  standalone: false
+  imports: [MatDialogTitle, MatIcon, ReactiveFormsModule, CdkScrollable, MatDialogContent, MatFormField, MatLabel, MatInput, MatSuffix, MatError, MatSlideToggle, MatDialogActions, MatButton, MatDialogClose, TitleCasePipe]
 })
 export class FinanceEditFormComponent {
   dialogRef = inject(MatDialogRef<FinanceEditFormComponent>);

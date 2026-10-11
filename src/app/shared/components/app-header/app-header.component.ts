@@ -1,18 +1,24 @@
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 
 import { AuthenticationFacadeService } from '@home-budget/authentication/store';
 import { CoreService } from '../../../core/core.service';
 import { SharedUtilsService } from '@shared/services/shared-utils.service';
 import { FinanceHttpService } from '@home-budget/finance/services/finance-http.service';
 import { filter, switchMap } from 'rxjs/operators';
+import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
+import { MatButton, MatIconButton } from '@angular/material/button';
+import { NgStyle, AsyncPipe } from '@angular/common';
+import { MatIcon } from '@angular/material/icon';
+import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
+import { MatDivider } from '@angular/material/divider';
 
 @Component({
   selector: 'hb-header',
   templateUrl: './app-header.component.html',
   styleUrls: ['./app-header.component.scss'],
-  standalone: false
+  imports: [MatToolbar, MatToolbarRow, RouterLink, MatButton, NgStyle, RouterLinkActive, MatIcon, MatIconButton, MatMenuTrigger, MatMenu, MatMenuItem, MatDivider, AsyncPipe, TranslatePipe]
 })
 export class AppHeaderComponent {
   private readonly authService = inject(AuthenticationFacadeService);

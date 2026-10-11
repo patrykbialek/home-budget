@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'hb-app-spinner',
@@ -8,6 +9,6 @@ import { Component } from '@angular/core';
     </section>
   `,
   styleUrls: ['./app-spinner.component.scss'],
-  standalone: false
+  imports: [MatProgressSpinner]
 })
 export class AppSpinnerComponent { }

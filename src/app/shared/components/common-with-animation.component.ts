@@ -6,8 +6,7 @@ import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
     <main class="o-wrapper c-main" #main>
       <ng-content></ng-content>
     </main>
-  `,
-  standalone: false
+  `
 })
 export class CommonWithAnimationComponent implements AfterViewInit {
   @ViewChild('main') mainHTML!: ElementRef;

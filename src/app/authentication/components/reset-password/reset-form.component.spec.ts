@@ -21,25 +21,23 @@ describe('ResetFormComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        ResetFormComponent,
-        AuthenticationFormComponent
-      ],
-      imports: [
+    imports: [
         BrowserAnimationsModule,
         RouterTestingModule,
         ReactiveFormsModule,
         StoreModule.forRoot({}),
         EffectsModule.forRoot(),
         SharedModule,
-      ],
-      providers: [
+        ResetFormComponent,
+        AuthenticationFormComponent,
+    ],
+    providers: [
         provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
         provideAuth(() => getAuth()),
         provideDatabase(() => getDatabase()),
         provideTranslateService(),
-      ]
-    })
+    ]
+})
       .compileComponents();
   }));
 
