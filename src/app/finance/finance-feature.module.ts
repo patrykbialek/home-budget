@@ -1,18 +1,11 @@
-import { BaseChartDirective } from 'ng2-charts';
-
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
-import { RouterModule } from '@angular/router';
-import { AuthenticationStoreModule } from '@authentication/store/authentication-store.module';
-import { SharedModule } from '@shared/shared.module';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { NgModule } from '@angular/core';
 
-import { FinanceComponent } from './finance.component';
-import * as fromComponents from './components';
-import * as fromContainers from './containers';
+import { components as financeComponents } from './components';
+import { components as financeContainers } from './containers';
 import { FinanceBreadcrumbsService } from './services/finance-breadcrumbs.service';
+import { FinanceComponent } from './finance.component';
 import { FinanceFacadeService } from './services/finance-facade.service';
 import { FinanceFormService } from './services/finance-form.service';
 import { FinanceService } from './services/finance.service';
@@ -23,27 +16,20 @@ import { FinanceService } from './services/finance.service';
  * provide a {@link FINANCE_FEATURE_CONFIG} that selects the Firebase collection and
  * i18n namespace. The stateful services are provided here (not in root) so each
  * lazy-loaded host module gets its own isolated instance and state.
+ *
+ * Components are standalone and import their own dependencies, so this module no
+ * longer needs CommonModule/RouterModule/ReactiveFormsModule/SharedModule/etc.
  */
 @NgModule({
-  declarations: [
-    FinanceComponent,
-    ...fromComponents.components,
-    ...fromContainers.components,
-  ],
   imports: [
-    CommonModule,
-    RouterModule,
-    ReactiveFormsModule,
-
-    SharedModule,
-    AuthenticationStoreModule,
-
-    BaseChartDirective,
+    FinanceComponent,
+    ...financeComponents,
+    ...financeContainers,
   ],
   exports: [
     FinanceComponent,
-    ...fromComponents.components,
-    ...fromContainers.components,
+    ...financeComponents,
+    ...financeContainers,
   ],
   providers: [
     FinanceService,

@@ -1,6 +1,6 @@
-import * as fromModels from '@home-budget/finance/models';
+import { ChartOption, DataLabel, DataSourceSummary, MonthLabel, NavLink } from '@home-budget/finance/models';
 
-export const chartOption: fromModels.ChartOption = {
+export const chartOption: ChartOption = {
   color: {
     blue: 'rgba(0, 132, 255, 1)',
     green: 'rgba(13, 157, 61, 1)',
@@ -9,7 +9,7 @@ export const chartOption: fromModels.ChartOption = {
   },
 };
 
-export const months: fromModels.DataLabel[] = [
+export const months: DataLabel[] = [
   {
     key: 'jan',
     value: 'Styczeń',
@@ -60,7 +60,7 @@ export const months: fromModels.DataLabel[] = [
   },
 ];
 
-export const monthLabel: fromModels.MonthLabel = {
+export const monthLabel: MonthLabel = {
   january: {
     id: 'jan',
     long: 'Styczeń',
@@ -123,7 +123,7 @@ export const monthLabel: fromModels.MonthLabel = {
   },
 };
 
-export const labels: fromModels.DataLabel[] = [
+export const labels: DataLabel[] = [
   { key: 'execution', value: 'Wykonanie' },
   { key: 'expense', value: 'Wydatki' },
   { key: 'income', value: 'Przychody' },
@@ -136,7 +136,7 @@ export const financeColumns: string[] = [
   'month', 'income', 'expense', 'rest', 'increase',
 ];
 
-export const navLinks: fromModels.NavLink[] = [
+export const navLinks: NavLink[] = [
   {
     label: 'Projekt',
     href: './project',
@@ -149,7 +149,7 @@ export const navLinks: fromModels.NavLink[] = [
   },
 ];
 
-export const defaultDataSource: fromModels.DataSourceSummary[] = [
+export const defaultDataSource: DataSourceSummary[] = [
   { month: 'jan', expense: 0, income: 0, increase: 0, path: '', rest: 0 },
   { month: 'feb', expense: 0, income: 0, increase: 0, path: '', rest: 0 },
   { month: 'mar', expense: 0, income: 0, increase: 0, path: '', rest: 0 },

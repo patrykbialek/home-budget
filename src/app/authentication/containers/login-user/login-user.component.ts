@@ -1,27 +1,30 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import * as fromModels from '@home-budget/authentication/models';
-import * as fromServices from '@home-budget/authentication/services';
-import * as fromStoreServices from '@home-budget/authentication/store/services';
-import { CommonWithAnimationComponent } from '@home-budget/shared/components';
-import { Subject } from 'rxjs';
+
 import { filter, skip, takeUntil, tap } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { TranslatePipe } from '@ngx-translate/core';
+
+import { AuthenticationFacadeService } from '@home-budget/authentication/store/services';
+import { AuthenticationUtilsService } from '@home-budget/authentication/services';
+import { CommonWithAnimationComponent } from '@home-budget/shared/components';
+import { LoginFormComponent } from '../../components/login-user/login-form.component';
+import { UserLogin } from '@home-budget/authentication/models';
 
 @Component({
-    selector: 'hb-login-user',
-    templateUrl: './login-user.component.html',
-    styleUrls: ['./login-user.component.scss'],
-    standalone: false
+  selector: 'hb-login-user',
+  templateUrl: './login-user.component.html',
+  styleUrls: ['./login-user.component.scss'],
+  imports: [CommonWithAnimationComponent, LoginFormComponent, TranslatePipe]
 })
 export class LoginUserComponent extends CommonWithAnimationComponent implements OnDestroy, OnInit {
-
-  private readonly authenticationService = inject(fromStoreServices.AuthenticationFacadeService);
-  private readonly authenticationUtilsService = inject(fromServices.AuthenticationUtilsService);
+  private readonly authenticationService = inject(AuthenticationFacadeService);
+  private readonly authenticationUtilsService = inject(AuthenticationUtilsService);
   private readonly formBuilder = inject(FormBuilder);
   private readonly router = inject(Router);
 
-  loginForm: FormGroup;
+  loginForm!: FormGroup;
 
   private readonly destroy$ = new Subject<void>();
 
@@ -54,7 +57,7 @@ export class LoginUserComponent extends CommonWithAnimationComponent implements 
   }
 
   loginUser(event: FormGroup) {
-    const payload: fromModels.UserLogin = event.value;
+    const payload: UserLogin = event.value;
     this.authenticationService.loginUser(payload);
   }
 }

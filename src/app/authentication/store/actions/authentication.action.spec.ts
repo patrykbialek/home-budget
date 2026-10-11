@@ -6,7 +6,7 @@ describe('Authentication Actions', () => {
   describe('SetUser Actions', () => {
     describe('SetUser', () => {
       it('should create an action', () => {
-        const payload = { uid: 'test' };
+        const payload = { email: null, displayName: null, uid: 'test' };
         const action = new fromAuthentication.SetUser(payload);
 
         expect({ ...action }).toEqual({

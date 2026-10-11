@@ -1,28 +1,32 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router, UrlSegment } from '@angular/router';
-import { Subject, Subscription } from 'rxjs';
+import { AsyncPipe } from '@angular/common';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { MatCard, MatCardContent } from '@angular/material/card';
+
 import { filter, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { Subject, Subscription } from 'rxjs';
 
-import * as config from '../../shared/finance.config';
-import * as fromModels from '@home-budget/finance/models';
-import { FinanceFacadeService } from '../../services/finance-facade.service';
 import { AuthenticationFacadeService } from '@authentication/store';
-
 import { CoreService } from '@home-budget/core/core.service';
+import { DataEntry, DataLabels, DataSourceSummary, FinanceConfig, QueryParamsResponse } from '@home-budget/finance/models';
+import { defaultDataSource, financeColumns } from '../../shared/finance.config';
 import { FINANCE_FEATURE_CONFIG } from '@home-budget/finance/finance-feature.config';
+import { FinanceFacadeService } from '../../services/finance-facade.service';
+import { FinanceGraphComponent } from '../../components/finance-graph/finance-graph.component';
+import { FinanceSummaryDataComponent } from '../../components/finance-summary-data/finance-summary-data.component';
 
 @Component({
   selector: 'hb-finance-summary',
   templateUrl: './finance-summary.component.html',
   styleUrls: ['./finance-summary.component.scss'],
-  standalone: false
+  imports: [MatCard, MatCardContent, FinanceSummaryDataComponent, FinanceGraphComponent, AsyncPipe]
 })
 export class FinanceSummaryComponent implements OnDestroy, OnInit {
-  displayedColumns: string[] = config.financeColumns;
-  dataSource: fromModels.DataSourceSummary[] = config.defaultDataSource;
+  displayedColumns: string[] = financeColumns;
+  dataSource: DataSourceSummary[] = defaultDataSource;
   isLoading = false;
 
-  private rawData: fromModels.DataEntry[] = [];
+  private rawData: DataEntry[] = [];
 
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly authService = inject(AuthenticationFacadeService);
@@ -56,7 +60,7 @@ export class FinanceSummaryComponent implements OnDestroy, OnInit {
     this.destroy$.complete();
   }
 
-  goToDetails(event: fromModels.QueryParamsResponse): void {
+  goToDetails(event: QueryParamsResponse): void {
     this.router.navigate(['/', this.year, this.main, this.financeType, 'details'], {
       queryParams: {
         path: `${event.path}`,
@@ -65,13 +69,13 @@ export class FinanceSummaryComponent implements OnDestroy, OnInit {
     });
   }
 
-  get dataLabels(): fromModels.DataLabels {
+  get dataLabels(): DataLabels {
     return this.financeFacadeService.dataLabels;
   }
 
   get dataSourceTotal(): number {
     return this.dataSource.reduce(
-      (previousValue: number, entity: fromModels.DataSourceSummary) => {
+      (previousValue: number, entity: DataSourceSummary) => {
         return previousValue + entity.rest;
       },
       0
@@ -94,14 +98,14 @@ export class FinanceSummaryComponent implements OnDestroy, OnInit {
         switchMap((user) => this.financeFacadeService.readData(this.sourcePath, user.uid)),
         takeUntil(this.destroy$),
       )
-      .subscribe((data: fromModels.DataEntry[]) => this.formData(data));
+      .subscribe((data: DataEntry[]) => this.formData(data));
   }
 
   private setCommonDataLabels(): void {
     this.financeFacadeService.setCommonDataLabels();
   }
 
-  private formData(data: fromModels.DataEntry[]): void {
+  private formData(data: DataEntry[]): void {
     this.rawData = data;
     this.dataSource = this.financeFacadeService.formData(data, this.financeConfig);
     setTimeout(() => {
@@ -109,7 +113,7 @@ export class FinanceSummaryComponent implements OnDestroy, OnInit {
     });
   }
 
-  private get financeConfig(): fromModels.FinanceConfig {
+  private get financeConfig(): FinanceConfig {
     return { year: this.year ?? '', type: this.financeType ?? '' };
   }
 

@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 
+import { BudgetsRoutingModule } from './budgets-routing.module';
 import { FINANCE_FEATURE_CONFIG } from '@home-budget/finance/finance-feature.config';
 import { FinanceFeatureModule } from '@home-budget/finance/finance-feature.module';
-
-import { BudgetsRoutingModule } from './budgets-routing.module';
 
 @NgModule({
   imports: [

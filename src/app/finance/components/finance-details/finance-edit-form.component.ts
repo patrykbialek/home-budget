@@ -1,8 +1,16 @@
-import { trigger, transition, style, animate } from '@angular/animations';
+import { CdkScrollable } from '@angular/cdk/scrolling';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import * as fromModels from '@home-budget/finance/models';
+import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose } from '@angular/material/dialog';
+import { MatButton } from '@angular/material/button';
+import { MatFormField, MatLabel, MatSuffix, MatError } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
+import { MatInput } from '@angular/material/input';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { TitleCasePipe } from '@angular/common';
+import { trigger, transition, style, animate } from '@angular/animations';
+
+import { DataLabels } from '@home-budget/finance/models';
 import { DataProperty } from '@home-budget/finance/models/finance.enum';
 
 @Component({
@@ -22,14 +30,14 @@ import { DataProperty } from '@home-budget/finance/models/finance.enum';
       ])
     ])
   ],
-  standalone: false
+  imports: [MatDialogTitle, MatIcon, ReactiveFormsModule, CdkScrollable, MatDialogContent, MatFormField, MatLabel, MatInput, MatSuffix, MatError, MatSlideToggle, MatDialogActions, MatButton, MatDialogClose, TitleCasePipe]
 })
 export class FinanceEditFormComponent {
   dialogRef = inject(MatDialogRef<FinanceEditFormComponent>);
-  data: { form: FormGroup; dataLabels: fromModels.DataLabels; } = inject(MAT_DIALOG_DATA);
+  data: { form: FormGroup; dataLabels: DataLabels; } = inject(MAT_DIALOG_DATA);
 
   category: string | undefined;
-  dataLabels: fromModels.DataLabels = this.data.dataLabels;
+  dataLabels: DataLabels = this.data.dataLabels;
   form: FormGroup = this.data.form;
   isDeleteButtonShown = false;
   isMoreShown: boolean = false;

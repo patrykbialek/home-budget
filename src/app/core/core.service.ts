@@ -1,7 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+
 import { distinctUntilChanged, filter, map, startWith, shareReplay } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 const YEAR_PATTERN = /^\d{4}$/;
 

@@ -1,11 +1,13 @@
 import { Component, OnInit, input } from '@angular/core';
+
+import { BaseChartDirective } from 'ng2-charts';
 import { ChartOptions } from 'chart.js';
 
-import * as config from '../../shared/finance.config';
-import * as fromModels from '@home-budget/finance/models';
+import { chartOption, monthLabel } from '../../shared/finance.config';
+import { DataSourceSummary, FinanceGraphConfig, MonthLabel } from '@home-budget/finance/models';
 
-const financeChartOption: Partial<fromModels.FinanceGraphConfig> = {
-  backgroundColor: config.chartOption.color.transparent,
+const financeChartOption: Partial<FinanceGraphConfig> = {
+  backgroundColor: chartOption.color.transparent,
   label: '',
   pointHoverRadius: 7,
   pointRadius: 1,
@@ -23,27 +25,27 @@ interface GraphData {
   selector: 'hb-finance-graph',
   templateUrl: './finance-graph.component.html',
   styleUrls: ['./finance-graph.component.scss'],
-  standalone: false
+  imports: [BaseChartDirective]
 })
 export class FinanceGraphComponent implements OnInit {
   chartLabels: Array<string> = [];
   chartType: string = 'line';
   data: GraphData | undefined;
-  incomesExpensesDatasets: Array<Partial<fromModels.FinanceGraphConfig>> = [];
+  incomesExpensesDatasets: Array<Partial<FinanceGraphConfig>> = [];
   incomesExpensesOptions: ChartOptions | undefined;
-  increaseDatasets: Array<Partial<fromModels.FinanceGraphConfig>> = [];
+  increaseDatasets: Array<Partial<FinanceGraphConfig>> = [];
   increaseOptions: ChartOptions | undefined;
 
-  dataSource = input.required<fromModels.DataSourceSummary[]>();
+  dataSource = input.required<DataSourceSummary[]>();
 
   ngOnInit(): void {
     this.data = {
-      expenses: this.dataSource().map((data: fromModels.DataSourceSummary) => data.expense),
-      incomes: this.dataSource().map((data: fromModels.DataSourceSummary) => data.income),
-      increase: this.dataSource().map((data: fromModels.DataSourceSummary) => data.increase),
+      expenses: this.dataSource().map((data: DataSourceSummary) => data.expense),
+      incomes: this.dataSource().map((data: DataSourceSummary) => data.income),
+      increase: this.dataSource().map((data: DataSourceSummary) => data.increase),
     };
-    this.chartLabels = Object.keys(config.monthLabel)
-      .map((key: string) => config.monthLabel[key as keyof fromModels.MonthLabel].short ?? '');
+    this.chartLabels = Object.keys(monthLabel)
+      .map((key: string) => monthLabel[key as keyof MonthLabel].short ?? '');
     this.setGraphData();
   }
 
@@ -66,10 +68,10 @@ export class FinanceGraphComponent implements OnInit {
     this.increaseDatasets = [
       {
         ...financeChartOption,
-        borderColor: config.chartOption.color.blue,
-        data: this.data.increase,
-        pointBackgroundColor: config.chartOption.color.blue,
-        pointBorderColor: config.chartOption.color.blue,
+        borderColor: chartOption.color.blue,
+        data: this.data?.increase ?? [],
+        pointBackgroundColor: chartOption.color.blue,
+        pointBorderColor: chartOption.color.blue,
       },
     ];
   }
@@ -88,17 +90,17 @@ export class FinanceGraphComponent implements OnInit {
     this.incomesExpensesDatasets = [
       {
         ...financeChartOption,
-        borderColor: config.chartOption.color.green,
-        data: this.data.incomes,
-        pointBackgroundColor: config.chartOption.color.green,
-        pointBorderColor: config.chartOption.color.green,
+        borderColor: chartOption.color.green,
+        data: this.data?.incomes ?? [],
+        pointBackgroundColor: chartOption.color.green,
+        pointBorderColor: chartOption.color.green,
       },
       {
         ...financeChartOption,
-        borderColor: config.chartOption.color.red,
-        data: this.data.expenses,
-        pointBackgroundColor: config.chartOption.color.red,
-        pointBorderColor: config.chartOption.color.red,
+        borderColor: chartOption.color.red,
+        data: this.data?.expenses ?? [],
+        pointBackgroundColor: chartOption.color.red,
+        pointBorderColor: chartOption.color.red,
       },
     ];
   }

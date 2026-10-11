@@ -1,17 +1,17 @@
-import * as fromModels from '@home-budget/finance/models';
+import { DataEntry, DataEntryFinanceEntry, DataSourceSummary, FinanceConfig } from '@home-budget/finance/models';
 import { DataProperty } from '@home-budget/finance/models/finance.enum';
 
-function formData(data: fromModels.DataEntry[], financeConfig: fromModels.FinanceConfig): fromModels.DataSourceSummary[] {
+function formData(data: DataEntry[], financeConfig: FinanceConfig): DataSourceSummary[] {
   return data
-    .map((entry: fromModels.DataEntry) => mapData(entry, financeConfig))
-    .sort((first: fromModels.DataSourceSummary, last: fromModels.DataSourceSummary) => first.order - last.order)
-    .map((entry: fromModels.DataSourceSummary) => formRestTotal(entry))
-    .reduce((array: fromModels.DataSourceSummary[], entry: fromModels.DataSourceSummary, index: number) => {
+    .map((entry: DataEntry) => mapData(entry, financeConfig))
+    .sort((first: DataSourceSummary, last: DataSourceSummary) => (first.order ?? 0) - (last.order ?? 0))
+    .map((entry: DataSourceSummary) => formRestTotal(entry))
+    .reduce((array: DataSourceSummary[], entry: DataSourceSummary, index: number) => {
       return formIncreaseTotal(array, entry, index);
     }, []);
 }
 
-function mapData(entry: fromModels.DataEntry, financeConfig: fromModels.FinanceConfig): fromModels.DataSourceSummary {
+function mapData(entry: DataEntry, financeConfig: FinanceConfig): DataSourceSummary {
   const expense: number = formTotal(
     formEntry(entry, DataProperty.expense, financeConfig)
   );
@@ -30,7 +30,7 @@ function mapData(entry: fromModels.DataEntry, financeConfig: fromModels.FinanceC
   };
 }
 
-function formTotal(data: fromModels.DataEntryFinanceEntry): number {
+function formTotal(data: Record<string, DataEntryFinanceEntry>): number {
   let total: number = 0;
   Object.keys(data)
     .forEach((key: string) => {
@@ -41,19 +41,19 @@ function formTotal(data: fromModels.DataEntryFinanceEntry): number {
   return total;
 }
 
-function formTotalAll(data: fromModels.DataEntryFinanceEntry): number {
+function formTotalAll(data: Record<string, DataEntryFinanceEntry>): number {
   return Object.keys(data).reduce((total: number, key: string) => total + data[key].total, 0);
 }
 
-function formProjectTotal(data: fromModels.DataEntry[], financeConfig: fromModels.FinanceConfig): number {
-  return data.reduce((total: number, entry: fromModels.DataEntry) => {
+function formProjectTotal(data: DataEntry[], financeConfig: FinanceConfig): number {
+  return data.reduce((total: number, entry: DataEntry) => {
     const incomeAll = formTotalAll(formEntry(entry, DataProperty.income, financeConfig));
     const expenseAll = formTotalAll(formEntry(entry, DataProperty.expense, financeConfig));
     return total + incomeAll - expenseAll;
   }, 0);
 }
 
-function formRestTotal(entry: fromModels.DataSourceSummary): fromModels.DataSourceSummary {
+function formRestTotal(entry: DataSourceSummary): DataSourceSummary {
   delete entry.order;
   return {
     ...entry,
@@ -61,17 +61,17 @@ function formRestTotal(entry: fromModels.DataSourceSummary): fromModels.DataSour
   };
 }
 
-function formEntry(entry: fromModels.DataEntry, node: string, financeConfig: fromModels.FinanceConfig): fromModels.DataEntryFinanceEntry {
-  return entry.entries[financeConfig.type].entries[node].entries;
+function formEntry(entry: DataEntry, node: string, financeConfig: FinanceConfig): Record<string, DataEntryFinanceEntry> {
+  return entry.entries[financeConfig.type as 'execution' | 'project'].entries[node as 'expense' | 'income'].entries ?? {};
 }
 
 function formIncreaseTotal(
-  array: fromModels.DataSourceSummary[],
-  entry: fromModels.DataSourceSummary,
+  array: DataSourceSummary[],
+  entry: DataSourceSummary,
   index: number,
-): fromModels.DataSourceSummary[] {
-  const current: fromModels.DataSourceSummary = { ...entry };
-  const previous: fromModels.DataSourceSummary = array[index - 1];
+): DataSourceSummary[] {
+  const current: DataSourceSummary = { ...entry };
+  const previous: DataSourceSummary = array[index - 1];
   current.increase =
     index === 0
       ? current.rest
