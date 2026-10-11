@@ -67,20 +67,33 @@ The **year is a URL path segment** (4-digit), not store state (moved to URL in c
 `8b6b227`). `YearGuard` validates it and redirects to the current year if missing/invalid.
 `CoreService` is the single source of truth: it derives `year`/`year$` from the router URL.
 
-### Feature module layers (plans & budgets)
-Each feature splits into:
-- `models/` — interfaces + `*.enum.ts`, re-exported via `index.ts` barrel.
-- `services/` — `*-http.service` (Firebase I/O), `*.service` (domain logic),
-  `*-facade.service` (thin API consumed by components), `*-breadcrumbs.service`,
-  `*-form.service`, and `*-former.utils` (pure data shaping for summary/details).
-- `components/` — presentational.
-- `containers/` — routed smart components (`*-summary`, `*-details`, `*-breadcrumbs`).
-- `shared/*.config.ts` — months, labels, nav links, default data (Polish strings live here).
+### Shared budget feature (`src/app/budget/`)
+`plans` and `budgets` are structurally identical, so they share one implementation in
+`src/app/budget/` (`BudgetFeatureModule`). The two differ only by a config token
+`BUDGET_FEATURE_CONFIG` ({ `collection`: `plans`|`budgets`, `i18nPrefix`: `PLAN`|`BUDGET` }).
+`src/app/plans` and `src/app/budgets` are now **thin modules**: each imports
+`BudgetFeatureModule`, provides its config, and defines routing to the shared containers.
 
-**`plans` and `budgets` are near-identical twins** — same model set and service shape.
-The only real difference is the Firebase path segment: `/workspaces/$uid/plans/...` vs
-`/workspaces/$uid/budgets/...`. When changing one, check whether the other needs the
-same change.
+The shared feature splits into:
+- `models/` — interfaces + `budget.enum.ts`, re-exported via `index.ts` barrel.
+- `services/` — `budget-http.service` (Firebase I/O), `budget.service` (domain logic),
+  `budget-facade.service` (thin API for components), `budget-breadcrumbs.service`,
+  `budget-form.service`, and `*-former.utils` (pure data shaping).
+- `components/` — presentational. `containers/` — routed smart components. `budget.component` — shell.
+- `shared/budget.config.ts` — months, labels, nav links, defaults (Polish strings).
+
+DI rules that make the sharing work:
+- `BudgetHttpService` is **providedIn root** (stateless); the `collection` is passed as a
+  method argument, so the global app-header (year selector) can use it too.
+- The **stateful** services (`BudgetService`, `BudgetFacadeService`, `BudgetBreadcrumbsService`,
+  `BudgetFormService`) are provided in `BudgetFeatureModule`, **not** root — each lazy host
+  module (plans/budgets) gets its own isolated instance + state. They read the `collection`
+  from `BUDGET_FEATURE_CONFIG` and pass it to the http service.
+- The shell and summary-data components read `i18nPrefix` from the same token to pick the
+  `PLAN.*` vs `BUDGET.*` translation namespace (namespaces are identical except `Title`).
+
+Firebase paths: `/workspaces/$uid/{collection}/...`. Write flows react to write completion
+(no `setTimeout` propagation hacks); failures reset the loader and show an error snackbar.
 
 ### State
 - `authentication` has a full NgRx feature store (actions/effects/reducers/selectors/
