@@ -1,11 +1,11 @@
 import { createSelector } from '@ngrx/store';
 
-import * as fromFeature from '@home-budget/authentication/store/reducers';
 import * as fromAuthentication from '@home-budget/authentication/store/reducers/authentication.reducer';
+import { MainState, getMainState } from '@home-budget/authentication/store/reducers';
 
 export const getAuthenticationState = createSelector(
-  fromFeature.getMainState,
-  (state: fromFeature.MainState) => state.user
+  getMainState,
+  (state: MainState) => state.user
 );
 
 export const getIsSuccess = createSelector(

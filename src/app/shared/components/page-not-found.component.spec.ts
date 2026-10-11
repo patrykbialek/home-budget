@@ -31,7 +31,7 @@ describe('PageNotFoundComponent', () => {
         provideTranslateService(),
       ],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

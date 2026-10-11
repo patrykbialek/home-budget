@@ -1,27 +1,30 @@
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import * as fromModels from '@home-budget/authentication/models';
-import * as fromServices from '@home-budget/authentication/store/services';
-import { CommonWithAnimationComponent } from '@home-budget/shared/components';
+
 import { filter, skip, take, tap } from 'rxjs/operators';
+import { TranslatePipe } from '@ngx-translate/core';
+
+import { AuthenticationFacadeService } from '@home-budget/authentication/store/services';
+import { CommonWithAnimationComponent } from '@home-budget/shared/components';
+import { PasswordSet } from '@home-budget/authentication/models';
+import { SetFormComponent } from '../../components/set-password/set-form.component';
 
 @Component({
-    selector: 'hb-set-password',
-    templateUrl: './set-password.component.html',
-    styleUrls: ['./set-password.component.scss'],
-    standalone: false
+  selector: 'hb-set-password',
+  templateUrl: './set-password.component.html',
+  styleUrls: ['./set-password.component.scss'],
+  imports: [CommonWithAnimationComponent, SetFormComponent, TranslatePipe]
 })
 export class SetPasswordComponent extends CommonWithAnimationComponent implements OnInit {
-
   private activatedRoute = inject(ActivatedRoute);
-  private authenticationService = inject(fromServices.AuthenticationFacadeService);
+  private authenticationService = inject(AuthenticationFacadeService);
   private formBuilder = inject(FormBuilder);
   private router = inject(Router);
 
   loginRouteUrl = '../login';
   code: string | undefined;
-  setForm: FormGroup;
+  setForm!: FormGroup;
 
   ngOnInit(): void {
     this.createForm();
@@ -45,9 +48,9 @@ export class SetPasswordComponent extends CommonWithAnimationComponent implement
   }
 
   setPassword(event: FormGroup) {
-    const payload: fromModels.PasswordSet = {
+    const payload: PasswordSet = {
       newPassword: event.value.password,
-      oobCode: this.code,
+      oobCode: this.code ?? '',
     };
 
     this.authenticationService.setPassword(payload);

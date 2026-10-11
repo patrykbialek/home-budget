@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
 import { AuthenticationComponent } from '@home-budget/authentication/authentication.component';
-import * as fromContainers from '@home-budget/authentication/containers';
+import { LoginUserComponent, RegisterUserComponent, ResetPasswordComponent, SetPasswordComponent } from '@home-budget/authentication/containers';
 
 const routes: Routes = [
   {
@@ -11,19 +12,19 @@ const routes: Routes = [
     children: [
       {
         path: 'register',
-        component: fromContainers.RegisterUserComponent,
+        component: RegisterUserComponent,
       },
       {
         path: 'login',
-        component: fromContainers.LoginUserComponent,
+        component: LoginUserComponent,
       },
       {
         path: 'reset-password',
-        component: fromContainers.ResetPasswordComponent,
+        component: ResetPasswordComponent,
       },
       {
         path: 'set-password',
-        component: fromContainers.SetPasswordComponent,
+        component: SetPasswordComponent,
       },
     ]
   },

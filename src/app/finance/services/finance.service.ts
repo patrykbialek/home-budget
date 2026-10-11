@@ -1,26 +1,24 @@
-import { forkJoin, Observable, Subscription } from 'rxjs';
-
-import { BreadcrumbsItem } from '../models/finance-breadcrumbs.model';
-import { dataLabels, defaultDataSource, labels, monthLabel, months } from '../shared/finance.config';
-import { DataProperty } from '../models/finance.enum';
-import { filter, switchMap, take, tap } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
 import { Injectable, inject } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { FinanceAddColumnFormComponent, FinanceEditFormComponent } from '../components';
-import { FinanceBreadcrumbsService } from './finance-breadcrumbs.service';
-import { FinanceHttpService } from './finance-http.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
-import { FinanceFormService } from './finance-form.service';
-
 import * as _ from 'lodash';
-import * as fromModels from '@home-budget/finance/models';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { filter, switchMap, take, tap } from 'rxjs/operators';
+import { forkJoin, Observable, Subscription } from 'rxjs';
 
-import { formatNumber, formData, formDataFooter, formLabels, formPathForDeleteEntry } from './finance-details-former.utils';
+import { BreadcrumbsItem } from '../models/finance-breadcrumbs.model';
 import { CoreService } from '@home-budget/core/core.service';
+import { DataItem, DataLabel, DataLabels, DataSourceDetails, DataSourceSummary, FinanceEntry, MonthLabel, UpdatePayload } from '@home-budget/finance/models';
+import { dataLabels, defaultDataSource, labels, monthLabel, months } from '../shared/finance.config';
+import { DataProperty } from '../models/finance.enum';
 import { FINANCE_FEATURE_CONFIG } from '@home-budget/finance/finance-feature.config';
+import { FinanceAddColumnFormComponent, FinanceEditFormComponent } from '../components';
+import { FinanceBreadcrumbsService } from './finance-breadcrumbs.service';
+import { FinanceFormService } from './finance-form.service';
+import { FinanceHttpService } from './finance-http.service';
+import { formatNumber, formData, formDataFooter, formLabels, formPathForDeleteEntry } from './finance-details-former.utils';
 
 @Injectable()
 export class FinanceService {
@@ -33,23 +31,23 @@ export class FinanceService {
   private readonly snackBar = inject(MatSnackBar);
   private readonly collection = inject(FINANCE_FEATURE_CONFIG).collection;
 
-  dataColumns: string[];
-  dataLabels: fromModels.DataLabels = dataLabels;
-  dataSource: fromModels.DataSourceDetails[] = [];
-  dataSourceFooter: fromModels.DataSourceDetails;
-  defaultDataSource: fromModels.DataSourceSummary[] = defaultDataSource;
+  dataColumns!: string[];
+  dataLabels: DataLabels = dataLabels;
+  dataSource: DataSourceDetails[] = [];
+  dataSourceFooter!: DataSourceDetails;
+  defaultDataSource: DataSourceSummary[] = defaultDataSource;
   displayedColumns: string[] = [];
-  form: FormGroup;
+  form!: FormGroup;
 
   private isLoadingOn: boolean = false;
-  private parentFinanceEntry: fromModels.FinanceEntry;
+  private parentFinanceEntry!: FinanceEntry;
   private dataSubscription: Subscription | undefined;
 
-  get months(): fromModels.DataLabel[] {
+  get months(): DataLabel[] {
     return months;
   }
 
-  get labels(): fromModels.DataLabel[] {
+  get labels(): DataLabel[] {
     return labels;
   }
 
@@ -89,12 +87,12 @@ export class FinanceService {
     return this.financeHttpService.readDataByType(this.collection, sourcePath);
   }
 
-  private formDataLabelsAndColumns(data: fromModels.DataSourceDetails): void {
+  private formDataLabelsAndColumns(data: DataSourceDetails): void {
     this.formDataColumns(formLabels(data));
     this.formDataLabels(formLabels(data));
   }
 
-  private setDataLabel(label: fromModels.DataLabel): void {
+  private setDataLabel(label: DataLabel): void {
     this.dataLabels = {
       ...this.dataLabels,
       [label.key]: label.value,
@@ -104,17 +102,17 @@ export class FinanceService {
   setCommonDataLabels(): void {
     Object.keys(monthLabel).forEach((key: string) => {
       this.setDataLabel({
-        key: monthLabel[key].id,
-        value: monthLabel[key].long,
+        key: monthLabel[key as keyof MonthLabel].id,
+        value: monthLabel[key as keyof MonthLabel].long,
       });
     });
 
-    this.labels.forEach((label: fromModels.DataLabel) => {
+    this.labels.forEach((label: DataLabel) => {
       this.setDataLabel(label);
     });
   }
 
-  editFinanceEntry(financeEntry: fromModels.FinanceEntry): void {
+  editFinanceEntry(financeEntry: FinanceEntry): void {
     const form: FormGroup = this.financeFormService.buildEditForm(financeEntry);
     this.editDetails(form);
   }
@@ -124,7 +122,7 @@ export class FinanceService {
     this.addColumn(form);
   }
 
-  goToDetails(financeEntry: fromModels.FinanceEntry): void {
+  goToDetails(financeEntry: FinanceEntry): void {
     if (financeEntry.href) {
       this.router.navigate([financeEntry.href]);
       return;
@@ -143,7 +141,7 @@ export class FinanceService {
     });
 
     dialogRef.afterClosed()
-      .pipe(filter((callback: { form: FormGroup; }) => Boolean(callback)))
+      .pipe(filter((callback: { form: FormGroup; isToDelete: boolean; }) => Boolean(callback)))
       .subscribe((callback: { form: FormGroup; isToDelete: boolean; }) => {
         this.handleAfterEditDialogClose(callback.form, callback.isToDelete);
       });
@@ -179,16 +177,16 @@ export class FinanceService {
     this.addColumnToAllMonths(form);
   }
 
-  private formBreadcrumbs(financeEntry: fromModels.FinanceEntry): void {
+  private formBreadcrumbs(financeEntry: FinanceEntry): void {
     this.financeBreadcrumbsService.formBreadcrumbs(financeEntry, this.dataLabels);
   }
 
-  private subscribeToReadData(financeEntry: fromModels.FinanceEntry): void {
+  private subscribeToReadData(financeEntry: FinanceEntry): void {
     this.dataSubscription?.unsubscribe();
     this.dataSubscription = this.coreService.year$
       .pipe(
         switchMap((year: string) => this.readData(`${year}/entries`)),
-        tap((data: fromModels.DataItem[]) => {
+        tap((data: DataItem[]) => {
           this.formDataSource(financeEntry, data);
           this.formDataSourceFooter();
           this.formDataLabelsAndColumns(this.dataSource[0]);
@@ -198,7 +196,7 @@ export class FinanceService {
       .subscribe();
   }
 
-  private formDataSource(financeEntry: fromModels.FinanceEntry, data: fromModels.DataItem[]): void {
+  private formDataSource(financeEntry: FinanceEntry, data: DataItem[]): void {
     this.dataSource = formData(financeEntry, data);
   }
 
@@ -206,10 +204,10 @@ export class FinanceService {
     this.dataSourceFooter = formDataFooter(this.dataSource);
   }
 
-  private deleteEntry(path: string, entry: fromModels.FinanceEntry): void {
+  private deleteEntry(path: string, entry: FinanceEntry): void {
     const updatedPath: string = formPathForDeleteEntry(path, entry);
     const subs$: Observable<any>[] = [];
-    this.months.forEach((month: fromModels.DataLabel) => {
+    this.months.forEach((month: DataLabel) => {
       const replacedPath: string = updatedPath.replace('month', month.key);
       subs$.push(this.financeHttpService.deleteEntry(this.collection, replacedPath));
     });
@@ -239,7 +237,7 @@ export class FinanceService {
   }
 
   private addColumnToAllMonths(form: FormGroup): void {
-    let path: string = this.currentEntries.path;
+    let path: string = this.currentEntries.path ?? '';
     const entry: string = this.currentEntries.entry;
     const subs$: Observable<any>[] = [];
 
@@ -251,11 +249,11 @@ export class FinanceService {
       total: 0,
     };
 
-    this.months.forEach((month: fromModels.DataLabel) => {
+    this.months.forEach((month: DataLabel) => {
       path = path.replace(month.key, 'month');
     });
 
-    this.months.forEach((month: fromModels.DataLabel) => {
+    this.months.forEach((month: DataLabel) => {
       const replacedPath = path.replace('month', month.key);
       subs$.push(this.financeHttpService.readEntriesObject(this.collection, replacedPath)
         .pipe(
@@ -302,18 +300,18 @@ export class FinanceService {
     this.openSnackBar('Dane zapisane.');
   }
 
-  private updateEntryLabelToAllMonths(payload: fromModels.UpdatePayload): void {
+  private updateEntryLabelToAllMonths(payload: UpdatePayload): void {
     const entry: string = payload.entry;
-    const label: string = payload.label;
+    const label: string = payload.label ?? '';
 
-    let path: string = this.currentEntries.path;
-    this.months.forEach((month: fromModels.DataLabel) => {
+    let path: string = this.currentEntries.path ?? '';
+    this.months.forEach((month: DataLabel) => {
       path = path.replace(month.key, 'month');
     });
 
-    this.months.forEach((month: fromModels.DataLabel) => {
+    this.months.forEach((month: DataLabel) => {
       const replacedPath: string = path.replace('month', month.key);
-      const updatedPayload: fromModels.UpdatePayload = {
+      const updatedPayload: UpdatePayload = {
         entry,
         label,
         path: replacedPath,
@@ -322,13 +320,13 @@ export class FinanceService {
     });
   }
 
-  private updateEntryLabel(payload: fromModels.UpdatePayload): void {
+  private updateEntryLabel(payload: UpdatePayload): void {
     this.financeHttpService.updateEntryLabel(this.collection, payload)
       .pipe(take(1))
       .subscribe();
   }
 
-  private updateEntry(payload: fromModels.UpdatePayload): void {
+  private updateEntry(payload: UpdatePayload): void {
     this.financeHttpService.updateEntry(this.collection, payload)
       .pipe(take(1))
       .subscribe({
@@ -337,7 +335,7 @@ export class FinanceService {
       });
   }
 
-  private handleAfterUpdateEntry(payload: fromModels.UpdatePayload): void {
+  private handleAfterUpdateEntry(payload: UpdatePayload): void {
     this.updateParentTotals(payload.path);
     this.updateEntryLabelToAllMonths(payload);
 
@@ -371,7 +369,7 @@ export class FinanceService {
                       }
                     });
 
-                  const updatePayload: fromModels.UpdatePayload = {
+                  const updatePayload: UpdatePayload = {
                     path: formedPath,
                     entry: item.key ?? '',
                     total: parseFloat(total.toFixed(2)),
@@ -387,7 +385,7 @@ export class FinanceService {
       .subscribe();
   }
 
-  private updateParentEntry(payload: fromModels.UpdatePayload): void {
+  private updateParentEntry(payload: UpdatePayload): void {
     this.financeHttpService.updateParentEntry(this.collection, payload)
       .pipe(take(1))
       .subscribe();
@@ -402,12 +400,12 @@ export class FinanceService {
     ]);
   }
 
-  private formDataColumns(formedLabels: fromModels.DataLabel[]): void {
+  private formDataColumns(formedLabels: DataLabel[]): void {
     this.dataColumns = [];
-    this.dataColumns = formedLabels.map((label: fromModels.DataLabel) => label.key);
+    this.dataColumns = formedLabels.map((label: DataLabel) => label.key);
   }
 
-  private formDataLabels(formedLabels: fromModels.DataLabel[]): void {
+  private formDataLabels(formedLabels: DataLabel[]): void {
     this.dataLabels = Object.assign(
       this.dataLabels,
       ...formedLabels.map((item) => ({ [item.key]: item.value }))

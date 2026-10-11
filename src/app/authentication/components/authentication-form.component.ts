@@ -1,11 +1,11 @@
 import { Component, inject, input, output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import * as fromServices from '@home-budget/authentication/services';
+
+import { AuthenticationUtilsService } from '@home-budget/authentication/services';
 
 @Component({
     selector: 'hb-authentication-form',
-    template: '',
-    standalone: false
+    template: ''
 })
 export class AuthenticationFormComponent {
 
@@ -14,7 +14,7 @@ export class AuthenticationFormComponent {
   form = input.required<FormGroup>();
   submitAction = output<FormGroup>();
 
-  protected authenticationUtilsService = inject(fromServices.AuthenticationUtilsService);
+  protected authenticationUtilsService = inject(AuthenticationUtilsService);
 
   get emailControl(): FormControl { return this.form().get('email') as FormControl; }
   get nameControl(): FormControl { return this.form().get('name') as FormControl; }

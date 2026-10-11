@@ -7,11 +7,8 @@
         <div class="u-margin-left u-border-left u-text-large">&nbsp;</div>
         <div>
           @for (link of navLinks; track link.index) {
-            <button mat-button
-              class="u-margin-left-tiny"
-              [routerLink]="link.href"
-              routerLinkActive="u-router-link-active"
-            >{{ link.label }}</button>
+          <button mat-button class="u-margin-left-tiny" [routerLink]="link.href"
+            routerLinkActive="u-router-link-active">{{ link.label }}</button>
           }
         </div>
         <div class="u-padding-right-small u-margin-right-small u-border-right u-text-large">&nbsp;</div>

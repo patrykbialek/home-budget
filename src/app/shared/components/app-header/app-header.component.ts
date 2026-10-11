@@ -1,18 +1,25 @@
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
+import { MatButton, MatIconButton } from '@angular/material/button';
+import { MatDivider } from '@angular/material/divider';
+import { MatIcon } from '@angular/material/icon';
+import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
+import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
+import { NgStyle, AsyncPipe } from '@angular/common';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+
+import { filter, switchMap } from 'rxjs/operators';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 
 import { AuthenticationFacadeService } from '@home-budget/authentication/store';
 import { CoreService } from '../../../core/core.service';
-import { SharedUtilsService } from '@shared/services/shared-utils.service';
 import { FinanceHttpService } from '@home-budget/finance/services/finance-http.service';
-import { filter, switchMap } from 'rxjs/operators';
+import { SharedUtilsService } from '@shared/services/shared-utils.service';
 
 @Component({
   selector: 'hb-header',
   templateUrl: './app-header.component.html',
   styleUrls: ['./app-header.component.scss'],
-  standalone: false
+  imports: [MatToolbar, MatToolbarRow, RouterLink, MatButton, NgStyle, RouterLinkActive, MatIcon, MatIconButton, MatMenuTrigger, MatMenu, MatMenuItem, MatDivider, AsyncPipe, TranslatePipe]
 })
 export class AppHeaderComponent {
   private readonly authService = inject(AuthenticationFacadeService);

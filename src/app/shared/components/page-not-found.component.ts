@@ -1,4 +1,9 @@
 import { Component } from '@angular/core';
+import { MatButton } from '@angular/material/button';
+import { RouterLink } from '@angular/router';
+
+import { TranslatePipe } from '@ngx-translate/core';
+
 import { CommonWithAnimationComponent } from '@home-budget/shared/components/common-with-animation.component';
 
 @Component({
@@ -28,7 +33,7 @@ import { CommonWithAnimationComponent } from '@home-budget/shared/components/com
 
     </hb-main-component>
   `,
-  standalone: false
+  imports: [CommonWithAnimationComponent, MatButton, RouterLink, TranslatePipe]
 })
 export class PageNotFoundComponent extends CommonWithAnimationComponent {
   get year(): string {

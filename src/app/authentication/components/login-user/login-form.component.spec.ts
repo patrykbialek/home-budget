@@ -21,25 +21,23 @@ describe('LoginFormComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        LoginFormComponent,
-        AuthenticationFormComponent
-      ],
-      imports: [
+    imports: [
         BrowserAnimationsModule,
         RouterTestingModule,
         ReactiveFormsModule,
         StoreModule.forRoot({}),
         EffectsModule.forRoot(),
         SharedModule,
-      ],
-      providers: [
+        LoginFormComponent,
+        AuthenticationFormComponent,
+    ],
+    providers: [
         provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
         provideAuth(() => getAuth()),
         provideDatabase(() => getDatabase()),
         provideTranslateService(),
-      ]
-    })
+    ]
+})
       .compileComponents();
   }));
 

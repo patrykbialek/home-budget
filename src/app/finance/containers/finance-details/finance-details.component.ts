@@ -1,21 +1,22 @@
+import { ActivatedRoute, Router, UrlSegment } from '@angular/router';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ActivatedRoute, Router, UrlSegment } from '@angular/router';
 
-import { CoreService } from '@home-budget/core/core.service';
-import * as fromModels from '@home-budget/finance/models';
-import { FinanceFacadeService } from '@home-budget/finance/services/finance-facade.service';
 import { Subject, combineLatest } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
 import { BreadcrumbsItem } from '../../models/finance-breadcrumbs.model';
-import * as config from '../../shared/finance.config';
+import { CoreService } from '@home-budget/core/core.service';
+import { DataLabels, DataSourceDetails, FinanceEntry, QueryParamsResponse } from '@home-budget/finance/models';
 import { FINANCE_FEATURE_CONFIG } from '@home-budget/finance/finance-feature.config';
+import { FinanceDetailsDataComponent } from '../../components/finance-details/finance-details-data.component';
+import { FinanceFacadeService } from '@home-budget/finance/services/finance-facade.service';
 
 @Component({
   selector: 'hb-finance-details',
   templateUrl: './finance-details.component.html',
   styleUrls: ['./finance-details.component.scss'],
-  standalone: false
+  imports: [FinanceDetailsDataComponent]
 })
 export class FinanceDetailsComponent implements OnDestroy, OnInit {
   form!: FormGroup;
@@ -40,7 +41,7 @@ export class FinanceDetailsComponent implements OnDestroy, OnInit {
     this.subscribeToRouteChange();
   }
 
-  get dataLabels(): fromModels.DataLabels {
+  get dataLabels(): DataLabels {
     return this.financeFacadeService.dataLabels;
   }
 
@@ -48,11 +49,11 @@ export class FinanceDetailsComponent implements OnDestroy, OnInit {
     return this.financeFacadeService.breadcrumbs;
   }
 
-  get dataSource(): fromModels.DataSourceDetails[] {
+  get dataSource(): DataSourceDetails[] {
     return this.financeFacadeService.dataSource;
   }
 
-  get dataSourceFooter(): fromModels.DataSourceDetails {
+  get dataSourceFooter(): DataSourceDetails {
     return this.financeFacadeService.dataSourceFooter;
   }
 
@@ -68,11 +69,11 @@ export class FinanceDetailsComponent implements OnDestroy, OnInit {
     return this.financeFacadeService.isLoading;
   }
 
-  editFinanceEntry(event: fromModels.FinanceEntry): void {
+  editFinanceEntry(event: FinanceEntry): void {
     this.financeFacadeService.editFinanceEntry(event);
   }
 
-  goToDetails(event: fromModels.FinanceEntry): void {
+  goToDetails(event: FinanceEntry): void {
     this.financeFacadeService.goToDetails(event);
   }
 
@@ -83,7 +84,7 @@ export class FinanceDetailsComponent implements OnDestroy, OnInit {
     ])
       .pipe(takeUntil(this.destroy$))
       .subscribe((response) => {
-        const typed = response as [UrlSegment[], fromModels.QueryParamsResponse];
+        const typed = response as [UrlSegment[], QueryParamsResponse];
         if (typed && typed[1].path) {
           this.handleWhenPathIsPassed(typed);
           return;
@@ -95,7 +96,7 @@ export class FinanceDetailsComponent implements OnDestroy, OnInit {
       });
   }
 
-  private handleWhenPathIsPassed(response: [UrlSegment[], fromModels.QueryParamsResponse]): void {
+  private handleWhenPathIsPassed(response: [UrlSegment[], QueryParamsResponse]): void {
     this.addMainBreadcrumb(response[0][0].path);
     this.goToDetails(this.formMainEntry(response[1]));
     this.reloadCurrentRoute();
@@ -106,7 +107,7 @@ export class FinanceDetailsComponent implements OnDestroy, OnInit {
     this.financeFacadeService.formBreadcrumbs(this.formFinanceEntry(entry), this.dataLabels);
   }
 
-  private formFinanceEntry(entry: string): fromModels.FinanceEntry {
+  private formFinanceEntry(entry: string): FinanceEntry {
     return {
       entry,
       label: this.dataLabels[entry],
@@ -117,7 +118,7 @@ export class FinanceDetailsComponent implements OnDestroy, OnInit {
     };
   }
 
-  private formMainEntry(params: fromModels.QueryParamsResponse): fromModels.FinanceEntry {
+  private formMainEntry(params: QueryParamsResponse): FinanceEntry {
     return {
       entry: params.type,
       hasEntries: true,

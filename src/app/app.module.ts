@@ -1,29 +1,29 @@
-import { environment } from 'src/environments/environment';
-
-import { registerLocaleData } from '@angular/common';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import localePl from '@angular/common/locales/pl';
-import { LOCALE_ID, NgModule } from '@angular/core';
-import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserModule } from '@angular/platform-browser';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getDatabase, provideDatabase } from '@angular/fire/database';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { LOCALE_ID, NgModule } from '@angular/core';
+import localePl from '@angular/common/locales/pl';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SharedModule } from '@home-budget/shared/shared.module';
-import { CustomSerializer, effects, reducers } from '@home-budget/shared/store';
-import { EffectsModule } from '@ngrx/effects';
-import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
-import { StoreModule } from '@ngrx/store';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { provideTranslateService } from '@ngx-translate/core';
-import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
-import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { registerLocaleData } from '@angular/common';
 
-import { AppRoutingModule } from './app-routing.module';
+import { EffectsModule } from '@ngrx/effects';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
+import { provideTranslateService } from '@ngx-translate/core';
+import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { StoreModule } from '@ngrx/store';
+
 import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
+import { CustomSerializer, effects, reducers } from '@home-budget/shared/store';
+import { environment } from 'src/environments/environment';
+import { SharedModule } from '@home-budget/shared/shared.module';
 
 registerLocaleData(localePl, 'pl');
 
@@ -48,7 +48,6 @@ export const MY_FORMATS = {
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    BaseChartDirective,
     CoreModule,
     StoreModule.forRoot(reducers, {
       runtimeChecks: {

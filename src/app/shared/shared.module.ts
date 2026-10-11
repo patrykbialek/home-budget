@@ -1,29 +1,24 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { AuthenticationStoreModule } from '@home-budget/authentication/store/authentication-store.module';
-import * as fromComponents from '@home-budget/shared/components';
-import { AngularMaterialModule } from '@home-budget/shared/modules/angular-material.module';
+
 import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 
-@NgModule({
-  declarations: [
-    ...fromComponents.components,
-  ],
-  imports: [
-    CommonModule,
-    RouterModule,
-    AngularMaterialModule,
+import { AngularMaterialModule } from '@home-budget/shared/modules/angular-material.module';
+import { AuthenticationStoreModule } from '@home-budget/authentication/store/authentication-store.module';
+import { components } from '@home-budget/shared/components';
 
+@NgModule({
+  imports: [
+    AngularMaterialModule,
     TranslateDirective,
     TranslatePipe,
     AuthenticationStoreModule,
+    ...components,
   ],
   exports: [
     AngularMaterialModule,
     TranslateDirective,
     TranslatePipe,
-    ...fromComponents.components,
+    ...components,
   ],
 })
 export class SharedModule { }
