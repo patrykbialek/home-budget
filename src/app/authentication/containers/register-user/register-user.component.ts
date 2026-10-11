@@ -1,13 +1,15 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UserRegister } from '@home-budget/authentication/models';
-import { AuthenticationUtilsService } from '@home-budget/authentication/services';
-import { AuthenticationFacadeService } from '@home-budget/authentication/store/services';
-import { CommonWithAnimationComponent } from '@home-budget/shared/components';
+
 import { filter, skip, take, tap } from 'rxjs/operators';
-import { RegisterFormComponent } from '../../components/register-user/register-form.component';
 import { TranslatePipe } from '@ngx-translate/core';
+
+import { AuthenticationFacadeService } from '@home-budget/authentication/store/services';
+import { AuthenticationUtilsService } from '@home-budget/authentication/services';
+import { CommonWithAnimationComponent } from '@home-budget/shared/components';
+import { RegisterFormComponent } from '../../components/register-user/register-form.component';
+import { UserRegister } from '@home-budget/authentication/models';
 
 @Component({
   selector: 'hb-register-user',

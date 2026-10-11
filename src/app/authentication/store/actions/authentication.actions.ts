@@ -1,5 +1,6 @@
-import { ErrorMessage, PasswordReset, PasswordSet, User, UserLogin, UserRegister } from '@home-budget/authentication/models';
 import { Action } from '@ngrx/store';
+
+import { ErrorMessage, PasswordReset, PasswordSet, User, UserLogin, UserRegister } from '@home-budget/authentication/models';
 
 // Set
 export const SET_USER          = '[App Component] Set user';

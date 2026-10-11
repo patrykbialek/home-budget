@@ -1,4 +1,3 @@
-import { Injectable, inject } from '@angular/core';
 import {
   Auth,
   User as FirebaseUser,
@@ -12,8 +11,11 @@ import {
   updateProfile,
 } from '@angular/fire/auth';
 import { Database, ref, set } from '@angular/fire/database';
-import { PasswordReset, PasswordSet, User, UserLogin, UserRegister } from '@home-budget/authentication/models';
+import { Injectable, inject } from '@angular/core';
+
 import { Observable, from, of } from 'rxjs';
+
+import { PasswordReset, PasswordSet, User, UserLogin, UserRegister } from '@home-budget/authentication/models';
 
 export interface Credentials {
   email: string | undefined;

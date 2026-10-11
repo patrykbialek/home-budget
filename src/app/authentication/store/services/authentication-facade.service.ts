@@ -1,9 +1,11 @@
 import { Injectable, inject } from '@angular/core';
-import * as fromActions from '@home-budget/authentication/store/actions';
-import { MainState } from '@home-budget/authentication/store/reducers';
-import { getIsSuccess, getUser } from '@home-budget/authentication/store/selectors';
-import { Store, select } from '@ngrx/store';
+
 import { Observable } from 'rxjs';
+import { Store, select } from '@ngrx/store';
+
+import * as fromActions from '@home-budget/authentication/store/actions';
+import { getIsSuccess, getUser } from '@home-budget/authentication/store/selectors';
+import { MainState } from '@home-budget/authentication/store/reducers';
 import { PasswordReset, PasswordSet, User, UserLogin, UserRegister } from '../../models';
 
 @Injectable({

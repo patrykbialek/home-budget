@@ -5,12 +5,13 @@ import {
   input,
   output,
 } from '@angular/core';
-import { DataLabels, DataSourceDetails, DataSourceDetailsEntry, FinanceEntry } from '@home-budget/finance/models';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatFooterCellDef, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatFooterRowDef, MatFooterRow } from '@angular/material/table';
-import { NgClass, DecimalPipe } from '@angular/common';
 import { MatTooltip } from '@angular/material/tooltip';
+import { NgClass, DecimalPipe } from '@angular/common';
+
 import { AppSpinnerComponent } from '../../../shared/components/app-spinner/app-spinner.component';
+import { DataLabels, DataSourceDetails, DataSourceDetailsEntry, FinanceEntry } from '@home-budget/finance/models';
 
 @Component({
   selector: 'hb-finance-details-data',

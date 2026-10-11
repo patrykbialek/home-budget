@@ -1,11 +1,12 @@
-import { Component, HostListener, OnInit, inject } from '@angular/core';
 import { Auth, authState } from '@angular/fire/auth';
+import { Component, HostListener, OnInit, inject } from '@angular/core';
+
 import { filter, mergeMap, take, tap } from 'rxjs/operators';
 
-import { User } from '@home-budget/authentication/models';
 import { AuthenticationFacadeService } from '@home-budget/authentication/store';
-import { WindowSize } from '@home-budget/shared/models';
 import { SharedUtilsService } from '@home-budget/shared/services/shared-utils.service';
+import { User } from '@home-budget/authentication/models';
+import { WindowSize } from '@home-budget/shared/models';
 
 const mobileBreakPoint = 840;
 

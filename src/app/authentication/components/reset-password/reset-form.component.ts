@@ -1,11 +1,13 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { AuthenticationFormComponent } from '@home-budget/authentication/components/authentication-form.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
 import { MatFormField, MatLabel, MatError } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
-import { MatButton } from '@angular/material/button';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+
 import { TranslatePipe } from '@ngx-translate/core';
+
+import { AuthenticationFormComponent } from '@home-budget/authentication/components/authentication-form.component';
 
 @Component({
   selector: 'hb-reset-form',

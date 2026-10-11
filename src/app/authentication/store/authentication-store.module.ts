@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
-import { effects, reducers } from '@home-budget/authentication/store';
+
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+
+import { effects, reducers } from '@home-budget/authentication/store';
 
 @NgModule({
   imports: [

@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
-import { CommonWithAnimationComponent } from '@home-budget/shared/components/common-with-animation.component';
 import { MatButton } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
+
 import { TranslatePipe } from '@ngx-translate/core';
+
+import { CommonWithAnimationComponent } from '@home-budget/shared/components/common-with-animation.component';
 
 @Component({
   selector: 'hb-page-not-found',

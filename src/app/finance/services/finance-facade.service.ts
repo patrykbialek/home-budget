@@ -1,9 +1,11 @@
 import { Injectable, inject } from '@angular/core';
-import { BreadcrumbsItem, DataEntry, DataLabels, DataSourceDetails, DataSourceSummary, FinanceConfig, FinanceEntry } from '@home-budget/finance/models';
+
 import { Observable } from 'rxjs';
-import { formData, formProjectTotal } from './finance-summary-former.utils';
+
+import { BreadcrumbsItem, DataEntry, DataLabels, DataSourceDetails, DataSourceSummary, FinanceConfig, FinanceEntry } from '@home-budget/finance/models';
 import { FinanceBreadcrumbsService } from './finance-breadcrumbs.service';
 import { FinanceService } from './finance.service';
+import { formData, formProjectTotal } from './finance-summary-former.utils';
 
 @Injectable()
 export class FinanceFacadeService {

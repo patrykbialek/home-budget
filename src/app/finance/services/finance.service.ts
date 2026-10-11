@@ -1,26 +1,24 @@
-import { forkJoin, Observable, Subscription } from 'rxjs';
-
-import { BreadcrumbsItem } from '../models/finance-breadcrumbs.model';
-import { dataLabels, defaultDataSource, labels, monthLabel, months } from '../shared/finance.config';
-import { DataProperty } from '../models/finance.enum';
-import { filter, switchMap, take, tap } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
 import { Injectable, inject } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { FinanceAddColumnFormComponent, FinanceEditFormComponent } from '../components';
-import { FinanceBreadcrumbsService } from './finance-breadcrumbs.service';
-import { FinanceHttpService } from './finance-http.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
-import { FinanceFormService } from './finance-form.service';
-
 import * as _ from 'lodash';
-import { DataItem, DataLabel, DataLabels, DataSourceDetails, DataSourceSummary, FinanceEntry, MonthLabel, UpdatePayload } from '@home-budget/finance/models';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { filter, switchMap, take, tap } from 'rxjs/operators';
+import { forkJoin, Observable, Subscription } from 'rxjs';
 
-import { formatNumber, formData, formDataFooter, formLabels, formPathForDeleteEntry } from './finance-details-former.utils';
+import { BreadcrumbsItem } from '../models/finance-breadcrumbs.model';
 import { CoreService } from '@home-budget/core/core.service';
+import { DataItem, DataLabel, DataLabels, DataSourceDetails, DataSourceSummary, FinanceEntry, MonthLabel, UpdatePayload } from '@home-budget/finance/models';
+import { dataLabels, defaultDataSource, labels, monthLabel, months } from '../shared/finance.config';
+import { DataProperty } from '../models/finance.enum';
 import { FINANCE_FEATURE_CONFIG } from '@home-budget/finance/finance-feature.config';
+import { FinanceAddColumnFormComponent, FinanceEditFormComponent } from '../components';
+import { FinanceBreadcrumbsService } from './finance-breadcrumbs.service';
+import { FinanceFormService } from './finance-form.service';
+import { FinanceHttpService } from './finance-http.service';
+import { formatNumber, formData, formDataFooter, formLabels, formPathForDeleteEntry } from './finance-details-former.utils';
 
 @Injectable()
 export class FinanceService {

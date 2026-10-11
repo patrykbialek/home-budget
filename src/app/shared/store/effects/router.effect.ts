@@ -1,9 +1,11 @@
-import { Location } from '@angular/common';
 import { Injectable, inject } from '@angular/core';
+import { Location } from '@angular/common';
 import { Router } from '@angular/router';
-import { BACK, FORWARD, GO, Go } from '@home-budget/shared/store/actions/router.actions';
+
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { map, tap } from 'rxjs/operators';
+
+import { BACK, FORWARD, GO, Go } from '@home-budget/shared/store/actions/router.actions';
 
 @Injectable()
 export class RouterEffects {

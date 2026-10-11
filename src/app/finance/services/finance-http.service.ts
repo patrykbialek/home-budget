@@ -1,10 +1,10 @@
-import { Observable, from } from 'rxjs';
-import { map } from 'rxjs/operators';
-
-import { Injectable, Injector, inject, runInInjectionContext } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { Auth, authState } from '@angular/fire/auth';
 import { Database, list, object, objectVal, ref, remove, update } from '@angular/fire/database';
+import { Injectable, Injector, inject, runInInjectionContext } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+
+import { map } from 'rxjs/operators';
+import { Observable, from } from 'rxjs';
 
 import { DataEntry, UpdatePayload } from '@home-budget/finance/models';
 

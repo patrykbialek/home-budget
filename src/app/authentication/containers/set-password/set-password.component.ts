@@ -1,12 +1,14 @@
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { PasswordSet } from '@home-budget/authentication/models';
+
+import { filter, skip, take, tap } from 'rxjs/operators';
+import { TranslatePipe } from '@ngx-translate/core';
+
 import { AuthenticationFacadeService } from '@home-budget/authentication/store/services';
 import { CommonWithAnimationComponent } from '@home-budget/shared/components';
-import { filter, skip, take, tap } from 'rxjs/operators';
+import { PasswordSet } from '@home-budget/authentication/models';
 import { SetFormComponent } from '../../components/set-password/set-form.component';
-import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'hb-set-password',

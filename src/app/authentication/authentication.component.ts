@@ -1,6 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { AuthenticationFacadeService } from '@home-budget/authentication/store';
 import { RouterOutlet } from '@angular/router';
+
+import { AuthenticationFacadeService } from '@home-budget/authentication/store';
 
 @Component({
     selector: 'hb-authentication',

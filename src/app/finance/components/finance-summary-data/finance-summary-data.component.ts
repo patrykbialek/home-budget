@@ -1,10 +1,11 @@
 import { Component, inject, input, output } from '@angular/core';
+import { MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
+import { NgClass, DecimalPipe } from '@angular/common';
+
+import { TranslatePipe } from '@ngx-translate/core';
 
 import { DataSourceSummary, QueryParamsResponse } from '@home-budget/finance/models';
 import { FINANCE_FEATURE_CONFIG } from '@home-budget/finance/finance-feature.config';
-import { MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
-import { NgClass, DecimalPipe } from '@angular/common';
-import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'hb-finance-summary-data',

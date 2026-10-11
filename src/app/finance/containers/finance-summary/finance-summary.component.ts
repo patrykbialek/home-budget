@@ -1,19 +1,19 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router, UrlSegment } from '@angular/router';
-import { Subject, Subscription } from 'rxjs';
-import { filter, switchMap, takeUntil, tap } from 'rxjs/operators';
-
-import { defaultDataSource, financeColumns } from '../../shared/finance.config';
-import { DataEntry, DataLabels, DataSourceSummary, FinanceConfig, QueryParamsResponse } from '@home-budget/finance/models';
-import { FinanceFacadeService } from '../../services/finance-facade.service';
-import { AuthenticationFacadeService } from '@authentication/store';
-
-import { CoreService } from '@home-budget/core/core.service';
-import { FINANCE_FEATURE_CONFIG } from '@home-budget/finance/finance-feature.config';
-import { MatCard, MatCardContent } from '@angular/material/card';
-import { FinanceSummaryDataComponent } from '../../components/finance-summary-data/finance-summary-data.component';
-import { FinanceGraphComponent } from '../../components/finance-graph/finance-graph.component';
 import { AsyncPipe } from '@angular/common';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { MatCard, MatCardContent } from '@angular/material/card';
+
+import { filter, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { Subject, Subscription } from 'rxjs';
+
+import { AuthenticationFacadeService } from '@authentication/store';
+import { CoreService } from '@home-budget/core/core.service';
+import { DataEntry, DataLabels, DataSourceSummary, FinanceConfig, QueryParamsResponse } from '@home-budget/finance/models';
+import { defaultDataSource, financeColumns } from '../../shared/finance.config';
+import { FINANCE_FEATURE_CONFIG } from '@home-budget/finance/finance-feature.config';
+import { FinanceFacadeService } from '../../services/finance-facade.service';
+import { FinanceGraphComponent } from '../../components/finance-graph/finance-graph.component';
+import { FinanceSummaryDataComponent } from '../../components/finance-summary-data/finance-summary-data.component';
 
 @Component({
   selector: 'hb-finance-summary',

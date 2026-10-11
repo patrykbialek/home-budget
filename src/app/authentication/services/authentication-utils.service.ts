@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Injectable } from '@angular/core';
 
 const messages = {
   email: 'AUTHENTICATION.ValidationMessages.Email',

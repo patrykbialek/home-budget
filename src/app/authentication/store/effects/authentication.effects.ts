@@ -1,12 +1,14 @@
 import { Injectable, inject } from '@angular/core';
-import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { catchError, map, mergeMap } from 'rxjs/operators';
+import { of } from 'rxjs';
+
 import { ApiErrors, ErrorMessage, PasswordReset, PasswordSet, User, UserLogin, UserRegister } from '@home-budget/authentication/models';
 import { AuthenticationHttpService } from '@home-budget/authentication/services';
 import * as fromActions from '@home-budget/authentication/store/actions';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { of } from 'rxjs';
-import { catchError, map, mergeMap } from 'rxjs/operators';
 
 @Injectable()
 export class AuthenticationEffects {

@@ -1,9 +1,10 @@
 import { Component, OnInit, input } from '@angular/core';
+
+import { BaseChartDirective } from 'ng2-charts';
 import { ChartOptions } from 'chart.js';
 
 import { chartOption, monthLabel } from '../../shared/finance.config';
 import { DataSourceSummary, FinanceGraphConfig, MonthLabel } from '@home-budget/finance/models';
-import { BaseChartDirective } from 'ng2-charts';
 
 const financeChartOption: Partial<FinanceGraphConfig> = {
   backgroundColor: chartOption.color.transparent,

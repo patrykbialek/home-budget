@@ -1,18 +1,20 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { PasswordReset } from '@home-budget/authentication/models';
-import { AuthenticationUtilsService } from '@home-budget/authentication/services';
-import { AuthenticationFacadeService } from '@home-budget/authentication/store/services';
-import { CommonWithAnimationComponent } from '@home-budget/shared/components';
+
 import { filter, skip, take, tap } from 'rxjs/operators';
-import { ResetFormComponent } from '../../components/reset-password/reset-form.component';
 import { TranslatePipe } from '@ngx-translate/core';
 
+import { AuthenticationFacadeService } from '@home-budget/authentication/store/services';
+import { AuthenticationUtilsService } from '@home-budget/authentication/services';
+import { CommonWithAnimationComponent } from '@home-budget/shared/components';
+import { PasswordReset } from '@home-budget/authentication/models';
+import { ResetFormComponent } from '../../components/reset-password/reset-form.component';
+
 @Component({
-    selector: 'hb-reset-password',
-    templateUrl: './reset-password.component.html',
-    styleUrls: ['./reset-password.component.scss'],
-    imports: [CommonWithAnimationComponent, ResetFormComponent, TranslatePipe]
+  selector: 'hb-reset-password',
+  templateUrl: './reset-password.component.html',
+  styleUrls: ['./reset-password.component.scss'],
+  imports: [CommonWithAnimationComponent, ResetFormComponent, TranslatePipe]
 })
 export class ResetPasswordComponent extends CommonWithAnimationComponent implements OnInit {
 

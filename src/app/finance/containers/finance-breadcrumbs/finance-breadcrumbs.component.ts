@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
 
 import { BreadcrumbsItem, FinanceEntry } from '@home-budget/finance/models';
-import { FinanceFacadeService } from '@home-budget/finance/services/finance-facade.service';
 import { FinanceBreadcrumbsDataComponent } from '../../components/finance-breadcrumbs/finance-breadcrumbs-data.component';
+import { FinanceFacadeService } from '@home-budget/finance/services/finance-facade.service';
 
 @Component({
   selector: 'hb-finance-breadcrumbs',

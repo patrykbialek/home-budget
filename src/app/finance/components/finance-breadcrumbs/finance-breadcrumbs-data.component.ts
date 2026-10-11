@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
-import { BreadcrumbsItem } from '@home-budget/finance/models/finance-breadcrumbs.model';
-import { NgClass } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
+import { NgClass } from '@angular/common';
+
+import { BreadcrumbsItem } from '@home-budget/finance/models/finance-breadcrumbs.model';
 
 @Component({
     selector: 'hb-finance-breadcrumbs-data',

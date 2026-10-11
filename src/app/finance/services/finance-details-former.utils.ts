@@ -1,5 +1,6 @@
-import { DataItem, DataLabel, DataSourceDetails, DataSourceDetailsEntry, FinanceEntry } from '@home-budget/finance/models';
 import * as _ from 'lodash';
+
+import { DataItem, DataLabel, DataSourceDetails, DataSourceDetailsEntry, FinanceEntry } from '@home-budget/finance/models';
 import { months } from '../shared/finance.config';
 const commonLabels: string[] = ['month', 'monthId', 'order', 'path', 'parentPath', 'total'];
 

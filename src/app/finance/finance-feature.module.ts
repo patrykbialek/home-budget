@@ -1,11 +1,11 @@
-import { NgModule } from '@angular/core';
-import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { NgModule } from '@angular/core';
 
-import { FinanceComponent } from './finance.component';
 import { components as financeComponents } from './components';
 import { components as financeContainers } from './containers';
 import { FinanceBreadcrumbsService } from './services/finance-breadcrumbs.service';
+import { FinanceComponent } from './finance.component';
 import { FinanceFacadeService } from './services/finance-facade.service';
 import { FinanceFormService } from './services/finance-form.service';
 import { FinanceService } from './services/finance.service';
