@@ -33,7 +33,7 @@ export interface DataEntryPlanEntry {
   };
 }
 
-export interface UpadatePayload {
+export interface UpdatePayload {
   entry: string;
   path: string;
   total?: number;

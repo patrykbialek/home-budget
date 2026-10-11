@@ -47,8 +47,8 @@ export class PlansFacadeService {
     return formProjectTotal(data, planConfig);
   }
 
-  setCommonDataLables() {
-    this.plansService.setCommonDataLables();
+  setCommonDataLabels() {
+    this.plansService.setCommonDataLabels();
   }
 
   readData(path: string, uid?: string): Observable<fromModels.DataEntry[]> {

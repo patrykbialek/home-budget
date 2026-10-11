@@ -18,7 +18,7 @@ import * as _ from 'lodash';
 import * as fromModels from '@home-budget/plans/models';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { formatdNumber, formData, formDataFooter, formLabels, formPathForDeleteEntry } from './plan-details-former.utils';
+import { formatNumber, formData, formDataFooter, formLabels, formPathForDeleteEntry } from './plan-details-former.utils';
 import { CoreService } from '@home-budget/core/core.service';
 
 @Injectable({ providedIn: 'root' })
@@ -99,7 +99,7 @@ export class PlansService {
     };
   }
 
-  setCommonDataLables(): void {
+  setCommonDataLabels(): void {
     Object.keys(monthLabel).forEach((key: string) => {
       this.setDataLabel({
         key: monthLabel[key].id,
@@ -213,7 +213,10 @@ export class PlansService {
     });
 
     forkJoin(subs$)
-      .subscribe(() => this.handleAfterDeleteEntry());
+      .subscribe({
+        next: () => this.handleAfterDeleteEntry(),
+        error: () => this.handleWriteError(),
+      });
   }
 
   private handleAfterDeleteEntry(): void {
@@ -260,10 +263,10 @@ export class PlansService {
           tap((raw) => {
             let entries = raw as Record<string, unknown>;
             const lastIndex: number = this.nextEntryIndex(entries, entry);
-            const key: string = `${entry}${formatdNumber(lastIndex)}`;
+            const key: string = `${entry}${formatNumber(lastIndex)}`;
 
             if (form.value.hasEntries) {
-              const childKey: string = `${key}${formatdNumber(1)}`;
+              const childKey: string = `${key}${formatNumber(1)}`;
               payload = {
                 ...payload,
                 entries: {
@@ -288,7 +291,10 @@ export class PlansService {
     });
 
     forkJoin(subs$)
-      .subscribe(() => this.handleAfterAddColumnToAllMonths());
+      .subscribe({
+        next: () => this.handleAfterAddColumnToAllMonths(),
+        error: () => this.handleWriteError(),
+      });
   }
 
   private handleAfterAddColumnToAllMonths(): void {
@@ -298,7 +304,7 @@ export class PlansService {
     }, 450);
   }
 
-  private updateEntryLabelToAllMonths(payload: fromModels.UpadatePayload): void {
+  private updateEntryLabelToAllMonths(payload: fromModels.UpdatePayload): void {
     const entry: string = payload.entry;
     const label: string = payload.label;
 
@@ -309,7 +315,7 @@ export class PlansService {
 
     this.months.forEach((month: fromModels.DataLabel) => {
       const replacedPath: string = path.replace('month', month.key);
-      const updatedPayload: fromModels.UpadatePayload = {
+      const updatedPayload: fromModels.UpdatePayload = {
         entry,
         label,
         path: replacedPath,
@@ -318,19 +324,22 @@ export class PlansService {
     });
   }
 
-  private updateEntryLabel(payload: fromModels.UpadatePayload): void {
+  private updateEntryLabel(payload: fromModels.UpdatePayload): void {
     this.plansHttpService.updateEntryLabel(payload)
       .pipe(take(1))
       .subscribe();
   }
 
-  private updateEntry(payload: fromModels.UpadatePayload): void {
+  private updateEntry(payload: fromModels.UpdatePayload): void {
     this.plansHttpService.updateEntry(payload)
       .pipe(take(1))
-      .subscribe(() => this.handleAfterUpdateEntry(payload));
+      .subscribe({
+        next: () => this.handleAfterUpdateEntry(payload),
+        error: () => this.handleWriteError(),
+      });
   }
 
-  private handleAfterUpdateEntry(payload: fromModels.UpadatePayload): void {
+  private handleAfterUpdateEntry(payload: fromModels.UpdatePayload): void {
     this.updateParentTotals(payload.path);
     this.updateEntryLabelToAllMonths(payload);
 
@@ -366,7 +375,7 @@ export class PlansService {
                       }
                     });
 
-                  const updatePayload: fromModels.UpadatePayload = {
+                  const updatePayload: fromModels.UpdatePayload = {
                     path: formedPath,
                     entry: item.key ?? '',
                     total: parseFloat(total.toFixed(2)),
@@ -382,7 +391,7 @@ export class PlansService {
       .subscribe();
   }
 
-  private updateParentEntry(payload: fromModels.UpadatePayload): void {
+  private updateParentEntry(payload: fromModels.UpdatePayload): void {
     this.plansHttpService.updateParentEntry(payload)
       .pipe(take(1))
       .subscribe();
@@ -411,6 +420,11 @@ export class PlansService {
 
   private setIsLoadingOn(isOn: boolean): void {
     this.isLoadingOn = isOn;
+  }
+
+  private handleWriteError(): void {
+    this.setIsLoadingOn(false);
+    this.openSnackBar('Nie udało się zapisać danych.');
   }
 
   private openSnackBar(message: string) {

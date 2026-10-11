@@ -130,7 +130,7 @@ function formLabels(data: fromModels.DataSourceDetails): fromModels.DataLabel[] 
     .map((entry: fromModels.DataLabel) => entry);
 }
 
-function formatdNumber(index: number): string {
+function formatNumber(index: number): string {
   return ('0' + index).slice(-2);
 }
 
@@ -143,7 +143,7 @@ function formPathForDeleteEntry(path: string, entry: fromModels.PlanEntry): stri
 }
 
 export {
-  formatdNumber,
+  formatNumber,
   formData,
   formDataFooter,
   formLabels,

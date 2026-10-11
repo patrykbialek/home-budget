@@ -100,7 +100,7 @@ export class BudgetsService {
     };
   }
 
-  setCommonDataLables(): void {
+  setCommonDataLabels(): void {
     Object.keys(fromConfig.monthLabel).forEach((key: string) => {
       this.setDataLabel({
         key: fromConfig.monthLabel[key].id,
@@ -214,7 +214,10 @@ export class BudgetsService {
     });
 
     forkJoin(subs$)
-      .subscribe(() => this.handleAfterDeleteEntry());
+      .subscribe({
+        next: () => this.handleAfterDeleteEntry(),
+        error: () => this.handleWriteError(),
+      });
   }
 
   private handleAfterDeleteEntry(): void {
@@ -261,10 +264,10 @@ export class BudgetsService {
           tap((raw) => {
             let entries = raw as Record<string, unknown>;
             const lastIndex: number = this.nextEntryIndex(entries, entry);
-            const key: string = `${entry}${fromUtils.formatdNumber(lastIndex)}`;
+            const key: string = `${entry}${fromUtils.formatNumber(lastIndex)}`;
 
             if (form.value.hasEntries) {
-              const childKey: string = `${key}${fromUtils.formatdNumber(1)}`;
+              const childKey: string = `${key}${fromUtils.formatNumber(1)}`;
               payload = {
                 ...payload,
                 entries: {
@@ -289,7 +292,10 @@ export class BudgetsService {
     });
 
     forkJoin(subs$)
-      .subscribe(() => this.handleAfterAddColumnToAllMonths());
+      .subscribe({
+        next: () => this.handleAfterAddColumnToAllMonths(),
+        error: () => this.handleWriteError(),
+      });
   }
 
   private handleAfterAddColumnToAllMonths(): void {
@@ -299,7 +305,7 @@ export class BudgetsService {
     }, 450);
   }
 
-  private updateEntryLabelToAllMonths(payload: fromModels.UpadatePayload): void {
+  private updateEntryLabelToAllMonths(payload: fromModels.UpdatePayload): void {
     const entry: string = payload.entry;
     const label: string = payload.label;
 
@@ -310,7 +316,7 @@ export class BudgetsService {
 
     this.months.forEach((month: fromModels.DataLabel) => {
       const replacedPath: string = path.replace('month', month.key);
-      const updatedPayload: fromModels.UpadatePayload = {
+      const updatedPayload: fromModels.UpdatePayload = {
         entry,
         label,
         path: replacedPath,
@@ -319,19 +325,22 @@ export class BudgetsService {
     });
   }
 
-  private updateEntryLabel(payload: fromModels.UpadatePayload): void {
+  private updateEntryLabel(payload: fromModels.UpdatePayload): void {
     this.budgetsHttpService.updateEntryLabel(payload)
       .pipe(take(1))
       .subscribe();
   }
 
-  private updateEntry(payload: fromModels.UpadatePayload): void {
+  private updateEntry(payload: fromModels.UpdatePayload): void {
     this.budgetsHttpService.updateEntry(payload)
       .pipe(take(1))
-      .subscribe(() => this.handleAfterUpdateEntry(payload));
+      .subscribe({
+        next: () => this.handleAfterUpdateEntry(payload),
+        error: () => this.handleWriteError(),
+      });
   }
 
-  private handleAfterUpdateEntry(payload: fromModels.UpadatePayload): void {
+  private handleAfterUpdateEntry(payload: fromModels.UpdatePayload): void {
     this.updateParentTotals(payload.path);
     this.updateEntryLabelToAllMonths(payload);
 
@@ -367,7 +376,7 @@ export class BudgetsService {
                       }
                     });
 
-                  const updatePayload: fromModels.UpadatePayload = {
+                  const updatePayload: fromModels.UpdatePayload = {
                     path: formedPath,
                     entry: item.key ?? '',
                     total: parseFloat(total.toFixed(2)),
@@ -383,7 +392,7 @@ export class BudgetsService {
       .subscribe();
   }
 
-  private updateParentEntry(payload: fromModels.UpadatePayload): void {
+  private updateParentEntry(payload: fromModels.UpdatePayload): void {
     this.budgetsHttpService.updateParentEntry(payload)
       .pipe(take(1))
       .subscribe();
@@ -412,6 +421,11 @@ export class BudgetsService {
 
   private setIsLoadingOn(isOn: boolean): void {
     this.isLoadingOn = isOn;
+  }
+
+  private handleWriteError(): void {
+    this.setIsLoadingOn(false);
+    this.openSnackBar('Nie udało się zapisać danych.');
   }
 
   private openSnackBar(message: string) {
