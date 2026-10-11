@@ -38,17 +38,20 @@ src/app
 ├── core/                                        singleton CoreService (derives year from URL)
 ├── shared/                                       shared components, Material module, router NgRx store, guards
 ├── authentication/                               register / login / reset / set password (+ full NgRx store)
-├── plans/                                        plan the budget (per year)
+├── budget/                                        shared "plan a budget per year" feature (BudgetFeatureModule)
 │   ├── models/        interfaces + enums (barrel index.ts)
 │   ├── services/      http (Firebase I/O), domain service, facade, breadcrumbs, form, former-utils
 │   ├── components/    presentational
 │   ├── containers/    routed smart components (summary / details / breadcrumbs)
-│   └── shared/        config (months, labels, nav links, defaults)
-└── budgets/                                      execution counterpart — mirrors plans/ (path segment differs)
+│   ├── shared/        config (months, labels, nav links, defaults)
+│   └── budget-feature.config.ts   BUDGET_FEATURE_CONFIG token (collection + i18n prefix)
+├── plans/                                         thin module: configures the feature as `plans`
+└── budgets/                                       thin module: configures the feature as `budgets`
 ```
 
-> `plans/` and `budgets/` are near-identical twins; the main difference is the Firebase
-> path segment (`/workspaces/$uid/plans/...` vs `/budgets/...`). See `CLAUDE.md` for the
+> `plans` and `budgets` are structurally identical, so they share one implementation in
+> `budget/`; the thin `plans`/`budgets` modules only provide a config token selecting the
+> Firebase collection (`plans` vs `budgets`) and i18n namespace. See `CLAUDE.md` for the
 > full architecture, routing, and data-model notes.
 
 [Go top](#home-budget)
