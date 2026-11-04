@@ -48,7 +48,7 @@ export class FinanceWriteService {
         .pipe(
           take(1),
           switchMap((raw) => {
-            let entries = raw as Record<string, unknown>;
+            let entries = (raw as Record<string, unknown>) ?? {};
             const lastIndex: number = this.nextEntryIndex(entries, entry);
             const key: string = `${entry}${formatNumber(lastIndex)}`;
 
