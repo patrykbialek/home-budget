@@ -81,7 +81,7 @@ export class FinanceGraphComponent implements OnInit {
       responsive: true,
       plugins: {
         legend: { display: false },
-        title: { display: true, text: 'Przychody i wydatki' },
+        title: { display: true, text: 'Wpływy i wydatki' },
       },
       scales: {
         y: { min: 10000 },
