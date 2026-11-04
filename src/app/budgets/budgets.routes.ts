@@ -31,8 +31,10 @@ export const BUDGETS_ROUTES: Routes = [
         data: { title: 'Budżet | home_budget' },
         children: [
           { path: 'project', component: FinanceSummaryComponent },
+          { path: 'budget', component: FinanceSummaryComponent },
           { path: 'execution', component: FinanceSummaryComponent },
           { path: 'project/details', component: FinanceDetailsComponent },
+          { path: 'budget/details', component: FinanceDetailsComponent },
           { path: 'execution/details', component: FinanceDetailsComponent },
         ],
       },

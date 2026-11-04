@@ -107,7 +107,7 @@
       "Edit": "Edytuj"
     },
     "ExpenseTotal": "Wydatki",
-    "IncomeTotal": "Przychody",
+    "IncomeTotal": "Wpływy",
     "Title": "Transakcje",
     "Total": "Razem"
   },
@@ -117,7 +117,7 @@
       "Title": "Rezerwa",
       "Details": {
         "Expenses": "Wydatki",
-        "Incomes": "Przychody",
+        "Incomes": "Wpływy",
         "Increase": "Przyrost",
         "Month": "Miesiąc",
         "Rest": "Reszta",
@@ -134,7 +134,7 @@
       },
       "Graph": {
         "Increase": "Przyrost",
-        "IncomesExpenses": "Przychody i wydatki"
+        "IncomesExpenses": "Wpływy i wydatki"
       }
     },
     "Month": {
@@ -152,7 +152,7 @@
       "december": "Grudzień"
     },
     "Transaction": {
-      "incomes": "Przychody",
+      "incomes": "Wpływy",
       "expenses": "Wydatki"
     }
   },
@@ -162,7 +162,7 @@
       "Title": "Rezerwa",
       "Details": {
         "Expenses": "Wydatki",
-        "Incomes": "Przychody",
+        "Incomes": "Wpływy",
         "Increase": "Przyrost",
         "Month": "Miesiąc",
         "Rest": "Reszta",
@@ -179,7 +179,7 @@
       },
       "Graph": {
         "Increase": "Przyrost",
-        "IncomesExpenses": "Przychody i wydatki"
+        "IncomesExpenses": "Wpływy i wydatki"
       }
     },
     "Month": {
@@ -197,7 +197,7 @@
       "december": "Grudzień"
     },
     "Transaction": {
-      "incomes": "Przychody",
+      "incomes": "Wpływy",
       "expenses": "Wydatki"
     }
   },

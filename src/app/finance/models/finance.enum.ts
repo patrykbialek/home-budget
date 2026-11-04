@@ -1,4 +1,5 @@
 export enum DataProperty {
+  budget = 'budget',
   entries = 'entries',
   execution = 'execution',
   expense = 'expense',
