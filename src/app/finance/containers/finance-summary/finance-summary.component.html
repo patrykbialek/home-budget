@@ -6,7 +6,7 @@
         @if (!isLoading) {
         <hb-finance-summary-data [dataLabels]="dataLabels" [dataSource]="dataSource"
           [displayedColumns]="displayedColumns" [isLoading]="isLoading" [dataSourceTotal]="dataSourceTotal"
-          [dataSourceProjectTotal]="dataSourceProjectTotal" [isExecutionTab]="isExecutionTab"
+          [dataSourceProjectTotal]="dataSourceProjectTotal"
           (goToDetails)="goToDetails($event)"></hb-finance-summary-data>
         }
       </mat-card-content>
