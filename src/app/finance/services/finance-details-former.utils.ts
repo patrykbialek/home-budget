@@ -67,7 +67,7 @@ function formEntries(
   const path1: string[] = basePath.substring(18, basePath.length).split('/');
   const path2: string = path1.join('.').concat(`.${financeEntry.entry}.entries`);
   const path3: string = path2.substring(1, path2.length);
-  return _.get(entry, path3);
+  return _.get(entry, path3) ?? {};
 }
 
 function formDataFooter(dataSource: DataSourceDetails[]): DataSourceDetails {
