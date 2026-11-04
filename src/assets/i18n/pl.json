@@ -51,7 +51,7 @@
   "HEADER": {
     "Dashboard": "Dashboard",
     "Logout": "Wyloguj",
-    "Plan": "Plan",
+    "Plan": "Portfel",
     "Budget": "Budżet",
     "Settings": "Ustawienia",
     "Transactions": "Transakcje"
@@ -112,9 +112,9 @@
     "Total": "Razem"
   },
   "PLAN": {
-    "Title": "Plan",
+    "Title": "Portfel",
     "Project": {
-      "Title": "Projekt",
+      "Title": "Rezerwa",
       "Details": {
         "Expenses": "Wydatki",
         "Incomes": "Przychody",
@@ -159,7 +159,7 @@
   "BUDGET": {
     "Title": "Budżet",
     "Project": {
-      "Title": "Projekt",
+      "Title": "Rezerwa",
       "Details": {
         "Expenses": "Wydatki",
         "Incomes": "Przychody",

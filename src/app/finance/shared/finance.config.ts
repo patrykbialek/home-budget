@@ -128,7 +128,7 @@ export const labels: DataLabel[] = [
   { key: 'expense', value: 'Wydatki' },
   { key: 'income', value: 'Przychody' },
   { key: 'month', value: 'Miesiąc' },
-  { key: 'project', value: 'Projekt' },
+  { key: 'project', value: 'Rezerwa' },
   { key: 'total', value: 'Razem' },
 ];
 
@@ -138,7 +138,7 @@ export const financeColumns: string[] = [
 
 export const navLinks: NavLink[] = [
   {
-    label: 'Projekt',
+    label: 'Rezerwa',
     href: './project',
     index: 0,
   },
@@ -170,7 +170,7 @@ export const dataLabels = {
   income: 'Przychody',
   increase: 'Przyrost',
   month: 'Miesiąc',
-  project: 'Projekt',
+  project: 'Rezerwa',
   rest: 'Reszta',
   total: 'Razem',
 };
