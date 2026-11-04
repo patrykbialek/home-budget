@@ -20,7 +20,6 @@ export class FinanceSummaryDataComponent {
   dataSource = input.required<DataSourceSummary[]>();
   dataSourceTotal = input<number>(0);
   dataSourceProjectTotal = input<number>(0);
-  isExecutionTab = input<boolean>(false);
   displayedColumns = input.required<string[]>();
   isLoading = input.required<boolean>();
 

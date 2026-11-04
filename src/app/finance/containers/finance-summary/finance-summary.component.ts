@@ -82,10 +82,6 @@ export class FinanceSummaryComponent implements OnDestroy, OnInit {
     );
   }
 
-  get isExecutionTab(): boolean {
-    return this.financeType === 'execution';
-  }
-
   get dataSourceProjectTotal(): number {
     return this.financeFacadeService.formProjectTotal(this.rawData, this.financeConfig);
   }
