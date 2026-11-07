@@ -22,10 +22,6 @@ export const routes: Routes = [
         path: 'plans',
         loadChildren: () => import('./plans/plans.routes').then(m => m.PLANS_ROUTES),
       },
-      {
-        path: 'budgets',
-        loadChildren: () => import('./budgets/budgets.routes').then(m => m.BUDGETS_ROUTES),
-      },
       { path: '', redirectTo: 'plans', pathMatch: 'full' },
     ],
   },

@@ -25,11 +25,6 @@
         <mat-icon class="u-margin-right-tiny">analytics</mat-icon>
         {{ 'HEADER.Plan' | translate }}
       </button>
-      <button class="u-margin-left-tiny" mat-button [routerLink]="['/', year, 'budgets']"
-        routerLinkActive="u-router-link-active">
-        <mat-icon class="u-margin-right-tiny">account_balance_wallet</mat-icon>
-        {{ 'HEADER.Budget' | translate }}
-      </button>
       <div class="u-border-left u-margin-left-tiny u-margin-right-small" style="height:24px; width:1px;">&nbsp;</div>
       <mat-icon class="u-margin-right-tiny" style="color: rgba(0,0,0,0.54);">account_circle</mat-icon>
       <span class="u-text-small" style="color: rgba(0,0,0,0.54);">{{ user.displayName || user.email }}</span>
@@ -47,10 +42,6 @@
         <button mat-menu-item [routerLink]="['/', year, 'plans']" routerLinkActive="u-router-link-active">
           <mat-icon>analytics</mat-icon>
           {{ 'HEADER.Plan' | translate }}
-        </button>
-        <button mat-menu-item [routerLink]="['/', year, 'budgets']" routerLinkActive="u-router-link-active">
-          <mat-icon>account_balance_wallet</mat-icon>
-          {{ 'HEADER.Budget' | translate }}
         </button>
         <mat-divider></mat-divider>
         <button mat-menu-item style="pointer-events: none;">
