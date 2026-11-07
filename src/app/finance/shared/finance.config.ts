@@ -147,7 +147,7 @@ export const navLinks: NavLink[] = [
     label: 'Dom',
     href: './budget',
     index: 1,
-    minYear: 2027,
+    minYear: 2026,
   },
   {
     label: 'Ekstra',
