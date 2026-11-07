@@ -6,9 +6,9 @@ export interface DataEntry {
 }
 
 export interface DataEntryEntries {
-  budget: DataEntryFinance;
-  execution: DataEntryFinance;
-  project: DataEntryFinance;
+  home: DataEntryFinance;
+  extra: DataEntryFinance;
+  reserve: DataEntryFinance;
   key: string;
   label: string;
   order: number;

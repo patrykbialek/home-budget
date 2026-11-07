@@ -16,7 +16,7 @@ export class YearGuard {
       return true;
     }
 
-    this.router.navigate(['/', new Date().getFullYear().toString(), 'plans', 'execution']);
+    this.router.navigate(['/', new Date().getFullYear().toString(), 'wallet', 'extra']);
     return false;
   }
 }
