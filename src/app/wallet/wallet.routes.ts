@@ -11,11 +11,11 @@ import { FinanceFormService } from '@home-budget/finance/services/finance-form.s
 import { FinanceService } from '@home-budget/finance/services/finance.service';
 import { FinanceWriteService } from '@home-budget/finance/services/finance-write.service';
 
-export const PLANS_ROUTES: Routes = [
+export const WALLET_ROUTES: Routes = [
   {
     path: '',
     providers: [
-      { provide: FINANCE_FEATURE_CONFIG, useValue: { collection: 'plans', i18nPrefix: 'PLAN' } },
+      { provide: FINANCE_FEATURE_CONFIG, useValue: { collection: 'wallet', i18nPrefix: 'PLAN' } },
       FinanceService,
       FinanceWriteService,
       FinanceFacadeService,
@@ -24,18 +24,18 @@ export const PLANS_ROUTES: Routes = [
       { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
     ],
     children: [
-      { path: '', redirectTo: 'execution', pathMatch: 'full' },
+      { path: '', redirectTo: 'extra', pathMatch: 'full' },
       {
         path: '',
         component: FinanceComponent,
         data: { title: 'Plan | home_budget' },
         children: [
-          { path: 'project', component: FinanceSummaryComponent },
-          { path: 'budget', component: FinanceSummaryComponent },
-          { path: 'execution', component: FinanceSummaryComponent },
-          { path: 'project/details', component: FinanceDetailsComponent },
-          { path: 'budget/details', component: FinanceDetailsComponent },
-          { path: 'execution/details', component: FinanceDetailsComponent },
+          { path: 'reserve', component: FinanceSummaryComponent },
+          { path: 'home', component: FinanceSummaryComponent },
+          { path: 'extra', component: FinanceSummaryComponent },
+          { path: 'reserve/details', component: FinanceDetailsComponent },
+          { path: 'home/details', component: FinanceDetailsComponent },
+          { path: 'extra/details', component: FinanceDetailsComponent },
         ],
       },
     ],

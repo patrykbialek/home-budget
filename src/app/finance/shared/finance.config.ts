@@ -124,12 +124,12 @@ export const monthLabel: MonthLabel = {
 };
 
 export const labels: DataLabel[] = [
-  { key: 'budget', value: 'Dom' },
-  { key: 'execution', value: 'Ekstra' },
+  { key: 'home', value: 'Dom' },
+  { key: 'extra', value: 'Ekstra' },
   { key: 'expense', value: 'Wydatki' },
   { key: 'income', value: 'Wpływy' },
   { key: 'month', value: 'Miesiąc' },
-  { key: 'project', value: 'Rezerwa' },
+  { key: 'reserve', value: 'Rezerwa' },
   { key: 'total', value: 'Razem' },
 ];
 
@@ -140,18 +140,18 @@ export const financeColumns: string[] = [
 export const navLinks: NavLink[] = [
   {
     label: 'Rezerwa',
-    href: './project',
+    href: './reserve',
     index: 0,
   },
   {
     label: 'Dom',
-    href: './budget',
+    href: './home',
     index: 1,
     minYear: 2023,
   },
   {
     label: 'Ekstra',
-    href: './execution',
+    href: './extra',
     index: 2,
   },
 ];
@@ -172,13 +172,13 @@ export const defaultDataSource: DataSourceSummary[] = [
 ];
 
 export const dataLabels = {
-  budget: 'Dom',
-  execution: 'Ekstra',
+  home: 'Dom',
+  extra: 'Ekstra',
   expense: 'Wydatki',
   income: 'Wpływy',
   increase: 'Przyrost',
   month: 'Miesiąc',
-  project: 'Rezerwa',
+  reserve: 'Rezerwa',
   rest: 'Reszta',
   total: 'Razem',
 };

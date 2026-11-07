@@ -19,7 +19,7 @@ export class FinanceHttpService {
     { initialValue: '' },
   );
 
-  readYears(uid = this.uid(), collection = 'plans'): Observable<string[]> {
+  readYears(uid = this.uid(), collection = 'wallet'): Observable<string[]> {
     const path = `/workspaces/${uid}/${collection}`;
     return runInInjectionContext(this.injector, () => list(ref(this.db, path))).pipe(
       map(changes => changes

@@ -53,7 +53,7 @@ export class RegisterUserComponent extends CommonWithAnimationComponent implemen
         skip(1),
         filter(Boolean),
         take(1),
-        tap(() => this.router.navigate(['/', new Date().getFullYear().toString(), 'plans'])),
+        tap(() => this.router.navigate(['/', new Date().getFullYear().toString(), 'wallet'])),
       ).subscribe();
   }
 

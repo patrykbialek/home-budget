@@ -39,7 +39,7 @@ export class LoginUserComponent extends CommonWithAnimationComponent implements 
       .pipe(
         skip(1),
         filter(Boolean),
-        tap(() => this.router.navigate(['/', new Date().getFullYear().toString(), 'plans'])),
+        tap(() => this.router.navigate(['/', new Date().getFullYear().toString(), 'wallet'])),
         takeUntil(this.destroy$),
       )
       .subscribe();

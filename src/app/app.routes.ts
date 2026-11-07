@@ -19,10 +19,10 @@ export const routes: Routes = [
     canActivate: [AuthGuardService, YearGuard],
     children: [
       {
-        path: 'plans',
-        loadChildren: () => import('./plans/plans.routes').then(m => m.PLANS_ROUTES),
+        path: 'wallet',
+        loadChildren: () => import('./wallet/wallet.routes').then(m => m.WALLET_ROUTES),
       },
-      { path: '', redirectTo: 'plans', pathMatch: 'full' },
+      { path: '', redirectTo: 'wallet', pathMatch: 'full' },
     ],
   },
   { path: '**', component: PageNotFoundComponent },

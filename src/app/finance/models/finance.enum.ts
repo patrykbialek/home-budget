@@ -1,14 +1,14 @@
 export enum DataProperty {
-  budget = 'budget',
+  home = 'home',
   entries = 'entries',
-  execution = 'execution',
+  extra = 'extra',
   expense = 'expense',
   income = 'income',
   isInTotal = 'isInTotal',
   label = 'label',
   month = 'month',
   monthLabel = 'monthLabel',
-  project = 'project',
+  reserve = 'reserve',
   total = 'total',
   value = 'value',
 }

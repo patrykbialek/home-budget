@@ -62,7 +62,7 @@ function formRestTotal(entry: DataSourceSummary): DataSourceSummary {
 }
 
 function formEntry(entry: DataEntry, node: string, financeConfig: FinanceConfig): Record<string, DataEntryFinanceEntry> {
-  return entry.entries[financeConfig.type as 'budget' | 'execution' | 'project']
+  return entry.entries[financeConfig.type as 'home' | 'extra' | 'reserve']
     ?.entries[node as 'expense' | 'income']?.entries ?? {};
 }
 
